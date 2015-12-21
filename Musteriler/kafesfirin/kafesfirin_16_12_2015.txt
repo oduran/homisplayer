@@ -1,0 +1,20 @@
+﻿1- Eyelogic kurulumu yapilacak.
+2- Kurulum icin:
+   a- Baglantikablolari, icerik yayinliyor mu yayinlamiyor mu ayarlari yapilacak.
+   b- Elektrik kesintisi testi uygulanacak.
+   c- Bilgisayar icin oradan disariya ssh baglanti ayarlanacak. -> modem işi
+   +d- Statik ip müşteri kurum tarafından ayarlanmalı.
+   e- Bağlantı kabloları: 3 tane display port - HDMI ; 1 tane HDMI - HDMI kablo gerekiyor (bizdeki 1.8 metre) 
+   (bilimtek tarafından 1.8 metrelik kablolar tedarik edildi)
+   f- kuruluma gitmeden uygulama son hali kafes fırın makinasına önceki hali silinerek atılacak.
+   g- Ekranın içinde olan ayarlamalar yapılacak. 
+   -Güç geldiğinde otomatik açılma, 
+   -Varsayılan content'i iptal etme, 
+   -Varsayılan bağlantı noktası (HDMI),
+   -Ekran görüntü sıcaklıkları (eşitlenecek)
+   -PC bağlantısı için overscan düzeltmeler
+   -Ekranların zamanlanmış görevleri (belirli saatte video göstermeye başlama) iptal edilecek.
+   -Wireless ayarları yapılacak (lokal-statik ip adresi atama).
+   h- Elektrik kesintisi geri gelme parametreleri kurulum bitince degistirilecek. Bilgisayar kurulum esnasinda kapanmasin diye su an degisik.
+öncelikli4- Javascript/css/html dosya isimleri bilimtek' e özgü isimlerle değiştirilecek.
+öncelikli5- IF Performans hall, güven hastanesi için web sayfaları oluşturulacak

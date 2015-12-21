@@ -1,0 +1,9 @@
+﻿{
+  "name": "bilimtek - kafes fırın",
+  "main": "public/kafesfirinlarge.html",
+  "window": {
+        "toolbar": true,
+    "width": 800,
+    "height": 600
+  }
+}

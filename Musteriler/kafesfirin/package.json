@@ -1,0 +1,11 @@
+﻿{
+  "name": "bilimtek - kafes fırın",
+  "main": "public/videopage.html",
+  "window": {
+    "kiosk": true,
+	"frame": false,
+    "toolbar": false,
+	"width": 7680,
+    "height": 1080
+  }
+}

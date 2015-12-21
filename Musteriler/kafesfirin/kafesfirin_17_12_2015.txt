@@ -1,0 +1,42 @@
+﻿Toplantı notları:
+1- Sadece kullanım için bilimtek makinası (konsinye?) 
+Karşı tarafa irsaliye faturası karşılığında bir şey verilmesi. Arada para transferi olmuyor (faturası yok) ama konsinye faturası karşılığında.
+2- Kafes fırın Franchaise lar için anlaşmalı bilimtek firması (digital signage için sözleşmeye konulacakmış)
+3- Kafespresso ve kafes fırın ekspresi araştır.
+4- Kafes fırın için minimum 3 ekran düşünülüyor.
+5- toplam 25 ekran, 21 1080p ye dağıtılacak = x4 videowall. Ekspress şubeler için yeni arayüz belirlenecek.
+6- Söğütözü (ince bezel) -> filistin caddesi -> kızılay ... next level. 
+7- Müşteri tepkisi olarak ekranların geri bildirimi geliyor.
+8- Dijital ekranlar çevreci.
+9- Pazartesi akşam 8 de kurulum olacak. -> şafak, elektrikçi, furkan gelecek.
+
+Yapılacak işler:
+1- Eyelogic kurulumu yapilacak.
+2- Kurulum icin:
+   a- Baglantikablolari, icerik yayinliyor mu yayinlamiyor mu ayarlari yapilacak.
+   b- Elektrik kesintisi testi uygulanacak.
+   c- Bilgisayar icin oradan disariya ssh baglanti ayarlanacak. -> modem işi
+   +d- Statik ip müşteri kurum tarafından ayarlanmalı.
+   e- Bağlantı kabloları: 3 tane display port - HDMI ; 1 tane HDMI - HDMI kablo gerekiyor (bizdeki 1.8 metre) 
+   (bilimtek tarafından 1.8 metrelik kablolar tedarik edildi)
+   f- kuruluma gitmeden uygulama son hali kafes fırın makinasına önceki hali silinerek atılacak.
+   g- Ekranın içinde olan ayarlamalar yapılacak. 
+   -Güç geldiğinde otomatik açılma, 
+   -Varsayılan content'i iptal etme, 
+   -Varsayılan bağlantı noktası (HDMI),
+   -Ekran görüntü sıcaklıkları (eşitlenecek)
+   -PC bağlantısı için overscan düzeltmeler
+   -Ekranların zamanlanmış görevleri (belirli saatte video göstermeye başlama) iptal edilecek.
+   -Wireless ayarları yapılacak (lokal-statik ip adresi atama).
+   h- Elektrik kesintisi geri gelme parametreleri kurulum bitince degistirilecek. Bilgisayar kurulum esnasinda kapanmasin diye su an degisik.
+   i- crontab parametreleri düzgün haline getirilecek.
++1. öncelikli 4- Bakalım ne olacak için sağ tarafta instagramla çalışacak sosyal medya ekranı.
++2. öncelikli 5- Javascript/css/html dosya isimleri bilimtek' e özgü isimlerle değiştirilecek.
++3. öncelikli 6- IF Performans hall, güven hastanesi için web sayfaları oluşturulacak
+4. öncelikli 7- Raspberry de uygulama çalıştırılacak.
+
+
+
+
+
+
