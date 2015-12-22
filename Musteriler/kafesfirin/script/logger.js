@@ -3,14 +3,20 @@ var Logger = function()
 {
    this.log = function(logMessage, fileName)
 	{
-		var uniqueId = "kafes1"; //create unique id here from machine or file.
+		var clientId = "kafes1"; //create unique id here from machine or file.
+		if(require === "undefined")
+		{
+			console.log("Require is not defined. Not an application");
+			return false;
+		}
+		
 		var fs = require('fs');
 		var path = require('path'); 
 		var record = new Object();
 		var currentTime = new Date();
-		var logFileName = "systemlog_" + currentTime.getFullYear() + "_" + currentTime.getMonth() + "_" + currentTime.getDate() + ".log";
+		var logFileName = "/home/homis/log/" + "systemlog_" + currentTime.getFullYear() + "_" + currentTime.getMonth() + "_" + currentTime.getDate() + ".log";
 		var fileName = (typeof(fileName) === 'undefined')? "NoFile": fileName;
-		record.client = uniqueId;
+		record.client = clientId;
 		record.message = logMessage;
 		record.fileName = fileName;
 		record.date = currentTime;
@@ -38,5 +44,62 @@ var Logger = function()
 			});
 		  }
 		}); 
+	}
+	
+	this.startHealthLogger = function(intervalSeconds)
+	{
+		if(require === "undefined")
+		{
+			console.log("Require is not defined. Not an application");
+			return false;
+		}
+		
+		var clientId = "kafes1"; //create unique id here from machine or file.
+		var fs = require('fs');
+		var path = require('path'); 
+		var currentTime = new Date();
+		var logFileName = "/home/homis/log/" + "healthlog_" + currentTime.getFullYear() + "_" + currentTime.getMonth() + "_" + currentTime.getDate() + ".log";
+		var healthReport = "{ clientId:'" +clientId+ "', startTime: { year: "+currentTime.getFullYear()+", month:"+currentTime.getMonth()+", day:"+currentTime.getDate()+", hour:"+currentTime.getHours()+", minute:"+currentTime.getMinutes()+", second:"+currentTime.getSeconds()+"}, \n";
+		path.exists(logFileName, function(exists) { 
+		  if (exists) { 
+			fs.appendFile(logFileName, "\n" + healthReport, function(err) {
+				if(err) {
+					alert("error");
+				}
+			});
+		  } 
+		  else
+		  {
+			fs.writeFile(logFileName, healthReport, function(err) {
+				if(err) {
+					alert("error");
+				}
+			});
+		  }
+		}); 
+		
+		setInterval(function()
+		{
+			var clientId = "kafes1"; //create unique id here from machine or file.
+			var fs = require('fs');
+			var path = require('path');
+			var currentTime = new Date();
+			var logFileName = "/home/homis/log/" + "healthlog_" + currentTime.getFullYear() + "_" + currentTime.getMonth() + "_" + currentTime.getDate() + ".log";
+			var healthReport = " endTime: { year: "+currentTime.getFullYear()+", month:"+currentTime.getMonth()+", day:"+currentTime.getDate()+", hour:"+currentTime.getHours()+", minute:"+currentTime.getMinutes()+", second:"+currentTime.getSeconds()+"}}";
+			path.exists(logFileName, function(exists) { 
+				if (exists) {
+					fs.readFile(logFileName, 'utf-8', function(err, data) {
+						if (err) throw err;
+						var text = data.substring(0, data.lastIndexOf("\n"))
+						fs.writeFile(logFileName, text + "\n" + healthReport, function(err) {
+							if(err) {
+								alert("error");
+							}
+						});
+					});
+				} 
+			}); 
+		}, intervalSeconds * 1000);
+		
 	}
 }

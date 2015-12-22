@@ -1,6 +1,6 @@
 ﻿{
   "name": "bilimtek - kafes fırın",
-  "main": "public/videopage.html",
+  "main": "public/application.html",
   "window": {
     "kiosk": true,
 	"frame": false,

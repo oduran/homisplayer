@@ -12,10 +12,9 @@ sudo apt-get install npm
 sudo npm install nwjs -g
 sudo npm install nodewebkit -g
 node webkit libudev problemi için ->sudo ln -sf /lib/$(arch)-linux-gnu/libudev.so.1 /lib/$(arch)-linux-gnu/libudev.so.0
-startkafesfirin.sh -> /home/
 homisstartup.desktop -> /etc/xdg/autostart/
-power management'ı kapatmak için -> xset s off -> statkafesfirin.sh scriptine yazıldı.
-todo: home -> homis-kafesfirin.... directory'si değişse bütün bilgisayarlara uyan bir hale gelir.
+power management'ı kapatmak için -> xset s off -> statapp.sh scriptine yazıldı.
+deployment folder: /home/homis
 rtcwake'in bilimtek kullanıcısı tarafından sudo olmadan kullanması icin:
 visudo => %sudo altına bilimtek ALL=NOPASSWD: ALL satırı eklenerek sudo komutlarının password istememesi sağlanmalı.
 -----

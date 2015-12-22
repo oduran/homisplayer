@@ -112,7 +112,7 @@ var startApp = function()
 	var excludedTimeInterval = new ExcludedTimeInterval(excludedFrom,excludedTo);
 	videoTimer.setVideoTimer(rotateInterval, excludedTimeInterval);
 	
-	var backupPage = "kafesfirinekrana.html";
+	var backupPage = "ekrana.html";
 	var internetPagesArray = [{id : "ekrandframe", url : "ekrand.html?twitterId=666636527968088064&twitterName=kafesfirin"}];
 	var internetChecker = new InternetChecker(backupPage,internetPagesArray);
 	internetChecker.start(5000);

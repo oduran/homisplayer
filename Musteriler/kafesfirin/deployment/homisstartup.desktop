@@ -2,6 +2,6 @@
 Type=Application
 Name=homisstartup
 Comment=Starts the node webkit application homis at startup of computer.
-Exec=/home/startkafesfirin.sh
+Exec=/home/homis/deployment/startapp.sh
 Terminal=true
-OnlyShowIn=KDE;
+

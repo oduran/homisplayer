@@ -17,11 +17,13 @@ checkIfWithinRange() {
 
 if checkIfWithinRange; then
   echo "going back to sleep"
-  bash /home/suspenduntil.sh "$end"
+  bash /home/homis/deployment/suspenduntil.sh "$end"
 fi
 
 unclutter -idle 0.01 -root &
 xset -dpms &
 xset s noblank &
 xset s off &
-node /usr/local/lib/node_modules/nodewebkit/bin/nodewebkit /home/kafesfirin/ 
+node /usr/local/lib/node_modules/nodewebkit/bin/nodewebkit /home/homis/
+
+
