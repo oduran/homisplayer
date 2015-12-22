@@ -1,4 +1,8 @@
-﻿/*Class that is responsible for logging to systemlog.txt file*/
+﻿/*
+  Class that is responsible for logging events to eventlog.log file and 
+  electricity cut events to healthlog.log file
+  can be expanded
+*/
 var Logger = function()
 {
    this.log = function(logMessage, fileName)
@@ -14,7 +18,7 @@ var Logger = function()
 		var path = require('path'); 
 		var record = new Object();
 		var currentTime = new Date();
-		var logFileName = "/home/homis/log/" + "systemlog_" + currentTime.getFullYear() + "_" + currentTime.getMonth() + "_" + currentTime.getDate() + ".log";
+		var logFileName = "/home/homis/log/" + "eventlog_" + currentTime.getFullYear() + "_" + currentTime.getMonth() + "_" + currentTime.getDate() + ".log";
 		var fileName = (typeof(fileName) === 'undefined')? "NoFile": fileName;
 		record.client = clientId;
 		record.message = logMessage;
@@ -60,6 +64,7 @@ var Logger = function()
 		var currentTime = new Date();
 		var logFileName = "/home/homis/log/" + "healthlog_" + currentTime.getFullYear() + "_" + currentTime.getMonth() + "_" + currentTime.getDate() + ".log";
 		var healthReport = "{ clientId:'" +clientId+ "', startTime: { year: "+currentTime.getFullYear()+", month:"+currentTime.getMonth()+", day:"+currentTime.getDate()+", hour:"+currentTime.getHours()+", minute:"+currentTime.getMinutes()+", second:"+currentTime.getSeconds()+"}, \n";
+		healthReport += " endTime: { year: "+currentTime.getFullYear()+", month:"+currentTime.getMonth()+", day:"+currentTime.getDate()+", hour:"+currentTime.getHours()+", minute:"+currentTime.getMinutes()+", second:"+currentTime.getSeconds()+"}}";
 		path.exists(logFileName, function(exists) { 
 		  if (exists) { 
 			fs.appendFile(logFileName, "\n" + healthReport, function(err) {
@@ -100,6 +105,5 @@ var Logger = function()
 				} 
 			}); 
 		}, intervalSeconds * 1000);
-		
 	}
 }
