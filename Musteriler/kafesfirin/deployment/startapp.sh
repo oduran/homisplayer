@@ -20,6 +20,8 @@ if checkIfWithinRange; then
   bash /home/homis/deployment/suspenduntil.sh "$end"
 fi
 
+cd /home/bilimtek/Documents/Eyelogic/EyelogicServiceSoftware/Release/;./EyelogicServiceSoftwareProject_1.1.a &
+
 unclutter -idle 0.01 -root &
 xset -dpms &
 xset s noblank &
