@@ -1,4 +1,4 @@
-﻿Ekran karti driver => mailde var
+﻿+Ekran karti driver => mailde var
 
 wireless driver?
 
@@ -48,9 +48,7 @@ driver   : nvidia-331-updates - distro non-free
 
 ## recommended olani yukle
 sudo apt-get install nvidia-331
-
-nvidia-xconfig
-
+sudo nvidia-xconfig
 sudo nano /etc/X11/xorg.conf
 	Section “ServerLayout” altinda => Option         "Xinerama" "on"
 

@@ -1,6 +1,6 @@
 ﻿/*
   Class that is responsible for logging events to eventlog.log file and 
-  electricity cut events to healthlog.log file
+  electricity cut events to diagnostics.log file
   can be expanded
 */
 var Logger = function()
@@ -8,7 +8,7 @@ var Logger = function()
    this.log = function(logMessage, fileName)
 	{
 		var clientId = "kafes1"; //create unique id here from machine or file.
-		if(require === "undefined")
+		if(typeof(require) === "undefined")
 		{
 			console.log("Require is not defined. Not an application");
 			return false;
@@ -50,9 +50,9 @@ var Logger = function()
 		}); 
 	}
 	
-	this.startHealthLogger = function(intervalSeconds)
+	this.startDiagnostics = function(intervalSeconds)
 	{
-		if(require === "undefined")
+		if(typeof(require) === "undefined")
 		{
 			console.log("Require is not defined. Not an application");
 			return false;
@@ -62,7 +62,7 @@ var Logger = function()
 		var fs = require('fs');
 		var path = require('path'); 
 		var currentTime = new Date();
-		var logFileName = "/home/homis/log/" + "healthlog_" + currentTime.getFullYear() + "_" + currentTime.getMonth() + "_" + currentTime.getDate() + ".log";
+		var logFileName = "/home/homis/log/" + "diagnostics_" + currentTime.getFullYear() + "_" + currentTime.getMonth() + "_" + currentTime.getDate() + ".log";
 		var healthReport = "{ clientId:'" +clientId+ "', startTime: { year: "+currentTime.getFullYear()+", month:"+currentTime.getMonth()+", day:"+currentTime.getDate()+", hour:"+currentTime.getHours()+", minute:"+currentTime.getMinutes()+", second:"+currentTime.getSeconds()+"}, \n";
 		healthReport += " endTime: { year: "+currentTime.getFullYear()+", month:"+currentTime.getMonth()+", day:"+currentTime.getDate()+", hour:"+currentTime.getHours()+", minute:"+currentTime.getMinutes()+", second:"+currentTime.getSeconds()+"}}";
 		path.exists(logFileName, function(exists) { 
@@ -89,7 +89,7 @@ var Logger = function()
 			var fs = require('fs');
 			var path = require('path');
 			var currentTime = new Date();
-			var logFileName = "/home/homis/log/" + "healthlog_" + currentTime.getFullYear() + "_" + currentTime.getMonth() + "_" + currentTime.getDate() + ".log";
+			var logFileName = "/home/homis/log/" + "diagnostics_" + currentTime.getFullYear() + "_" + currentTime.getMonth() + "_" + currentTime.getDate() + ".log";
 			var healthReport = " endTime: { year: "+currentTime.getFullYear()+", month:"+currentTime.getMonth()+", day:"+currentTime.getDate()+", hour:"+currentTime.getHours()+", minute:"+currentTime.getMinutes()+", second:"+currentTime.getSeconds()+"}}";
 			path.exists(logFileName, function(exists) { 
 				if (exists) {

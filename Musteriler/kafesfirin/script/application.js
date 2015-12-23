@@ -1,2 +1,2 @@
 ﻿var logger = new Logger();
-logger.startHealthLogger(5);
+logger.startDiagnostics(5);

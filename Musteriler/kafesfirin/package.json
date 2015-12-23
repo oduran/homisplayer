@@ -7,5 +7,6 @@
     "toolbar": false,
 	"width": 7680,
     "height": 1080
-  }
+  },
+  "chromium-args": "--ignore-gpu-blacklist"
 }
