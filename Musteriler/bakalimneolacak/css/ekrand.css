@@ -17,7 +17,8 @@ body {
     line-height:1.7;
     height:100%;
 	width:100%;
-	background: url("../media/bg.jpg") repeat;
+	/*background-color:rgb(62, 62, 62);*/
+	background-color: black;
 }
 
 a {color: #08c9b9;}
@@ -64,19 +65,8 @@ div {-webkit-border-radius : 10px !important;}
     height: 35vh;
 }
 
-#bilimtekweather2{
-    box-sizing: border-box;
-    /* margin-top: 0.5rem; */
-    height: 35vh;
-}
-#bilimtekweather3{
-    box-sizing: border-box;
-    /* margin-top: 0.5rem; */
-    height: 35vh;
-}
-
 .imgContainer{
-    max-width: 100%;
+    max-width: 98%;
     max-height: 100%;
     overflow: hidden;
     box-sizing: border-box;
@@ -163,7 +153,7 @@ iframe {
 
 .ws-container{
 	float:left;
-	width:32.3% !important;
+	width:98% !important;
 	margin-left:1% !important;
 	margin-top:-1% !important;
 }

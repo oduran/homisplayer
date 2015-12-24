@@ -92,17 +92,6 @@
 		
 		loadBilimtekWeather('bilimtekweather1',0);
 		startTime('bilimtekweather1',0);
-		
-		setTimeout(function(){
-			loadBilimtekWeather('bilimtekweather2',3);
-			startTime('bilimtekweather2',3);
-		},2000);
-		
-		setTimeout(function(){
-			loadBilimtekWeather('bilimtekweather3',6);
-			startTime('bilimtekweather3',6);
-		},4000);
-		
 		updatePics(twitterName,sliderMedia);
 		document.getElementById("bilimtektwittertimeline").src = "../script/bilimtektwittertimeline/index.html?twitterId="+twitterId;
 	});
