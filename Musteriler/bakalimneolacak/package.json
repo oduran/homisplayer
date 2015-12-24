@@ -1,0 +1,12 @@
+﻿{
+  "name": "bilimtek - kafes fırın",
+  "main": "public/application.html",
+  "window": {
+    "kiosk": true,
+	"frame": false,
+    "toolbar": false,
+	"width": 7680,
+    "height": 1080
+  },
+  "chromium-args": "--ignore-gpu-blacklist"
+}
