@@ -88,7 +88,7 @@ video{
 </div>
 <script>
 var intervalId = 0;
-var pictureInterval = 120000;
+var pictureInterval = 60000;
 
 function swapImages(){
   var $active = $('#right .active');
@@ -108,23 +108,23 @@ function swapImages(){
 				intervalId = 0;
 			}
 			
-			var videoDuration = $(this)[0].duration * 1000;
-			$(this)[0].pause();
-			$(this)[0].currentTime = 0;
-			$(this)[0].load();
-			$(this)[0].play();
+			var videoDuration = $(this).get(0).duration * 1000;
+			$(this).get(0).pause();
+			$(this).get(0).currentTime = 0;
+			$(this).get(0).load();
+			$(this).get(0).play();
 			logger.log("Playing video at screen 2: "+$next.attr("src"),$next.attr("src"));
 			setTimeout(function(){
 				swapImages();
 			}, videoDuration);
 		} else {
-			$(this)[0].pause();
+			$(this).get(0).pause();
 			if(intervalId == 0)
 			{
 				intervalId = setInterval(
 				function(){
 					swapImages();
-				}, 60000);
+				}, pictureInterval);
 				console.log("Video stopped. new interval id="+intervalId);
 			}
 		}
@@ -138,9 +138,9 @@ setTimeout(function(){
 	intervalId = setInterval(
 	function(){
 		swapImages();
-	}, 60000);
+	}, pictureInterval);
 	console.log("Creating new interval. interval id="+intervalId);
-},15000);
+},20000);
 </script>
 </body>
 </html>

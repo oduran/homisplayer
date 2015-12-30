@@ -86,3 +86,7 @@ sudo rm /var/crash/*
 /**/
 chromium hardware acceleration nvidia:
 http://askubuntu.com/questions/336302/gpu-accelerated-chromium
+
+/**/
+ffmpegsumo.so dosyası yeri:
+/usr/local/lib/node_modules/nodewebkit/nodewebkit

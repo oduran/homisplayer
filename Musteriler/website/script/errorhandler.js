@@ -1,0 +1,1 @@
+var ErrorHandler=function(){this.start=function(){if(typeof(process)==='undefined'){return false;}process.on('uncaughtException',function(e){if(typeof(Logger)==='undefined'){console.log("hata:"+e.toString());}else{var logger=new Logger();logger.log("Unhandled exception => "+e.toString()+" => "+e.stack,"noFile");}});}}

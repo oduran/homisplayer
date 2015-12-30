@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head>
+<style>
+html,body,#content
+{
+margin:0px;
+padding:0px;
+height:100%;
+width:100%;
+background-color:black;
+}
+
+#content
+{
+position:absolute;
+left:0px;
+top:0px;
+}
+
+#left{
+z-index:2;
+position:absolute;
+height:100%;
+left:0px;
+top:0px;
+width:36.458%;
+}
+
+#left-image{
+position:absolute;
+height:100%;
+width:100%;
+}
+
+#right{
+z-index:2;
+position:absolute;
+height:100%;
+right:0px;
+top:0px;
+width:35.42%;
+}
+
+#right-image{
+height:100%;
+top:0px;
+width:100%;
+}
+
+#right img
+{
+width:100%;
+}
+
+#middle
+{
+z-index:1;
+position:absolute;
+height:100%;
+left:36.364582%;
+width:28.23%;
+}
+
+#middle-image{
+width:100%;
+height:100%;
+right:0px;
+top:0px;
+}
+
+#middle img
+{
+display:none;
+width:100%;
+}
+
+#middle img.active{
+  display:block;
+}
+</style>
+ <script src="../script/jquery-1.11.1.min.js" type="text/javascript"></script>
+ <script type="text/javascript" src="../script/logger.js"></script>
+
+</head>
+<body>
+<div id="content">
+ <div id="left">
+ <img id="left-image" src="../media/ekran3sol.png"/>
+ </div>
+ <div id="middle">
+   <img class="middle-image active" src="../media/3_ekran_1_gorsel.jpg" />
+  <img class="middle-image" src="../media/3_ekran_2_gorsel.jpg" />
+  <img class="middle-image" src="../media/3_ekran_3_gorsel.jpg" />
+  <img class="middle-image" src="../media/3_ekran_4_gorsel.jpg" />
+ </div>
+ <div id="right">
+  <img class="right-image" src="../media/ekran3sag.png" />
+ </div>
+</div>
+<script>
+function swapImages(){
+  var $active = $('#middle .active');
+  var $next = ($('#middle .active').next().length > 0) ? $('#middle .active').next() : $('#middle img:first');
+  $active.fadeOut(function(){
+    $active.removeClass('active');
+    $next.fadeIn().addClass('active');
+	var logger = new Logger();
+	logger.log("Picture at screen 3: "+$next.attr("src") , $next.attr("src"));
+  });
+}
+
+// Run our swapImages() function every 5secs
+// Delayed 60 seconds because this one is the second screen.
+setTimeout(function(){
+	setInterval('swapImages()', 60000);
+},45000);
+</script>
+</body>
+</html>
