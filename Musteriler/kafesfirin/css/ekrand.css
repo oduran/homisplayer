@@ -62,21 +62,25 @@ div {-webkit-border-radius : 10px !important;}
     box-sizing: border-box;
     /* margin-top: 0.5rem; */
     height: 35vh;
+	width:66% !important;
 }
 
-#bilimtekweather2{
+#qrcode{
+	float:left;
     box-sizing: border-box;
     /* margin-top: 0.5rem; */
     height: 35vh;
-}
-#bilimtekweather3{
-    box-sizing: border-box;
-    /* margin-top: 0.5rem; */
-    height: 35vh;
+	width:32% !important;
+	margin-left:1% !important;
+	margin-top:-1% !important;
+	background: url("../media/twitter-qr2.png") no-repeat;
+    background-size: 90%;
+	background-position: 50% 50%;
+	border-radius:0px !important;
 }
 
 .imgContainer{
-    max-width: 100%;
+    max-width: 98%;
     max-height: 100%;
     overflow: hidden;
     box-sizing: border-box;
@@ -163,7 +167,7 @@ iframe {
 
 .ws-container{
 	float:left;
-	width:32.3% !important;
+	width:98% !important;
 	margin-left:1% !important;
 	margin-top:-1% !important;
 }

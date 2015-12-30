@@ -102,6 +102,7 @@ if (typeof Object.create !== 'function') {
         };
 
         function SocialFeedPost(social_network, data) {
+			try{
             this.content = data;
             this.content.social_network = social_network;
             this.content.attachment = (this.content.attachment === undefined) ? '' : this.content.attachment;
@@ -110,7 +111,12 @@ if (typeof Object.create !== 'function') {
             this.content.text = Utility.wrapLinks(Utility.shorten(data.message + ' ' + data.description), data.social_network);
             this.content.likes = (data.likes === undefined) ? '': data.likes;
             this.content.moderation_passed = (options.moderation) ? options.moderation(this.content) : true;
-         
+			}
+			catch(e)
+			{
+					console.log("Error in bilimteksocialmediapictureslider: "+e.toString());
+					return false;
+			}
             Feed[social_network].posts.push(this);
         }
         SocialFeedPost.prototype = {

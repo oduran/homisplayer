@@ -69,3 +69,20 @@ cd node-v4.0.0-linux-armv7l
 
 Copy to /usr/local
 sudo cp -R * /usr/local/
+
+/**/
+Imagemagick:
+apt-get install imagemagick
+DISPLAY=:0.0 import -window root /home/shot.jpg
+
+/**/
+crash reportlar ekranda gözükmesin:
+sudo nano /etc/default/apport
+Change enabled=1 to enabled=0, then save and exit.
+
+crash loglar burada silmek için:
+sudo rm /var/crash/*
+
+/**/
+chromium hardware acceleration nvidia:
+http://askubuntu.com/questions/336302/gpu-accelerated-chromium

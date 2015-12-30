@@ -5,6 +5,15 @@
 +3- Diagnostic log her gün yeni oluşturulmuyor, oluşturulması lazım.
 4- Eyelogic logları ile homis logları entegre edilecek.
 5- Raspberry pi üzerinde ekran çalışacak (bakalım ne olacak)
++6- Soğuk içecekler ile sıcak spesiyallerin yerleri değişecek
+7- diagnostic loglar düzenlenecek
+8- sağdaki resimlerden en yeni 10 foto; soldaki yazılardan 15 tane twit. --furkan
+9- webkit - gstreamer araştırılacak (video player?? bu ne)
++10- b ekranında yayınlanacak resimlerden sonra açılacak şekilde yılbaşı videosu eklenecek. --furkan (test edilmedi)
++11- a resmi değiştikten 30 saniye sonra b resmi 30 saniye sonra c resmi değişecek --furkan (test edilmedi)
++12- hava durumu sol tarafta sağına twitter qr code koyalım. --furkan (test edilmedi)
++13- B ve C ekranları için boyutlandırılan görseller ekte ki gibidir. Bilginize... (yeniyilresimler.zip) --furkan (test edilmedi)
++14- yeni_yil_sogutozu_videowall_2.mp4 video wall olarak eklenecek. (test edilmedi)
 
 
 

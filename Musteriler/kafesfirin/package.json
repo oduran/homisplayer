@@ -8,5 +8,5 @@
 	"width": 7680,
     "height": 1080
   },
-  "chromium-args": "--ignore-gpu-blacklist"
+  "chromium-args": "--forced-compositing-mode --ignore-gpu-blacklist"
 }

@@ -764,7 +764,7 @@
 					|| typeof(data['main']) === 'undefined'
 					|| typeof(data['main']['temp']) === 'undefined'))
 					{
-						loadbilimtekWeather(ws.o.divId, ws.o.forecastHour + 1);
+						loadBilimtekWeather(ws.o.divId, ws.o.forecastHour + 1);
 						return false;
 					}
 					

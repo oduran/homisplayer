@@ -7,14 +7,14 @@
         sunset : (mockSunset.getTime()/1000)
     }
 	
-	function getQueryParameterByName(name) {
+	var getQueryParameterByName = function(name) {
 		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
 		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
 			results = regex.exec(location.search);
 		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
 	
-	function loadBilimtekWeather(divId, forecastHour)
+	var loadBilimtekWeather = function(divId, forecastHour)
 	{
 				var apiKeys = ['8e82ec315100332c9f3aa2c76045a','a272014963b21c3dc5cb5998048ba','d41ce4dfe469c427dcbf48713ea77'];
 	            $('#'+divId).bilimtekWeather({
@@ -42,7 +42,7 @@
             });
 	}
 	
-	function checkContainer (divId) {
+	var checkContainer = function(divId) {
 		var xdivId = '#'+divId;
 		if($(xdivId).is(':visible')){ 
 			if(divId=='weather'){
@@ -92,17 +92,6 @@
 		
 		loadBilimtekWeather('bilimtekweather1',0);
 		startTime('bilimtekweather1',0);
-		
-		setTimeout(function(){
-			loadBilimtekWeather('bilimtekweather2',3);
-			startTime('bilimtekweather2',3);
-		},2000);
-		
-		setTimeout(function(){
-			loadBilimtekWeather('bilimtekweather3',6);
-			startTime('bilimtekweather3',6);
-		},4000);
-		
 		updatePics(twitterName,sliderMedia);
 		document.getElementById("bilimtektwittertimeline").src = "../script/bilimtektwittertimeline/index.html?twitterId="+twitterId;
 	});
