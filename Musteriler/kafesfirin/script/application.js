@@ -58,10 +58,8 @@ var VideoTimer = function(){
 			totalRotateInterval += rotateInterval;
 			futureTime.setMilliseconds(futureTime.getMilliseconds() + rotateInterval);
 			var isTimeExcluded = excludedTimeInterval.checkTimeIfExcluded(futureTime);
-			console.log("Calculating future time if excluded... => " + futureTime.toString() + " isExcluded =>" + isTimeExcluded.toString());
 		}while(isTimeExcluded);
 		
-		console.log("Next video execution time: "+ futureTime.toString()+" Total rotate interval in ms:" + totalRotateInterval);
 		setTimeout(function()
 		{
 			self.openNextPage();

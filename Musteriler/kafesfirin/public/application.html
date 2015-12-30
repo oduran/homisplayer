@@ -10,7 +10,12 @@ html, body, iframe{
    overflow: hidden;
 }
 </style>
-<script type="text/javascript" src="../script/logger.js"></script>
+  <script type="text/javascript" src="../script/logger.js"></script>
+  <script type="text/javascript" src="../script/errorhandler.js"></script>
+  <script>
+	var errorHandler = new ErrorHandler();
+	errorHandler.start();
+  </script>
 <script type="text/javascript" src="../script/application.js"></script>
 </head>
 <body>
