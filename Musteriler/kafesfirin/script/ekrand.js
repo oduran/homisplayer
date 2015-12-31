@@ -60,10 +60,11 @@
 
 	jQuery(document).ready(function ($) {
 		var twitterId = getQueryParameterByName("twitterId");
-		twitterId = (twitterId===''?'666636527968088064':twitterId); // default kafes firin
+		twitterId = (twitterId==="")?"666636527968088064" : twitterId; // default kafes firin
 		var twitterName = getQueryParameterByName("twitterName");
+		twitterName = (twitterName == "")? "@kafesfirin" : twitterName;
 		var sliderMedia = getQueryParameterByName("sliderMedia");
-		sliderMedia = (sliderMedia===''?'twitter':sliderMedia); // default twitter
+		sliderMedia = (sliderMedia==='')? "twitter" : sliderMedia; // default twitter
 		function startTime(divId, forecastHour) {
 			var today = new Date();
 			var h = today.getHours();
@@ -94,4 +95,6 @@
 		startTime('bilimtekweather1',0);
 		updatePics(twitterName,sliderMedia);
 		document.getElementById("bilimtektwittertimeline").src = "../script/bilimtektwittertimeline/index.html?twitterId="+twitterId;
+		var qrCodeUrl = 'url("https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=www.'+sliderMedia+'.com/'+twitterName+'")';
+		$("#qrcode").css('background-image', qrCodeUrl);
 	});
