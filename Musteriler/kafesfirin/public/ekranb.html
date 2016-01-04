@@ -2,84 +2,112 @@
 <html>
 <meta charset="utf-8">
 <head>
-<style>
-html,body,#content
-{
-margin:0px;
-padding:0px;
-height:100%;
-width:100%;
-background-color:black;
-}
-
-#content
-{
-position:absolute;
-left:0px;
-top:0px;
-}
-
-#left{
-z-index:2;
-position:absolute;
-height:100%;
-left:0px;
-top:0px;
-width:38%;
-}
-
-#left-image{position:absolute;
-height:100%;
-width:100%;
-}
-
-#right{
-z-index:1;
-position:absolute;
-height:100%;
-right:0px;
-top:0px;
-width:62%;
-}
-
-#right-image{
-height:100%;
-right:0px;
-top:0px;
-
-}
-
-#right img
-{
--webkit-filter: blur(30px);
-filter: blur(30px);
-	-webkit-transition: 3s ease-in-out;
-	transition: 3s ease-in-out;
-display:none;
-width: 100%;
-}
-
-#right img.active{
--webkit-filter: blur(0px);
-filter: blur(0px);
-  	-webkit-transition: 3s ease-in-out;
-	transition: 3s ease-in-out;
-  display:block;
-}
-
-video{
-	margin:0px;
-	width: 101%;
-	height: auto;
-}
-</style>
+<link rel="stylesheet" href="../css/ekranb.css">
  <script src="../script/jquery-1.11.1.min.js" type="text/javascript"></script>
  <script type="text/javascript" src="../script/logger.js"></script>
 </head>
 <body>
 <div id="content">
  <div id="left">
- <img id="left-image" src="../media/ekran1sol.png"/>
+  <div class="row clearfix">
+  				<div id="text" >
+				
+					<table style="table-layout:fixed;">
+						<tr>
+							<td class="header">	SICAK SPESİYALLER</td>
+							<td id="vector_smart_object_1">	</td>
+						</tr>
+					</table>
+
+					<ul>
+						<li class="menuitemheader">küçük</li>
+						<li class="menuitemheader">büyük</li>
+					</ul> 
+
+				<div style="width:100%;height:100%">
+						
+					<ul class="menuitem">
+						<li class="drink">Espresso</li>
+						<li class="item small">6.<span class="smalltext">00</span>&nbsp ₺</li>
+						<li class="item large">-<span class="smalltext"></span>	</li>
+					</ul> 
+
+					<ul>
+						<li class="drink">Macchiato</li>
+						<li class="item small">6.<span class="smalltext">00</span>&nbsp ₺</li>
+						<li class="item large">-<span class="smalltext"></span>	</li>
+					</ul> 
+
+					<ul>
+						<li class="drink">Americano</li>
+						<li class="item small">7.<span class="smalltext">00</span>&nbsp ₺</li>
+						<li class="item large">8.<span class="smalltext">00</span>&nbsp ₺</li>
+					</ul> 
+
+					<ul>
+						<li class="drink">Cappuccino</li>
+						<li class="item small">7.<span class="smalltext">00</span>&nbsp ₺</li>
+						<li class="item large">8.<span class="smalltext">00</span>&nbsp ₺</li>
+					</ul> 
+
+					<ul>
+						<li class="drink">Filtre Kahve</li>
+						<li class="item small">5.<span class="smalltext">00</span>&nbsp ₺</li>
+						<li class="item large">6.<span class="smalltext">00</span>&nbsp ₺</li>
+					</ul> 
+
+					<ul>
+						<li class="drink">Latte</li>
+						<li class="item small">7.<span class="smalltext">00</span>&nbsp ₺</li>
+						<li class="item large">8.<span class="smalltext">00</span>&nbsp ₺</li>
+					</ul> 
+
+					<ul>
+						<li class="drink">Caramel Latte</li>
+						<li class="item small">8.<span class="smalltext">00</span>&nbsp ₺</li>
+						<li class="item large">9.<span class="smalltext">00</span>&nbsp ₺</li>
+					</ul> 
+
+					<ul>
+						<li class="drink">Black Mocha</li>
+						<li class="item small">7.<span class="smalltext">50</span>&nbsp ₺</li>
+						<li class="item large">8.<span class="smalltext">50</span>&nbsp ₺</li>
+					</ul> 
+
+					<ul>
+						<li class="drink">White Mocha</li>
+						<li class="item small">7.<span class="smalltext">50</span>&nbsp ₺</li>
+						<li class="item large">8.<span class="smalltext">50</span>&nbsp ₺</li>
+					</ul> 
+
+					<ul>
+						<li class="drink">Caramel Macchiato</li>
+						<li class="item small">7.<span class="smalltext">50</span>&nbsp ₺</li>
+						<li class="item large">8.<span class="smalltext">50</span>&nbsp ₺</li>
+					</ul> 
+					<ul>
+						<li class="drink">Hot Chocolate</li>
+						<li class="item small">6.<span class="smalltext">00</span>&nbsp ₺</li>
+						<li class="item large">7.<span class="smalltext">00</span>&nbsp ₺</li>
+					</ul> 
+
+					<ul>
+						<li class="drink">Geleneksel Sahlep</li>
+						<li class="item small">5.<span class="smalltext">00</span>&nbsp ₺</li>
+						<li class="item large">6.<span class="smalltext">00</span>&nbsp ₺</li>
+					</ul> 
+
+					<ul>
+						<li class="drink">Süt</li>
+						<li class="item small">3.<span class="smalltext">00</span>&nbsp ₺</li>
+						<li class="item large">4.<span class="smalltext">00</span>&nbsp ₺</li>
+					</ul> 
+ 				 
+			 </div>
+		 
+		 	
+		</div>
+		</div>
  </div>
  <div id="right">
   <img class="right-image active" src="../media/1_ekran_1_gorsel.jpg" />
