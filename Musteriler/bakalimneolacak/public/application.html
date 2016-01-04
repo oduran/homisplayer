@@ -11,10 +11,14 @@ html, body, iframe{
    background-color:black;
 }
 </style>
-<script type="text/javascript" src="../script/logger.js"></script>
-<script type="text/javascript" src="../script/application.js"></script>
+  <script type="text/javascript" src="../script/logger.js"></script>
+  <script type="text/javascript" src="../script/errorhandler.js"></script>
+  <script>
+	var errorHandler = new ErrorHandler();
+	errorHandler.start();
+  </script>
 </head>
 <body>
-<iframe src="ekrand.html?twitterId=677839432498720768&twitterName=bakalim_nolcak&sliderMedia=instagram"></iframe>
+<iframe id="applicationframe" src="ekrand.html?twitterId=677839432498720768&twitterName=bakalim_nolcak&sliderMedia=instagram"></iframe>
 </body>
 </html>

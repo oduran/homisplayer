@@ -15,7 +15,6 @@ var Logger = function()
 		}
 		
 		var fs = require('fs');
-		var path = require('path'); 
 		var record = new Object();
 		var currentTime = new Date();
 		var logFileName = "/home/homis/log/" + "eventlog_" + currentTime.getFullYear() + "_" + currentTime.getMonth() + "_" + currentTime.getDate() + ".log";
@@ -31,7 +30,7 @@ var Logger = function()
 		record.minute = record.date.getMinutes();
 		record.second = record.date.getSeconds();
 		var fullMessage = JSON.stringify(record);
-		path.exists(logFileName, function(exists) { 
+		fs.exists(logFileName, function(exists) { 
 		  if (exists) { 
 			fs.appendFile(logFileName, "\n" + fullMessage, function(err) {
 				if(err) {
@@ -60,12 +59,11 @@ var Logger = function()
 		
 		var clientId = "kafes1"; //create unique id here from machine or file.
 		var fs = require('fs');
-		var path = require('path'); 
 		var currentTime = new Date();
 		var logFileName = "/home/homis/log/" + "diagnostics_" + currentTime.getFullYear() + "_" + currentTime.getMonth() + "_" + currentTime.getDate() + ".log";
 		var healthReport = "{ clientId:'" +clientId+ "', startTime: { year: "+currentTime.getFullYear()+", month:"+currentTime.getMonth()+", day:"+currentTime.getDate()+", hour:"+currentTime.getHours()+", minute:"+currentTime.getMinutes()+", second:"+currentTime.getSeconds()+"}, \n";
 		healthReport += " endTime: { year: "+currentTime.getFullYear()+", month:"+currentTime.getMonth()+", day:"+currentTime.getDate()+", hour:"+currentTime.getHours()+", minute:"+currentTime.getMinutes()+", second:"+currentTime.getSeconds()+"}}";
-		path.exists(logFileName, function(exists) { 
+		fs.exists(logFileName, function(exists) { 
 		  if (exists) { 
 			fs.appendFile(logFileName, "\n" + healthReport, function(err) {
 				if(err) {
@@ -85,11 +83,10 @@ var Logger = function()
 		{
 			var clientId = "kafes1"; //create unique id here from machine or file.
 			var fs = require('fs');
-			var path = require('path');
 			var currentTime = new Date();
 			var logFileName = "/home/homis/log/" + "diagnostics_" + currentTime.getFullYear() + "_" + currentTime.getMonth() + "_" + currentTime.getDate() + ".log";
 			var healthReport = " endTime: { year: "+currentTime.getFullYear()+", month:"+currentTime.getMonth()+", day:"+currentTime.getDate()+", hour:"+currentTime.getHours()+", minute:"+currentTime.getMinutes()+", second:"+currentTime.getSeconds()+"}}";
-			path.exists(logFileName, function(exists) { 
+			fs.exists(logFileName, function(exists) { 
 				if (exists) {
 					fs.readFile(logFileName, 'utf-8', function(err, data) {
 						if (err) throw err;

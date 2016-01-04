@@ -1,9 +1,6 @@
 ﻿//pages required to loop, 10min = 600000 milliseconds
+// example element : {url:"ekranlarge.html", duration:600000 }
 var pages = [
-   {url:"ekranlarge.html", duration:600000 }, 
-   {url:"videopage.html", duration:40000 }, 
-   {url:"ekranlarge.html", duration:600000 }, 
-   {url:"videopagenewyear.html", duration:46000 }
 ];
 
 /*VIDEO TIMER FUNCTIONS AND CLASSES.*/
@@ -27,9 +24,13 @@ var ExcludedTimeInterval = function(from, to)
 }
 
 var VideoTimer = function(){
+	if(pages.length === 0)
+	{
+		return false;
+	}
+	
 	var pageIndex = 0;
 	var excludedTimeInterval;
-	
 	this.openNextPage = function()
 	{
 		document.getElementById("applicationframe").src = pages[pageIndex].url;

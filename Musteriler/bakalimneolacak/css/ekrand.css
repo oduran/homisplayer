@@ -17,7 +17,7 @@ body {
     line-height:1.7;
     height:100%;
 	width:100%;
-	background-color:rgb(62,62,62);
+	background:url(../media/bg.jpg);
 }
 
 a {color: #08c9b9;}

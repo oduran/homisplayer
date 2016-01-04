@@ -1,5 +1,5 @@
 ﻿{
-  "name": "bilimtek - kafes fırın",
+  "name": "bilimtek_kafesfirin",
   "main": "public/application.html",
   "window": {
     "kiosk": true,

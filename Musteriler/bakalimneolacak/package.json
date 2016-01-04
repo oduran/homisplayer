@@ -1,5 +1,5 @@
 ﻿{
-  "name": "bilimtek - kafes fırın",
+  "name": "bilimtek_bakalimnolcak",
   "main": "public/application.html",
   "window": {
     "kiosk": true,
@@ -8,5 +8,5 @@
 	"width": 1920,
     "height": 1080
   },
-  "chromium-args": "--ignore-gpu-blacklist"
+  "chromium-args": "--disable-accelerated-video --disable-accelerated-video-decode" 
 }

@@ -27,9 +27,13 @@ var ExcludedTimeInterval = function(from, to)
 }
 
 var VideoTimer = function(){
+	if(pages.length === 0)
+	{
+		return false;
+	}
+	
 	var pageIndex = 0;
 	var excludedTimeInterval;
-	
 	this.openNextPage = function()
 	{
 		document.getElementById("applicationframe").src = pages[pageIndex].url;
