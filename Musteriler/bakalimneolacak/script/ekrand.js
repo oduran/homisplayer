@@ -7,14 +7,14 @@
         sunset : (mockSunset.getTime()/1000)
     }
 	
-	function getQueryParameterByName(name) {
+	var getQueryParameterByName = function(name) {
 		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
 		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
 			results = regex.exec(location.search);
 		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
 	
-	function loadBilimtekWeather(divId, forecastHour)
+	var loadBilimtekWeather = function(divId, forecastHour)
 	{
 				var apiKeys = ['8e82ec315100332c9f3aa2c76045a','a272014963b21c3dc5cb5998048ba','d41ce4dfe469c427dcbf48713ea77'];
 	            $('#'+divId).bilimtekWeather({
@@ -42,7 +42,7 @@
             });
 	}
 	
-	function checkContainer (divId) {
+	var checkContainer = function(divId) {
 		var xdivId = '#'+divId;
 		if($(xdivId).is(':visible')){ 
 			if(divId=='weather'){
@@ -60,10 +60,11 @@
 
 	jQuery(document).ready(function ($) {
 		var twitterId = getQueryParameterByName("twitterId");
-		twitterId = (twitterId===''?'666636527968088064':twitterId); // default kafes firin
+		twitterId = (twitterId==="")?"666636527968088064" : twitterId; // default kafes firin
 		var twitterName = getQueryParameterByName("twitterName");
+		twitterName = (twitterName == "")? "@kafesfirin" : twitterName;
 		var sliderMedia = getQueryParameterByName("sliderMedia");
-		sliderMedia = (sliderMedia===''?'twitter':sliderMedia); // default twitter
+		sliderMedia = (sliderMedia==='')? "twitter" : sliderMedia; // default twitter
 		function startTime(divId, forecastHour) {
 			var today = new Date();
 			var h = today.getHours();
@@ -94,4 +95,6 @@
 		startTime('bilimtekweather1',0);
 		updatePics(twitterName,sliderMedia);
 		document.getElementById("bilimtektwittertimeline").src = "../script/bilimtektwittertimeline/index.html?twitterId="+twitterId;
+		var qrCodeUrl = 'url("https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=www.'+sliderMedia+'.com/'+twitterName+'")';
+		$("#qrcode").css('background-image', qrCodeUrl);
 	});
