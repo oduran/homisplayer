@@ -25,7 +25,7 @@ position:absolute;
 height:100%;
 left:0px;
 top:0px;
-width:62%;
+width:38%;
 }
 
 #left-image{position:absolute;
@@ -39,24 +39,30 @@ position:absolute;
 height:100%;
 right:0px;
 top:0px;
-width:38%;
+width:62%;
 }
 
 #right-image{
 height:100%;
 right:0px;
 top:0px;
-width:100%;
+
 }
 
 #right img
 {
-width:100%;
 display:none;
+width: 100%;
 }
 
 #right img.active{
   display:block;
+}
+
+video{
+	margin:0px;
+	width: 101%;
+	height: auto;
 }
 </style>
  <script src="../script/jquery-1.11.1.min.js" type="text/javascript"></script>
@@ -65,15 +71,25 @@ display:none;
 <body>
 <div id="content">
  <div id="left">
- <img id="left-image" src="../media/ekran2sol.png"/>
+ <img id="left-image" src="../media/ekran1sol.png"/>
  </div>
  <div id="right">
-  <img class="right-image active" src="../media/2_ekran_1_gorsel.jpg" />
-  <img class="right-image" src="../media/2_ekran_2_gorsel.jpg" />
-  <img class="right-image" src="../media/2_ekran_3_gorsel.jpg" />
+  <img class="right-image active" src="../media/1_ekran_1_gorsel.jpg" />
+  <img class="right-image" src="../media/1_ekran_2_gorsel.jpg" />
+  <img class="right-image" src="../media/1_ekran_3_gorsel.jpg" />
+  <img class="right-image" src="../media/1_ekran_4_gorsel.jpg" />
+  <img class="right-image" src="../media/1_ekran_5_gorsel.jpg" />
+  <img class="right-image" src="../media/1_ekran_6_gorsel.jpg" />
+  <video id="video" class="right-image">
+      <source src="../media/yeni_yil_2016.webm" type="video/webm">
+      Your browser does not support the video tag.
+  </video>
  </div>
 </div>
 <script>
+var intervalId = 0;
+var pictureInterval = 60000;
+
 function swapImages(){
   var $active = $('#right .active');
   var $next = ($('#right .active').next().length > 0) ? $('#right .active').next() : $('#right img:first');
@@ -81,12 +97,50 @@ function swapImages(){
     $active.removeClass('active');
     $next.fadeIn().addClass('active');
 	var logger = new Logger();
-	logger.log("Picture at screen 2: " + $next.attr("src"), $next.attr("src"));
+	//if video is visible then start video; if not stop video.
+	$('video').each(function(){
+		if ($(this).is(".active")) {
+			if(intervalId != 0)
+			{
+				console.log("clearing interval running video. interval id="+intervalId);
+				console.log("videoDuration(ms) = "+videoDuration);
+				clearInterval(intervalId);
+				intervalId = 0;
+			}
+			
+			var videoDuration = $(this).get(0).duration * 1000;
+			$(this).get(0).pause();
+			$(this).get(0).currentTime = 0;
+			$(this).get(0).load();
+			$(this).get(0).play();
+			logger.log("Playing video at screen 2: "+$next.attr("src"),$next.attr("src"));
+			setTimeout(function(){
+				swapImages();
+			}, videoDuration);
+		} else {
+			$(this).get(0).pause();
+			if(intervalId == 0)
+			{
+				intervalId = setInterval(
+				function(){
+					swapImages();
+				}, pictureInterval);
+				console.log("Video stopped. new interval id="+intervalId);
+			}
+		}
+	});
+	
+	logger.log("Picture at screen 2: "+$next.attr("src"),$next.attr("src"));
   });
 }
 
-// Run our swapImages() function every 5secs
-setInterval('swapImages()', 120000);
+setTimeout(function(){
+	intervalId = setInterval(
+	function(){
+		swapImages();
+	}, pictureInterval);
+	console.log("Creating new interval. interval id="+intervalId);
+},20000);
 </script>
 </body>
 </html>

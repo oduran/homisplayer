@@ -17,8 +17,7 @@ body {
     line-height:1.7;
     height:100%;
 	width:100%;
-	/*background-color:rgb(62, 62, 62);*/
-	background-color: black;
+	background-color: rgb(62,62,62);
 }
 
 a {color: #08c9b9;}
@@ -63,6 +62,21 @@ div {-webkit-border-radius : 10px !important;}
     box-sizing: border-box;
     /* margin-top: 0.5rem; */
     height: 35vh;
+	width:66% !important;
+}
+
+#qrcode{
+	float:left;
+    box-sizing: border-box;
+    /* margin-top: 0.5rem; */
+    height: 35vh;
+	width:32% !important;
+	margin-left:1% !important;
+	margin-top:-1% !important;
+	background: url("../media/twitter-qr2.png") no-repeat;
+    background-size: 125%;
+	background-position: 50% 50%;
+	border-radius:0px !important;
 }
 
 .imgContainer{

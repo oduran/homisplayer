@@ -25,7 +25,7 @@ position:absolute;
 height:100%;
 left:0px;
 top:0px;
-width:38%;
+width:62%;
 }
 
 #left-image{position:absolute;
@@ -39,20 +39,20 @@ position:absolute;
 height:100%;
 right:0px;
 top:0px;
-width:62%;
+width:38%;
 }
 
 #right-image{
 height:100%;
 right:0px;
 top:0px;
-
+width:100%;
 }
 
 #right img
 {
+width:100%;
 display:none;
-width: 100%;
 }
 
 #right img.active{
@@ -65,13 +65,13 @@ width: 100%;
 <body>
 <div id="content">
  <div id="left">
- <img id="left-image" src="../media/ekran1sol.png"/>
+ <img id="left-image" src="../media/ekran2sol.png"/>
  </div>
  <div id="right">
-  <img class="right-image active" src="../media/1_ekran_1_gorsel.jpg" />
-  <img class="right-image" src="../media/1_ekran_2_gorsel.jpg" />
-  <img class="right-image" src="../media/1_ekran_3_gorsel.jpg" />
-  <img class="right-image" src="../media/1_ekran_4_gorsel.jpg" />
+  <img class="right-image active" src="../media/2_ekran_1_gorsel.jpg" />
+  <img class="right-image" src="../media/2_ekran_2_gorsel.jpg" />
+  <img class="right-image" src="../media/2_ekran_3_gorsel.jpg" />
+  <img class="right-image" src="../media/2_ekran_4_gorsel.jpg" />
  </div>
 </div>
 <script>
@@ -82,11 +82,12 @@ function swapImages(){
     $active.removeClass('active');
     $next.fadeIn().addClass('active');
 	var logger = new Logger();
-	logger.log("Picture at screen 1: "+$next.attr("src"),$next.attr("src"));
+	logger.log("Picture at screen 1: " + $next.attr("src"), $next.attr("src"));
   });
 }
 
-setInterval('swapImages()', 120000);
+// Run our swapImages() function every 5secs
+setInterval('swapImages()', 60000);
 </script>
 </body>
 </html>

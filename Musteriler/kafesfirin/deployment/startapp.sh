@@ -27,6 +27,6 @@ unclutter -idle 0.01 -root &
 xset -dpms &
 xset s noblank &
 xset s off &
-node /usr/local/lib/node_modules/nodewebkit/bin/nodewebkit /home/homis/
+sudo nw /home/homis/
 
 

@@ -7,10 +7,11 @@ sudo apt-get update
 sudo apt-get install openssh-server 
 install unclutter -> sudo apt-get install unclutter = rasberry'de de var
 sudo apt-get install nodejs
-sudo apt-get install nodejs-legacy
+//sudo apt-get install nodejs-legacy
 sudo apt-get install npm
-sudo npm install nwjs -g
-sudo npm install nodewebkit -g
+sudo npm install nw -g
+//sudo npm install nwjs -g
+//sudo npm install nodewebkit -g
 node webkit libudev problemi için ->sudo ln -sf /lib/$(arch)-linux-gnu/libudev.so.1 /lib/$(arch)-linux-gnu/libudev.so.0
 homisstartup.desktop -> /etc/xdg/autostart/
 power management'ı kapatmak için -> xset s off -> statapp.sh scriptine yazıldı.
@@ -90,3 +91,5 @@ http://askubuntu.com/questions/336302/gpu-accelerated-chromium
 /**/
 ffmpegsumo.so dosyası yeri:
 /usr/local/lib/node_modules/nodewebkit/nodewebkit
+yeni nodewebkit ile:
+/usr/local/lib/node_modules/nw/nwjs
