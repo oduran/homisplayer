@@ -2,7 +2,7 @@
 var startApp = function()
 {
 	var backupPage = "nointernet.html";
-	var internetPagesArray = [{id : "applicationframe", url : "ekrand.html?twitterId=666636527968088064&twitterName=kafesfirin"}];
+	var internetPagesArray = [{id : "applicationframe", url : "ekrand.html?twitterId=677839432498720768&twitterName=bakalim_nolcak&sliderMedia=instagram"}];
 	var internetChecker = new InternetChecker(backupPage,internetPagesArray);
 	internetChecker.start(5000);
 	var logger = new Logger();

@@ -69,3 +69,21 @@ cd node-v4.0.0-linux-armv7l
 
 Copy to /usr/local
 sudo cp -R * /usr/local/
+
+/**/
+raspberry pi log flood problem:
+sudo nano /etc/rsyslog.conf 
+comment yap şunları:
+#daemon.*;mail.*;\
+#       news.err;\
+#       *.=debug;*.=info;\
+#       *.=notice;*.=warn       |/dev/xconsole
+
+sonra da servis reset:
+sudo service rsyslog restart
+/**/
+
+/**/
+ısıya bakma:
+/opt/vc/bin/vcgencmd measure_temp
+/**/
