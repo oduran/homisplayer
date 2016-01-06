@@ -84,6 +84,10 @@ sudo service rsyslog restart
 /**/
 
 /**/
-ısıya bakma:
+ısıya bakma raspi:
 /opt/vc/bin/vcgencmd measure_temp
 /**/
+
+/**/
+5 dakikada bir ekran görüntüsü alma raspi:
+user ile girilecek (pi) crontab -e => */5 * * * * /home/homis/deployment/getscreen.sh
