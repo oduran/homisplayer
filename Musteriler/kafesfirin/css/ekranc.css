@@ -101,16 +101,22 @@ filter: blur(0px);
 .leftcontrol{
 	 width:100%;
 	 height:100%;
-	 margin-top: 35px;
-	 margin-left: 35px;
+	 margin-top: 55px;
+	 margin-left: 50px;
 	
+	
+}
+p{
+	    color: white;
+    font-size: 17px;
+    font-family: Swiss721BT-Medium, Arial, Helvetica, sans-serif;
 	
 }
 .header{
 	
 	 
 	font-family: headerFont;
-	font-size: 50px;
+	font-size: 60px;
 	text-align: center;
 	color:#CBB395;
 	font-weight: 400;
@@ -119,7 +125,7 @@ filter: blur(0px);
 	
 }
 .smalltext{
-	font-size:large;
+	font-size:24px;
 	vertical-align:text-top;
 	
 	
@@ -132,7 +138,7 @@ filter: blur(0px);
     width: 386px;
     height: 35px;
     font-family: Swiss721BT-Medium, Arial, Helvetica, sans-serif;
-    font-size: 35px;
+    font-size: 38px;
     text-align: left;
     color: white;
 	
@@ -146,9 +152,10 @@ filter: blur(0px);
 	
 }
 .menuitemheader{
-	
-     position: relative;
-    font-family: drinksHeaderFont;
+	 left: 390px;
+    width: 113px;
+    height: 35px;
+    font-family: Swiss721BT-Medium, Arial, Helvetica, sans-serif;
     font-size: 30px;
     text-align: left;
     color: white;
@@ -157,12 +164,13 @@ filter: blur(0px);
 }
 
 .item	{
- 	left: 55px;
+ 	
+    left: 55px;
     width: 100px;
-    height: 34px;
+    height: 43px;
     font-family: TLArial, Arial, Helvetica, sans-serif;
     font-weight: 500;
-    font-size: 30px;
+    font-size: 35px;
     /* transform: scale(2.439,2.439); */
     text-align: center;
     color: white;
@@ -171,7 +179,7 @@ filter: blur(0px);
     border-top: solid 1px white;
     border-bottom: solid 1px white;
     word-spacing: -6px;
-    text-align: -webkit-right;
+    text-align: -webkit-right
 
 }
 .small{	

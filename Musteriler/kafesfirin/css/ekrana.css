@@ -17,11 +17,18 @@ img { position: absolute; display: block; margin: 0px; border: none; padding: 0p
     font-family: drinksHeaderFont;
     src: url( ../media/font/TL_arial.ttf);
 }
+p{
+	color: white;
+    font-size: 28px;
+    margin-top: -15px;
+    font-family: Swiss721BT-Medium, Arial, Helvetica, sans-serif;
+	
+}
 .header{
 	
 	 
 	font-family: headerFont;
-	font-size: 64px;
+	font-size: 60px;
 	text-align: center;
 	color:#CBB395;
 	font-weight: 400;
@@ -30,7 +37,7 @@ img { position: absolute; display: block; margin: 0px; border: none; padding: 0p
 	
 }
 .smalltext{
-	font-size:large;
+	font-size:24px;
 	vertical-align:text-top;
 	
 	
@@ -38,13 +45,14 @@ img { position: absolute; display: block; margin: 0px; border: none; padding: 0p
 	
 }
 .drink{
- 	left: -36px;
-	width: 300px;
-	height: 43px;
-	font-family: Swiss721BT-Medium, Arial, Helvetica, sans-serif;
-	font-size: 30px;
-	text-align: left;
-	color:white;
+ 	
+    left: -36px;
+    width: 360px;
+    height: 43px;
+    font-family: Swiss721BT-Medium, Arial, Helvetica, sans-serif;
+    font-size: 38px;
+    text-align: left;
+    color: white;
 	
 	
 	
@@ -58,32 +66,33 @@ img { position: absolute; display: block; margin: 0px; border: none; padding: 0p
 	
 }
 .menuitemheader{
-	 	position:relative;
-
-	font-family: drinksHeaderFont;
-	font-size: 40px;
-	text-align: left;
-	color:#CBB395;
+	    position: relative;
+    font-family: drinksHeaderFont;
+    font-size: 47px;
+    font-weight: bold;
+    text-align: left;
+    color: #CBB395;
 	
 	
 }
 
 .item	{
- 	left: 97px;
-	width: 100px;
-	height: 34px;
-	font-family: TLArial, Arial, Helvetica, sans-serif;
-	font-weight: 500;
-	font-size: 30px;
-	/* transform: scale(2.439,2.439); */
-	text-align: center;
-	color:white;
- 	background-position:right;
-	background-repeat: no-repeat;
-	border-top:solid 1px white;
-	border-bottom:solid 1px white;
-	word-spacing:-6px;
-	text-align:-webkit-right;
+ 	
+    left: 45px;
+    width: 100px;
+    height: 43px;
+    font-family: TLArial, Arial, Helvetica, sans-serif;
+    font-weight: 500;
+    font-size: 35px;
+    /* transform: scale(2.439,2.439); */
+    text-align: center;
+    color: white;
+    background-position: right;
+    background-repeat: no-repeat;
+    border-top: solid 1px white;
+    border-bottom: solid 1px white;
+    word-spacing: -6px;
+    text-align: -webkit-right;
 
 }
 .small{	
@@ -104,7 +113,7 @@ left:110px;
 	height: 1080px;
 	overflow: hidden;zoom:1!important;
 	line-height: 1.3 !important;
-		background: url(../media/bg.jpg);
+	background: url(../media/bg.jpg);
 
 }
 ul {	margin-top:20px;
@@ -114,7 +123,7 @@ ul {	margin-top:20px;
 
 li {
 		position: relative;
-        display: inline;
+        display: table;
     }
 
 
