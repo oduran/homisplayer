@@ -26,7 +26,7 @@ unclutter -idle 0.01 -root &
 xset -dpms &
 xset s noblank &
 xset s off &
-cd /home/bilimtek/Documents/Eyelogic/EyelogicServiceSoftware/Release/;./EyelogicServiceSoftwareProject_1.1.a &
+cd /home/bilimtek/Documents/Eyelogic/EyelogicServiceSoftware/Release/;sudo ./EyelogicServiceSoftware_1.1 &
 sudo nw /home/homis/
 
 
