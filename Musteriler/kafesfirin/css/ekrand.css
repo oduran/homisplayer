@@ -71,7 +71,7 @@ div {-webkit-border-radius : 10px !important;}
     /* margin-top: 0.5rem; */
     height: 35vh;
 	width:35vh !important;
-	margin-left:1% !important;
+	margin-left:2% !important;
 	margin-top:-1% !important;
 	background: url("../media/twitter-qr2.png") no-repeat;
     background-size: 115%;
@@ -168,6 +168,6 @@ iframe {
 .ws-container{
 	float:left;
 	width:98% !important;
-	margin-left:1% !important;
+	margin-left:2% !important;
 	margin-top:-1% !important;
 }
