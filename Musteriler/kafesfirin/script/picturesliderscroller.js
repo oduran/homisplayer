@@ -13,7 +13,6 @@ var PictureSliderScroller = function (container,scrollInterval,propertyToFindWid
         var currentElement = childElements[index];
 		var imageObject = {element:currentElement, offsetTop: currentElement.offsetTop, height: currentElement.height};
 		imageObjectsArray.push(imageObject);
-		console.log(imageObject.offsetTop+" "+imageObject.height);
     });
 	
 	var addScrollAnimations = function()
