@@ -72,10 +72,9 @@ p{
     font-weight: bold;
     text-align: left;
     color: #CBB395;
-	
-	
+	  
 }
-
+ 
 .item	{
  	
     left: 45px;
@@ -188,8 +187,8 @@ width:100%;
 {
 -webkit-filter: blur(30px);
 filter: blur(30px);
-	-webkit-transition: 3s ease-in-out;
-	transition: 3s ease-in-out;
+-webkit-transition: 3s ease-in-out;
+transition: 3s ease-in-out;
 width:100%;
 display:none;
 }
