@@ -70,13 +70,13 @@ div {-webkit-border-radius : 10px !important;}
     box-sizing: border-box;
     /* margin-top: 0.5rem; */
     height: 35vh;
-	width:32% !important;
+	width:35vh !important;
 	margin-left:1% !important;
 	margin-top:-1% !important;
 	background: url("../media/twitter-qr2.png") no-repeat;
-    background-size: 125%;
+    background-size: 115%;
 	background-position: 50% 50%;
-	border-radius:0px !important;
+	border-radius:5px !important;
 }
 
 .imgContainer{
