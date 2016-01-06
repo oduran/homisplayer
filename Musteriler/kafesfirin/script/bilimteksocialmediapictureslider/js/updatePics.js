@@ -25,7 +25,10 @@ var sliderOptions = {
     //update_period: 5000,
     // When all the posts are collected and displayed - this function is evoked
     callback: function() {
-        setTimeout(function(){scrollDivImage('.socialmediapicturecontainer', 30000,'.attachment')},30000);
+		
+		setTimeout(function(){
+			var pictureSliderScroller = new PictureSliderScroller('.socialmediapicturecontainer', 30000,'.attachment');
+			pictureSliderScroller.run();},30000);
     }
 }
 
