@@ -1,4 +1,4 @@
-1- Ekran a , b, c resim versionlarıyla HTML sayfalar eşitlenecek.
+1- Ekran a , b, c resim versionlarıyla HTML sayfalar eşitlenecek. +
 2- Kafes Fırın Söğütözü şubesine uygulamanın son hali konulacak.
 3- Azure Platform üzerinde sunucu temin edilecek ve IIS kurulacak.
 4- QR code beyaz background büyüyecek şekilde küçültülecek, rounded corner.
