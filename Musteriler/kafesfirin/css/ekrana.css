@@ -124,19 +124,8 @@ li {
 		position: relative;
         display: table;
     }
-
-
-#vector_smart_object {
-	top: -1px !important;
-	position: relative !important;
-	left: -8px;
-	width: 1936px;
-	height: 1081px;
-	background:url(ekrana/vector_smart_object.png);
-}
-
-
-#vector_smart_object_1 {
+ 
+#header_image {
 	top: 22px !important;
 	position: relative !important;
 	left: 20px;
@@ -147,7 +136,7 @@ li {
 	}
 
 
-#vector_smart_object_2 {
+#right_bottom_image {
 	width:100%;
 	top: 540px !important;
 	position: relative !important;

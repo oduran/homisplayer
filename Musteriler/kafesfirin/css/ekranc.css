@@ -151,7 +151,8 @@ p{
 	
 	
 }
-.menuitemheader{
+ 
+.itemheader{
 	 left: 390px;
     width: 113px;
     height: 35px;
@@ -213,17 +214,9 @@ left:110px;
                                     display: inline;
                              }
 
+ 
 
-#vector_smart_object {
-	top: -1px !important;
-	position: relative !important;
-	left: -8px;
-	width: 1936px;
-	height: 1081px;
-	background: url(../media/vector_smart_object.png);
-}
-
-#vector_smart_object_0 {
+#right_bottom_image {
 	left:80px;
 	top: -70px;
 	width:100%;
@@ -235,7 +228,7 @@ left:110px;
 }
 
 
-#vector_smart_object_1 {
+#header_image {
 	top: 20px !important;
 	position: relative !important;
 	left: 20px;
@@ -244,19 +237,8 @@ left:110px;
 	background: url(../media/vector_smart_object_1.png);
 	background-repeat:no-repeat;
 	}
-
-
-#vector_smart_object_2 {
-	width:100%;
-	top: 540px !important;
-	position: relative !important;
-	left: 641px;
- 	height: 811px;
-	background: url(../media/vector_smart_object_2.png);
-	background-repeat:no-repeat;
-}
-
-#vector_smart_object_3 {
+ 
+#left_bottom_image {
 	left:50px;
 	width:100%;
  	position: relative !important;

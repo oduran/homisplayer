@@ -108,7 +108,7 @@ video{
 	
 	
 }
-.menuitemheader{
+.itemheader{
 	
     left: 350px;
     width: 113px;
@@ -169,18 +169,7 @@ li {
     display: table;
     }
 
-
-#vector_smart_object {
-	top: -1px !important;
-	position: relative !important;
-	left: -8px;
-	width: 1936px;
-	height: 1081px;
-	background:url(ekranb/vector_smart_object.png);
-}
-
-
-#vector_smart_object_1 {
+#header_image {
 	top: 20px !important;
 	position: relative !important;
 	left: 20px;
@@ -190,16 +179,6 @@ li {
 
  	background-repeat:no-repeat;
 	}
-
-
-#vector_smart_object_2 {
-	top: 194px !important;
-	position: relative !important;
-	left: 426px;
-	width: 248px;
-	height: 811px;
-	background:url(ekranb/vector_smart_object_2.png);
-}
 
 #text {
     margin-top: 55px;
