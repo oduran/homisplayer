@@ -1,0 +1,55 @@
+﻿{
+    // Kullanıcı adı
+    "usr": "baris",
+
+    // Şifre
+    "pwd": "1",
+
+    // App Names. Kullanıcı uygulama isminden nasıl login olacağını
+    "apps": {
+        // Mobil uygulamalardan login olmak için
+        "mobil": {
+            // Mobil uygulamalara toplam kaç token dağıtılabileceği
+            "totalToken": NumberInt(2),
+
+            // Üçüncü bir token istenip istenemeyeceği
+            "allowRecycle": false,
+
+            "expireInMinutes": NumberInt(1440),
+
+            // Token listesi
+            "tokens": [
+                {
+                    "token": "",
+                    "deviceId": "",
+                    "createdAt": ISODate("2012-12-19T06:01:17.171Z"),
+                    "slideExpireInMinutes": NumberInt(10)
+                }
+            ]
+        },
+
+        // Web'den login olmak için
+        "web": {
+            "totalToken": NumberInt(2),
+            "allowRecycle": true,
+            "expireInMinutes": NumberInt(1440),
+            "tokens": [
+                {
+                    "token": "ytt4yrhgrfhrhrh",
+                    "deviceId": "hnrjhy5jyjhy",
+                    "createdAt": ISODate("2012-12-19T06:01:17.171Z"),
+                    "slideExpireInMinutes": NumberInt(20)
+                }
+            ]
+        }
+    },
+
+    // Kullanıcının rolleri
+    "roles": "admin,user",
+
+    // Claims
+    "claims": {
+        // DİKKAT! Kullanıcının veritabanı burada tanımlı olmak zorunda. Aksi halde sistem hata verecek.
+        "gm-database": "test"
+    }
+}

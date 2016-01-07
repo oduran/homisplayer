@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <script src="../script/jquery-1.11.1.min.js"></script>
+</head>
+<body>
+    <script>
+        
+        var id = 5;
+        var locationOrigin = window.location.origin;
+        var url = locationOrigin + '/user/get?id=' + id;
+        var url2 = locationOrigin + '/user/createuser';
+        $(document).ready(function () {
+            $.ajax({
+                url: url,
+                success: function (data)
+                {
+                    console.log(data);
+                }
+            });
+
+            var objectToSend = JSON.stringify({ test: 'asdasdsads' });
+            $.ajax({
+                url: url2,
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: objectToSend,
+                success: function (data) {
+					console.log(data);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

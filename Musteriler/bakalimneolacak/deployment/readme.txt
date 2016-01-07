@@ -91,3 +91,6 @@ sudo service rsyslog restart
 /**/
 5 dakikada bir ekran görüntüsü alma raspi:
 user ile girilecek (pi) crontab -e => */5 * * * * /home/homis/deployment/getscreen.sh
+
+/**/
+raspi deploymenttan önce wifi ayarlaması için /etc/wpa_supplicant/ dizinine wpa_supplicant.conf değiştirilerek eklenecek.

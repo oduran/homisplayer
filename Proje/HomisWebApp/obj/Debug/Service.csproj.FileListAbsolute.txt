@@ -1,0 +1,212 @@
+\\psf\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\obj\Debug\Service.csprojResolveAssemblyReference.cache
+\\psf\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\NLog.config
+\\psf\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\ServiceTemplate.dll.config
+\\psf\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\ServiceTemplate.dll
+\\psf\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\ServiceTemplate.pdb
+\\psf\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\Microsoft.Web.Infrastructure.dll
+\\psf\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\MongoDB.Bson.dll
+\\psf\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\MongoDB.Driver.Core.dll
+\\psf\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\MongoDB.Driver.dll
+\\psf\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\Newtonsoft.Json.dll
+\\psf\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\NLog.dll
+\\psf\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\System.Net.Http.Formatting.dll
+\\psf\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\System.Web.Http.dll
+\\psf\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\System.Web.Http.WebHost.dll
+\\psf\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\Microsoft.Web.Infrastructure.xml
+\\psf\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\MongoDB.Bson.xml
+\\psf\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\MongoDB.Driver.xml
+\\psf\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\Newtonsoft.Json.xml
+\\psf\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\NLog.xml
+\\psf\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\System.Net.Http.Formatting.xml
+\\psf\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\System.Web.Http.xml
+\\psf\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\System.Web.Http.WebHost.xml
+\\psf\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\obj\Debug\ServiceTemplate.dll
+\\psf\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\obj\Debug\ServiceTemplate.pdb
+\\Mac\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\NLog.config
+\\Mac\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\ServiceTemplate.dll.config
+\\Mac\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\ServiceTemplate.dll
+\\Mac\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\ServiceTemplate.pdb
+\\Mac\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\Microsoft.Web.Infrastructure.dll
+\\Mac\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\MongoDB.Bson.dll
+\\Mac\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\MongoDB.Driver.Core.dll
+\\Mac\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\MongoDB.Driver.dll
+\\Mac\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\Newtonsoft.Json.dll
+\\Mac\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\NLog.dll
+\\Mac\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\System.Net.Http.Formatting.dll
+\\Mac\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\System.Web.Http.dll
+\\Mac\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\System.Web.Http.WebHost.dll
+\\Mac\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\Microsoft.Web.Infrastructure.xml
+\\Mac\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\MongoDB.Bson.xml
+\\Mac\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\MongoDB.Driver.xml
+\\Mac\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\Newtonsoft.Json.xml
+\\Mac\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\NLog.xml
+\\Mac\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\System.Net.Http.Formatting.xml
+\\Mac\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\System.Web.Http.xml
+\\Mac\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\bin\System.Web.Http.WebHost.xml
+\\Mac\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\obj\Debug\ServiceTemplate.dll
+\\Mac\Home\Documents\Visual Studio 2013\Projects\WebApiTemplate\obj\Debug\ServiceTemplate.pdb
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\NLog.config
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\ServiceTemplate.dll.config
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\ServiceTemplate.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\ServiceTemplate.pdb
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\Microsoft.Web.Infrastructure.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\MongoDB.Bson.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\MongoDB.Driver.Core.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\MongoDB.Driver.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\Newtonsoft.Json.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\NLog.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\System.Net.Http.Formatting.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\System.Web.Helpers.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\System.Web.Http.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\System.Web.Http.WebHost.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\System.Web.Mvc.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\System.Web.Razor.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\System.Web.WebPages.Deployment.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\System.Web.WebPages.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\System.Web.WebPages.Razor.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\Microsoft.Web.Infrastructure.xml
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\MongoDB.Bson.xml
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\MongoDB.Driver.xml
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\Newtonsoft.Json.xml
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\NLog.xml
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\System.Net.Http.Formatting.xml
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\System.Web.Helpers.xml
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\System.Web.Http.xml
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\System.Web.Http.WebHost.xml
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\System.Web.Mvc.xml
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\System.Web.Razor.xml
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\System.Web.WebPages.xml
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\System.Web.WebPages.Deployment.xml
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\System.Web.WebPages.Razor.xml
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\obj\Debug\Service.csprojResolveAssemblyReference.cache
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\obj\Debug\ServiceTemplate.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\obj\Debug\ServiceTemplate.pdb
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\Microsoft.AspNet.Authorization.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\Microsoft.AspNet.Mvc.Abstractions.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\Microsoft.AspNet.Http.Abstractions.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\Microsoft.AspNet.Routing.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\Microsoft.Extensions.Logging.Abstractions.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\Microsoft.Net.Http.Headers.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\Microsoft.Extensions.MemoryPool.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\Microsoft.AspNet.Http.Features.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\Microsoft.Extensions.OptionsModel.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\Microsoft.AspNet.FileProviders.Abstractions.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\Microsoft.AspNet.Hosting.Abstractions.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\Microsoft.Extensions.Primitives.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\Microsoft.Extensions.PlatformAbstractions.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\System.Diagnostics.DiagnosticSource.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\Microsoft.AspNet.Http.Extensions.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\Microsoft.Extensions.WebEncoders.Core.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\Depo\Development\Bilimtek\WebApiTemplate\WebApiTemplate\bin\Microsoft.Extensions.Configuration.Binder.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\NLog.config
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\ServiceTemplate.dll.config
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\ServiceTemplate.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\ServiceTemplate.pdb
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\Microsoft.Web.Infrastructure.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\MongoDB.Bson.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\MongoDB.Driver.Core.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\MongoDB.Driver.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\Newtonsoft.Json.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\NLog.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\System.Net.Http.Formatting.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\System.Web.Helpers.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\System.Web.Http.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\System.Web.Http.WebHost.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\System.Web.Mvc.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\System.Web.Razor.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\System.Web.WebPages.Deployment.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\System.Web.WebPages.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\System.Web.WebPages.Razor.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\Microsoft.AspNet.Authorization.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\Microsoft.AspNet.Mvc.Abstractions.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\Microsoft.AspNet.Http.Abstractions.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\Microsoft.AspNet.Routing.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\Microsoft.Extensions.Logging.Abstractions.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\Microsoft.Net.Http.Headers.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\Microsoft.Extensions.MemoryPool.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\Microsoft.AspNet.Http.Features.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\Microsoft.Extensions.OptionsModel.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\Microsoft.AspNet.FileProviders.Abstractions.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\Microsoft.AspNet.Hosting.Abstractions.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\Microsoft.Extensions.Primitives.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\Microsoft.Extensions.PlatformAbstractions.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\System.Diagnostics.DiagnosticSource.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\Microsoft.AspNet.Http.Extensions.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\Microsoft.Extensions.WebEncoders.Core.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\Microsoft.Extensions.Configuration.Binder.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\Microsoft.Web.Infrastructure.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\MongoDB.Bson.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\MongoDB.Driver.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\Newtonsoft.Json.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\NLog.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\System.Net.Http.Formatting.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\System.Web.Helpers.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\System.Web.Http.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\System.Web.Http.WebHost.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\System.Web.Mvc.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\System.Web.Razor.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\System.Web.WebPages.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\System.Web.WebPages.Deployment.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\bin\System.Web.WebPages.Razor.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\obj\Debug\Service.csprojResolveAssemblyReference.cache
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\obj\Debug\ServiceTemplate.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\Service\obj\Debug\ServiceTemplate.pdb
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\NLog.config
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\ServiceTemplate.dll.config
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\ServiceTemplate.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\ServiceTemplate.pdb
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\Microsoft.Web.Infrastructure.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\MongoDB.Bson.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\MongoDB.Driver.Core.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\MongoDB.Driver.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\Newtonsoft.Json.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\NLog.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\System.Net.Http.Formatting.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\System.Web.Helpers.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\System.Web.Http.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\System.Web.Http.WebHost.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\System.Web.Mvc.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\System.Web.Razor.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\System.Web.WebPages.Deployment.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\System.Web.WebPages.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\System.Web.WebPages.Razor.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\Microsoft.AspNet.Authorization.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\Microsoft.AspNet.Mvc.Abstractions.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\Microsoft.AspNet.Http.Abstractions.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\Microsoft.AspNet.Routing.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\Microsoft.Extensions.Logging.Abstractions.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\Microsoft.Net.Http.Headers.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\Microsoft.Extensions.MemoryPool.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\Microsoft.AspNet.Http.Features.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\Microsoft.Extensions.OptionsModel.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\Microsoft.AspNet.FileProviders.Abstractions.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\Microsoft.AspNet.Hosting.Abstractions.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\Microsoft.Extensions.Primitives.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\Microsoft.Extensions.PlatformAbstractions.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\System.Diagnostics.DiagnosticSource.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\Microsoft.AspNet.Http.Extensions.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\Microsoft.Extensions.WebEncoders.Core.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\Microsoft.Extensions.Configuration.Binder.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\Microsoft.Web.Infrastructure.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\MongoDB.Bson.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\MongoDB.Driver.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\Newtonsoft.Json.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\NLog.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\System.Net.Http.Formatting.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\System.Web.Helpers.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\System.Web.Http.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\System.Web.Http.WebHost.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\System.Web.Mvc.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\System.Web.Razor.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\System.Web.WebPages.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\System.Web.WebPages.Deployment.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\System.Web.WebPages.Razor.xml
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\obj\Debug\Service.csprojResolveAssemblyReference.cache
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\obj\Debug\ServiceTemplate.dll
+D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\obj\Debug\ServiceTemplate.pdb
