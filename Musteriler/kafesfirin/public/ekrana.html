@@ -53,7 +53,7 @@
 								<li class="item small">9.<span class="smalltext">00</span>&nbsp ₺</li>
 							</ul>
 							 
-								<p>(Çilek,Mix Berry,Şeftali)</p>
+								<p style="width:360px;">(Çilek,Mix Berry,Şeftali)</p>
 							 
 					</div>
 					<div class="leftmenu">
@@ -120,26 +120,10 @@
 </div>
 <script>
 $( document ).ready(function() {
-	$( ".menuitemheader" ).each(function( index ) {
-		$.Velocity.RegisterUI("callout.twirl", {
-		defaultDuration: 2000,
-		calls: [ 
-			[ { rotateZ: 1080 }, 0.50 ],
-			[ { scaleX: 0.5 }, 0.25, { easing: "spring" } ],
-			[ { scaleX: 1 }, 0.25, { easing: "spring" } ]
-				]
-		});
-		$(this).velocity("callout.twirl");
-	});
-	$( ".drink" ).each(function( index ) {
-		$(this).velocity({marginLeft:-500},{loop:1,duration:800});
-	});
-	$( ".item" ).each(function( index ) {
-		$(this).velocity({marginLeft:1000},{loop:1,duration:800});
-	});
-	$("p").velocity({marginLeft:-500},{loop:1,duration:800});
-	
+	animateText();
+	setTimeout('removeAllItemClass()',1500);
 });
+
 function swapImages(){
   var $active = $('#right .active');
   var $next = ($('#right .active').next().length > 0) ? $('#right .active').next() : $('#right img:first');
@@ -149,28 +133,51 @@ function swapImages(){
 	var logger = new Logger();
 	logger.log("Picture at screen 1: " + $next.attr("src"), $next.attr("src"));
   });
-	$( ".menuitemheader" ).each(function( index ) {
-		$.Velocity.RegisterUI("callout.twirl", {
-		defaultDuration: 2000,
-		calls: [ 
-			[ { rotateZ: 1080 }, 0.50 ],
-			[ { scaleX: 0.5 }, 0.25, { easing: "spring" } ],
-			[ { scaleX: 1 }, 0.25, { easing: "spring" } ]
-				]
-		});
-		$(this).velocity("callout.twirl");
-	});
-	$( ".drink" ).each(function( index ) {
-		$(this).velocity({marginLeft:-500},{loop:1,duration:800});
-	});
-	$( ".item" ).each(function( index ) {
-		$(this).velocity({marginLeft:1000},{loop:1,duration:800});
-	});
-	$("p").velocity({marginLeft:-500},{loop:1,duration:800});
-
+ 
+ animateText() ;	
 }
 
+function animateText(){
+ 
+	$( ".menuitemheader" ).each(function( index,value ) {
+ 		$(this).addClass('animationclass');
+	});
+	$( ".drink" ).each(function( index ) {
+		$(this).addClass('marquee');
+	});
+	$( ".item" ).each(function( index ) {
+		$(this).addClass('animationclass');
+	});
+	$("p").addClass('marquee');
+	setTimeout('removeAllItemClass()',2500);
+
+
+}
+function removeAllItemClass(){
+ 	
+		$( ".menuitemheader" ).each(function( index ) {
+		$(this).attr("class","menuitemheader");		
+		});
+		$( ".drink" ).each(function( index ) {
+		$(this).attr("class","drink");		
+		});
+		$( ".item" ).each(function( index ) {
+			if($(this).hasClass("small")){
+				$(this).attr("class","item small");			
+			}
+			if($(this).hasClass("large")){
+				$(this).attr("class","item large");			
+			}
+		
+		});
+	 	$("p").attr("class","");	
+
+
+
+}
 // Run our swapImages() function every 5secs
+
+
 setInterval('swapImages()', 60000);
 </script>
 </body>

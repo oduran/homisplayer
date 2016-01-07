@@ -72,9 +72,32 @@ p{
     font-weight: bold;
     text-align: left;
     color: #CBB395;
+	
 	  
 }
- 
+.animationclass{
+	  -webkit-animation-name: spinnerRotate;
+    -webkit-animation-duration: 1s;
+     -webkit-animation-timing-function: ease;
+}
+@-webkit-keyframes spinnerRotate
+{
+    from{-webkit-transform:rotate(0deg);}
+    to{-webkit-transform:rotate(360deg);}
+}
+@-webkit-keyframes rightThenLeft {
+	 from{-webkit-transform:translate(500px);}
+    to{-webkit-transform:translate(0px);}
+  }
+ @-webkit-keyframes leftThenRight {
+    from{-webkit-transform:translate(-500px);}
+    to{-webkit-transform:translate(0px);}
+ }
+ .marquee {
+	  -webkit-animation-name: rightThenLeft;
+	  -webkit-animation-duration: 1.5s;
+     -webkit-animation-timing-function: ease;
+}
 .item	{
  	
     left: 45px;

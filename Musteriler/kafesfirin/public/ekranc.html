@@ -156,17 +156,7 @@
 </div>
 <script>
 $( document ).ready(function() {
- 
-	$( ".drink" ).each(function( index ) {
-	$(this).velocity({ translateX: [ 0, -500 ] },{loop:0,duration:800})
-
-	});
-	$("p").velocity({ translateX: [ 0, -500 ] },{loop:0,duration:800})
-
-	$( ".item" ).each(function( index ) {
-	$(this).velocity({ translateX: [ 0, 500 ] },{loop:0,duration:800})
-	});
-	
+  animateText();
 });
 function swapImages(){
   var $active = $('#middle .active');
@@ -179,16 +169,43 @@ function swapImages(){
 	logger.log("Picture at screen 3: "+$next.attr("src") , $next.attr("src"));
   });
  	 
+animateText();
+ }
  
+
+function animateText(){
+  
 	$( ".drink" ).each(function( index ) {
-	$(this).velocity({ translateX: [ 0, -500 ] },{loop:0,duration:800})
+		$(this).addClass('marqueeleftThenRight');
 	});
 	$( ".item" ).each(function( index ) {
-	$(this).velocity({ translateX: [ 0, 500 ] },{loop:0,duration:800})
+		$(this).addClass('marqueerightThenLeft');
 	});
-	$("p").velocity({ translateX: [ 0, -500 ] },{loop:0,duration:800})
+	$("p").addClass('marqueeleftThenRight');
+	setTimeout('removeAllItemClass()',2500);
 
- }
+
+}
+function removeAllItemClass(){
+ 	 
+		$( ".drink" ).each(function( index ) {
+		$(this).attr("class","drink");		
+		});
+		$( ".item" ).each(function( index ) {
+			if($(this).hasClass("small")){
+ 				$(this).attr("class","item small");			
+			}
+			if($(this).hasClass("large")){
+				$(this).attr("class","item large");			
+			}
+		
+		});
+	 	$("p").attr("class","");	
+
+
+
+}
+
 
 // Run our swapImages() function every 5secs
 // Delayed 60 seconds because this one is the second screen.
