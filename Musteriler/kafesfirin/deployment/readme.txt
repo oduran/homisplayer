@@ -93,3 +93,7 @@ ffmpegsumo.so dosyası yeri:
 /usr/local/lib/node_modules/nodewebkit/nodewebkit
 yeni nodewebkit ile:
 /usr/local/lib/node_modules/nw/nwjs
+
+/**/
+wifi connectionlar için 
+/etc/NetworkManager/system-connections içerisine deployment klasöründeki Wi-Fi connection 1 dosyası atılacak

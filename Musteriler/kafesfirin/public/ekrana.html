@@ -150,11 +150,9 @@ function animateText(){
 	});
 	$("p").addClass('marquee');
 	setTimeout('removeAllItemClass()',2500);
-
-
 }
+
 function removeAllItemClass(){
- 	
 		$( ".menuitemheader" ).each(function( index ) {
 		$(this).attr("class","menuitemheader");		
 		});
@@ -171,13 +169,8 @@ function removeAllItemClass(){
 		
 		});
 	 	$("p").attr("class","");	
-
-
-
 }
 // Run our swapImages() function every 5secs
-
-
 setInterval('swapImages()', 60000);
 </script>
 </body>
