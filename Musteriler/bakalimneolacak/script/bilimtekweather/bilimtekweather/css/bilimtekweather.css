@@ -481,8 +481,9 @@ body * .ws-container p,
 .ws-cloud2,
 .ws-cloud3,
 .ws-cloud4 {
-	left: 50% !important;
-	top: 0px !important;
+	left: 46% !important;
+	width:60% !important;
+	top: 30px !important;
 }
 
 .ws-cloud1 {
@@ -501,7 +502,7 @@ body * .ws-container p,
 	margin-left: 10px;
 	margin-top: 40px;
 	z-index: 440 !important;
-}
+ }
 
 .ws-cloud4 {
 	margin-left: -500px;

@@ -111,12 +111,16 @@
 		</div>
  </div>
  <div id="right">
+
   <img class="right-image active" src="../media/1_ekran_1_gorsel.jpg" />
   <img class="right-image" src="../media/1_ekran_2_gorsel.jpg" />
   <img class="right-image" src="../media/1_ekran_3_gorsel.jpg" />
   <img class="right-image" src="../media/1_ekran_4_gorsel.jpg" />
   <img class="right-image" src="../media/1_ekran_5_gorsel.jpg" />
   <img class="right-image" src="../media/1_ekran_6_gorsel.jpg" />
+  <img class="right-image" src="../media/1_ekran_7_gorsel.jpg" />
+
+
   <video id="video" class="right-image">
       <source src="../media/yeni_yil_2016.webm" type="video/webm">
       Your browser does not support the video tag.
@@ -186,7 +190,7 @@ function animateText(){
 		$(this).addClass('marquee');
 	});
 	$( ".item" ).each(function( index ) {
-		$(this).addClass('animationclass');
+		$(this).addClass('marquee');
 	});
 	$("p").addClass('marquee');
 	setTimeout('removeAllItemClass()',2500);

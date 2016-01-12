@@ -140,13 +140,13 @@ function swapImages(){
 function animateText(){
  
 	$( ".menuitemheader" ).each(function( index,value ) {
- 		$(this).addClass('animationclass');
+ 		$(this).addClass('marquee');
 	});
 	$( ".drink" ).each(function( index ) {
 		$(this).addClass('marquee');
 	});
 	$( ".item" ).each(function( index ) {
-		$(this).addClass('animationclass');
+		$(this).addClass('marquee');
 	});
 	$("p").addClass('marquee');
 	setTimeout('removeAllItemClass()',2500);

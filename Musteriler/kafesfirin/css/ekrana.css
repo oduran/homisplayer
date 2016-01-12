@@ -82,11 +82,11 @@ p{
 }
 @-webkit-keyframes spinnerRotate
 {
-    from{-webkit-transform:rotate(0deg);}
-    to{-webkit-transform:rotate(360deg);}
+    from{-webkit-transform:rotate(360deg);}
+    to{-webkit-transform:rotate(0deg);}
 }
 @-webkit-keyframes rightThenLeft {
-	 from{-webkit-transform:translate(500px);}
+	 from{-webkit-transform:translate(-500px);}
     to{-webkit-transform:translate(0px);}
   }
  @-webkit-keyframes leftThenRight {

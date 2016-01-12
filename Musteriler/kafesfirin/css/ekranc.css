@@ -132,7 +132,18 @@ p{
 	
 	
 }
-.drink{
+.drinkleft{
+	
+    left: 60px;
+    width: 386px;
+    height: 35px;
+    font-family: Swiss721BT-Medium, Arial, Helvetica, sans-serif;
+    font-size: 38px;
+    text-align: left;
+    color: white;
+	
+}
+.drinkright{
 	
     left: 60px;
     width: 386px;
@@ -164,7 +175,26 @@ p{
 	
 }
 
-.item	{
+.itemright	{
+ 	
+    left: 55px;
+    width: 100px;
+    height: 43px;
+    font-family: TLArial, Arial, Helvetica, sans-serif;
+    font-weight: 500;
+    font-size: 35px;
+    /* transform: scale(2.439,2.439); */
+    text-align: center;
+    color: white;
+    background-position: right;
+    background-repeat: no-repeat;
+    border-top: solid 1px white;
+    border-bottom: solid 1px white;
+    word-spacing: -6px;
+    text-align: -webkit-right
+
+}
+.itemleft	{
  	
     left: 55px;
     width: 100px;

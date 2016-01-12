@@ -1,4 +1,4 @@
-+1- Ekran a , b, c resim versionlarıyla HTML sayfalar eşitlenecek. 
+﻿+1- Ekran a , b, c resim versionlarıyla HTML sayfalar eşitlenecek. 
 2- Kafes Fırın Söğütözü şubesine uygulamanın son hali konulacak.
 3- Azure Platform üzerinde sunucu temin edilecek ve IIS kurulacak.
 +4- QR code beyaz background büyüyecek şekilde küçültülecek, rounded corner.
@@ -10,3 +10,13 @@
 7- Web tabanlı merkezi uygulamaya başlanacak.
 8- EyeLogic kayıtlarıyla bizim event loglarımızın gün sonunda yazılımda birleştirilmesi sağlanacak.
    Ekran değişimleri, resim değişimleri EyeLogic attention_time logları ile entegre edilecek.
+
+
+
+https://foursquare.com/oauth2/authenticate
+    ?client_id=YINULPBICIVCT1TL4EKAWVA2FLVAVCAVK5KHBUVR0KBUZKPM
+    &response_type=code
+    &redirect_uri=YOUR_REGISTERED_REDIRECT_URI
+
+https://api.foursquare.com/v2/venues/search?ll=39.781154, 32.806092&client_id=YINULPBICIVCT1TL4EKAWVA2FLVAVCAVK5KHBUVR0KBUZKPM&client_secret=MO5IBFYIIZMW3O022LXYZLLUOFBKODSQYMKRD4EWRONIPM0B&v=20160106
+https://api.foursquare.com/v2/venues/4c9709ef94debfb7ea9baa76?client_id=YINULPBICIVCT1TL4EKAWVA2FLVAVCAVK5KHBUVR0KBUZKPM&client_secret=MO5IBFYIIZMW3O022LXYZLLUOFBKODSQYMKRD4EWRONIPM0B&v=20160106";
