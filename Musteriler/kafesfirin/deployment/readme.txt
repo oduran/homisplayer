@@ -1,13 +1,9 @@
-﻿+Ekran karti driver => mailde var
-
-wireless driver?
-
-node, npm ve node webkit kurulumları:
+﻿node, npm ve node webkit kurulumları:
 sudo apt-get update
 sudo apt-get install openssh-server 
 install unclutter -> sudo apt-get install unclutter = rasberry'de de var
 sudo apt-get install nodejs
-//sudo apt-get install nodejs-legacy
+sudo apt-get install nodejs-legacy
 sudo apt-get install npm
 sudo npm install nw -g
 //sudo npm install nwjs -g
@@ -32,6 +28,9 @@ biostan standby mode s3 olarak ayarlanacak (write to memory).
 bazı bilgisayarlarda memory suspend çalışmıyor.
 00 21 * * *  sudo rtcwake -u -s 36000 -> kafes fırında olan şey
 
+/**/
+5 dakikada bir ekran görüntüsü alma raspi:
+user ile girilecek (pi) crontab -e => */5 * * * * /home/homis/deployment/getscreen.sh
 
 ############## Ekran karti ##################
 
@@ -85,6 +84,14 @@ crash loglar burada silmek için:
 sudo rm /var/crash/*
 
 /**/
+auto update kapama:
+https://www.garron.me/en/linux/turn-off-stop-ubuntu-automatic-update.html
+Using your favorite editor open the file /etc/apt/apt.conf.d/10periodic and change:
+APT::Periodic::Update-Package-Lists "1";
+To:
+APT::Periodic::Update-Package-Lists "0";
+
+/**/
 chromium hardware acceleration nvidia:
 http://askubuntu.com/questions/336302/gpu-accelerated-chromium
 
@@ -93,3 +100,7 @@ ffmpegsumo.so dosyası yeri:
 /usr/local/lib/node_modules/nodewebkit/nodewebkit
 yeni nodewebkit ile:
 /usr/local/lib/node_modules/nw/nwjs
+
+/**/
+wifi connectionlar için 
+/etc/NetworkManager/system-connections içerisine deployment klasöründeki Wi-Fi connection 1 dosyası atılacak
