@@ -116,8 +116,9 @@ var count=0;
 var checkinCount=0;
 
 
-var jsonURL = "https://api.foursquare.com/v2/venues/4d5fafb614963704dbb0da94/herenow?v=20131016&oauth_token=B2TOSMZFKMJIOJSZN40XEYVMRY1I25BXQBMINLFXWXAN3A3X";
+var jsonURL = "https://api.foursquare.com/v2/venues/4d5fafb614963704dbb0da94/herenow?v=20131016&limit=100&oauth_token=B2TOSMZFKMJIOJSZN40XEYVMRY1I25BXQBMINLFXWXAN3A3X";
 function request(){
+ 
  var request = $.ajax({
     url: jsonURL,
     context: document.body
@@ -125,8 +126,23 @@ function request(){
  request.success(function () {
      $.getJSON(jsonURL, function (data) {
          $.each(data.response.hereNow.items, function (i, item) {
-  			 if(checkinId[i]!=data.response.hereNow.items[i].id|| checkinId.lenght!= data.response.hereNow.items.length)
-			 {
+			if(checkinId.length>data.response.hereNow.items.length){
+ 				while(checkinId.length > 0) {
+					checkinId.pop();
+				}
+				while(currentMayor.length > 0) {
+					currentMayor.pop();
+				}
+			 
+				
+				}
+				if(checkinId.length<data.response.hereNow.items.length){
+ 				 i=checkinId.length;
+				
+				}
+  			 if(checkinId[i]!=data.response.hereNow.items[i].id)
+			 {	 
+				
   			 var photoSuffix = data.response.hereNow.items[i].user.photo.suffix,
 				photoPrefix = data.response.hereNow.items[i].user.photo.prefix,
 				photoUrl= photoPrefix+"original"+photoSuffix,
@@ -135,7 +151,7 @@ function request(){
 				checkinId.push(data.response.hereNow.items[i].id);
  				currentMayor.push('<img class="marqueeleftThenRight" src="' + photoUrl + '"  width="55" height="55" /><p class="marqueebottomThenTop">Hoşgeldiniz </p><br><p class="marqueebottomThenTop">' + firstName+' '+lastName+ ' </p>')
                 }
-				checkinCount++;
+
  			});
 			
 			
