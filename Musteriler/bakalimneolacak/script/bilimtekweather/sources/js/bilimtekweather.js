@@ -39,7 +39,6 @@
 
 			ws.w = $.extend( {}, $.bilimtekWeather.weatherTypes );
 			ws.g = $.extend( {}, $.bilimtekWeather.global );
-
 			ws.conversion = $.extend( {}, $.bilimtekWeather.conversion );
 
 			// NEW FEATURE v2.6.2 HTTPS / SSL Support
@@ -780,6 +779,7 @@
 						var cur = ws.o.forecastHour===0?data:data['list'][Math.round(ws.o.forecastHour/3)]; ///options.forecastHour];
 						var fore;
 						// Creating Data object from data
+						debugger;
 						var wData = {
 							// Location
 							location : l, // options'da location parametresi
@@ -2555,6 +2555,7 @@
 		'504' : '308',
 		'511' : '314',
 		'520' : '353',
+		'521' : '359',
 		'522' : '356',
 		'531' : '359',
 		'600' : '326',

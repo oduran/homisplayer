@@ -2593,7 +2593,7 @@
 
 	$.bilimtekWeather.options = {
 		// User settings (can be modified)
-		imgPath				: '../bilimtekweather/img/',
+		imgPath				: '../media/weatherimages/',
 		CSSanimations		: true,
 		JSanimations		: true,
 		snow				: true,
