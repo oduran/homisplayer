@@ -104,3 +104,19 @@ yeni nodewebkit ile:
 /**/
 wifi connectionlar için 
 /etc/NetworkManager/system-connections içerisine deployment klasöründeki Wi-Fi connection 1 dosyası atılacak
+
+/**/
+internet problemleri için:
+network reboot etme:
+sudo killall wpa_supplicant
+sudo service network-manager restart
+
+ipv6 disable edilecek.
+bunu çalıştır:
+sudo tee /etc/modprobe.d/iwlwifi-opt.conf <<< "options iwlwifi 11n_disable=1 power_save=0 swcrypto=1"
+sudo tee /etc/modprobe.d/iwlwifi.conf <<< "options iwlwifi 11n_disable=1 power_save=0 swcrypto=1"
+crontab -e 
+her 5 dakikada bir /deployment/reconnector.sh
+her 30 dakikada bir /deployment/reconnectorwithrestart.sh
+*/5 * * * * /home/homis/deployment/reconnector.sh
+*/30 * * * * /home/homis/deployment/reconnectorwithrestart.sh
