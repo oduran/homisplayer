@@ -51,7 +51,6 @@ var VideoTimer = function(){
 		pageIndex = (pageIndex + 1) % pages.length;
 		if(pages[pageIndex].url.indexOf("video") == -1)
 		{
-			console.log("next page: "+pages[pageIndex].url+" in "+(rotateInterval/1000) +" seconds");
 			setTimeout(function()
 				{
 					self.openNextPage();
@@ -66,7 +65,6 @@ var VideoTimer = function(){
 			var isTimeExcluded = excludedTimeInterval.checkTimeIfExcluded(futureTime);
 		}while(isTimeExcluded);
 		
-		console.log("next page: "+pages[pageIndex].url+" in "+(totalRotateInterval/1000) +" seconds");
 		setTimeout(function()
 		{
 			self.openNextPage();
