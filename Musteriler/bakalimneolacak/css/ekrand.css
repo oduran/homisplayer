@@ -59,12 +59,14 @@ div {-webkit-border-radius : 10px !important;}
 }
 
 #bilimtekweather1{
-    box-sizing: border-box;
-    /* margin-top: 0.5rem; */
-	    margin-top: -1.5rem !important;
-
-    height: 35vh;
-	width:45% !important;
+           box-sizing: border-box;
+    height: 30vh !important;
+    top: 70%;
+    left: -20px;
+    width: 100% !important;
+    margin-top: 0.75rem !important;
+    border-radius: 10px !important;
+    border: 1px solid !important;
 }
 #followus{
 	    float: left;
@@ -156,6 +158,7 @@ div {-webkit-border-radius : 10px !important;}
     overflow-x:hidden;
     margin-left: 1em;
     box-sizing: border-box;
+	    width: 61%;
 }
 
 
@@ -173,10 +176,13 @@ div {-webkit-border-radius : 10px !important;}
 }
 
 iframe {
-    display:block;
-    width:100%;
-    height:100%;
-    -webkit-border-radius : 10px !important;
+        display: block;
+    width: 100%;
+    height: 87%;
+    -webkit-border-radius: 10px !important;
+    -webkit-transform: scale(1.75) !important;
+    margin-top: 9.5%;
+
 }
 
 .ws-container{

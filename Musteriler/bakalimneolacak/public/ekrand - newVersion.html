@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
+   <meta charset="utf-8">
     <title>Bilimtek HOMIS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="refresh" content="600">
@@ -11,8 +11,10 @@
     <link href="../css/ekrand.css" rel="stylesheet" type="text/css" />
     <script src="../script/bilimteksocialmediapictureslider/bower_components/moment/min/moment.min.js"></script>
     <script src="../script/bilimteksocialmediapictureslider/bower_components/moment/min/moment-with-locales.js"></script>
+    <script src="../script/bilimtekswarm/bilimtekswarm.js"></script> 
     <script src="../script/jquery-1.11.1.min.js" type="text/javascript"></script>
-    <link rel="stylesheet" href="../script/bilimtekweather/bilimtekweather/css/bilimtekweather.css" type="text/css">
+	<link rel="stylesheet" href="../script/bilimtekswarm/bilimtekswarm.css" type="text/css">
+	<link rel="stylesheet" href="../script/bilimtekweather/bilimtekweather/css/bilimtekweather.css" type="text/css">
     <script src="../script/bilimtekweather/bilimtekweather/jQuery/jquery-easing.js" type="text/javascript"></script>
     <script src="../script/bilimtekweather/bilimtekweather/jQuery/jquery-animate-background-position.js" type="text/javascript"></script>
     <script src="../script/bilimtekweather/sources/js/bilimtekweather.js" type="text/javascript"></script>
@@ -27,45 +29,7 @@
     <script src="../script/bilimteksocialmediapictureslider/js/updatePics.js"></script>
     <script src="../script/ekrand.js" type="text/javascript"></script>
 	<style>
-@-webkit-keyframes spinnerRotate
-{
-    from{-webkit-transform:rotate(0deg);}
-    to{-webkit-transform:rotate(360deg);}
-}
-@-webkit-keyframes bottomThenTop {
-	 from{-webkit-transform:translateY(500px);}
-    to{-webkit-transform:translateY(0px);}
-  }
- @-webkit-keyframes leftThenRight {
-    from{-webkit-transform:translate(-500px);}
-    to{-webkit-transform:translate(0px);}
- }
-  .marqueebottomThenTop{
-	  -webkit-animation-name: bottomThenTop;
-	  -webkit-animation-duration: 1.5s;
-     -webkit-animation-timing-function: ease;
-	 font-size: 30px;
-	font-family: sans-serif;
-}
-.marqueeleftThenRight {
-		width:40%;
-		height:46%;
-	  -webkit-animation-name: leftThenRight;
-	  -webkit-animation-duration: 1.5s;
-     -webkit-animation-timing-function: ease;
-	 margin-left: 245px;
-    margin-top: 42px;
-	border-radius:20px;
-}
  
-p{
- font-size: 35px;
-     margin-top: -50px;
-
-	font-family: sans-serif;
-	color:white;
-	margin-left:20px;
-}
 html,body,#content
 {
 margin:0px;
@@ -102,21 +66,25 @@ top:0px;
 width:38%;
 }
 #twitter{
+	background: url("../media/twitter-bg.png") no-repeat;
     z-index: 1;
     position: absolute;
+    background-size: 182%;
     height: 35%;
     right: 0px;
     top: 0px;
     width: 100%;
 }
 #foursquare{
-	background: url("../media/foursquarebg2.png") no-repeat;
-	z-index: 1;
+	    background: url("../media/swarm-bg2.png") no-repeat;
+    z-index: 1;
     position: absolute;
     height: 35%;
     right: 0px;
     top: 35%;
+    margin-top: 5px;
     width: 100%;
+    background-color: #E0A000;
 }
 #weather{
 z-index: 1;
@@ -131,8 +99,11 @@ z-index: 1;
 </head>
 <body>
     <div id="container">
-		<div id="left">
-		adsasd
+		 
+		 <div class="socialColumn col-xs">
+            <div class="socialmediapicturecontainer" >
+            </div>
+        
 		</div>
 		<div id="right">
 			<div id="twitter">
@@ -152,84 +123,6 @@ z-index: 1;
 	
 	
 	</div>
-<script>
-var FoursquareClass=function(token,venueId){
-	this.checkinId = [];
-	this.userNames = [];
-	this.userPhotos = [];
-	this.currentMayor=[];
-	this.count=0;
-	this.jsonURL = "https://api.foursquare.com/v2/venues/"+venueId+"/herenow?v=20131016&oauth_token="+token;
-
-	this.request=function(){
-		var request = $.ajax({
-			url: self.jsonURL,
-			context: document.body
-		});
-		request.success(function () {
-			$.getJSON(self.jsonURL, function (data) {
-				$.each(data.response.hereNow.items, function (i, item) {
-					if(self.checkinId.length>data.response.hereNow.items.length){
-						while(self.checkinId.length > 0) {
-							self.checkinId.pop();
-						}
-						while(self.currentMayor.length > 0) {
-							self.currentMayor.pop();
-						}
-					}
-					
-					if(self.checkinId.length<data.response.hereNow.items.length){
-					 i=self.checkinId.length;
-					}
-					
-				if(self.checkinId[i]!=data.response.hereNow.items[i].id)
-				{	 
-					var photoSuffix = data.response.hereNow.items[i].user.photo.suffix,
-					photoPrefix = data.response.hereNow.items[i].user.photo.prefix,
-					photoUrl= photoPrefix+"original"+photoSuffix,
-					firstName = data.response.hereNow.items[i].user.firstName,
-					lastName = data.response.hereNow.items[i].user.lastName;
-					self.checkinId.push(data.response.hereNow.items[i].id);
-					self.currentMayor.push('<img class="marqueeleftThenRight" src="' + photoUrl + '"  width="55" height="55" /><p class="marqueebottomThenTop">Hoşgeldiniz </p><br><p class="marqueebottomThenTop">' + firstName+' '+lastName+ ' </p>')
-					}
-				});
-			});
-		});    
-			
-		request.fail(function () {
-		$("<div class='marqueebottomThenTop'>Request Exceeded</div>").prependTo("#foursquare");
-		});
-	}
-	
-	this.iteratePeople = function(){
-		var userSlideInterval = setInterval(function(){
-			if(self.currentMayor.length>0){
-			$(self.currentMayor[self.count]).appendTo("#foursquare"); 
-				setTimeout(function(){$("#foursquare").empty()},4900);
-				self.count++;
-				if(self.count==self.currentMayor.length){
-				self.count=0;
-				}
-			}
-		},5000);
-	}
-	
-	this.getFoursquareData = function()
-	{
-		var checkinRequestInterval=setInterval(function(){self.request();},20000);
-	}
-	
-	this.run = function(){
-		this.getFoursquareData();
-		this.iteratePeople();
-	}
-	self = this;
-}
-
-var token="B2TOSMZFKMJIOJSZN40XEYVMRY1I25BXQBMINLFXWXAN3A3X";
-var venueId="4d5fafb614963704dbb0da94";
-var fs = new FoursquareClass(token, venueId);
-fs.run();
-</script>
+ 
 </body>
 </html>

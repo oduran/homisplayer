@@ -4,18 +4,19 @@
     to{-webkit-transform:rotate(360deg);}
 }
 @-webkit-keyframes bottomThenTop {
-	 from{-webkit-transform:translateY(500px);}
+	 from{-webkit-transform:translateY(750px);}
     to{-webkit-transform:translateY(0px);}
   }
  @-webkit-keyframes leftThenRight {
-    from{-webkit-transform:translate(-500px);}
+    from{-webkit-transform:translate(-750px);}
     to{-webkit-transform:translate(0px);}
  }
   .marqueebottomThenTop{
 	  -webkit-animation-name: bottomThenTop;
 	  -webkit-animation-duration: 1.5s;
      -webkit-animation-timing-function: ease;
-	 font-size: 30px;
+	 font-size: 40px;
+	 margin-left:100px;
 	font-family: sans-serif;
 }
 .marqueeleftThenRight {
@@ -24,7 +25,7 @@
 	  -webkit-animation-name: leftThenRight;
 	  -webkit-animation-duration: 1.5s;
      -webkit-animation-timing-function: ease;
-	 margin-left: 245px;
+	 margin-left: 420px;
     margin-top: 42px;
 	border-radius:20px;
 }

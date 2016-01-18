@@ -54,13 +54,13 @@ var BilimtekSwarm=function(token,venueId){
 		var userSlideInterval = setInterval(function(){
 			if(self.currentMayor.length>0){
 			$(self.currentMayor[self.count]).appendTo("#foursquare"); 
-				setTimeout(function(){$("#foursquare").empty()},4900);
+				setTimeout(function(){$("#foursquare").empty()},14900);
 				self.count++;
 				if(self.count==self.currentMayor.length){
 				self.count=0;
 				}
 			}
-		},5000);
+		},15000);
 	}
 	
 	this.getFoursquareData = function()
