@@ -1,0 +1,49 @@
+@-webkit-keyframes spinnerRotate
+{
+    from{-webkit-transform:rotate(0deg);}
+    to{-webkit-transform:rotate(360deg);}
+}
+@-webkit-keyframes bottomThenTop {
+	 from{-webkit-transform:translateY(500px);}
+    to{-webkit-transform:translateY(0px);}
+  }
+ @-webkit-keyframes leftThenRight {
+    from{-webkit-transform:translate(-500px);}
+    to{-webkit-transform:translate(0px);}
+ }
+  .marqueebottomThenTop{
+	  -webkit-animation-name: bottomThenTop;
+	  -webkit-animation-duration: 1.5s;
+     -webkit-animation-timing-function: ease;
+	 font-size: 30px;
+	font-family: sans-serif;
+}
+.marqueeleftThenRight {
+		width:40%;
+		height:46%;
+	  -webkit-animation-name: leftThenRight;
+	  -webkit-animation-duration: 1.5s;
+     -webkit-animation-timing-function: ease;
+	 margin-left: 245px;
+    margin-top: 42px;
+	border-radius:20px;
+}
+
+#foursquare{
+	  background: url("../../media/foursquarebg2.png") no-repeat;
+    margin-left: 830px;
+    height: 348px;
+    background-size: 134%;
+    width: 35%;
+    height: 35%;
+    margin-top: -25px;
+
+}
+p{
+ font-size: 35px;
+     margin-top: -50px;
+
+	font-family: sans-serif;
+	color:white;
+	margin-left:20px;
+}
