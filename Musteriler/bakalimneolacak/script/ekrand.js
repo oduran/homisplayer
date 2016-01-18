@@ -65,6 +65,17 @@
 		twitterName = (twitterName == "")? "@kafesfirin" : twitterName;
 		var sliderMedia = getQueryParameterByName("sliderMedia");
 		sliderMedia = (sliderMedia==='')? "twitter" : sliderMedia; // default twitter
+			if(sliderMedia=="twitter")
+				{		var sliderMediaUrl= 'url("../media/twitterFollowUs.png")'
+						$("#followus").css('background',sliderMediaUrl);	
+				}
+			if(sliderMedia=="instagram")
+				{		var sliderMediaUrl= 'url("../media/instagramFollowUs.png")'
+						$("#followus").css('background',sliderMediaUrl);	
+						$("#followus").css('margin-top','70px');	
+
+						
+				}
 		function startTime(divId, forecastHour) {
 			var today = new Date();
 			var h = today.getHours();
@@ -97,4 +108,8 @@
 		document.getElementById("bilimtektwittertimeline").src = "../script/bilimtektwittertimeline/index.html?twitterId="+twitterId;
 		var qrCodeUrl = 'url("https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=www.'+sliderMedia+'.com/'+twitterName+'")';
 		$("#qrcode").css('background-image', qrCodeUrl);
+		var token="B2TOSMZFKMJIOJSZN40XEYVMRY1I25BXQBMINLFXWXAN3A3X";
+		var venueId="4d5fafb614963704dbb0da94";
+		var fs = new BilimtekSwarm(token, venueId);
+		fs.run();
 	});

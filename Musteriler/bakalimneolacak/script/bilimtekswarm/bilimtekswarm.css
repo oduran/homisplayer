@@ -30,13 +30,14 @@
 }
 
 #foursquare{
-	  background: url("../../media/foursquarebg2.png") no-repeat;
+	  background: url("../../media/swarm-bg2.png") no-repeat;
     margin-left: 830px;
     height: 348px;
-    background-size: 134%;
+    background-size: 60%;
     width: 35%;
     height: 35%;
     margin-top: -25px;
+	    background-color: #DE9C2B;
 
 }
 p{

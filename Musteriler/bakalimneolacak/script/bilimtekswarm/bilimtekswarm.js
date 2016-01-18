@@ -1,4 +1,4 @@
-var FoursquareClass=function(token,venueId){
+var BilimtekSwarm=function(token,venueId){
 	this.checkinId = [];
 	this.userNames = [];
 	this.userPhotos = [];
@@ -34,6 +34,9 @@ var FoursquareClass=function(token,venueId){
 					photoUrl= photoPrefix+"original"+photoSuffix,
 					firstName = data.response.hereNow.items[i].user.firstName,
 					lastName = data.response.hereNow.items[i].user.lastName;
+						if (typeof lastName === "undefined") {
+							lastName="";
+						}					
 					self.checkinId.push(data.response.hereNow.items[i].id);
 					self.currentMayor.push('<img class="marqueeleftThenRight" src="' + photoUrl + '"  width="55" height="55" /><p class="marqueebottomThenTop">Hoşgeldiniz </p><br><p class="marqueebottomThenTop">' + firstName+' '+lastName+ ' </p>')
 					}
@@ -42,6 +45,7 @@ var FoursquareClass=function(token,venueId){
 		});    
 			
 		request.fail(function () {
+			$("#foursquare").empty();
 		$("<div class='marqueebottomThenTop'>Request Exceeded</div>").prependTo("#foursquare");
 		});
 	}
@@ -70,8 +74,3 @@ var FoursquareClass=function(token,venueId){
 	}
 	var self = this;
 }
-
-var token="B2TOSMZFKMJIOJSZN40XEYVMRY1I25BXQBMINLFXWXAN3A3X";
-var venueId="4d5fafb614963704dbb0da94";
-var fs = new FoursquareClass(token, venueId);
-fs.run();
