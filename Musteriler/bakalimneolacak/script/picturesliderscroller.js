@@ -36,6 +36,5 @@ var PictureSliderScroller = function (container,scrollInterval,propertyToFindWid
 			addScrollAnimations();
 		}, totalTimeToShowAllPictures);
 	}
-	
-	self = this;
+	var self = this;
 }

@@ -68,7 +68,7 @@ var FoursquareClass=function(token,venueId){
 		this.getFoursquareData();
 		this.iteratePeople();
 	}
-	self = this;
+	var self = this;
 }
 
 var token="B2TOSMZFKMJIOJSZN40XEYVMRY1I25BXQBMINLFXWXAN3A3X";

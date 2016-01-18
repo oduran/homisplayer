@@ -779,7 +779,6 @@
 						var cur = ws.o.forecastHour===0?data:data['list'][Math.round(ws.o.forecastHour/3)]; ///options.forecastHour];
 						var fore;
 						// Creating Data object from data
-						debugger;
 						var wData = {
 							// Location
 							location : l, // options'da location parametresi
