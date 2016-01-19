@@ -153,6 +153,7 @@
 				$('ul li:not(".current")').remove();
 
 				$.each(newTweets, function (key, value) {
+					
 					$('ul').append(
 							'<li>' +
 							'<div class="tweet clearfix">' +
@@ -170,9 +171,15 @@
 							' </div>' +
 							' </li>');
 				});
+				$( "img" ).each(function( index ) {
+			if($(this).hasClass("Emoji")){
+				$(this).css("width","15px");			
+			}
+			});
 			}
 		}
 	})
+	
  </script>
 </head>
 	<div class="container">

@@ -160,7 +160,7 @@ ul li {
 
 .userInfoWrap h2,.userInfoWrap h3 {
     font-family: kafesfontswisslight;/*'Roboto Condensed Bold';*/
-    color: white;
+    color: black;
 }
 
 .userInfoWrap h3{
@@ -169,7 +169,7 @@ ul li {
 
 .userInfoWrap h4 {
     font-family: kafesfontswisslight;/*'Roboto Condensed Bold Italic';*/
-    color: white;
+    color: black;
 }
 
 .tweet p {
@@ -1996,7 +1996,7 @@ html[xmlns] .clearfix {
 }
 
 a {
-    color: #cbb394;
+    color: black;
 	text-decoration: none;
 }
 

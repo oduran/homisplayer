@@ -38,7 +38,7 @@ var BilimtekSwarm=function(token,venueId){
 							lastName="";
 						}					
 					self.checkinId.push(data.response.hereNow.items[i].id);
-					self.currentMayor.push('<img class="marqueeleftThenRight" src="' + photoUrl + '"  width="55" height="55" /><p class="marqueebottomThenTop">Hoşgeldiniz </p><br><p class="marqueebottomThenTop">' + firstName+' '+lastName+ ' </p>')
+					self.currentMayor.push('<img class="marqueeleftThenRight" src="' + photoUrl + '"  width="55" height="55" /><p class="marqueebottomThenTop">Hoşgeldiniz </p><p class="marqueebottomThenTop">' + firstName+' '+lastName+ ' </p>')
 					}
 				});
 			});

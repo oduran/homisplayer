@@ -22,7 +22,7 @@ body {
 
 a {color: #08c9b9;}
 
-div {-webkit-border-radius : 10px !important;}
+div {-webkit-border-radius : 5px !important;}
 
 .fullWidth{
     width:100%;
@@ -59,12 +59,12 @@ div {-webkit-border-radius : 10px !important;}
 }
 
 #bilimtekweather1{
-           box-sizing: border-box;
+        box-sizing: border-box;
     height: 30vh !important;
     top: 70%;
-    left: -20px;
+    left: -15px;
     width: 100% !important;
-    margin-top: 0.75rem !important;
+    margin-top: 10px!important;
     border-radius: 10px !important;
     border: 1px solid !important;
 }
@@ -125,6 +125,7 @@ div {-webkit-border-radius : 10px !important;}
     overflow-x:hidden;
     height:100vh;  
     box-sizing: border-box;
+	background-color:black;
 }
 
 #row1{
