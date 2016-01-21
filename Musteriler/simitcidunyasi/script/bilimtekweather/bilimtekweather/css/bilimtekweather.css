@@ -482,9 +482,9 @@ body * .ws-container p,
 .ws-cloud3,
 .ws-cloud4 {
 	left: 50% !important;
-    width: 50% !important;
-    top: 20px !important;
-    height: 40% !important
+   
+	top: 0px !important;
+
 }
 
 .ws-cloud1 {
