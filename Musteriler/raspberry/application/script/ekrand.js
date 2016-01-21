@@ -107,7 +107,6 @@
 		updatePics(twitterName,sliderMedia);
 		document.getElementById("bilimtektwittertimeline").src = "../public/bilimtektwittertimeline.html?twitterId="+twitterId;
 		var qrCodeUrl = 'url("https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=www.'+sliderMedia+'.com/'+twitterName+'")';
-		debugger;
 		$("#qrcode").css('background-image', qrCodeUrl);
 		var swarmToken=getQueryParameterByName("swarmOauthToken");
 		var venueId=getQueryParameterByName("swarmVenueId");
