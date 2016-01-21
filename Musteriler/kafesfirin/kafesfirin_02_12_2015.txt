@@ -1,6 +1,0 @@
-1- Video saglanacak. (musteri)
-2- gelecek olan bilgisayara kurulum yapilacak
-+3- sabah 7 aksam 21 kapanma olayi test edilecek.
-+4- Bilgisayarın her açıldığında otomatik olarak uygulamayı çalıştırması sağlanacak.
-5- cursor yokedilecek.
-6- Weather widget’ta buzlu havalarda icy ile baslayan transparan png’ler koseli cikiyor, yuvarlanacak

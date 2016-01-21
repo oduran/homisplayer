@@ -22,7 +22,7 @@
                 WWOAPIKey: '6a3905b54ba672fdbfdce034dafc2ac9',
                 premiumAPIKey: true,
                 WWOAPIVersion:1, // free api key'de 2 olacak
-                imgPath: '../script/bilimtekweather/bilimtekweather/img/',
+                imgPath: '../media/weatherimages/',
                 timeFormat: 24,
                 refreshInterval: 600000,
                 alwaysShowForecast:false,
@@ -105,8 +105,9 @@
 		loadBilimtekWeather('bilimtekweather1',0);
 		startTime('bilimtekweather1',0);
 		updatePics(twitterName,sliderMedia);
-		document.getElementById("bilimtektwittertimeline").src = "../script/bilimtektwittertimeline/index.html?twitterId="+twitterId;
+		document.getElementById("bilimtektwittertimeline").src = "../public/bilimtektwittertimeline.html?twitterId="+twitterId;
 		var qrCodeUrl = 'url("https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=www.'+sliderMedia+'.com/'+twitterName+'")';
+		debugger;
 		$("#qrcode").css('background-image', qrCodeUrl);
 		var swarmToken=getQueryParameterByName("swarmOauthToken");
 		var venueId=getQueryParameterByName("swarmVenueId");
