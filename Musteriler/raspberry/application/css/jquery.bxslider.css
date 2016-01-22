@@ -29,9 +29,8 @@
 ===================================*/
 
 .bx-wrapper .bx-viewport {
-    -moz-box-shadow: 0 0 5px #ccc;
-    -webkit-box-shadow: 0 0 5px #ccc;
-    box-shadow: 0 0 5px #ccc;
+     
+    box-shadow: 0 0 5px #000;
     border: 1px solid #000;
     /* left: -5px; */
     background: #fff;
