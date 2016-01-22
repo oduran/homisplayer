@@ -167,6 +167,13 @@
 							' </div>' +
 							' </li>');
 				});
+				
+				$( "img" ).each(function( index ) {
+					if($(this).hasClass("Emoji"))
+					{
+						$(this).css("width","15px");            
+					}
+				});
 			}
 		}
 	})

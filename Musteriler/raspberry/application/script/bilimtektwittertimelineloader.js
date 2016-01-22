@@ -41,8 +41,7 @@
   var dataOnly = false;
   var script = null;
   var scriptAdded = false;
-
-  function handleTweets(tweets){
+   function handleTweets(tweets){
     if (customCallbackFunction === null) {
       var x = tweets.length;
       var n = 0;
@@ -58,7 +57,7 @@
       customCallbackFunction(tweets);
     }
   }
-
+  
   function strip(data) {
     return data.replace(/<b[^>]*>(.*?)<\/b>/gi, function(a,s){return s;})
         .replace(/class=".*?"|data-query-source=".*?"|dir=".*?"|rel=".*?"/gi,
@@ -259,7 +258,7 @@
 
             if (tweets[n].innerText) {
               // IE hack.
-              if (supportsClassName) {
+               if (supportsClassName) {
                 times[n].innerText = dateString;
               } else {
                 var h = document.createElement('p');

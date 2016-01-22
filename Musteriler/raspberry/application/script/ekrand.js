@@ -59,8 +59,7 @@
 	}
 
 	jQuery(document).ready(function ($) {
-		debugger;
-		var twitterId = getQueryParameterByName("twitterId");
+ 		var twitterId = getQueryParameterByName("twitterId");
 		twitterId = (twitterId==="")?"666636527968088064" : twitterId; // default kafes firin
 		var twitterName = getQueryParameterByName("twitterName");
 		twitterName = (twitterName == "")? "@kafesfirin" : twitterName;
@@ -111,6 +110,6 @@
 		$("#qrcode").css('background-image', qrCodeUrl);
 		var swarmToken=getQueryParameterByName("swarmOauthToken");
 		var venueId=getQueryParameterByName("swarmVenueId");
- 		var fs = new BilimtekSwarm(swarmToken, venueId);
+		var fs = new BilimtekSwarm(swarmToken, venueId);
 		fs.run();
 	});
