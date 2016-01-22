@@ -59,6 +59,7 @@
 	}
 
 	jQuery(document).ready(function ($) {
+		debugger;
 		var twitterId = getQueryParameterByName("twitterId");
 		twitterId = (twitterId==="")?"666636527968088064" : twitterId; // default kafes firin
 		var twitterName = getQueryParameterByName("twitterName");

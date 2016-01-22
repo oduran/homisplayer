@@ -455,7 +455,25 @@ if (typeof Object.create !== 'function') {
                 api: 'https://api.instagram.com/v1/',
                 loaded: false,
                 getData: function(account) {
-                    var url;
+					//TO DO : OGUZHAN Override
+					
+				  var xhr = new XMLHttpRequest();
+				  var contents = "";
+				  xhr.onreadystatechange = function(e)
+					{
+					 if(xhr.readyState == 4 && xhr.status == 200) {
+					 contents = xhr.responseText;
+					 Feed.instagram.setPictures(contents);
+					  }
+					}
+
+				  xhr.open("GET","https://www.instagram.com/"+account+"/", true);
+				  xhr.setRequestHeader('Content-type', 'text/html');
+				  xhr.send();
+				 
+					 
+
+                   /*  var url;
 
                     switch (account[0]) {
                         case '@':
@@ -473,7 +491,7 @@ if (typeof Object.create !== 'function') {
                             url = Feed.instagram.api + 'users/' + id + '/?client_id=' + options.instagram.client_id + '&' + 'count=' + options.instagram.limit + '&callback=?';
                             Utility.request(url, Feed.instagram.utility.getUsers);
                         default:
-                    }
+                    } */
                 },
                 utility: {
                     getImages: function(json) {
@@ -508,7 +526,32 @@ if (typeof Object.create !== 'function') {
                         }
                         return post;
                     }
-                }
+                },
+				setPictures: function(contents){
+						var currentMayor=[];
+						var regex  = /window._sharedData = (.*?)(?:\/script|$)/;
+						var array=contents.match(regex).toString().split(";</script");
+						var str =array[0].toString().substring(21);
+						var obj = JSON.parse(str);
+						$.each(obj.entry_data.ProfilePage[0].user.media.nodes, function (i, item) 
+						{
+						var photoSuffix = obj.entry_data.ProfilePage[0].user.media.nodes[i].display_src;
+						currentMayor.push('<li><img class="instagramimage" src="' + photoSuffix + '"    /></li>')
+						});
+						for(var i = 0; i<currentMayor.length;i++)
+						{
+							$(currentMayor[i]).appendTo("#slider1"); 
+						}
+							 
+
+						 $('#slider1').bxSlider({
+							mode: 'vertical',
+							options: 'swing',
+							auto: true,
+							pause:10000
+						 });
+
+					}
             },
             vk: {
                 posts: [],
