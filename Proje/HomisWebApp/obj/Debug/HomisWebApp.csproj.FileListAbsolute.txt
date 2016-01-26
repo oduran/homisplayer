@@ -53,3 +53,4 @@ D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\bin\System.Web.WebPages
 D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\obj\Debug\ServiceTemplate.dll
 D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\obj\Debug\ServiceTemplate.pdb
 D:\Depo\Development\BitBucketGit\homis\Proje\HomisWebApp\obj\Debug\HomisWebApp.csprojResolveAssemblyReference.cache
+C:\bilimtek\homis\Proje\HomisWebApp\obj\Debug\HomisWebApp.csprojResolveAssemblyReference.cache

@@ -1139,7 +1139,7 @@ ul li {
     }
 
 .tweet {
-    width: 100%;
+    width: 106%;
     height: 100%;
     text-align: left;
     margin-top: 15px;
@@ -1189,13 +1189,13 @@ ul li {
     }
 
     .userInfoWrap h4 {
-        font-size: 8px;
+        font-size: 10px;
         margin-top: 10px;
     }
 
     .tweet p {
         margin-top: 10px;
-        font-size: 9px;
+        font-size: 12px;
         min-height: 60px;
     }
 

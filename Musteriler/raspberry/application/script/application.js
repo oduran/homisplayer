@@ -10,10 +10,9 @@ var startApp = function()
 			url : "ekrand.html?twitterId="+appConfig.twitterId+"&twitterName="+appConfig.twitterName+"&swarmVenueId="+appConfig.swarmVenueId+"&swarmOauthToken="+appConfig.swarmOauthToken+"&sliderMedia="+appConfig.sliderMedia
 			}
 		];
-		
 	var internetChecker = new InternetChecker(backupPage,internetPagesArray);
-	internetChecker.start(5000);
-	var logger = new Logger();
+ 	internetChecker.start(5000);
+ 	var logger = new Logger();
 	logger.log("Application started","application.html");
 	logger.startDiagnostics(5);
 	var errorHandler = new ErrorHandler();

@@ -5,7 +5,7 @@ When there is no connection to internet with given check time interval.
 Checker applies the backup url to iframes given in internetPageIdArray.
 */
 var InternetChecker = function(backupUrl, internetPagesArray){
-	this.backupUrl = backupUrl;
+ 	this.backupUrl = backupUrl;
 	this.internetPagesArray = internetPagesArray;
 	this.onConnectSuccess = function() {
 		for(var i=0;i < self.internetPagesArray.length; i++)

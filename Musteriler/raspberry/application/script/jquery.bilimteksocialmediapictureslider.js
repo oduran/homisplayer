@@ -455,9 +455,9 @@ if (typeof Object.create !== 'function') {
                 api: 'https://api.instagram.com/v1/',
                 loaded: false,
                 getData: function(account) {
-					//TO DO : OGUZHAN Override
 					
-				  var xhr = new XMLHttpRequest();
+					//TO DO : OGUZHAN Override
+ 				  var xhr = new XMLHttpRequest();
 				  var contents = "";
 				  xhr.onreadystatechange = function(e)
 					{
@@ -466,9 +466,7 @@ if (typeof Object.create !== 'function') {
 					 Feed.instagram.setPictures(contents);
 					  }
 					}
-
-				  xhr.open("GET","https://www.instagram.com/"+account+"/", true);
-				  xhr.setRequestHeader('Content-type', 'text/html');
+				  xhr.open("GET","http://www.homisida.com:83/?targetPage=https://www.instagram.com/"+account+"/", true);
 				  xhr.send();
 				 
 					 
