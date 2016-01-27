@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head> 
+	<link rel="stylesheet" href="../css/bootstrap.css">
+	<script src="../script/jquery-1.11.1.min.js" type="text/javascript"></script>
+	<script src="../script/bootstrap.min.js" type="text/javascript"></script>
+</head>
+<body>
+	
+	 
+	<div id="workspaceForm">
+
+	</div>
+	 
+	<div class="modal fade" id="myModal" role="dialog">
+	<div class="modal-dialog">
+
+	  <!-- Modal content-->
+	  <div class="modal-content modal-step" id="step1">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal">&times;</button>
+		  <label class="modal-title">Çalışma Alanı Boyutlarını Giriniz</label>
+		</div>
+		<form id="firstForm">
+		<fieldset>
+			<div class="form-group">
+				<input type="text" class="form-control" id="pageWidth" placeholder="Genişlik Giriniz" style="float:left" >
+				<input type="text" class="form-control" id="pageHeight" placeholder="Yükseklik Giriniz"style="float:left">
+		
+			</div>
+		</fieldset>
+		</form>
+		<div class="modal-footer">
+		  <button type="button"  class="btn btn-default nextButton" >Next</button>
+		</div>
+	  </div>
+	  <div class="modal-content modal-step" id="step2" style="display:none">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal">&times;</button>
+		  <label class="modal-title">Ekran Boyutlarını Giriniz</label>
+		</div>
+		<form id="firstForm">
+		<fieldset>
+			<div class="form-group">
+				<input type="text" class="form-control" id="screenWidth" placeholder="Genişlik Giriniz" style="float:left" >
+				<input type="text" class="form-control" id="screenHeight" placeholder="Yükseklik Giriniz"style="float:left">
+			</div>
+		</fieldset>
+		</form>
+		<div class="modal-footer">
+		  <button type="button"  class="btn btn-default backButton" >Back</button>
+		  <button type="button" id="submit" class="btn btn-default" >Next</button>
+		</div>
+	  </div>
+	  
+	</div>
+	</div>
+ 
+	 
+	
+	
+<script>
+	var currentStep=1;
+	var numberOfSteps=$(".modal-step").length;
+	$( document ).ready(function() {
+		$('#myModal').modal('show');
+		showCurrentStep(currentStep);
+	});
+	
+	$(".nextButton").click(function(){
+		currentStep=(++currentStep>numberOfSteps)?--currentStep:currentStep;
+		showCurrentStep(currentStep);
+	});
+	
+	$(".backButton").click(function(){
+		currentStep=(--currentStep<0)?++currentStep:currentStep;
+		showCurrentStep(currentStep);
+	});
+	$("#screenWidth").keyup(function(event) {
+			widthControl();
+        });
+	$("#screenHeight").keyup(function(event) {
+			heightControl();
+        });
+	$("#submit").click(function(){
+
+		if($("#pageWidth").val()%$("#screenWidth").val()==0&&$("#pageHeight").val()%$("#screenHeight").val()==0)
+		{
+			var workspaceWidth=$("#pageWidth").val() ;
+			var workspaceHeight=$("#pageHeight").val() ;
+			var playerScreenWidth=$("#screenWidth").val() ;
+			var playerScreenHeight=$("#screenHeight").val() ;
+			var workspaceDiv = "<div id='wall1' style='width:"+workspaceWidth+"px;height:"+workspaceHeight+"px;box-sizing: initial; border:1px solid black;float:left;position: relative;background-color:rgba(0,0,255,0.2);'></div>";
+			document.getElementById('workspaceForm').innerHTML+=workspaceDiv;
+			var numberOfScreens=(workspaceWidth/playerScreenWidth)*(workspaceHeight/playerScreenHeight)
+			for(var i = 0; i<numberOfScreens;i++)
+			{
+					var playerScreenDiv = "<div id='wall1_screen"+i+"' style='width:"+playerScreenWidth+"px;height:"+playerScreenHeight+"px; border:1px solid black;float:left;position: relative;box-sizing: border-box;background-color:rgba(255,0,0,0.2);'></div>";
+					document.getElementById('wall1').innerHTML+=playerScreenDiv ;
+			}
+		}
+		else{		
+					var error = "<p class='errorMessage' style='color:red;'> x Çalışma alanı boyutları, ekran boyutları tam katı olmalı!!</p>";
+					$(error).appendTo("#step"+currentStep);
+			}
+		});
+
+	$('#workspaceForm').on('click', '[id^=wall1_screen]', function(){
+		alert(this.id);
+	});
+	function widthControl()
+	{
+		if($("#pageWidth").val()%$("#screenWidth").val()==0&&$("#screenWidth").val()!='')
+		{
+			if($("#step"+currentStep).hasClass("errorMessage"))
+			{
+			$('.errorMessage').remove();
+			}
+			var error = "<p class='errorMessage' style='color:green;'> x Çalışma alanı boyutları, ekran boyutları tam katı olmalı!!</p>";
+			$(error).appendTo("#step"+currentStep);
+		}
+		else
+		{
+			var error = "<p class='errorMessage' style='color:red;'> x Çalışma alanı boyutları, ekran boyutları tam katı olmalı!!</p>";
+			$(error).appendTo("#step"+currentStep);
+		}
+	}
+	function heightControl()
+	{
+		if($("#pageHeight").val()%$("#screenHeight").val()==0&&$("#screenHeight").val()!='')
+		{
+			alert("screenHeight true");
+		}
+	}
+	function showCurrentStep(currentStep)
+	{
+		$('.modal-step').hide();
+		$('#step'+currentStep).show();
+	}
+</script>
+</body>
+</html>

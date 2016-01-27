@@ -21,7 +21,7 @@ var BilimtekSwarm=function(token,venueId){
 		});
 		request.success(function (data) {
 				$.each(data.response.hereNow.items, function (i, item) {
-					
+					debugger;
 					if(self.checkinId.length>data.response.hereNow.items.length){
 						while(self.checkinId.length > 0) {
 							self.checkinId.pop();
@@ -35,28 +35,33 @@ var BilimtekSwarm=function(token,venueId){
 					 i=self.checkinId.length;
 					}
 					
-				if(self.checkinId[i]!=data.response.hereNow.items[i].id)
-				{	 
-					if ($("div").hasClass("marqueeZeroCount")) 
-					{
-						$("#foursquare").empty();
-					}
-					var photoSuffix = data.response.hereNow.items[i].user.photo.suffix,
-					photoPrefix = data.response.hereNow.items[i].user.photo.prefix,
-					photoUrl= photoPrefix+"original"+photoSuffix,
-					firstName = data.response.hereNow.items[i].user.firstName,
-					lastName = data.response.hereNow.items[i].user.lastName;
-						if (typeof lastName === "undefined") {
-							lastName="";
-						}					
-					self.checkinId.push(data.response.hereNow.items[i].id);
-					self.currentMayor.push('<img class="marqueeleftThenRight" src="' + photoUrl + '"  width="55" height="55" /><p class="marqueebottomThenTop">Hoşgeldiniz </p><p class="marqueebottomThenTop">' + firstName+' '+lastName+ ' </p>')
+					if(self.checkinId[i]!=data.response.hereNow.items[i].id)
+					{	 
+						if ($("div").hasClass("marqueeZeroCount")) 
+						{
+							$("#foursquare").empty();
+						}
+						var photoSuffix = data.response.hereNow.items[i].user.photo.suffix,
+						photoPrefix = data.response.hereNow.items[i].user.photo.prefix,
+						photoUrl= photoPrefix+"original"+photoSuffix,
+						firstName = data.response.hereNow.items[i].user.firstName,
+						lastName = data.response.hereNow.items[i].user.lastName;
+							if (typeof lastName === "undefined") {
+								lastName="";
+							}					
+						self.checkinId.push(data.response.hereNow.items[i].id);
+						self.currentMayor.push('<img class="marqueeleftThenRight" src="' + photoUrl + '"  width="55" height="55" /><p class="marqueebottomThenTop">Hoşgeldiniz </p><p class="marqueebottomThenTop">' + firstName+' '+lastName+ ' </p>')
 					}
 				});
-				
-				if(data.response.hereNow.count==0)
-				{
+				if(data.response.hereNow.items.length==0)
+				{	
 						$("#foursquare").empty();
+						while(self.checkinId.length > 0) {
+							self.checkinId.pop();
+						}
+						while(self.currentMayor.length > 0) {
+							self.currentMayor.pop();
+						}
 						$("<div class='marqueeZeroCount'>Buraya Check-In yap!</div>").prependTo("#foursquare");
 				}					
 
