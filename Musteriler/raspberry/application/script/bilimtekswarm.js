@@ -44,7 +44,7 @@ var BilimtekSwarm=function(token,venueId){
 				{	
 						$("#foursquare").empty();
 						self.people = [];
-						$("<div class='marqueeZeroCount'>Buraya Check-In yap!</div>").prependTo("#foursquare");
+						$("<div class='marqueeZeroCount'>Buraya Check-In yapın!</div>").prependTo("#foursquare");
 				}					
 		});    
 			
