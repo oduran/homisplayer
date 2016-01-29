@@ -1,7 +1,6 @@
 <html>
-
 <head>
-    <meta charset="utf-8">
+   <meta charset="utf-8">
     <title>Bilimtek HOMIS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="refresh" content="600">
@@ -11,8 +10,9 @@
     <link href='http://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
     <link href="../css/flexboxgrid.css" rel="stylesheet" type="text/css" />
 	<link href="../css/bilimtekweather.css" rel="stylesheet" type="text/css">
-    <link href="../css/ekrand.css" rel="stylesheet" type="text/css"/>
 	<link href="../css/jquery.socialfeed.css" rel="stylesheet" type="text/css">
+	<link href="../css/bilimtekswarm.css" rel="stylesheet" type="text/css">
+    <link href="../css/ekrand.css" rel="stylesheet" type="text/css"/>
     <script src="../script/moment.min.js"></script>
     <script src="../script/moment-with-locales.js"></script>
     <script src="../script/jquery-1.11.1.min.js" type="text/javascript"></script>
@@ -23,28 +23,35 @@
     <script src="../script/doT.min.js"></script>
     <script src="../script/scrollDivImage.js"></script>
     <script src="../script/jquery.bilimteksocialmediapictureslider.js"></script>
+	<script src="../script/bilimtekswarm.js"></script>
 	<script src="../script/picturesliderscroller.js"></script>
     <script src="../script/updatePics.js"></script>
     <script src="../script/ekrand.js" type="text/javascript"></script>
 </head>
-<body >
-<div  id="container">
-    <div class="row">
-        <div class="col-xs-8" >
-            <div class="lefttop">
-               <iframe id="bilimtektwittertimeline" src=""  frameBorder="0"></iframe>
-            </div>
-            <div id="bilimtekweather1">
-                <span class="ws-location">Ankara</span>
-            </div>
-			<div id="qrcode">
-            </div>
-        </div>
-        <div class="socialColumn col-xs">
-            <div class="socialmediapicturecontainer" >
-            </div>
-        </div>
-    </div>
-</div>
+<body>
+    <div id="container">
+		<div id="leftside"  >
+			<div id="twitter" >
+				 <iframe id="bilimtektwittertimeline" src=""  frameBorder="0"></iframe>
+			</div>
+			<div class="leftbottom">
+				<div id="weatherline" >
+					<div id="bilimtekweather1" class="ws-container">
+						<span class="ws-location">Ankara</span>
+					</div>	
+				</div>
+				<div id="foursquare" >
+					 
+				</div>	
+			</div>
+		</div>
+		<div id="rightside">
+				<div id="instagramline" class="socialColumn col-xs" >
+			
+					<div class="socialmediapicturecontainer" >
+								</div>	
+				</div>
+		</div>
+	</div>
 </body>
 </html>

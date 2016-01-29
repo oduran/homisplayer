@@ -2,142 +2,508 @@
 <html>
 <meta charset="utf-8">
 <head> 
-	<link rel="stylesheet" href="../css/bootstrap.css">
+	<link rel="stylesheet" href="../css/contentbuilder.css">
+	<link rel="stylesheet" href="../css/bootstrapValidator.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/formvalidation/0.6.1/css/formValidation.min.css">
 	<script src="../script/jquery-1.11.1.min.js" type="text/javascript"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" href="../css/bootstrap.css">
+	<link type="text/css" href="../css/bootstrap-timepicker.min.css" />
+	<script src="../script/jquery-1.11.1.min.js" type="text/javascript"></script>	
+	<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/formvalidation/0.6.1/js/formValidation.js" type="text/javascript"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/formvalidation/0.6.1/js/framework/bootstrap.js" type="text/javascript"></script>
 	<script src="../script/bootstrap.min.js" type="text/javascript"></script>
-</head>
-<body>
-	
-	 
-	<div id="workspaceForm">
-
+	<script type="text/javascript" src="../script/bootstrap-timepicker.min.js"></script>
+ </head>
+<body style="background:url(../media/bg.jpg);background-size: cover;">
+	 <div class="container-fluid fill">
+		<div class="row-fluid ">
+			<div class="col-sm-5 col-md-12">
+				<h2>Çalışma Alanı</h2>
+				<div class="bs-grid-big" id="workspaceForm" style="height: 40pc; border:1px solid white;overflow: scroll;">
+					<button id="addNewWall" class="btn btn-default" style="margin-left: 45%;">
+						  Yeni Duvar Ekle
+						</button><br>
+				</div>
+				<div class="col-sm-5 col-md-12">
+				<div class="bs-grid-big">
+					<h2>Timeline</h2>
+					<div class="bs-grid-big" style="height: 3.5pc; border:1px solid white;">
+					adasdasda
+				</div>
+				</div>
+			</div>
+			</div>
+		</div>
+		
 	</div>
-	 
+		
+
 	<div class="modal fade" id="myModal" role="dialog">
-	<div class="modal-dialog">
+		<div class="modal-dialog">
 
 	  <!-- Modal content-->
-	  <div class="modal-content modal-step" id="step1">
-		<div class="modal-header">
-		  <button type="button" class="close" data-dismiss="modal">&times;</button>
-		  <label class="modal-title">Çalışma Alanı Boyutlarını Giriniz</label>
+			<div class="modal-content modal-step" id="step1">
+				<div class="modal-header">
+				  <button type="button" class="close" data-dismiss="modal">&times;</button>
+				  <label class="modal-title">Çalışma Alanı Boyutlarını Giriniz</label>
+				</div>
+				<form id="firstForm">
+				<fieldset>
+					<div class="form-group">
+						<input type="text" class="form-control" id="pageWidth" placeholder="Genişlik Giriniz" name="pageWidth" style="float:left" >
+						<input type="text" class="form-control" id="pageHeight" placeholder="Yükseklik Giriniz" name="pageHeight" style="float:left">
+
+					</div>
+				</fieldset>
+				</form>
+				<div class="modal-footer">
+				  <button type="button"  class="btn btn-default nextButton" >Next</button>
+				</div>
+			</div>
+			<div class="modal-content modal-step" id="step2" style="display:none">
+				<div class="modal-header">
+				  <button type="button" class="close" data-dismiss="modal">&times;</button>
+				  <label class="modal-title">Ekran Boyutlarını Giriniz</label>
+				</div>
+				<form id="secondForm">
+				<fieldset>
+					<div class="form-group">
+						<input type="text" class="form-control" id="screenWidth" name="screenWidth" placeholder="Genişlik Giriniz" style="float:left" >
+						<input type="text" class="form-control" id="screenHeight" name="screenHeight" placeholder="Yükseklik Giriniz"style="float:left">
+					</div>
+				</fieldset>
+				</form>
+				<div class="modal-footer">
+				  <button type="button"  class="btn btn-default backButton" >Back</button>
+				  <button type="button" class="btn btn-default nextButton" >Next</button>
+				</div>
+			</div>
+			<div class="modal-content modal-step" id="step3" style="display:none" >
+									<div class="modal-header">
+										  <button type="button" class="close" data-dismiss="modal">&times;</button>
+										  <label class="modal-title">Yeni Duvarın Süresini Giriniz</label>
+									</div>
+									 <div class="dropdown" id="timerDropdown">
+										<input id="walltimer" placeholder="Süre Giriniz"></input>
+										<button class="btn btn-default"
+												data-toggle="dropdown">
+											<span id="dropdown_timer">Seçiniz</span>
+										</button>
+										
+										<ul class="dropdown-menu" >
+											<li><a tabindex="-1" href="#">10dk</a></li>
+											<li><a tabindex="-1" href="#">15dk</a></li>
+											<li><a tabindex="-1" href="#">20dk</a></li>
+											<li><a tabindex="-1" href="#">25dk</a></li>
+											<li><a tabindex="-1" href="#">30dk</a></li>
+											<li><a tabindex="-1" href="#">60dk</a></li>
+										</ul>
+									</div>
+									<div class="modal-footer">
+									  <button type="button"  class="btn btn-default backButton" >Back</button>
+									  <button type="button" id="submit" class="btn btn-default">Next</button>
+									</div>
+			</div>
 		</div>
-		<form id="firstForm">
-		<fieldset>
-			<div class="form-group">
-				<input type="text" class="form-control" id="pageWidth" placeholder="Genişlik Giriniz" style="float:left" >
-				<input type="text" class="form-control" id="pageHeight" placeholder="Yükseklik Giriniz"style="float:left">
+	</div>
+	 <!-- Screen Modal Content-->
+		<div id="fsModal" class="modal animated bounceIn" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<!-- dialog -->
+			<div class="screenmodal" >
+
+		<!-- content -->
+				<div class="screencontent">
+
+		<!-- header -->
+					<div class="screenheader">
+						<h1 id="myModalLabel"
+							class="screentitle" >
+						  Ekran Ayarları
+						</h1>
+					</div>
+		<!-- header -->
+
+		<!-- body -->
+				<div class="screenbody" >
+					<div class="common"style="width: 100%; height:78vh">
+							<div class="screencontainer" >
+								<div class="row">
+										<div class="col-sm-3 col-md-2 sidebar nav nav-sidebar" style="width: 97%; margin-left:0px" > 
+										  <h1 style="color:black; font-size: 1rem;">Şablonlar</h1>
+ 										  <div class="group" class="draggable"style="height: 200px;padding: 0px;width: 100%;border: 10px solid black;margin-left: 10px;" >
+ 										 <iframe class="screeniframe" src="http://www.bilimtek.com" frameborder="0" allowfullscreen></iframe>
+										  </div>
+ 										  <div class="group" class="draggable"style="height: 200px;padding: 0px;width: 100%;border: 10px solid black;margin-left: 10px;" >
+ 										 <iframe class="screeniframe" src="http://www.bilimtek.com" frameborder="0" allowfullscreen></iframe>
+										  </div>
+										</div>
+										
+								</div>
+								 
+										<div id="drophere" class="col-sm-9 col-md-9">
+										</div>
+								 
+						   
+						</div>
+				</div>
+		<!-- body -->
+
+		<!-- footer -->
+						<div class="screenfooter">
+							<button class="btn btn-danger" data-dismiss="modal">
+							  Kapat
+							</button>
+							<button class="btn btn-success">
+							  Ekranı Kaydet
+							</button>
+						</div>
+		<!-- footer -->
 		
+					</div>
+		<!-- content -->
+
+				</div>
+		<!-- dialog -->
+
 			</div>
-		</fieldset>
-		</form>
-		<div class="modal-footer">
-		  <button type="button"  class="btn btn-default nextButton" >Next</button>
 		</div>
-	  </div>
-	  <div class="modal-content modal-step" id="step2" style="display:none">
-		<div class="modal-header">
-		  <button type="button" class="close" data-dismiss="modal">&times;</button>
-		  <label class="modal-title">Ekran Boyutlarını Giriniz</label>
-		</div>
-		<form id="firstForm">
-		<fieldset>
-			<div class="form-group">
-				<input type="text" class="form-control" id="screenWidth" placeholder="Genişlik Giriniz" style="float:left" >
-				<input type="text" class="form-control" id="screenHeight" placeholder="Yükseklik Giriniz"style="float:left">
+		<!--Comboobox Dialog-->
+		<div class="modal fade" id="newWallModal" role="dialog">
+		<div class="modal-dialog">
+
+	  <!-- Modal content-->
+			<div class="modal-content modal-wallstep" id="wallstep1" >
+				<div class="modal-header">
+				  <button type="button" class="close" data-dismiss="modal">&times;</button>
+				  <label class="modal-title">Yeni Duvar Tipini Seçiniz</label>
+				</div>
+				
+				<div class="dropdown" id="dropdownMenu2">
+					<button class="btn btn-default"
+							data-toggle="dropdown">
+						<span id="dropdown_title2">Seçiniz</span>
+					</button>
+					<label id="platform"></label>
+					<ul id="screentypedropdown"class="dropdown-menu" >
+						<li><a tabindex="-1" href="#" class="screentype" id="dividedscreen">Bölünmüş Ekran</a></li>
+						<li><a tabindex="-1" href="#" class="screentype" id="videowall">Video Duvarı</a></li>
+						<li><a tabindex="-1" href="#" class="screentype" id="imagewall">Resim Duvarı</a></li>
+					</ul>
+				</div>
+				<div class="modal-footer">
+				  <button type="button"  class="btn btn-default nextWallButton" >Next</button>
+				</div>
 			</div>
-		</fieldset>
-		</form>
-		<div class="modal-footer">
-		  <button type="button"  class="btn btn-default backButton" >Back</button>
-		  <button type="button" id="submit" class="btn btn-default" >Next</button>
+			<div class="modal-content modal-wallstep" id="wallstep2" style="display:none" >
+									<div class="modal-header">
+										  <button type="button" class="close" data-dismiss="modal">&times;</button>
+										  <label class="modal-title">Yeni Duvarın Süresini Giriniz</label>
+									</div>
+									 <div class="dropdown" id="timerDropdown">
+										<input id="walltimer" placeholder="Süre Giriniz"></input>
+										<button class="btn btn-default"
+												data-toggle="dropdown">
+											<span id="dropdown_timer">Seçiniz</span>
+										</button>
+										
+										<ul class="dropdown-menu" >
+											<li><a tabindex="-1" href="#">10dk</a></li>
+											<li><a tabindex="-1" href="#">15dk</a></li>
+											<li><a tabindex="-1" href="#">20dk</a></li>
+											<li><a tabindex="-1" href="#">25dk</a></li>
+											<li><a tabindex="-1" href="#">30dk</a></li>
+											<li><a tabindex="-1" href="#">60dk</a></li>
+										</ul>
+									</div>
+									<div class="modal-footer">
+									  <button type="button"  class="btn btn-default backWallButton" >Back</button>
+									  <button type="button" id="createWall" class="btn btn-default nextWallButton">Next</button>
+									</div>
+			</div>
+			 
 		</div>
-	  </div>
-	  
 	</div>
-	</div>
- 
-	 
+		
+		
+		
+		
+		 
 	
 	
 <script>
 	var currentStep=1;
+	var currentWallStep=1;
+	var createdWallCount=0;
+	this.screentype = "dividedscreen";	
 	var numberOfSteps=$(".modal-step").length;
-	$( document ).ready(function() {
+	var numberOfWallSteps=$(".modal-wallstep").length;
+
+	$( document ).ready(function() 
+	{	 
 		$('#myModal').modal('show');
 		showCurrentStep(currentStep);
+		$(".draggable").draggable();
+		
+		var draggableArguments={
+			 
+			 revert: 'true',
+			 helper:'clone',
+			 appendTo: '#drophere',
+			 refreshPositions: true,
+			 containment: 'DOM',
+			 zIndex: 1500,
+			 addClasses: false
+		};
+
+		$('.group').draggable(draggableArguments);
+		$('.group').droppable();
+
+		$(".nav-sidebar").droppable({
+			tolerance: "intersect",
+			accept: ".group",
+			activeClass: "ui-state-default",
+			hoverClass: "ui-state-hover",
+			drop: function(event, ui) {
+				$(".nav-sidebar").append($(ui.draggable));
+			}
+		});
+		$('#drophere').droppable({
+			accept: ".group",
+			activeClass: "ui-state-highlight",
+			drop: function( event, ui ) {
+            // clone item to retain in original "list"
+				var $item = ui.draggable.clone();
+	 
+				$(this).addClass('has-drop').html($item);
+				$("#drophere .group").css("width","100%");
+				$("#drophere .group").css("height","100%");
+				$("#drophere .screeniframe").css("width","100%");
+				$("#drophere .screeniframe").css("height","75vh");
+				$("#drophere .screeniframe").css("transform","scale(1)");
+				$("#drophere .screeniframe").css("transform-origin","transform-origin: 0px 0px 0px");
+				    
+				}
+		});	
 	});
 	
-	$(".nextButton").click(function(){
+	$(".nextButton").click(function()
+	{	
 		currentStep=(++currentStep>numberOfSteps)?--currentStep:currentStep;
 		showCurrentStep(currentStep);
 	});
 	
-	$(".backButton").click(function(){
+	$(".backButton").click(function()
+	{	
+		
 		currentStep=(--currentStep<0)?++currentStep:currentStep;
 		showCurrentStep(currentStep);
 	});
-	$("#screenWidth").keyup(function(event) {
-			widthControl();
-        });
-	$("#screenHeight").keyup(function(event) {
-			heightControl();
-        });
-	$("#submit").click(function(){
+	$(".nextWallButton").click(function()
+	{	
+		currentWallStep=(++currentWallStep>numberOfSteps)?--currentWallStep:currentWallStep;
+		showCurrentWallStep(currentWallStep);
+	});
+	
+	$(".backWallButton").click(function()
+	{	
+		
+		currentWallStep=(--currentWallStep<0)?++currentWallStep:currentWallStep;
+		showCurrentWallStep(currentWallStep);
+	});
+	$("#createWall").click(function(){
+		 var screentype = $(".selected").attr('id') ;
+ 		self.createDiv(screentype);
+		currentWallStep=1;
+	
+	})
+	$('#screentypedropdown a').click(function(e) {
+		$('#screentypedropdown a').removeClass('selected');
+		$(this).addClass('selected');
+	});
+		
+	$("#submit").click(function()
+	{
 
 		if($("#pageWidth").val()%$("#screenWidth").val()==0&&$("#pageHeight").val()%$("#screenHeight").val()==0)
-		{
-			var workspaceWidth=$("#pageWidth").val() ;
-			var workspaceHeight=$("#pageHeight").val() ;
-			var playerScreenWidth=$("#screenWidth").val() ;
-			var playerScreenHeight=$("#screenHeight").val() ;
-			var workspaceDiv = "<div id='wall1' style='width:"+workspaceWidth+"px;height:"+workspaceHeight+"px;box-sizing: initial; border:1px solid black;float:left;position: relative;background-color:rgba(0,0,255,0.2);'></div>";
-			document.getElementById('workspaceForm').innerHTML+=workspaceDiv;
-			var numberOfScreens=(workspaceWidth/playerScreenWidth)*(workspaceHeight/playerScreenHeight)
-			for(var i = 0; i<numberOfScreens;i++)
-			{
-					var playerScreenDiv = "<div id='wall1_screen"+i+"' style='width:"+playerScreenWidth+"px;height:"+playerScreenHeight+"px; border:1px solid black;float:left;position: relative;box-sizing: border-box;background-color:rgba(255,0,0,0.2);'></div>";
-					document.getElementById('wall1').innerHTML+=playerScreenDiv ;
-			}
+		{	
+			self.createDiv("dividedscreen");
 		}
-		else{		
-					var error = "<p class='errorMessage' style='color:red;'> x Çalışma alanı boyutları, ekran boyutları tam katı olmalı!!</p>";
-					$(error).appendTo("#step"+currentStep);
-			}
-		});
+	});
 
 	$('#workspaceForm').on('click', '[id^=wall1_screen]', function(){
-		alert(this.id);
-	});
-	function widthControl()
-	{
-		if($("#pageWidth").val()%$("#screenWidth").val()==0&&$("#screenWidth").val()!='')
-		{
-			if($("#step"+currentStep).hasClass("errorMessage"))
-			{
-			$('.errorMessage').remove();
-			}
-			var error = "<p class='errorMessage' style='color:green;'> x Çalışma alanı boyutları, ekran boyutları tam katı olmalı!!</p>";
-			$(error).appendTo("#step"+currentStep);
-		}
-		else
-		{
-			var error = "<p class='errorMessage' style='color:red;'> x Çalışma alanı boyutları, ekran boyutları tam katı olmalı!!</p>";
-			$(error).appendTo("#step"+currentStep);
-		}
-	}
-	function heightControl()
-	{
-		if($("#pageHeight").val()%$("#screenHeight").val()==0&&$("#screenHeight").val()!='')
-		{
-			alert("screenHeight true");
-		}
-	}
+		 $('#fsModal').modal('show');
+ 	});
+	$('#workspaceForm').on('click', '[id=addNewWall]', function(){
+		$("#newWallModal").modal('show');
+		showCurrentWallStep(currentWallStep);
+ 	});
+	 
 	function showCurrentStep(currentStep)
 	{
 		$('.modal-step').hide();
 		$('#step'+currentStep).show();
 	}
+	function showCurrentWallStep(currentWallStep)
+	{
+	 
+		$('.modal-wallstep').hide();
+		$('#wallstep'+currentWallStep).show();
+	}
+	
+	 $('#secondForm')
+        .formValidation({
+            framework: 'bootstrap',
+            icon: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                screenWidth: {
+                    validators: {
+                        callback: {
+                         
+                            callback: function (value, validator, $field) {
+								var sum   = $("#pageWidth").val()%value;
+                                if(sum==0)
+								{
+									self.hasClassControl();
+									$("#screenWidth").css("border","1px solid green");
+									return{valid:false,	message: 'Right'};
+								}
+								else
+								{
+									self.hasClassControl();
+									$("#screenWidth").css("border","1px solid red");
+									return{valid:false,	message: 'Wrong'};
+								}
+								return true;
+							}
+                        }
+                    }
+                },
+				screenHeight: {
+                    validators: {
+                        callback: {
+                         
+                            callback: function (value, validator, $field) {
+								var sum   = $("#pageHeight").val()%value;
+                                if(sum==0)
+								{
+									self.hasClassControl();
+									$("#screenHeight").css("border","1px solid green");
+									return{valid:false,	message: 'Right'};
+								}
+								else
+								{
+									self.hasClassControl();
+									$("#screenHeight").css("border","1px solid red");
+									return{valid:false,	message: 'Wrong'};
+								}
+								return true;
+							}
+                        }
+                    }
+                }
+            }
+        })
+        .on('err.form.fv', function(e) {
+          
+        });
+	this.hasClassControl= function()
+	{
+		if($("small").hasClass("help-block"))
+		{
+			$("small").empty();
+		}
+	}
+	this.divZoomControl = function(numberOfScreens,workspaceWidth,workspaceHeight,createdWallCount,screenName)
+	{
+		if(numberOfScreens>0&&numberOfScreens<=5);
+		{
+		return "<div style='width:100%;height:"+workspaceHeight+"px;border: 1px solid aquamarine;'><h2>"+screenName+"</h2><div id='wall"+createdWallCount+"' style='width:"+workspaceWidth+"px;height:"+workspaceHeight+"px;zoom:20%;'></div><br>";
+			
+		}
+		if(numberOfScreens>5&&numberOfScreens<=10);
+		{
+		return "<div style='width:"+workspaceWidth+"px;height:"+workspaceHeight+"px;border: 1px solid aquamarine;'><h2>"+screenName+"</h2><div id='wall"+createdWallCount+"' style='zoom:20%;'></div><br>";
+			
+		}
+	}
+	this.createDiv = function(screenType)
+	{
+		if(screenType=="dividedscreen")
+		{
+			createdWallCount++;
+			var screenName = "Bölünmüş Ekranlar";
+			var workspaceWidth=$("#pageWidth").val() ;
+			var workspaceHeight=$("#pageHeight").val() ;
+			var playerScreenWidth=$("#screenWidth").val() ;
+			var playerScreenHeight=$("#screenHeight").val() ;
+			var numberOfScreens=(workspaceWidth/playerScreenWidth)*(workspaceHeight/playerScreenHeight);
+			var workspaceDiv = self.divZoomControl(numberOfScreens,workspaceWidth,workspaceHeight,createdWallCount,screenName);
+			document.getElementById('workspaceForm').innerHTML+=workspaceDiv;
+			for(var i = 0; i<numberOfScreens;i++)
+			{
+				var playerScreenDiv = "<div id='wall"+createdWallCount+"_screen"+i+"' class='wall_screen' style='width:"+playerScreenWidth+"px;height:"+playerScreenHeight+"px;'></div>";
+				document.getElementById('wall'+createdWallCount).innerHTML+=playerScreenDiv ;
+			}
+				var deleteButton="<button type='button'  class='btn btn-danger'>Ekranı Kaldır</button>"
+				document.getElementById('wall'+createdWallCount).innerHTML+=deleteButton ;
+
+			        $('#myModal').modal('hide');
+					$('#newWallModal').modal('hide');
+		}
+		if(screenType=="videowall")
+		{
+			createdWallCount++;
+			var screenName = "Video Duvarı";
+			var workspaceWidth=$("#pageWidth").val() ;
+			var workspaceHeight=$("#pageHeight").val() ;
+			var numberOfScreens=1;
+			var workspaceDiv = self.divZoomControl(numberOfScreens,workspaceWidth,workspaceHeight,createdWallCount,screenName);
+			document.getElementById('workspaceForm').innerHTML+=workspaceDiv;
+			var playerScreenDiv = "<div id='wall"+createdWallCount+"_screen"+i+"' class='wall_screen' style='width:"+workspaceWidth+"px;height:"+workspaceHeight+"px;'></div>";
+			document.getElementById('wall'+createdWallCount).innerHTML+=playerScreenDiv ;
+			var deleteButton="<button type='button'  class='btn btn-danger'>Ekranı Kaldır</button>"
+			document.getElementById('wall'+createdWallCount).innerHTML+=deleteButton ;
+
+			        $('#myModal').modal('hide');
+					$('#newWallModal').modal('hide');
+		}
+		if(screenType=="imagewall")
+		{
+			createdWallCount++;
+			var screenName ="Resim Duvarı";
+			var workspaceWidth=$("#pageWidth").val() ;
+			var workspaceHeight=$("#pageHeight").val() ;
+			var numberOfScreens=1;
+			var workspaceDiv = self.divZoomControl(numberOfScreens,workspaceWidth,workspaceHeight,createdWallCount,screenName);
+			document.getElementById('workspaceForm').innerHTML+=workspaceDiv;
+			var playerScreenDiv = "<div id='wall"+createdWallCount+"_screen"+i+"' class='wall_screen' style='width:"+workspaceWidth+"px;height:"+workspaceHeight+"px;'></div>";
+			document.getElementById('wall'+createdWallCount).innerHTML+=playerScreenDiv ;
+			var deleteButton="<button type='button'  class='btn btn-danger'>Ekranı Kaldır</button>"
+			document.getElementById('wall'+createdWallCount).innerHTML+=deleteButton ;
+
+			        $('#myModal').modal('hide');
+					$('#newWallModal').modal('hide');
+		}
+	}
+ 
+	$("#dropdownMenu2").on("click", "li a", function() {
+		var platform = $(this).text();
+ 		$('#platform').html(platform);
+	});
+	$("#timerDropdown").on("click", "li a", function() {
+		var walltimer = $(this).text();
+ 		$('#walltimer').val(walltimer);
+	});
+	 
+	var self=this;
+	
 </script>
 </body>
 </html>
