@@ -113,16 +113,37 @@
  <div id="right">
 
   <img class="right-image active" src="../media/1_ekran_1_gorsel.jpg" />
-  <img class="right-image" src="../media/1_ekran_2_gorsel.jpg" />
-  <img class="right-image" src="../media/1_ekran_3_gorsel.jpg" />
-  <img class="right-image" src="../media/1_ekran_4_gorsel.jpg" />
-  <img class="right-image" src="../media/1_ekran_5_gorsel.jpg" />
-  <img class="right-image" src="../media/1_ekran_6_gorsel.jpg" />
-  <img class="right-image" src="../media/1_ekran_7_gorsel.jpg" />
   <video id="video" class="right-image">
-      <source src="../media/1181x1080_10sn.webm" type="video/webm">
+      <source src="../media/1181x1080_benmari.webm" type="video/webm">
       Your browser does not support the video tag.
   </video>
+  <img class="right-image" src="../media/1_ekran_2_gorsel.jpg" />
+  <video id="video" class="right-image">
+      <source src="../media/1181x1080_ekmek.webm" type="video/webm">
+      Your browser does not support the video tag.
+  </video>
+  <img class="right-image" src="../media/1_ekran_3_gorsel.jpg" />
+  <video id="video" class="right-image">
+      <source src="../media/1181x1080_yancilar.webm" type="video/webm">
+      Your browser does not support the video tag.
+  </video>
+  <img class="right-image" src="../media/1_ekran_4_gorsel.jpg" />
+  <video id="video" class="right-image">
+      <source src="../media/1181x1080_benmari.webm" type="video/webm">
+      Your browser does not support the video tag.
+  </video>
+  <img class="right-image" src="../media/1_ekran_5_gorsel.jpg" />
+  <video id="video" class="right-image">
+      <source src="../media/1181x1080_ekmek.webm" type="video/webm">
+      Your browser does not support the video tag.
+  </video>
+  <img class="right-image" src="../media/1_ekran_6_gorsel.jpg" />
+  <video id="video" class="right-image">
+      <source src="../media/1181x1080_yancilar.webm" type="video/webm">
+      Your browser does not support the video tag.
+  </video>
+  <img class="right-image" src="../media/1_ekran_7_gorsel.jpg" />
+
  </div>
 </div>
 <script>
@@ -146,12 +167,13 @@ function swapImages(){
 			if(intervalId != 0)
 			{
 				console.log("clearing interval running video. interval id="+intervalId);
-				console.log("videoDuration(ms) = "+videoDuration);
+
 				clearInterval(intervalId);
 				intervalId = 0;
 			}
 			
 			var videoDuration = $(this).get(0).duration * 1000;
+			console.log("videoDuration(ms) = "+videoDuration);
 			$(this).get(0).pause();
 			$(this).get(0).currentTime = 0;
 			$(this).get(0).load();
