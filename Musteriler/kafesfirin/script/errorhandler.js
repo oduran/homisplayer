@@ -15,6 +15,7 @@ var ErrorHandler = function()
 					console.log("hata:"+e.toString());
 				}
 				else{
+					console.log("hata:"+e.toString());
 					var logger = new Logger();
 					logger.log("Unhandled exception => "+e.toString()+" => "+e.stack,"noFile");
 				}
