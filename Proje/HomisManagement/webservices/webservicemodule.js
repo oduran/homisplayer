@@ -48,11 +48,11 @@ var WebServiceManager = function(router)
         res.json({message: "nopermission"});
       }
       
-      user.accesstoken = createAccessToken(username);
+      user.accessToken = createAccessToken(username);
       dbManager.updateUser(user, 
         function()
         {
-          res.json({accesstoken: user.accesstoken});
+          res.json({accessToken: user.accessToken});
         }
       );
       
@@ -61,7 +61,7 @@ var WebServiceManager = function(router)
   
   // Creates a user.
   var saveUser = function (req, res, next){
-    var accessToken = req.body.accesstoken;
+    var accessToken = req.body.accessToken;
     dbManager.getUserByAccessToken(accessToken, function(user)
     {
       if(user === null)
@@ -122,11 +122,11 @@ var WebServiceManager = function(router)
   
   // Creates a workspace with given access token of the user and workspace object.
   var saveWorkspace = function (req, res, next){
-    var accessToken = req.body.accesstoken;
-    var workspaceExist = false;
+    var accessToken = req.body.accessToken;
     dbManager.getUserByAccessToken(accessToken, 
       function(user)
       {
+        var workspaceExist = false;
         if(user === null)
         {
           res.json({message: "nopermission"});
@@ -166,7 +166,7 @@ var WebServiceManager = function(router)
   
   // Gets a workspace with given access token of the user and workspace id.
   var getWorkspace = function (req, res, next){
-    var accessToken = req.body.accesstoken;
+    var accessToken = req.body.accessToken;
     var workspaceId = req.body.workspaceId;
     dbManager.getUserByAccessToken(accessToken, 
       function(user)
