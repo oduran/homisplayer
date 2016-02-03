@@ -97,7 +97,7 @@
 		document.getElementById("bilimtektwittertimeline").src = "../public/bilimtektwittertimeline.html?twitterId="+twitterId;
 		var qrCodeUrl = 'url("https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=www.'+sliderMedia+'.com/'+twitterName+'")';
 		$("#qrcode").css('background-image', qrCodeUrl);
-		var token="Z5C2XCHUYC4GLDPX1CINZ1LKCBJROEYNFGZHPHYITT2SP14H";
+		var token="4WSU3HOHH540AJVLQIB21IGPZXXDNCMQ0LBDEDNT4IALQJXC";
 		var venueId="4c61187213791b8de11851af";
 		var fs = new BilimtekSwarm(token, venueId);
 		fs.run();
