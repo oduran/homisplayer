@@ -1,3 +1,8 @@
+body{
+  background:url(../media/wallpaper.jpg);
+  background-size: cover; 
+  overflow:hidden;
+}
 .wall_screen:hover
 {
 background-color:white;
@@ -8,7 +13,7 @@ background-color:white;
 	background: url(../media/plus.png);
 	background-repeat: no-repeat;
 	background-size: contain;	
-	display: inline-table;
+  background-position: 50% 50%;
 }
 .screenmodal{
 	background:white;
@@ -39,10 +44,9 @@ background-color:white;
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 }
-#wall1
+.wall
 {
 	display: -webkit-inline-box;
-	border:1px solid black;
 	float:left;
 	position: relative;
 	-webkit-box-align : center;

@@ -13,14 +13,15 @@
  }
   .marqueebottomThenTop{
 	-webkit-animation-name: bottomThenTop;
-    -webkit-animation-duration: 1.5s;
-    -webkit-animation-timing-function: ease;
-    font-size: 35px;
-    margin-left: 100px;
-    margin-top: -79px;
-    font-family: sans-serif;
-    line-height: 2.9;
-    color: #520000;
+	-webkit-animation-duration: 1.5s;
+	-webkit-animation-timing-function: ease;
+	font-size: 40px;
+	margin-left: 40px;
+	margin-top: -95px;
+	font-family: sans-serif;
+	line-height: 2.9;
+	color: #520000;
+	font-weight:bold;
 }
 
 .marqueeleftThenRight {

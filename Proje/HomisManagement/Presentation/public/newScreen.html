@@ -8,33 +8,119 @@
 	<script src="../script/jquery-1.11.1.min.js" type="text/javascript"></script>
 	<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-	<link rel="stylesheet" href="../css/bootstrap.css">
+  <link rel="stylesheet" href="../css/bootstrap3.css" media="screen">
 	<link type="text/css" href="../css/bootstrap-timepicker.min.css" />
+  <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['corechart', 'timeline']}]}"></script>
+  <script type="text/javascript" src="../script/timeline.js"></script>
+  <link rel="stylesheet" type="text/css" href="../css/timeline.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css">
 	<script src="../script/jquery-1.11.1.min.js" type="text/javascript"></script>	
 	<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/formvalidation/0.6.1/js/formValidation.js" type="text/javascript"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/formvalidation/0.6.1/js/framework/bootstrap.js" type="text/javascript"></script>
-	<script src="../script/bootstrap.min.js" type="text/javascript"></script>
-	<script type="text/javascript" src="../script/bootstrap-timepicker.min.js"></script>
+	<script src="../script/bootstrap3.min.js" type="text/javascript"></script>
+  <script type="text/javascript" src="http://momentjs.com/downloads/moment.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
  </head>
-<body style="background:url(../media/bg.jpg);background-size: cover;">
+ 
+<style type="text/css">
+        /* Styles for the page */
+    html, body {
+        font: 10pt arial;
+    }
+
+    #mytimeline {
+	height:100%;
+    }
+	.timeline-content
+	{
+	height:120px;
+	}
+    #new {
+        position: absolute;
+        left: 25px;
+        top: 8px;
+
+        text-transform: uppercase;
+        color: white;
+        font-weight: bold;
+        font-size: 40px;
+        text-decoration: none;
+    }
+
+        /* Custom styles for the Timeline */
+    div.timeline-frame {
+        border-color: #5D99C3;
+
+        border-radius: 5px;
+        -moz-border-radius: 5px; /* For Firefox 3.6 and older */
+    }
+    div.timeline-axis {
+        border-color: #5D99C3;
+
+        background-color: #5D99C3;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5D99C3', endColorstr='#3A6DA0'); /* for IE */
+        background: -webkit-gradient(linear, left top, left bottom, from(#5D99C3), to(#3A6DA0)); /* for webkit browsers */
+        background: -moz-linear-gradient(top,  #5D99C3,  #3A6DA0); /* for firefox 3.6+ */
+    }
+    div.timeline-axis-grid {
+    }
+    div.timeline-groups-axis {
+        border-color: #5D99C3;
+    }
+    div.timeline-axis-text {
+        color: white;
+    }
+    div.timeline-groups-text {
+        color: #4D4D4D;
+    }
+    div.timeline-event {
+        color: white;
+        border-radius: 5px;
+    }
+    div.timeline-event-content {
+        padding: 5px;
+    }
+
+    div.unavailable {
+        background-color: #F03030; /* red */
+        border-color: #bd2828;     /* red */
+    }
+    div.available {
+    background: #1AA11A !important;
+    border-color: #136e13 !important;
+    color: white !important;
+}
+    div.maybe {
+        background-color: #FFA500; /* orange */
+        border-color: #cc8100;     /* orange */
+    }
+</style>
+<body style="">
 	 <div class="container-fluid fill">
 		<div class="row-fluid ">
 			<div class="col-sm-5 col-md-12">
 				<h2>Çalışma Alanı</h2>
-				<div class="bs-grid-big" id="workspaceForm" style="height: 40pc; border:1px solid white;overflow: scroll;">
-					<button id="addNewWall" class="btn btn-default" style="margin-left: 45%;">
-						  Yeni Duvar Ekle
-						</button><br>
+				<div class="bs-grid-big" id="workspaceForm" style="height: 40pc; border:1px solid white;overflow-y: scroll;">
+					<button id="addNewWall" class="btn btn-success" style="margin-left: 45%;">
+						  <span class="glyphicon glyphicon-plus"></span> Yeni Duvar Ekle
+					</button>
+            <br>
 				</div>
 				<div class="col-sm-5 col-md-12">
-				<div class="bs-grid-big">
-					<h2>Timeline</h2>
-					<div class="bs-grid-big" style="height: 3.5pc; border:1px solid white;">
-					adasdasda
-				</div>
-				</div>
-			</div>
+          <div class="bs-grid-big">
+            <h2>Timeline</h2>
+            <div class="bs-grid-big" style="height:100px; border:1px solid white;">
+              <div id="mytimeline"></div>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-5 col-md-12">
+          <div class="bs-grid-big">
+             <button type="button"  class="btn btn-success saveButton" style="float:right;margin-top:20px;"><span class="glyphicon glyphicon-ok"></span>&nbsp;Çalışma Alanını Kaydet</button>
+          </div>
+        </div>
 			</div>
 		</div>
 		
@@ -53,14 +139,13 @@
 				<form id="firstForm">
 				<fieldset>
 					<div class="form-group">
-						<input type="text" class="form-control" id="pageWidth" placeholder="Genişlik Giriniz" name="pageWidth" style="float:left" >
-						<input type="text" class="form-control" id="pageHeight" placeholder="Yükseklik Giriniz" name="pageHeight" style="float:left">
-
+						<input type="text" class="form-control" id="pageWidth" placeholder="Genişlik Giriniz (px)" name="pageWidth" style="float:left" value=7680 >
+						<input type="text" class="form-control" id="pageHeight" placeholder="Yükseklik Giriniz (px)" name="pageHeight" style="float:left" value=1080>
 					</div>
 				</fieldset>
 				</form>
 				<div class="modal-footer">
-				  <button type="button"  class="btn btn-default nextButton" >Next</button>
+				  <button type="button"  class="btn btn-primary nextButton" >İleri</button>
 				</div>
 			</div>
 			<div class="modal-content modal-step" id="step2" style="display:none">
@@ -71,41 +156,45 @@
 				<form id="secondForm">
 				<fieldset>
 					<div class="form-group">
-						<input type="text" class="form-control" id="screenWidth" name="screenWidth" placeholder="Genişlik Giriniz" style="float:left" >
-						<input type="text" class="form-control" id="screenHeight" name="screenHeight" placeholder="Yükseklik Giriniz"style="float:left">
+						<input type="text" class="form-control" id="screenWidth" name="screenWidth" placeholder="Genişlik Giriniz (px)" style="float:left" value=1920>
+						<input type="text" class="form-control" id="screenHeight" name="screenHeight" placeholder="Yükseklik Giriniz (px)"style="float:left" value=1080>
 					</div>
 				</fieldset>
 				</form>
 				<div class="modal-footer">
-				  <button type="button"  class="btn btn-default backButton" >Back</button>
-				  <button type="button" class="btn btn-default nextButton" >Next</button>
+				  <button type="button"  class="btn btn-default backButton" >Geri</button>
+				  <button type="button" class="btn btn-primary nextButton" >İleri</button>
 				</div>
 			</div>
 			<div class="modal-content modal-step" id="step3" style="display:none" >
-									<div class="modal-header">
-										  <button type="button" class="close" data-dismiss="modal">&times;</button>
-										  <label class="modal-title">Yeni Duvarın Süresini Giriniz</label>
-									</div>
-									 <div class="dropdown" id="timerDropdown">
-										<input id="walltimer" placeholder="Süre Giriniz"></input>
-										<button class="btn btn-default"
-												data-toggle="dropdown">
-											<span id="dropdown_timer">Seçiniz</span>
-										</button>
-										
-										<ul class="dropdown-menu" >
-											<li><a tabindex="-1" href="#">10dk</a></li>
-											<li><a tabindex="-1" href="#">15dk</a></li>
-											<li><a tabindex="-1" href="#">20dk</a></li>
-											<li><a tabindex="-1" href="#">25dk</a></li>
-											<li><a tabindex="-1" href="#">30dk</a></li>
-											<li><a tabindex="-1" href="#">60dk</a></li>
-										</ul>
-									</div>
-									<div class="modal-footer">
-									  <button type="button"  class="btn btn-default backButton" >Back</button>
-									  <button type="button" id="submit" class="btn btn-default">Next</button>
-									</div>
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <label class="modal-title">Yeni Duvarın Süresini Giriniz</label>
+        </div>
+        <div class="form-group">
+          <label for="datetimepicker1" class="control-label">Başlangıç Zamanını Giriniz</label>
+          <div class='input-group date' id='datetimepicker1'>
+              <input type='text' class="form-control" />
+              <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-time"></span>
+              </span>
+          </div>
+          <br>
+          <label for="datetimepicker2" class="control-label">Bitiş Zamanını Giriniz</label>
+          <div class='input-group date' id='datetimepicker2'>
+              <input type='text' class="form-control" />
+              <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-time"></span>
+              </span>
+          </div>
+          <br>
+          <label >Ekranın Gösterilme Süresini Giriniz</label>
+          <input id="walltimer" class="form-control" placeholder="Süre Giriniz (dk)"></input>
+        </div>
+        <div class="modal-footer">
+          <button type="button"  class="btn btn-default backButton" >Geri</button>
+          <button type="button" id="submit" class="btn btn-primary">İleri</button>
+        </div>
 			</div>
 		</div>
 	</div>
@@ -142,11 +231,8 @@
 										</div>
 										
 								</div>
-								 
-										<div id="drophere" class="col-sm-9 col-md-9">
-										</div>
-								 
-						   
+								<div id="drophere" class="col-sm-9 col-md-9">
+								</div>
 						</div>
 				</div>
 		<!-- body -->
@@ -182,73 +268,161 @@
 				</div>
 				
 				<div class="dropdown" id="dropdownMenu2">
-					<button class="btn btn-default"
+					<button class="btn btn-info"
 							data-toggle="dropdown">
 						<span id="dropdown_title2">Seçiniz</span>
 					</button>
 					<label id="platform"></label>
 					<ul id="screentypedropdown"class="dropdown-menu" >
-						<li><a tabindex="-1" href="#" class="screentype" id="dividedscreen">Bölünmüş Ekran</a></li>
-						<li><a tabindex="-1" href="#" class="screentype" id="videowall">Video Duvarı</a></li>
-						<li><a tabindex="-1" href="#" class="screentype" id="imagewall">Resim Duvarı</a></li>
+						<li><a tabindex="-1" href="#" class="screentype" id="dividedscreen"><span class="glyphicon glyphicon-th-large"></span>&nbsp;Bölünmüş Ekran</a></li>
+						<li><a tabindex="-1" href="#" class="screentype" id="videowall"><span class="glyphicon glyphicon-facetime-video"></span>&nbsp;Video Duvarı</a></li>
+						<li><a tabindex="-1" href="#" class="screentype" id="imagewall"><span class="glyphicon glyphicon-picture"></span>&nbsp;Resim Duvarı</a></li>
 					</ul>
 				</div>
 				<div class="modal-footer">
-				  <button type="button"  class="btn btn-default nextWallButton" >Next</button>
+				  <button type="button"  class="btn btn-primary nextWallButton" >İleri</button>
 				</div>
 			</div>
 			<div class="modal-content modal-wallstep" id="wallstep2" style="display:none" >
 									<div class="modal-header">
 										  <button type="button" class="close" data-dismiss="modal">&times;</button>
-										  <label class="modal-title">Yeni Duvarın Süresini Giriniz</label>
+										  <label for="timerDropdown" class="modal-title">Yeni Duvarın Süresini Giriniz</label>
 									</div>
-									 <div class="dropdown" id="timerDropdown">
-										<input id="walltimer" placeholder="Süre Giriniz"></input>
-										<button class="btn btn-default"
-												data-toggle="dropdown">
-											<span id="dropdown_timer">Seçiniz</span>
-										</button>
-										
-										<ul class="dropdown-menu" >
-											<li><a tabindex="-1" href="#">10dk</a></li>
-											<li><a tabindex="-1" href="#">15dk</a></li>
-											<li><a tabindex="-1" href="#">20dk</a></li>
-											<li><a tabindex="-1" href="#">25dk</a></li>
-											<li><a tabindex="-1" href="#">30dk</a></li>
-											<li><a tabindex="-1" href="#">60dk</a></li>
-										</ul>
-									</div>
+                  <div class="modal-body">
+                      <label >Ekranın Gösterilme Süresini Giriniz</label>
+                      <input id="newwalltimer" class="form-control" placeholder="Süre Giriniz (dk)"></input>
+                  </div>
 									<div class="modal-footer">
-									  <button type="button"  class="btn btn-default backWallButton" >Back</button>
-									  <button type="button" id="createWall" class="btn btn-default nextWallButton">Next</button>
+									  <button type="button"  class="btn btn-default backWallButton">Geri</button>
+									  <button type="button" id="createWall" class="btn btn-primary nextWallButton">İleri</button>
 									</div>
 			</div>
-			 
 		</div>
 	</div>
-		
-		
-		
-		
-		 
-	
-	
-<script>
-	var currentStep=1;
-	var currentWallStep=1;
-	var createdWallCount=0;
-	this.screentype = "dividedscreen";	
-	var numberOfSteps=$(".modal-step").length;
-	var numberOfWallSteps=$(".modal-wallstep").length;
 
-	$( document ).ready(function() 
+<script>
+$(function () {
+    var currentStep=1;
+    var currentWallStep=1;
+    var createdWallCount=0;
+    this.screentype = "dividedscreen";	
+    var numberOfSteps=$(".modal-step").length;
+    var numberOfWallSteps=$(".modal-wallstep").length;
+    var timeline = null;
+    google.load('visualization', '1', {packages: ['timeline']});
+    this.temp=0;
+    var totalMinutes=0;
+    var tempMinute=[];
+    var differenceTotalMinutes=0;
+    this.date = new Date();
+    var start;
+    var workspaceObj={};
+    var wall=[];
+    var screen=[];
+	  /*Set edilen baslangıç ve bitiş zamanlarının arasındaki dakika farkını bulan fonksiyon. Burada startTime ve endTime da set ediliyor.*/
+    function calculate(startTime,endTime)
+    {
+      var time1 = startTime.split(':');
+      var time2 = endTime.split(':');
+      var startHour = parseInt(time1[0], 10); 
+      var endHour = parseInt(time2[0], 10);
+      var startMin = parseInt(time1[1], 10);
+      var endMin = parseInt(time2[1], 10);
+      var hours = endHour - startHour, mins = 0;
+      if(hours < 0) hours = 24 + hours;
+      if(endMin >= startMin) {
+         mins = endMin - startMin;
+      }
+      else {
+         mins = (endMin + 60) - startMin;
+         hours--;
+      }
+      mins = mins / 60; // take percentage in 60
+      hours += mins;
+      return [hours*60,startHour,startMin,endHour,endMin];
+    }
+    // Timeline datarow çizimi sağlıyor
+    function drawVisualization(minutes,barType)
+    {
+      totalMinutes=0;
+      var	data= null;
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Team');
+      data.addColumn('date', 'Season Start Date');
+      data.addColumn('date', 'Season End Date');
+      var names = ["Test"];
+      timeControl();
+      tempMinute.push(parseInt(minutes));
+      for(var j=0;j<tempMinute.length;j++)
+      {
+        totalMinutes+=tempMinute[j];
+      }
+      
+      for (var n = 0, len = names.length; n < len; n++)
+      {
+        var name = names[n];
+               
+        for(var i=0;i<(differenceTotalMinutes/totalMinutes);i++)
+        {
+          for(var k=0;k<tempMinute.length;k++)
+          {	 
+            var startTime= new Date(start.getTime());
+            var endTime= new Date(start.getTime()+(tempMinute[k]*60000));
+
+            var availability = (k %2== 0) ? "A" :  "B";
+            var group = availability.toLowerCase();
+            var content = availability;
+            console.log("for süreler için " +k+"  1-start time="+startTime.getTime()+" *** "+endTime.getTime());
+            data.addRow(["TEST",startTime, endTime]);
+            start.setTime(endTime.getTime());
+          }
+        }
+      }
+      // specify options
+      var options = 
+      {
+        height: 450,
+        timeline: {groupByRowLabel:true}
+      };
+      // Instantiate our timeline object.
+      var chart = new google.visualization.Timeline(document.getElementById('mytimeline'));
+      chart.draw(data, options);
+    }
+ 
+  $( document ).ready(function() 
 	{	 
-		$('#myModal').modal('show');
+    var getWorkspaceId=getParameterByName('workspaceId');
+   
+    if(getWorkspaceId!==null)
+    {
+      doWork();
+    }
+    else
+    {
+      initialize();
+    }
+    
+	});
+  function doWork()
+  {
+    alert();
+  }
+  function initialize()
+  {
+    $('#myModal').modal('show');
 		showCurrentStep(currentStep);
+    
+    /*Açılışta çıkan dialogdaki datetimelerın set edildiği yer*/
+    $('#datetimepicker1').datetimepicker({
+        format: 'HH:mm'
+    });
+    $('#datetimepicker2').datetimepicker({
+        format: 'HH:mm'
+    });
+
+    /*Ekran seçiminde çıkacak draggable objectlerin set edildiği yer */
 		$(".draggable").draggable();
-		
-		var draggableArguments={
-			 
+    var draggableArguments={
 			 revert: 'true',
 			 helper:'clone',
 			 appendTo: '#drophere',
@@ -273,237 +447,252 @@
 		$('#drophere').droppable({
 			accept: ".group",
 			activeClass: "ui-state-highlight",
-			drop: function( event, ui ) {
-            // clone item to retain in original "list"
-				var $item = ui.draggable.clone();
-	 
-				$(this).addClass('has-drop').html($item);
-				$("#drophere .group").css("width","100%");
-				$("#drophere .group").css("height","100%");
-				$("#drophere .screeniframe").css("width","100%");
-				$("#drophere .screeniframe").css("height","75vh");
-				$("#drophere .screeniframe").css("transform","scale(1)");
-				$("#drophere .screeniframe").css("transform-origin","transform-origin: 0px 0px 0px");
-				    
-				}
+			drop: function( event, ui ) 
+      {
+        // clone item to retain in original "list"
+        var $item = ui.draggable.clone();
+        $(this).addClass('has-drop').html($item);
+        $("#drophere .group").css("width","100%");
+        $("#drophere .group").css("height","100%");
+        $("#drophere .screeniframe").css("width","100%");
+        $("#drophere .screeniframe").css("height","75vh");
+        $("#drophere .screeniframe").css("transform","scale(1)");
+        $("#drophere .screeniframe").css("transform-origin","transform-origin: 0px 0px 0px");
+			}
 		});	
-	});
-	
+  }
+  function getParameterByName(name, url)
+  {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+  }
+	/*Açılışta çıkan dialogdaki back butonu*/
 	$(".nextButton").click(function()
 	{	
 		currentStep=(++currentStep>numberOfSteps)?--currentStep:currentStep;
 		showCurrentStep(currentStep);
 	});
-	
+  
+	/*Açılışta çıkan dialogdaki back butonu*/
 	$(".backButton").click(function()
 	{	
-		
 		currentStep=(--currentStep<0)?++currentStep:currentStep;
 		showCurrentStep(currentStep);
 	});
+	
+  /*Açılışta çıkan dialogdaki en son gösterilen div deki next butonu*/
+	$("#submit").click(function()
+	{
+		if($("#datetimepicker1").find("input").val().length>0 && $("#datetimepicker1").find("input").val().length>0&& $("#walltimer").val().length>0&&$("#pageWidth").val()%$("#screenWidth").val()==0&&$("#pageHeight").val()%$("#screenHeight").val()==0)
+		{	
+      debugger;
+      var barType=1;
+      timeControl();
+			self.createDiv("dividedscreen",$("#walltimer").val(),barType);
+    }
+    else
+      alert("Eksik veya Yanlış Bilgi Giriniz")
+	});
+  function timeControl()
+  {
+    var startTime = $("#datetimepicker1").find("input").val();
+    var endTime = $("#datetimepicker2").find("input").val();
+    var timeItems = calculate(startTime,endTime);
+    differenceTotalMinutes = timeItems[0];
+    start =new Date(self.date.getFullYear(), self.date.getMonth(),self.date.getDate(),timeItems[1],timeItems[2],0);
+    end = new Date(self.date.getFullYear(), self.date.getMonth(),self.date.getDate(),timeItems[3],timeItems[4],0); 
+  }
+  /*Açılışta çıkan dialog daki .modal-step class ını kontrol edip aktif olan div i gösteriyor*/
+	function showCurrentStep(currentStep)
+	{
+		$('.modal-step').hide();
+		$('#step'+currentStep).show();
+	}
+	
+  /*Yeni duvar ekle butonuna bastığımızda çıkan dialog daki .modal-wallstep class ını kontrol edip aktif olan div i gösteriyor*/
+  function showCurrentWallStep(currentWallStep)
+	{
+    $('.modal-wallstep').hide();
+    $('#wallstep'+currentWallStep).show();
+	}
+  
+  /*Yeni Duvar Ekle butonunda çıkan dialogdaki next buttonu*/
 	$(".nextWallButton").click(function()
 	{	
 		currentWallStep=(++currentWallStep>numberOfSteps)?--currentWallStep:currentWallStep;
 		showCurrentWallStep(currentWallStep);
 	});
 	
+  /*Yeni Duvar Ekle butonunda çıkan dialogdaki back buttonu*/
 	$(".backWallButton").click(function()
 	{	
-		
 		currentWallStep=(--currentWallStep<0)?++currentWallStep:currentWallStep;
 		showCurrentWallStep(currentWallStep);
 	});
-	$("#createWall").click(function(){
-		 var screentype = $(".selected").attr('id') ;
- 		self.createDiv(screentype);
-		currentWallStep=1;
-	
-	})
+  
+	/*Yeni Duvar Ekle butonunda çıkan dialogdaki en son next butonu*/
+  $("#createWall").click(function(){
+    var screentype = $(".selected").attr('id') ;
+    var barType=0;
+    self.createDiv(screentype,$("#newwalltimer").val(),barType);
+    currentWallStep=1;
+	});
+
+  /*Yeni Duvar Ekle butonuna bastığımızda çıkan ilk dialogdaki ekran tiplerinin bulunduğu dropdownlist*/
 	$('#screentypedropdown a').click(function(e) {
 		$('#screentypedropdown a').removeClass('selected');
 		$(this).addClass('selected');
 	});
-		
-	$("#submit").click(function()
-	{
-
-		if($("#pageWidth").val()%$("#screenWidth").val()==0&&$("#pageHeight").val()%$("#screenHeight").val()==0)
-		{	
-			self.createDiv("dividedscreen");
-		}
+  $("#dropdownMenu2").on("click", "li a", function() {
+		var platform = $(this).text();
+ 		$('#platform').html(platform);
 	});
-
-	$('#workspaceForm').on('click', '[id^=wall1_screen]', function(){
+  
+  /*Workspace div in içinde eklenen ekranlara bastığımızda çalışan fonksiyon*/
+	$('#workspaceForm').on('click', '[class^=wall_screen]', function(){
 		 $('#fsModal').modal('show');
  	});
+  
+  /*Workspace div in içinde yer alan "Yeni duvar ekle" butonuna bastığımızda çalışan fonksiyon*/
 	$('#workspaceForm').on('click', '[id=addNewWall]', function(){
 		$("#newWallModal").modal('show');
 		showCurrentWallStep(currentWallStep);
  	});
-	 
-	function showCurrentStep(currentStep)
-	{
-		$('.modal-step').hide();
-		$('#step'+currentStep).show();
-	}
-	function showCurrentWallStep(currentWallStep)
-	{
-	 
-		$('.modal-wallstep').hide();
-		$('#wallstep'+currentWallStep).show();
-	}
-	
-	 $('#secondForm')
-        .formValidation({
-            framework: 'bootstrap',
-            icon: {
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
-            },
-            fields: {
-                screenWidth: {
-                    validators: {
-                        callback: {
-                         
-                            callback: function (value, validator, $field) {
-								var sum   = $("#pageWidth").val()%value;
-                                if(sum==0)
-								{
-									self.hasClassControl();
-									$("#screenWidth").css("border","1px solid green");
-									return{valid:false,	message: 'Right'};
-								}
-								else
-								{
-									self.hasClassControl();
-									$("#screenWidth").css("border","1px solid red");
-									return{valid:false,	message: 'Wrong'};
-								}
-								return true;
-							}
-                        }
-                    }
-                },
-				screenHeight: {
-                    validators: {
-                        callback: {
-                         
-                            callback: function (value, validator, $field) {
-								var sum   = $("#pageHeight").val()%value;
-                                if(sum==0)
-								{
-									self.hasClassControl();
-									$("#screenHeight").css("border","1px solid green");
-									return{valid:false,	message: 'Right'};
-								}
-								else
-								{
-									self.hasClassControl();
-									$("#screenHeight").css("border","1px solid red");
-									return{valid:false,	message: 'Wrong'};
-								}
-								return true;
-							}
-                        }
-                    }
-                }
-            }
-        })
-        .on('err.form.fv', function(e) {
-          
-        });
-	this.hasClassControl= function()
-	{
-		if($("small").hasClass("help-block"))
-		{
-			$("small").empty();
-		}
-	}
-	this.divZoomControl = function(numberOfScreens,workspaceWidth,workspaceHeight,createdWallCount,screenName)
-	{
-		if(numberOfScreens>0&&numberOfScreens<=5);
-		{
-		return "<div style='width:100%;height:"+workspaceHeight+"px;border: 1px solid aquamarine;'><h2>"+screenName+"</h2><div id='wall"+createdWallCount+"' style='width:"+workspaceWidth+"px;height:"+workspaceHeight+"px;zoom:20%;'></div><br>";
-			
-		}
-		if(numberOfScreens>5&&numberOfScreens<=10);
-		{
-		return "<div style='width:"+workspaceWidth+"px;height:"+workspaceHeight+"px;border: 1px solid aquamarine;'><h2>"+screenName+"</h2><div id='wall"+createdWallCount+"' style='zoom:20%;'></div><br>";
-			
-		}
-	}
-	this.createDiv = function(screenType)
+
+  /*Ekranları workspace in içine set eden fonksiyon*/
+	this.createDiv = function(screenType,minutes,barType)
 	{
 		if(screenType=="dividedscreen")
 		{
-			createdWallCount++;
-			var screenName = "Bölünmüş Ekranlar";
-			var workspaceWidth=$("#pageWidth").val() ;
-			var workspaceHeight=$("#pageHeight").val() ;
-			var playerScreenWidth=$("#screenWidth").val() ;
-			var playerScreenHeight=$("#screenHeight").val() ;
-			var numberOfScreens=(workspaceWidth/playerScreenWidth)*(workspaceHeight/playerScreenHeight);
-			var workspaceDiv = self.divZoomControl(numberOfScreens,workspaceWidth,workspaceHeight,createdWallCount,screenName);
+			var createdWallCount = $('.wall').length+1;
+			var screenName = "Ekran"+createdWallCount;
+			var numberOfScreens=($("#pageWidth").val() /$("#screenWidth").val())*($("#pageHeight").val()/$("#screenHeight").val());
+      var workspaceDiv = "<div style='width:100%;height:50%;border: 1px solid aquamarine;'><h2>"+screenName+"</h2><button type='button' class='btn btn-danger removeScreen'><span class='glyphicon glyphicon-trash'></span></button><div id='wall"+createdWallCount+"' class='wall' style='width:100%;height:"+$("#pageHeight").val()+"px;zoom:20%;'></div>";;
 			document.getElementById('workspaceForm').innerHTML+=workspaceDiv;
 			for(var i = 0; i<numberOfScreens;i++)
 			{
-				var playerScreenDiv = "<div id='wall"+createdWallCount+"_screen"+i+"' class='wall_screen' style='width:"+playerScreenWidth+"px;height:"+playerScreenHeight+"px;'></div>";
+				var playerScreenDiv = "<div id='wall"+createdWallCount+"_screen"+i+"' class='wall_screen' style='width:"+$("#screenWidth").val()+"px;height:"+$("#screenHeight").val()+"px;'></div>";
 				document.getElementById('wall'+createdWallCount).innerHTML+=playerScreenDiv ;
-			}
-				var deleteButton="<button type='button'  class='btn btn-danger'>Ekranı Kaldır</button>"
-				document.getElementById('wall'+createdWallCount).innerHTML+=deleteButton ;
-
-			        $('#myModal').modal('hide');
-					$('#newWallModal').modal('hide');
+      }
+      document.getElementById('wall'+createdWallCount).innerHTML+="<br><br>";
+      wall.push({
+          id: "wall"+createdWallCount,
+          type: screenType,
+          showtime: minutes,
+      });
+      console.log(wall);
+      $('#myModal').modal('hide');
+      $('#newWallModal').modal('hide');
+      drawVisualization(minutes,barType);
 		}
-		if(screenType=="videowall")
-		{
-			createdWallCount++;
-			var screenName = "Video Duvarı";
-			var workspaceWidth=$("#pageWidth").val() ;
-			var workspaceHeight=$("#pageHeight").val() ;
-			var numberOfScreens=1;
-			var workspaceDiv = self.divZoomControl(numberOfScreens,workspaceWidth,workspaceHeight,createdWallCount,screenName);
-			document.getElementById('workspaceForm').innerHTML+=workspaceDiv;
-			var playerScreenDiv = "<div id='wall"+createdWallCount+"_screen"+i+"' class='wall_screen' style='width:"+workspaceWidth+"px;height:"+workspaceHeight+"px;'></div>";
-			document.getElementById('wall'+createdWallCount).innerHTML+=playerScreenDiv ;
-			var deleteButton="<button type='button'  class='btn btn-danger'>Ekranı Kaldır</button>"
-			document.getElementById('wall'+createdWallCount).innerHTML+=deleteButton ;
-
-			        $('#myModal').modal('hide');
-					$('#newWallModal').modal('hide');
-		}
-		if(screenType=="imagewall")
-		{
-			createdWallCount++;
-			var screenName ="Resim Duvarı";
-			var workspaceWidth=$("#pageWidth").val() ;
-			var workspaceHeight=$("#pageHeight").val() ;
-			var numberOfScreens=1;
-			var workspaceDiv = self.divZoomControl(numberOfScreens,workspaceWidth,workspaceHeight,createdWallCount,screenName);
-			document.getElementById('workspaceForm').innerHTML+=workspaceDiv;
-			var playerScreenDiv = "<div id='wall"+createdWallCount+"_screen"+i+"' class='wall_screen' style='width:"+workspaceWidth+"px;height:"+workspaceHeight+"px;'></div>";
-			document.getElementById('wall'+createdWallCount).innerHTML+=playerScreenDiv ;
-			var deleteButton="<button type='button'  class='btn btn-danger'>Ekranı Kaldır</button>"
-			document.getElementById('wall'+createdWallCount).innerHTML+=deleteButton ;
-
-			        $('#myModal').modal('hide');
-					$('#newWallModal').modal('hide');
-		}
+		else
+    {
+      createScreen(createdWallCount,minutes,barType,screenType);
+    }
 	}
+  function createScreen(createdWallCount,minutes,barType,screenType)
+  {
+		var createdWallCount = $('.wall').length+1;
+    var screenName ="Ekran"+createdWallCount;
+    var workspaceDiv = "<div style='width:100%;height:50%;border: 1px solid aquamarine;'><h2>"+screenName+"</h2><button type='button' class='btn btn-danger'><span class='glyphicon glyphicon-trash'></span></button><div id='wall"+createdWallCount+"' class='wall' style='width:100%;height:"+$("#pageHeight").val()+"px;zoom:20%;'></div>";;
+    document.getElementById('workspaceForm').innerHTML+=workspaceDiv;
+    var playerScreenDiv = "<div id='wall"+createdWallCount+"_screen' class='wall_screen' style='width:"+$("#pageWidth").val()+"px;height:"+$("#pageHeight").val()+"px;'></div>";
+    document.getElementById('wall'+createdWallCount).innerHTML+=playerScreenDiv ;
+    document.getElementById('wall'+createdWallCount).innerHTML+="<br><br>";
+    wall.push({
+          id: "wall"+createdWallCount,
+          type: screenType,
+          showtime: minutes,
+      });
+      console.log(wall);
+    $('#myModal').modal('hide');
+    $('#newWallModal').modal('hide');
+    drawVisualization(minutes,barType);
+  }
+  function setAttributes(el, options) {
+   Object.keys(options).forEach(function(attr) {
+     el.setAttribute(attr, options[attr]);
+   })
+  }
+  
+   
+  /*Keyup Function = Sayfada çıkan ikinci dialog da Workspace ve Ekranların width-height modunu alıp kontrol ediyor */
  
-	$("#dropdownMenu2").on("click", "li a", function() {
-		var platform = $(this).text();
- 		$('#platform').html(platform);
+  $('#secondForm').formValidation(
+  {
+      framework: 'bootstrap',
+      icon: {
+          valid: 'glyphicon glyphicon-ok',
+          invalid: 'glyphicon glyphicon-remove',
+          validating: 'glyphicon glyphicon-refresh'
+      },
+      fields: {
+          screenWidth: {
+              validators: {
+                  callback: {
+                     callback: function (value, validator, $field) 
+                              {
+                                var sum   = $("#pageWidth").val()%value;
+                                if(sum==0)
+                                {
+                                  $("#screenWidth").css("border","1px solid green");
+                                  return{valid:true,	message: 'Genişlik Ekran Boyutunun Tam Katı'};
+                                }
+                                else
+                                {
+                                  $("#screenWidth").css("border","1px solid red");
+                                  return{valid:false,	message: 'Genişlik Ekran Boyutunun Tam Katı Olmalı'};
+                                }
+                                return true;
+                              }
+                            }
+                          }
+                        },
+        screenHeight: {
+              validators: {
+                  callback: {
+                      callback: function (value, validator, $field) 
+                              {
+                                var sum   = $("#pageHeight").val()%value;
+                                if(sum==0)
+                                {
+                                  $("#screenHeight").css("border","1px solid green");
+                                  return{valid:true,	message: 'Yükseklik Ekran Boyutunun Tam Katı'};
+                                }
+                                else
+                                {
+                                  $("#screenHeight").css("border","1px solid red");
+                                  return{valid:false,	message: 'Yükseklik Ekran Boyutunun Tam Katı Olmalı'};
+                                }
+                                return true;
+                              }
+                            }
+                          }
+                      }
+              }
+  })
+  $(".saveButton").click(function()
+	{
+    workspaceObj={
+      workspaceId:1,
+      name:"test",
+      starttime:$("#datetimepicker1").find("input").val(),
+      endtime:$("#datetimepicker2").find("input").val(),
+      width:$("#pageWidth").val(),
+      height:$("#pageHeight").val(),
+      walls:wall
+    }
+    console.log(JSON.stringify(workspaceObj));
+    console.log(workspaceObj);
 	});
-	$("#timerDropdown").on("click", "li a", function() {
-		var walltimer = $(this).text();
- 		$('#walltimer').val(walltimer);
+
+ 	var self=this;
 	});
-	 
-	var self=this;
-	
 </script>
 </body>
 </html>
