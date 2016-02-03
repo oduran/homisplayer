@@ -17,20 +17,23 @@ var WebServiceManager = function(router)
     // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
     router.get('/', test);
    
-    // get all users, passwords and access tokens are removed
+    // login to website. username, pass input, output is access token (could be as cookie in the future)
     router.post('/login', login);
    
-    // get all users, passwords and access tokens are removed
-    router.post('/createuser', createUser);
+    // creates user.
+    router.post('/saveuser', saveUser);
     
-    // get all users, passwords and access tokens are removed
-    router.get('/updateuser', updateUser);
-    
-    // get all users, passwords and access tokens are removed
+    // deletes user.
     router.get('/deleteuser', deleteUser);
     
-    // get all users, passwords and access tokens are removed
+    // get all users, passwords and access tokens are removed.
     router.get('/getusers', getUsers);
+    
+    // creates workspace for user with given access token and workspace object.
+    router.post('/saveworkspace', saveWorkspace);
+    
+    // creates workspace for user with given access token and workspace object.
+    router.post('/getworkspace', getWorkspace);
   }
   
   /* Private Methods */
@@ -57,7 +60,7 @@ var WebServiceManager = function(router)
   };
   
   // Creates a user.
-  var createUser = function (req, res, next){
+  var saveUser = function (req, res, next){
     var accessToken = req.body.accesstoken;
     dbManager.getUserByAccessToken(accessToken, function(user)
     {
@@ -68,7 +71,7 @@ var WebServiceManager = function(router)
       
       if(user.type == "admin")
       {
-        dbManager.createUser(req.body.user,
+        dbManager.saveUser(req.body.user,
           function(success)
           {
             res.json({message:"success"});
@@ -116,6 +119,82 @@ var WebServiceManager = function(router)
       }
     );      
   }
+  
+  // Creates a workspace with given access token of the user and workspace object.
+  var saveWorkspace = function (req, res, next){
+    var accessToken = req.body.accesstoken;
+    var workspaceExist = false;
+    dbManager.getUserByAccessToken(accessToken, 
+      function(user)
+      {
+        if(user === null)
+        {
+          res.json({message: "nopermission"});
+          return;
+        }
+        
+        if(typeof user.workspaces === 'undefined')
+        {
+          user.workspaces = [];
+        }
+        else
+        {
+          for(var i = 0;i < user.workspaces.length; i++)
+          {
+            if(user.workspaces[i].workspaceId == req.body.workspace.workspaceId)
+            {
+              user.workspaces[i] = req.body.workspace;
+              workspaceExist = true;
+            }
+          }
+          
+          if(!workspaceExist)
+          {
+            user.workspaces.push(req.body.workspace);
+          }
+        }
+        
+        dbManager.updateUser(user,
+          function()
+          {
+            res.json({message: "success"});
+          }
+        );
+      }
+    );
+  };
+  
+  // Gets a workspace with given access token of the user and workspace id.
+  var getWorkspace = function (req, res, next){
+    var accessToken = req.body.accesstoken;
+    var workspaceId = req.body.workspaceId;
+    dbManager.getUserByAccessToken(accessToken, 
+      function(user)
+      {
+        if(user === null)
+        {
+          res.json({message: "nopermission"});
+        }
+        
+        if(typeof user.workspaces === 'undefined')
+        {
+          res.json({message: "There is no workspace created for this user yet."});
+          return;
+        }
+        
+        for(var i = 0; i<user.workspaces.length; i++)
+        {
+          if(user.workspaces[i].workspaceId == workspaceId)
+          {
+            res.json(user.workspaces[i]);
+            return;
+          }
+        }
+        
+        res.json({message: "No workspace with given id for this user."});
+      }
+    );
+  };
   
   // Just a web service test/
   var test = function(req, res) 

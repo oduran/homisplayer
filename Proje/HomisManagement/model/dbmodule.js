@@ -7,6 +7,7 @@ var DbManager = function()
   /*Variables*/
   var dbName = 'homis';
   var assert = require('assert');
+  var ObjectID = require('mongodb').ObjectID;
   var Db = require('mongodb').Db;
   var Connection = require('mongodb').Connection;
   var Server = require('mongodb').Server;
@@ -20,7 +21,7 @@ var DbManager = function()
     executeDbQuery(
       function(db)
       {
-        var cursor = db.collection("users").find({ "accesstoken": accessToken });
+        var cursor = db.collection("users").find({ "accessToken": accessToken });
         var users = [];
         cursor.each(function(err, doc) {
           assert.equal(err, null);
@@ -42,9 +43,9 @@ var DbManager = function()
   }
   
   // Adds a user to database.
-  this.createUser = function(user,callback)
+  this.saveUser = function(user,callback)
   {
-    insertToCollection("users",user,callback);
+    updateInCollection("users",user,callback);
   }
   
   // Updates a user in the database.
@@ -119,6 +120,18 @@ var DbManager = function()
           });
         }
       );
+  }
+  
+  // Updates an object in db collection.
+  var updateInCollection = function(collectionName, objectToUpdate, callback)
+  {
+    executeDbQuery(
+        function(db)
+        {
+          console.log(JSON.stringify(objectToUpdate));
+          db.collection(collectionName).save(objectToUpdate, callback);
+        }
+    );
   }
   
   var self = this;
