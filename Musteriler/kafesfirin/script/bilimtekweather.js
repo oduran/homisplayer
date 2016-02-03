@@ -2518,8 +2518,8 @@
 		  '377'          : 'Moderate or heavy showers of ice pellets',
 		  '386'          : 'Gökgürültülü yağış',
 		  '389'          : 'Gökgürültülü sağnak yağış',
-		  '392'          : 'Patchy light snow in area with thunder',
-		  '395'          : 'Moderate or heavy snow in area with thunder'
+		  '392'          : 'Karlı',
+		  '395'          : 'Karlı'
 	};
 
 	/*
@@ -2585,10 +2585,10 @@
 		'900' : '359',
 		'901' : '359',
 		'902' : '359',
-		'903' : '-', // karsiligi bulunamadi
-		'904' : '-', // karsiligi bulunamadi
-		'905' : '-', // karsiligi bulunamadi
-		'906' : '-' // karsiligi bulunamadi
+		'903' : '143', // karsiligi bulunamadi
+		'904' : '114', // karsiligi bulunamadi
+		'905' : '143', // karsiligi bulunamadi
+		'906' : '323' // karsiligi bulunamadi
 	};
 
 	$.bilimtekWeather.options = {
