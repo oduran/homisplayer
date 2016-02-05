@@ -33,6 +33,10 @@ background-color:white;
 	display: -webkit-inline-box;
 	
 }
+.changeTime{
+  float:right;
+}
+.close {display: none;}
 .screenfooter{
 	padding-top: 3%;
 	padding-right: 3%;
@@ -44,6 +48,11 @@ background-color:white;
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 }
+
+#timeline {
+  height:100%;
+}
+
 .wall
 {
 	display: -webkit-inline-box;
@@ -54,5 +63,4 @@ background-color:white;
 	-webkit-box-pack : center;
 	justify-content : center;
 	box-sizing: inherit;
-	
 }

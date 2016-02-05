@@ -22,81 +22,7 @@
   <script type="text/javascript" src="http://momentjs.com/downloads/moment.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
  </head>
- 
-<style type="text/css">
-        /* Styles for the page */
-    html, body {
-        font: 10pt arial;
-    }
-
-    #mytimeline {
-	height:100%;
-    }
-	.timeline-content
-	{
-	height:120px;
-	}
-    #new {
-        position: absolute;
-        left: 25px;
-        top: 8px;
-
-        text-transform: uppercase;
-        color: white;
-        font-weight: bold;
-        font-size: 40px;
-        text-decoration: none;
-    }
-
-        /* Custom styles for the Timeline */
-    div.timeline-frame {
-        border-color: #5D99C3;
-
-        border-radius: 5px;
-        -moz-border-radius: 5px; /* For Firefox 3.6 and older */
-    }
-    div.timeline-axis {
-        border-color: #5D99C3;
-
-        background-color: #5D99C3;
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5D99C3', endColorstr='#3A6DA0'); /* for IE */
-        background: -webkit-gradient(linear, left top, left bottom, from(#5D99C3), to(#3A6DA0)); /* for webkit browsers */
-        background: -moz-linear-gradient(top,  #5D99C3,  #3A6DA0); /* for firefox 3.6+ */
-    }
-    div.timeline-axis-grid {
-    }
-    div.timeline-groups-axis {
-        border-color: #5D99C3;
-    }
-    div.timeline-axis-text {
-        color: white;
-    }
-    div.timeline-groups-text {
-        color: #4D4D4D;
-    }
-    div.timeline-event {
-        color: white;
-        border-radius: 5px;
-    }
-    div.timeline-event-content {
-        padding: 5px;
-    }
-
-    div.unavailable {
-        background-color: #F03030; /* red */
-        border-color: #bd2828;     /* red */
-    }
-    div.available {
-    background: #1AA11A !important;
-    border-color: #136e13 !important;
-    color: white !important;
-}
-    div.maybe {
-        background-color: #FFA500; /* orange */
-        border-color: #cc8100;     /* orange */
-    }
-</style>
-<body style="">
+<body>
 	 <div class="container-fluid fill">
 		<div class="row-fluid ">
 			<div class="col-sm-5 col-md-12">
@@ -107,12 +33,10 @@
 					</button>
             <br>
 				</div>
-				<div class="col-sm-5 col-md-12">
+				<div class="col-sm-5 col-md-12" style="margin-top: 80px;">
           <div class="bs-grid-big">
-            <h2>Timeline</h2>
             <div class="bs-grid-big" style="height:100px; border:1px solid white;">
-              <div id="mytimeline"></div>
-
+              <div id="timeline"></div>
             </div>
           </div>
         </div>
@@ -123,19 +47,16 @@
         </div>
 			</div>
 		</div>
-		
 	</div>
-		
-
-	<div class="modal fade" id="myModal" role="dialog">
+	<div class="modal fade" id="initialModal" role="dialog">
 		<div class="modal-dialog">
-
 	  <!-- Modal content-->
 			<div class="modal-content modal-step" id="step1">
 				<div class="modal-header">
 				  <button type="button" class="close" data-dismiss="modal">&times;</button>
 				  <label class="modal-title">Çalışma Alanı Boyutlarını Giriniz</label>
 				</div>
+        <br>
 				<form id="firstForm">
 				<fieldset>
 					<div class="form-group">
@@ -153,6 +74,7 @@
 				  <button type="button" class="close" data-dismiss="modal">&times;</button>
 				  <label class="modal-title">Ekran Boyutlarını Giriniz</label>
 				</div>
+        <br>
 				<form id="secondForm">
 				<fieldset>
 					<div class="form-group">
@@ -171,35 +93,82 @@
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <label class="modal-title">Yeni Duvarın Süresini Giriniz</label>
         </div>
+        <br>
         <div class="form-group">
           <label for="datetimepicker1" class="control-label">Başlangıç Zamanını Giriniz</label>
+          <br><br>
           <div class='input-group date' id='datetimepicker1'>
-              <input type='text' class="form-control" />
+              <input type='text' class="form-control" value=00:00 />
               <span class="input-group-addon">
                   <span class="glyphicon glyphicon-time"></span>
               </span>
           </div>
-          <br>
+          <br><br>
           <label for="datetimepicker2" class="control-label">Bitiş Zamanını Giriniz</label>
+          <br><br>
           <div class='input-group date' id='datetimepicker2'>
-              <input type='text' class="form-control" />
+              <input type='text' class="form-control"  value=23:00 />
               <span class="input-group-addon">
                   <span class="glyphicon glyphicon-time"></span>
               </span>
           </div>
           <br>
-          <label >Ekranın Gösterilme Süresini Giriniz</label>
-          <input id="walltimer" class="form-control" placeholder="Süre Giriniz (dk)"></input>
         </div>
         <div class="modal-footer">
           <button type="button"  class="btn btn-default backButton" >Geri</button>
-          <button type="button" id="submit" class="btn btn-primary">İleri</button>
+          <button id = "submit" type="button"  class="btn btn-primary">İleri</button>
+        </div>
+			</div>
+
+		</div>
+	</div>
+  <div class="modal fade" id="changeTimeModal" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content" id="changeTimeStep">
+       <div class="modal-header">
+           <div id="changeTimeScreenName" style="display:none"></div>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <label for="timerDropdown" class="modal-title">Yeni Duvarın Süresini Giriniz</label>
+				</div>
+        <div class="modal-body">
+            <ul id="changeTimeTabs" class="nav nav-tabs">
+              <li class="active"><a href="#changePeriodicTime" data-toggle="tab">Periyodik Zaman</a></li>
+              <li><a href="#changeDeterminedTime" data-toggle="tab">Belirlenen Zaman</a></li>
+            </ul>
+            <br><br>
+            <div id="changeTimeTabContent" class="tab-content">
+              <div id="changePeriodicTime" class="tab-pane fade in active">
+              <br><br>
+                 <input id="changeNewWalltimer" class="form-control" placeholder="Süre Giriniz (dk)"></input>
+              </div>
+              <div id="changeDeterminedTime" class="tab-pane fade">
+                <label for="changeDeterminedTimepicker1" class="control-label">Başlangıç Zamanını Giriniz</label>
+              <br><br>
+                <div class='input-group date' id='changeDeterminedTimepicker1'>
+                  <input type='text' class="form-control" />
+                  <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-time"></span>
+                  </span>
+                </div>
+                <label for="changeDeterminedTimepicker2" class="control-label">Başlangıç Zamanını Giriniz</label>
+                <br><br>
+                <div class='input-group date' id='changeDeterminedTimepicker2'>
+                  <input type='text' class="form-control" />
+                  <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-time"></span>
+                  </span>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="changeTimeApply" class="btn btn-success">Kaydet</button>
         </div>
 			</div>
 		</div>
 	</div>
 	 <!-- Screen Modal Content-->
-		<div id="fsModal" class="modal animated bounceIn" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div id="fsModal" class="modal animated bounceIn" tabindex="-1" role="dialog" aria-labelledby="initialModalLabel" aria-hidden="true">
 		<!-- dialog -->
 			<div class="screenmodal" >
 
@@ -208,7 +177,7 @@
 
 		<!-- header -->
 					<div class="screenheader">
-						<h1 id="myModalLabel"
+						<h1 id="initialModalLabel"
 							class="screentitle" >
 						  Ekran Ayarları
 						</h1>
@@ -266,7 +235,7 @@
 				  <button type="button" class="close" data-dismiss="modal">&times;</button>
 				  <label class="modal-title">Yeni Duvar Tipini Seçiniz</label>
 				</div>
-				
+				<br>
 				<div class="dropdown" id="dropdownMenu2">
 					<button class="btn btn-info"
 							data-toggle="dropdown">
@@ -289,8 +258,36 @@
 										  <label for="timerDropdown" class="modal-title">Yeni Duvarın Süresini Giriniz</label>
 									</div>
                   <div class="modal-body">
-                      <label >Ekranın Gösterilme Süresini Giriniz</label>
-                      <input id="newwalltimer" class="form-control" placeholder="Süre Giriniz (dk)"></input>
+                      <ul id="tabs" class="nav nav-tabs">
+                        <li class="active"><a href="#periodicTime" data-toggle="tab">Periyodik Zaman</a></li>
+                        <li><a href="#determinedTime" data-toggle="tab">Belirlenen Zaman</a></li>
+                      </ul>
+                      <div id="tabContent" class="tab-content">
+                        <div id="periodicTime" class="tab-pane fade in active">
+                        <br><br>
+                           <input id="newwalltimer" class="form-control" placeholder="Süre Giriniz (dk)"></input>
+                        </div>
+                        <div id="determinedTime" class="tab-pane fade">
+                          <br>
+                          <label for="newwalldatetimepicker1" class="control-label">Başlangıç Zamanını Giriniz</label>
+                          <br>
+                          <div class='input-group date' id='newwalldatetimepicker1'>
+                            <input type='text' class="form-control" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                          </div>
+                          <br>
+                          <label for="newwalldatetimepicker2" class="control-label">Başlangıç Zamanını Giriniz</label>
+                          <br>
+                          <div class='input-group date' id='newwalldatetimepicker2'>
+                            <input type='text' class="form-control" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
                   </div>
 									<div class="modal-footer">
 									  <button type="button"  class="btn btn-default backWallButton">Geri</button>
@@ -299,400 +296,6 @@
 			</div>
 		</div>
 	</div>
-
-<script>
-$(function () {
-    var currentStep=1;
-    var currentWallStep=1;
-    var createdWallCount=0;
-    this.screentype = "dividedscreen";	
-    var numberOfSteps=$(".modal-step").length;
-    var numberOfWallSteps=$(".modal-wallstep").length;
-    var timeline = null;
-    google.load('visualization', '1', {packages: ['timeline']});
-    this.temp=0;
-    var totalMinutes=0;
-    var tempMinute=[];
-    var differenceTotalMinutes=0;
-    this.date = new Date();
-    var start;
-    var workspaceObj={};
-    var wall=[];
-    var screen=[];
-	  /*Set edilen baslangıç ve bitiş zamanlarının arasındaki dakika farkını bulan fonksiyon. Burada startTime ve endTime da set ediliyor.*/
-    function calculate(startTime,endTime)
-    {
-      var time1 = startTime.split(':');
-      var time2 = endTime.split(':');
-      var startHour = parseInt(time1[0], 10); 
-      var endHour = parseInt(time2[0], 10);
-      var startMin = parseInt(time1[1], 10);
-      var endMin = parseInt(time2[1], 10);
-      var hours = endHour - startHour, mins = 0;
-      if(hours < 0) hours = 24 + hours;
-      if(endMin >= startMin) {
-         mins = endMin - startMin;
-      }
-      else {
-         mins = (endMin + 60) - startMin;
-         hours--;
-      }
-      mins = mins / 60; // take percentage in 60
-      hours += mins;
-      return [hours*60,startHour,startMin,endHour,endMin];
-    }
-    // Timeline datarow çizimi sağlıyor
-    function drawVisualization(minutes,barType)
-    {
-      totalMinutes=0;
-      var	data= null;
-      var data = new google.visualization.DataTable();
-      data.addColumn('string', 'Team');
-      data.addColumn('date', 'Season Start Date');
-      data.addColumn('date', 'Season End Date');
-      var names = ["Test"];
-      timeControl();
-      tempMinute.push(parseInt(minutes));
-      for(var j=0;j<tempMinute.length;j++)
-      {
-        totalMinutes+=tempMinute[j];
-      }
-      
-      for (var n = 0, len = names.length; n < len; n++)
-      {
-        var name = names[n];
-               
-        for(var i=0;i<(differenceTotalMinutes/totalMinutes);i++)
-        {
-          for(var k=0;k<tempMinute.length;k++)
-          {	 
-            var startTime= new Date(start.getTime());
-            var endTime= new Date(start.getTime()+(tempMinute[k]*60000));
-
-            var availability = (k %2== 0) ? "A" :  "B";
-            var group = availability.toLowerCase();
-            var content = availability;
-            console.log("for süreler için " +k+"  1-start time="+startTime.getTime()+" *** "+endTime.getTime());
-            data.addRow(["TEST",startTime, endTime]);
-            start.setTime(endTime.getTime());
-          }
-        }
-      }
-      // specify options
-      var options = 
-      {
-        height: 450,
-        timeline: {groupByRowLabel:true}
-      };
-      // Instantiate our timeline object.
-      var chart = new google.visualization.Timeline(document.getElementById('mytimeline'));
-      chart.draw(data, options);
-    }
- 
-  $( document ).ready(function() 
-	{	 
-    var getWorkspaceId=getParameterByName('workspaceId');
-   
-    if(getWorkspaceId!==null)
-    {
-      doWork();
-    }
-    else
-    {
-      initialize();
-    }
-    
-	});
-  function doWork()
-  {
-    alert();
-  }
-  function initialize()
-  {
-    $('#myModal').modal('show');
-		showCurrentStep(currentStep);
-    
-    /*Açılışta çıkan dialogdaki datetimelerın set edildiği yer*/
-    $('#datetimepicker1').datetimepicker({
-        format: 'HH:mm'
-    });
-    $('#datetimepicker2').datetimepicker({
-        format: 'HH:mm'
-    });
-
-    /*Ekran seçiminde çıkacak draggable objectlerin set edildiği yer */
-		$(".draggable").draggable();
-    var draggableArguments={
-			 revert: 'true',
-			 helper:'clone',
-			 appendTo: '#drophere',
-			 refreshPositions: true,
-			 containment: 'DOM',
-			 zIndex: 1500,
-			 addClasses: false
-		};
-
-		$('.group').draggable(draggableArguments);
-		$('.group').droppable();
-
-		$(".nav-sidebar").droppable({
-			tolerance: "intersect",
-			accept: ".group",
-			activeClass: "ui-state-default",
-			hoverClass: "ui-state-hover",
-			drop: function(event, ui) {
-				$(".nav-sidebar").append($(ui.draggable));
-			}
-		});
-		$('#drophere').droppable({
-			accept: ".group",
-			activeClass: "ui-state-highlight",
-			drop: function( event, ui ) 
-      {
-        // clone item to retain in original "list"
-        var $item = ui.draggable.clone();
-        $(this).addClass('has-drop').html($item);
-        $("#drophere .group").css("width","100%");
-        $("#drophere .group").css("height","100%");
-        $("#drophere .screeniframe").css("width","100%");
-        $("#drophere .screeniframe").css("height","75vh");
-        $("#drophere .screeniframe").css("transform","scale(1)");
-        $("#drophere .screeniframe").css("transform-origin","transform-origin: 0px 0px 0px");
-			}
-		});	
-  }
-  function getParameterByName(name, url)
-  {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-  }
-	/*Açılışta çıkan dialogdaki back butonu*/
-	$(".nextButton").click(function()
-	{	
-		currentStep=(++currentStep>numberOfSteps)?--currentStep:currentStep;
-		showCurrentStep(currentStep);
-	});
-  
-	/*Açılışta çıkan dialogdaki back butonu*/
-	$(".backButton").click(function()
-	{	
-		currentStep=(--currentStep<0)?++currentStep:currentStep;
-		showCurrentStep(currentStep);
-	});
-	
-  /*Açılışta çıkan dialogdaki en son gösterilen div deki next butonu*/
-	$("#submit").click(function()
-	{
-		if($("#datetimepicker1").find("input").val().length>0 && $("#datetimepicker1").find("input").val().length>0&& $("#walltimer").val().length>0&&$("#pageWidth").val()%$("#screenWidth").val()==0&&$("#pageHeight").val()%$("#screenHeight").val()==0)
-		{	
-      debugger;
-      var barType=1;
-      timeControl();
-			self.createDiv("dividedscreen",$("#walltimer").val(),barType);
-    }
-    else
-      alert("Eksik veya Yanlış Bilgi Giriniz")
-	});
-  function timeControl()
-  {
-    var startTime = $("#datetimepicker1").find("input").val();
-    var endTime = $("#datetimepicker2").find("input").val();
-    var timeItems = calculate(startTime,endTime);
-    differenceTotalMinutes = timeItems[0];
-    start =new Date(self.date.getFullYear(), self.date.getMonth(),self.date.getDate(),timeItems[1],timeItems[2],0);
-    end = new Date(self.date.getFullYear(), self.date.getMonth(),self.date.getDate(),timeItems[3],timeItems[4],0); 
-  }
-  /*Açılışta çıkan dialog daki .modal-step class ını kontrol edip aktif olan div i gösteriyor*/
-	function showCurrentStep(currentStep)
-	{
-		$('.modal-step').hide();
-		$('#step'+currentStep).show();
-	}
-	
-  /*Yeni duvar ekle butonuna bastığımızda çıkan dialog daki .modal-wallstep class ını kontrol edip aktif olan div i gösteriyor*/
-  function showCurrentWallStep(currentWallStep)
-	{
-    $('.modal-wallstep').hide();
-    $('#wallstep'+currentWallStep).show();
-	}
-  
-  /*Yeni Duvar Ekle butonunda çıkan dialogdaki next buttonu*/
-	$(".nextWallButton").click(function()
-	{	
-		currentWallStep=(++currentWallStep>numberOfSteps)?--currentWallStep:currentWallStep;
-		showCurrentWallStep(currentWallStep);
-	});
-	
-  /*Yeni Duvar Ekle butonunda çıkan dialogdaki back buttonu*/
-	$(".backWallButton").click(function()
-	{	
-		currentWallStep=(--currentWallStep<0)?++currentWallStep:currentWallStep;
-		showCurrentWallStep(currentWallStep);
-	});
-  
-	/*Yeni Duvar Ekle butonunda çıkan dialogdaki en son next butonu*/
-  $("#createWall").click(function(){
-    var screentype = $(".selected").attr('id') ;
-    var barType=0;
-    self.createDiv(screentype,$("#newwalltimer").val(),barType);
-    currentWallStep=1;
-	});
-
-  /*Yeni Duvar Ekle butonuna bastığımızda çıkan ilk dialogdaki ekran tiplerinin bulunduğu dropdownlist*/
-	$('#screentypedropdown a').click(function(e) {
-		$('#screentypedropdown a').removeClass('selected');
-		$(this).addClass('selected');
-	});
-  $("#dropdownMenu2").on("click", "li a", function() {
-		var platform = $(this).text();
- 		$('#platform').html(platform);
-	});
-  
-  /*Workspace div in içinde eklenen ekranlara bastığımızda çalışan fonksiyon*/
-	$('#workspaceForm').on('click', '[class^=wall_screen]', function(){
-		 $('#fsModal').modal('show');
- 	});
-  
-  /*Workspace div in içinde yer alan "Yeni duvar ekle" butonuna bastığımızda çalışan fonksiyon*/
-	$('#workspaceForm').on('click', '[id=addNewWall]', function(){
-		$("#newWallModal").modal('show');
-		showCurrentWallStep(currentWallStep);
- 	});
-
-  /*Ekranları workspace in içine set eden fonksiyon*/
-	this.createDiv = function(screenType,minutes,barType)
-	{
-		if(screenType=="dividedscreen")
-		{
-			var createdWallCount = $('.wall').length+1;
-			var screenName = "Ekran"+createdWallCount;
-			var numberOfScreens=($("#pageWidth").val() /$("#screenWidth").val())*($("#pageHeight").val()/$("#screenHeight").val());
-      var workspaceDiv = "<div style='width:100%;height:50%;border: 1px solid aquamarine;'><h2>"+screenName+"</h2><button type='button' class='btn btn-danger removeScreen'><span class='glyphicon glyphicon-trash'></span></button><div id='wall"+createdWallCount+"' class='wall' style='width:100%;height:"+$("#pageHeight").val()+"px;zoom:20%;'></div>";;
-			document.getElementById('workspaceForm').innerHTML+=workspaceDiv;
-			for(var i = 0; i<numberOfScreens;i++)
-			{
-				var playerScreenDiv = "<div id='wall"+createdWallCount+"_screen"+i+"' class='wall_screen' style='width:"+$("#screenWidth").val()+"px;height:"+$("#screenHeight").val()+"px;'></div>";
-				document.getElementById('wall'+createdWallCount).innerHTML+=playerScreenDiv ;
-      }
-      document.getElementById('wall'+createdWallCount).innerHTML+="<br><br>";
-      wall.push({
-          id: "wall"+createdWallCount,
-          type: screenType,
-          showtime: minutes,
-      });
-      console.log(wall);
-      $('#myModal').modal('hide');
-      $('#newWallModal').modal('hide');
-      drawVisualization(minutes,barType);
-		}
-		else
-    {
-      createScreen(createdWallCount,minutes,barType,screenType);
-    }
-	}
-  function createScreen(createdWallCount,minutes,barType,screenType)
-  {
-		var createdWallCount = $('.wall').length+1;
-    var screenName ="Ekran"+createdWallCount;
-    var workspaceDiv = "<div style='width:100%;height:50%;border: 1px solid aquamarine;'><h2>"+screenName+"</h2><button type='button' class='btn btn-danger'><span class='glyphicon glyphicon-trash'></span></button><div id='wall"+createdWallCount+"' class='wall' style='width:100%;height:"+$("#pageHeight").val()+"px;zoom:20%;'></div>";;
-    document.getElementById('workspaceForm').innerHTML+=workspaceDiv;
-    var playerScreenDiv = "<div id='wall"+createdWallCount+"_screen' class='wall_screen' style='width:"+$("#pageWidth").val()+"px;height:"+$("#pageHeight").val()+"px;'></div>";
-    document.getElementById('wall'+createdWallCount).innerHTML+=playerScreenDiv ;
-    document.getElementById('wall'+createdWallCount).innerHTML+="<br><br>";
-    wall.push({
-          id: "wall"+createdWallCount,
-          type: screenType,
-          showtime: minutes,
-      });
-      console.log(wall);
-    $('#myModal').modal('hide');
-    $('#newWallModal').modal('hide');
-    drawVisualization(minutes,barType);
-  }
-  function setAttributes(el, options) {
-   Object.keys(options).forEach(function(attr) {
-     el.setAttribute(attr, options[attr]);
-   })
-  }
-  
-   
-  /*Keyup Function = Sayfada çıkan ikinci dialog da Workspace ve Ekranların width-height modunu alıp kontrol ediyor */
- 
-  $('#secondForm').formValidation(
-  {
-      framework: 'bootstrap',
-      icon: {
-          valid: 'glyphicon glyphicon-ok',
-          invalid: 'glyphicon glyphicon-remove',
-          validating: 'glyphicon glyphicon-refresh'
-      },
-      fields: {
-          screenWidth: {
-              validators: {
-                  callback: {
-                     callback: function (value, validator, $field) 
-                              {
-                                var sum   = $("#pageWidth").val()%value;
-                                if(sum==0)
-                                {
-                                  $("#screenWidth").css("border","1px solid green");
-                                  return{valid:true,	message: 'Genişlik Ekran Boyutunun Tam Katı'};
-                                }
-                                else
-                                {
-                                  $("#screenWidth").css("border","1px solid red");
-                                  return{valid:false,	message: 'Genişlik Ekran Boyutunun Tam Katı Olmalı'};
-                                }
-                                return true;
-                              }
-                            }
-                          }
-                        },
-        screenHeight: {
-              validators: {
-                  callback: {
-                      callback: function (value, validator, $field) 
-                              {
-                                var sum   = $("#pageHeight").val()%value;
-                                if(sum==0)
-                                {
-                                  $("#screenHeight").css("border","1px solid green");
-                                  return{valid:true,	message: 'Yükseklik Ekran Boyutunun Tam Katı'};
-                                }
-                                else
-                                {
-                                  $("#screenHeight").css("border","1px solid red");
-                                  return{valid:false,	message: 'Yükseklik Ekran Boyutunun Tam Katı Olmalı'};
-                                }
-                                return true;
-                              }
-                            }
-                          }
-                      }
-              }
-  })
-  $(".saveButton").click(function()
-	{
-    workspaceObj={
-      workspaceId:1,
-      name:"test",
-      starttime:$("#datetimepicker1").find("input").val(),
-      endtime:$("#datetimepicker2").find("input").val(),
-      width:$("#pageWidth").val(),
-      height:$("#pageHeight").val(),
-      walls:wall
-    }
-    console.log(JSON.stringify(workspaceObj));
-    console.log(workspaceObj);
-	});
-
- 	var self=this;
-	});
-</script>
+<script type="text/javascript" src="../script/wallmanager.js"></script>
 </body>
 </html>
