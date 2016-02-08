@@ -2000,6 +2000,22 @@ a {
 	text-decoration: none;
 }
 
+.twitterelement
+{
+    height:100%;
+    float:right;
+}
+.twitterelement p
+{
+    height:100%;
+    float:right;
+    margin-top:10px;
+    font-family: kafesfontswisslight;
+    color: white;
+    font-size:50px;
+}
+
+
 
 
 

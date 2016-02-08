@@ -5,7 +5,7 @@ var WallManager = function () {
   this.temp=0;
   this.screentype = "dividedscreen";	
   this.date = new Date();
-  var serviceUrl="http://192.168.2.99:8080/service/";
+  var serviceUrl="http://www.homisida.com:8080/service/";
   var currentStep=1;
   var currentWallStep=1;
   var numberOfSteps=$(".modal-step").length;
@@ -171,16 +171,24 @@ var WallManager = function () {
   }
   function getNewWallUpdateTimeSelectedTab ()
   {
+    debugger;
     var newWallTime = 0;
     var $tab = $('#changeTimeTabContent');
     var $active = $tab.find('.tab-pane.active');
     if($active[0].id==="changeDeterminedTime")
     {
-      newWallTime = $("#changeDeterminedTimepicker1").find("input").val()+"-"+$("#changeDeterminedTimepicker2").find("input").val();
-    }
-    else
-    {
-      newWallTime = $active.find('input').val();
+      if($("#changeDeterminedTimepicker1").find("input").val()>=$("#changeDeterminedTimepicker2").find("input").val())
+      {
+        return false;
+      }
+      var startTime =$("#changeDeterminedTimepicker1").find("input").val();
+      var endTime = $("#changeDeterminedTimepicker2").find("input").val();
+      var checkUsedTimeFlag = checkUsedTime(startTime,endTime);
+      if(checkUsedTimeFlag==false)
+      {
+        return false;
+      }
+      newWallTime = startTime+"-"+endTime;
     }
     return newWallTime;
   }
@@ -192,8 +200,14 @@ var WallManager = function () {
       for (var i in walls) 
       {
        if (walls[i].id == $("#changeTimeScreenName").val()) 
-       {
+       {  walls[i].showTime ="-";
           var newMinutes = getNewWallUpdateTimeSelectedTab();
+          
+          if(newMinutes==false)
+          {
+            alert("Girdiğiniz zaman aralığı kullanılmaktadır.")
+            return false;
+          }
           walls[i].showTime =newMinutes;
           drawVisualization();
           break; //Stop this loop, we found it!
@@ -408,7 +422,7 @@ var WallManager = function () {
         endtime:$("#datetimepicker2").find("input").val(),
         width:$("#pageWidth").val(),
         height:$("#pageHeight").val(),
-        walls:wall
+        walls:walls
       }
       console.log(JSON.stringify(workspaceObj));
       
@@ -462,7 +476,18 @@ var WallManager = function () {
     var $active = $tab.find('.tab-pane.active');
     if($active[0].id==="determinedTime")
     {
-      newWallTime = $("#newwalldatetimepicker1").find("input").val()+"-"+$("#newwalldatetimepicker2").find("input").val();
+      if($("#newwalldatetimepicker1").find("input").val()>=$("#newwalldatetimepicker2").find("input").val())
+      {
+        return false;
+      }
+      var startTime =$("#newwalldatetimepicker1").find("input").val();
+      var endTime = $("#newwalldatetimepicker2").find("input").val();
+      var checkUsedTimeFlag = checkUsedTime(startTime,endTime);
+      if(checkUsedTimeFlag==false)
+      {
+        return false;
+      }
+      newWallTime = startTime+"-"+endTime;
     }
     else
     {
@@ -470,11 +495,40 @@ var WallManager = function () {
     }
     return newWallTime;
   }
+  function checkUsedTime(startTime,endTime)
+  {
+    debugger;
+    for(var i in walls)
+    {
+      if(walls[i].showTime.indexOf("-"))
+      {
+        var wallShowTime = walls[i].showTime.split("-");
+        var splitShowTime = splitStartAndEndTime(wallShowTime[0],wallShowTime[1])
+        var splitNewWallShowTime = splitStartAndEndTime(startTime,endTime);
+        if((splitShowTime.startTime<=splitNewWallShowTime.startTime && splitNewWallShowTime.startTime<splitShowTime.endTime)||(splitShowTime.startTime<splitNewWallShowTime.endTime && splitNewWallShowTime.endTime<=splitShowTime.endTime)||(splitShowTime.startTime==splitNewWallShowTime.startTime && splitShowTime.endTime==splitNewWallShowTime.endTime))
+        {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+  function splitStartAndEndTime(startTime,endTime)
+  {
+    var splitStartTime = startTime.split(":");
+    var splitEndTime = endTime.split(":");
+    return{startTime:splitStartTime[0],endTime:splitEndTime[0],startTimeMinute:splitStartTime[1],endTimeMinute:splitEndTime[1]}
+  }
   // Yeni Duvar Ekle butonunda çıkan dialogdaki en son next butonu.
   var applyNewWall = function()
   {   debugger;
       var screenType = $(".selected").attr('id') ;
       var newWallTime = getNewWallTimeSelectedTab();
+      if(newWallTime===false)
+      {
+        alert("Başlangıç zamanı bitiş zamanından büyük ve eşit olamaz");
+        return;
+      }
       if(newWallTime.length===0||newWallTime==="-")
       {
         alert("Lütfen Ekranın Zamanını Giriniz");
