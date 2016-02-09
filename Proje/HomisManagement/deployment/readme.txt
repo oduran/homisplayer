@@ -20,7 +20,12 @@ log file için :
 /datadrive/homis/homismanagement
 içinde application.js olmalı.
 
-4- homismanagement klasörü üzerine:
+4- windows bcrypt install problemi için:
+python 2.7 yükle
+npm install -g node-gyp
+npm config set msvs_version 2013 --global
+
+5- homismanagement klasörü üzerine:
 npm install express -> web servisler için
 npm install mongodb -> mongo connect işi için
 npm install bcrypt -> password encryption için
