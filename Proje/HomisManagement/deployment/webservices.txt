@@ -10,7 +10,7 @@ password: user's password
 var data = {username: "onder", password: "123456"};
 $.ajax({
   type: "POST",
-  url: "http://www.homisida.com:8080/service/saveuser",
+  url: "http://www.homisida.com:8080/service/login",
   data: data,
   success: function(data){debugger;},
   error: function(error){debugger;}

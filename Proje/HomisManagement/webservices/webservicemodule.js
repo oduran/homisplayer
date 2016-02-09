@@ -63,7 +63,7 @@ var WebServiceManager = function(router)
 			user.accessToken = dbManager.createAccessToken(username);
 			dbManager.saveUser(user, function()
 			{
-			  res.cookie('accessToken', user.accessToken, { maxAge: 900000, httpOnly: true });
+			  res.cookie('accessToken', user.accessToken, { maxAge: 900000 });
 			  res.json({accessToken: user.accessToken});
 			});
 		}
