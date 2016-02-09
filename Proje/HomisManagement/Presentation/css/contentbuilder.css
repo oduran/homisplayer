@@ -5,14 +5,15 @@ body{
 }
 .wall_screen:hover
 {
-background-color:white;
+  background-color:white;
 }
 .wall_screen
 {
-	border: 1px solid white;
-	background: url(../media/plus.png);
-	background-repeat: no-repeat;
-	background-size: contain;	
+  border: 1px solid white;
+  background: url(../media/plus.png);
+  background-repeat: no-repeat;
+  background-color: darkgrey;
+  background-size: contain;
   background-position: 50% 50%;
 }
 .screenmodal{
@@ -63,4 +64,20 @@ background-color:white;
 	-webkit-box-pack : center;
 	justify-content : center;
 	box-sizing: inherit;
+}
+#workspaceForm
+{
+  background-color: rgb(229, 229, 229) !important;
+  height: 43pc;
+  border: 5px solid #428BCA;
+  overflow-y: scroll;
+  border-radius: 5px;
+  width: 98.6%;
+  margin-left: 0.7%;
+}
+.newScreen{
+  width:100%;
+  height:50%;
+  border: 1px solid #010101;
+  background-color: #D2D9DE;
 }

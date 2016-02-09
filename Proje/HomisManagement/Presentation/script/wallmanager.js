@@ -165,9 +165,38 @@ var WallManager = function () {
   }
   
   // Workspace halihazırda varsa ekrana servisten gelen workspace objesinde belirlenmiş olan duvarları ekler.
-  var doWork = function()
+  var doWork = function(workspaceId)
   {
-    alert();
+    var data = { accessToken:"5", workspaceId:workspaceId};
+    $.ajax({
+      type: "POST",
+      url:  serviceUrl+"getworkspace",
+      data: data,
+      success: function(data){
+        $( "#pageHeight" ).val(data.height);
+        $( "#pageWidth" ).val(data.width);
+        $("#datetimepicker1").find("input").val(data.starttime);
+        $("#datetimepicker2").find("input").val(data.endtime);
+        var workspaceTimer = splitStartAndEndTime(data.starttime,data.endtime)
+        self.start = new Date(self.date.getFullYear(), self.date.getMonth(),self.date.getDate(),workspaceTimer.startTime,workspaceTimer.startTimeMinute,0);
+        self.end = new Date(self.date.getFullYear(), self.date.getMonth(),self.date.getDate(),workspaceTimer.endTime,workspaceTimer.endTimeMinute,0);
+
+        for(var i = 0 ; i<data.walls.length ;i++)
+        {
+          var wall = {
+          id: data.walls[i].id,
+          type: data.walls[i].type,
+          showTime: data.walls[i].showTime,
+          }
+          
+          walls.push(wall);
+          createDiv(wall);
+          drawVisualization();
+        }
+      },
+      error: function(error){debugger;}
+    });
+    
   }
   function getNewWallUpdateTimeSelectedTab ()
   {
@@ -190,6 +219,11 @@ var WallManager = function () {
       }
       newWallTime = startTime+"-"+endTime;
     }
+    else
+    {
+      newWallTime = $active.find('input').val();
+    }
+    
     return newWallTime;
   }
   
@@ -205,7 +239,7 @@ var WallManager = function () {
           
           if(newMinutes==false)
           {
-            alert("Girdiğiniz zaman aralığı kullanılmaktadır.")
+            BootstrapDialog.alert("Girdiğiniz zaman aralığı kullanılmaktadır.")
             return false;
           }
           walls[i].showTime =newMinutes;
@@ -250,22 +284,9 @@ var WallManager = function () {
   // Başlangıçta çalışma alanı, ekran büyüklüklerinin girilebileceği modal penceresinin açılmasını sağlar ve sürükle bırak objelerini set eder.
   this.initialize = function()
   {
+    
+  
     setHtmlElementEvents();
-    $('#initialModal').modal(
-    {
-      backdrop: 'static',
-      keyboard: false 
-    });
-    $('#initialModal').modal('show');
-		showCurrentStep(currentStep);
-    var getWorkspaceId=getParameterByName('workspaceId');
-    if(getWorkspaceId!==null)
-    {
-      doWork();
-      return;
-    }
-
-    /*Açılışta çıkan dialogdaki datetimelerın set edildiği yer*/
     $('#datetimepicker1').datetimepicker({
         format: 'HH:mm'
     });
@@ -331,6 +352,20 @@ var WallManager = function () {
         $("#drophere .screeniframe").css("transform-origin","transform-origin: 0px 0px 0px");
 			}
 		});	
+    var getWorkspaceId=getParameterByName('workspaceId');
+    if(getWorkspaceId!==null)
+    {
+      doWork(getWorkspaceId);
+      return;
+    }
+    $('#initialModal').modal(
+    {
+      backdrop: 'static',
+      keyboard: false 
+    });
+    $('#initialModal').modal('show');
+		showCurrentStep(currentStep);
+     
   }
   
   var getParameterByName = function(name, url)
@@ -390,7 +425,7 @@ var WallManager = function () {
     var screenName = wall.id.replace("wall","Ekran");
     var numberOfScreens=($("#pageWidth").val() /$("#screenWidth").val())*($("#pageHeight").val()/$("#screenHeight").val());
     
-    var workspaceDiv = "<div style='width:100%;height:50%;border: 1px solid aquamarine;'><h2>"+screenName+"</h2><button type='button' class='btn btn-danger removeScreen'><span class='glyphicon glyphicon-trash'></span></button><button type='button' class='btn btn-default changeTime' data-toggle='modal' data-id='' href='#changeTimeModal'><span class='glyphicon glyphicon-time'></span></button><div id='"+wall.id+"' class='wall' style='width:100%;height:"+$("#pageHeight").val()+"px;zoom:20%;'></div>";
+    var workspaceDiv = "<br><div class='newScreen'><h2>"+screenName+"</h2><button type='button' class='btn btn-danger removeScreen'><span class='glyphicon glyphicon-trash'></span></button><button type='button' class='btn btn-default changeTime' data-toggle='modal' data-id='' href='#changeTimeModal'><span class='glyphicon glyphicon-time'></span></button><div id='"+wall.id+"' class='wall' style='width:100%;height:"+$("#pageHeight").val()+"px;zoom:13%;'></div>";
     document.getElementById('workspaceForm').innerHTML+=workspaceDiv;
     for(var i = 0; i<numberOfScreens;i++)
     {
@@ -404,7 +439,7 @@ var WallManager = function () {
   var createMediaScreen = function(wall)
   {
     var screenName = wall.id.replace("wall","Ekran");
-    var workspaceDiv = "<div style='width:100%;height:50%;border: 1px solid aquamarine;'><h2>"+screenName+"</h2><button type='button' class='btn btn-danger removeScreen'><span class='glyphicon glyphicon-trash'></span></button><button type='button' class='btn btn-default changeTime' data-toggle='modal' data-id='' href='#changeTimeModal'><span class='glyphicon glyphicon-time'></span></button><div id='"+wall.id+"' class='wall' style='width:100%;height:"+$("#pageHeight").val()+"px;zoom:20%;'></div>";
+    var workspaceDiv = "<br><div class='newScreen'><h2>"+screenName+"</h2><button type='button' class='btn btn-danger removeScreen'><span class='glyphicon glyphicon-trash'></span></button><button type='button' class='btn btn-default changeTime' data-toggle='modal' data-id='' href='#changeTimeModal'><span class='glyphicon glyphicon-time'></span></button><div id='"+wall.id+"' class='wall' style='width:100%;height:"+$("#pageHeight").val()+"px;zoom:13%;'></div>";
     document.getElementById('workspaceForm').innerHTML+=workspaceDiv;
     var playerScreenDiv = "<div id='"+wall.id+"_screen' class='wall_screen' style='width:"+$("#pageWidth").val()+"px;height:"+$("#pageHeight").val()+"px;'></div>";
     document.getElementById(wall.id).innerHTML+=playerScreenDiv ;
@@ -431,7 +466,9 @@ var WallManager = function () {
         type: "POST",
         url: serviceUrl+"saveworkspace",
         data: data,
-        success: function(data){},
+        success: function(data){
+         BootstrapDialog.alert("Çalışma Alanı Başarıyla Kaydedildi.");
+        },
         error: function(error){}
       });
       console.log(workspaceObj);
@@ -441,7 +478,8 @@ var WallManager = function () {
   // Workspace div in içinde yer alan "Yeni duvar ekle" butonuna bastığımızda çalışan fonksiyon.
   var addNewWallOnClick = function()
   {
-    $('#workspaceForm').on('click', '[id=addNewWall]', function(){
+    $("#addNewWall").click(function()
+    {
       $("#newWallModal").modal('show');
       showCurrentWallStep(currentWallStep);
     });
@@ -500,7 +538,7 @@ var WallManager = function () {
     debugger;
     for(var i in walls)
     {
-      if(walls[i].showTime.indexOf("-"))
+      if(walls[i].showTime.indexOf("-")>-1)
       {
         var wallShowTime = walls[i].showTime.split("-");
         var splitShowTime = splitStartAndEndTime(wallShowTime[0],wallShowTime[1])
@@ -526,12 +564,12 @@ var WallManager = function () {
       var newWallTime = getNewWallTimeSelectedTab();
       if(newWallTime===false)
       {
-        alert("Başlangıç zamanı bitiş zamanından büyük ve eşit olamaz");
-        return;
+        BootstrapDialog.alert('Başlangıç zamanı bitiş zamanından büyük ve eşit olamaz');
+         return;
       }
       if(newWallTime.length===0||newWallTime==="-")
       {
-        alert("Lütfen Ekranın Zamanını Giriniz");
+        BootstrapDialog.alert("Lütfen Ekranın Zamanını Giriniz");
         return;
       }
       var wallId = "wall"+(walls.length+1);
@@ -602,7 +640,7 @@ var WallManager = function () {
         $("#initialModal").modal('hide');
       }
       else
-        alert("Eksik veya Yanlış Bilgi Giriniz")
+        BootstrapDialog.alert("Eksik veya Yanlış Bilgi Giriniz")
     });
   }
   
