@@ -1,4 +1,4 @@
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 
 // Encrypts given password.
 var cryptPassword = function(password, callback) {
