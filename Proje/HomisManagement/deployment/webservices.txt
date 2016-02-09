@@ -1,0 +1,77 @@
+﻿=======================
+  Web Services
+=======================
+/* Login */
+actors: admin,user
+--
+username: user's username
+password: user's password
+--
+var data = {username: "onder", password: "123456"};
+$.ajax({
+  type: "POST",
+  url: "http://www.homisida.com:8080/service/saveuser",
+  data: data,
+  success: function(data){debugger;},
+  error: function(error){debugger;}
+});
+
+/* Save User */
+actors: admin
+--
+accessToken: admin's access token.
+user: a user to be saved. if does exist then it will be updated with new variables. password will be encrypted before db save. 
+var data = {accessToken:"5", user: {"name":"Önder","surname":"Altıntaş","type":"admin","password":"b1l1mt3k","workspaces":[]}};
+$.ajax({
+  type: "POST",
+  url: "http://www.homisida.com:8080/service/saveuser",
+  data: data,
+  success: function(data){debugger;},
+  error: function(error){debugger;}
+});
+
+/* Get User */
+actors: admin, user
+--
+accessToken: own access token.
+username: if provided access token is admin's then he/she can demand another user by username. (admin only)
+var data = {accessToken:"5", username: };
+$.ajax({
+  type: "POST",
+  url: "http://www.homisida.com:8080/service/getuser",
+  data: data,
+  success: function(data){debugger;},
+  error: function(error){debugger;}
+});
+
+
+/* Save Workspace */
+actors: admin, user
+--
+accessToken: user's own access token.
+workspace: workspace to be saved, if it is already exists, then it will be updated on db.
+--
+var data = { accessToken:"5", workspace: {workspaceId: "bir", falan:"falan", filan:"filan"}};
+$.ajax({
+  type: "POST",
+  url: "http://www.homisida.com:8080/service/saveworkspace",
+  data: data,
+  success: function(data){debugger;},
+  error: function(error){debugger;}
+});
+
+/* Get Workspace*/
+actors: admin,user
+--
+accessToken: user's own access token to get his/her workspace.
+workspaceId: user's own workspace id.
+--
+var data = { accessToken:"5", workspaceId: "bir"};
+$.ajax({
+  type: "POST",
+  url: "http://www.homisida.com:8080/service/getworkspace",
+  data: data,
+  success: function(data){debugger;},
+  error: function(error){debugger;}
+});
+

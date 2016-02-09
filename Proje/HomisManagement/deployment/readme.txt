@@ -1,4 +1,4 @@
-1- node modellerini yükleme kerberos sıkıntısı için : 
+﻿1- node modellerini yükleme kerberos sıkıntısı için : 
 sudo apt-get install libkrb5-dev
 2- mongodb install:
 
@@ -24,38 +24,3 @@ içinde application.js olmalı.
 npm install express -> web servisler için
 npm install mongodb -> mongo connect işi için
 npm install bcrypt -> password encryption için
-
-=======================
-  Web Servisler
-=======================
-/* Save user */
-var data = { accessToken:"5", user: {name:"ali",surname:"veli", type:"admin"} };
-$.ajax({
-  type: "POST",
-  url: "http://192.168.2.99:8080/service/saveuser",
-  data: data,
-  success: function(data){debugger;},
-  error: function(error){debugger;}
-});
-
-
-/* Save Workspace*/
-var data = { accessToken:"5", workspace: {workspaceId: "bir", falan:"falan", filan:"filan"}};
-$.ajax({
-  type: "POST",
-  url: "http://192.168.2.99:8080/service/saveworkspace",
-  data: data,
-  success: function(data){debugger;},
-  error: function(error){debugger;}
-});
-
-
-var data = { accessToken:"5", workspaceId: "bir"};
-$.ajax({
-  type: "POST",
-  url: "http://192.168.2.99:8080/service/getworkspace",
-  data: data,
-  success: function(data){debugger;},
-  error: function(error){debugger;}
-});
-

@@ -42,14 +42,35 @@ var DbManager = function()
     );
   }
   
-  // Adds a user to database.
-  this.saveUser = function(user,callback)
+  // Gets a user by given access token.
+  this.getUserByUsername = function(name,callback)
   {
-    updateInCollection("users",user,callback);
+    executeDbQuery(
+      function(db)
+      {
+        var cursor = db.collection("users").find({ "name": name });
+        var users = [];
+        cursor.each(function(err, doc) {
+          assert.equal(err, null);
+          if (doc != null) {
+            users.push(doc);
+          } else {
+            if(users.length === 0) 
+            {
+              callback(null);
+            }
+            else
+            {
+              callback(users[0]);
+            }
+          }
+        });
+      }
+    );
   }
   
-  // Updates a user in the database.
-  this.updateUser = function(user,callback)
+  // Adds a user to database.
+  this.saveUser = function(user,callback)
   {
     updateInCollection("users",user,callback);
   }
@@ -58,6 +79,12 @@ var DbManager = function()
   this.getUsers = function(callback)
   {
     getCollection("users",callback);
+  }
+  
+  // Creates unique access token with using mongodb's ObjectID.
+  this.createAccessToken = function()
+  {
+	  var newAccessToken = new ObjectID().toString();
   }
   
   /*Private methods*/

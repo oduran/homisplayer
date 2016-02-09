@@ -1,5 +1,6 @@
 var bcrypt = require('bcrypt');
 
+// Encrypts given password.
 var cryptPassword = function(password, callback) {
    bcrypt.genSalt(10, function(err, salt) {
     if (err) 
@@ -12,8 +13,9 @@ var cryptPassword = function(password, callback) {
   });
 };
 
-var comparePassword = function(password, userPassword, callback) {
-   bcrypt.compare(password, userPassword, function(err, isPasswordMatch) {
+// Compares given password with encrypted password.
+var comparePassword = function(password, encryptedPassword, callback) {
+   bcrypt.compare(password, encryptedPassword, function(err, isPasswordMatch) {
       if (err) 
         return callback(err);
       return callback(null, isPasswordMatch);
