@@ -1,5 +1,6 @@
 
 var addLoginOnClick = function (){
+  var url = Util.getWindowUrl();
   $("#login").click(function ()
   
   {debugger;
@@ -8,10 +9,10 @@ var addLoginOnClick = function (){
     var data = {username: username , password: userpassword };
     $.ajax({
       type: "POST",
-      url: "http://www.homisida.com:8080/service/login",
+      url: url+"service/login",
       data: data,
       success: function(response){
-        window.location.href = window.location.href.substring(0,window.location.href.lastIndexOf('/') +1)+"main.html";
+        window.location.href = url+"main.html";
       },
       error: function(error){debugger;}
     });
