@@ -63,6 +63,7 @@ var WebServiceManager = function(router)
 			user.accessToken = dbManager.createAccessToken(username);
 			dbManager.saveUser(user, function()
 			{
+			  res.cookie('accessToken', user.accessToken, { maxAge: 900000, httpOnly: true });
 			  res.json({accessToken: user.accessToken});
 			});
 		}
@@ -79,22 +80,23 @@ var WebServiceManager = function(router)
     var accessToken = req.body.accessToken;
     dbManager.getUserByAccessToken(accessToken, function(operator)
     {
-      if(operator === null)
+      if(!operator)
       {
         res.json({message: "nopermission"});
+		return;
       }
       
       if(operator.type == "admin")
       {
 		var newUser = req.body.user;
-		dbManager.getUserByUsername(newUser.userName,function(existingUser){
-			if(existingUser === null)
+		dbManager.getUserByUsername(newUser.name,function(existingUser){
+			if(existingUser)
 			{
-				insertUser(newUser,res);
+				updateUser(newUser,existingUser,res);
 			}
 			else
 			{
-				updateUser(newUser,existingUser,res)
+				insertUser(newUser,res);
 			}
 		});
       }
@@ -115,7 +117,7 @@ var WebServiceManager = function(router)
 	  
 	  if(user.password.length <= 0)
 	  {
-		  return "Username cannot be empty."
+		  return "Password cannot be empty."
 	  }
 	  
 	  if(user.password.length < 6)
@@ -161,6 +163,7 @@ var WebServiceManager = function(router)
   // Update's already existing user. Used by saveUser method.
   var updateUser = function(user, existingUser, res)
   {
+	user._id = existingUser._id;
 	if(user.password)
 	{
 		passwordModule.cryptPassword(user.password, function(error, encryptedPassword){
@@ -284,7 +287,7 @@ var WebServiceManager = function(router)
           }
         }
         
-        dbManager.updateUser(user,
+        dbManager.saveUser(user,
           function()
           {
             res.json({message: "success"});

@@ -35,7 +35,7 @@ actors: admin, user
 --
 accessToken: own access token.
 username: if provided access token is admin's then he/she can demand another user by username. (admin only)
-var data = {accessToken:"5", username: };
+var data = {accessToken:"5", username:"Oğuzhan" };
 $.ajax({
   type: "POST",
   url: "http://www.homisida.com:8080/service/getuser",

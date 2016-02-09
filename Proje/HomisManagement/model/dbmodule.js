@@ -54,7 +54,9 @@ var DbManager = function()
           assert.equal(err, null);
           if (doc != null) {
             users.push(doc);
-          } else {
+          } 
+		  else 
+		  {
             if(users.length === 0) 
             {
               callback(null);
@@ -85,6 +87,7 @@ var DbManager = function()
   this.createAccessToken = function()
   {
 	  var newAccessToken = new ObjectID().toString();
+	  return newAccessToken;
   }
   
   /*Private methods*/
@@ -132,7 +135,7 @@ var DbManager = function()
           cursor.each(function(err, doc) {
             if(err)
             {
-              res.json({"hata":err.toString()});
+              res.json({message:err.toString()});
               return;
             }
             
@@ -155,7 +158,6 @@ var DbManager = function()
     executeDbQuery(
         function(db)
         {
-          console.log(JSON.stringify(objectToUpdate));
           db.collection(collectionName).save(objectToUpdate, callback);
         }
     );
