@@ -84,10 +84,10 @@ var DbManager = function()
   }
   
   // Creates unique access token with using mongodb's ObjectID.
-  this.createAccessToken = function()
+  this.createUniqueId = function()
   {
-	  var newAccessToken = new ObjectID().toString();
-	  return newAccessToken;
+	  var uniqueId = new ObjectID().toString();
+	  return uniqueId;
   }
   
   /*Private methods*/

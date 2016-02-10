@@ -5,7 +5,8 @@ var WallManager = function () {
   this.temp=0;
   this.screentype = "dividedscreen";	
   this.date = new Date();
-  var serviceUrl="http://www.homisida.com:8080/service/";
+  var serviceUrl=Util.getWindowUrl()+"service/";
+  var accessToken = Util.getCookieValue("accessToken");
   var currentStep=1;
   var currentWallStep=1;
   var numberOfSteps=$(".modal-step").length;
@@ -165,14 +166,15 @@ var WallManager = function () {
   }
   
   // Workspace halihazırda varsa ekrana servisten gelen workspace objesinde belirlenmiş olan duvarları ekler.
-  var doWork = function(workspaceId)
+  var getWorkspace = function(workspaceId)
   {
-    var data = { accessToken:"5", workspaceId:workspaceId};
+    var data = { accessToken:accessToken, workspaceId:workspaceId};
     $.ajax({
       type: "POST",
       url:  serviceUrl+"getworkspace",
       data: data,
       success: function(data){
+        workspaceObj = data;
         $( "#pageHeight" ).val(data.height);
         $( "#pageWidth" ).val(data.width);
         $("#datetimepicker1").find("input").val(data.starttime);
@@ -352,12 +354,13 @@ var WallManager = function () {
         $("#drophere .screeniframe").css("transform-origin","transform-origin: 0px 0px 0px");
 			}
 		});	
-    var getWorkspaceId=getParameterByName('workspaceId');
+    var getWorkspaceId=Util.getParameterByName('workspaceId');
     if(getWorkspaceId!==null)
     {
-      doWork(getWorkspaceId);
+      getWorkspace(getWorkspaceId);
       return;
     }
+    
     $('#initialModal').modal(
     {
       backdrop: 'static',
@@ -367,18 +370,7 @@ var WallManager = function () {
 		showCurrentStep(currentStep);
      
   }
-  
-  var getParameterByName = function(name, url)
-  {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-  }
-  
+ 
   // Çalışma alanının başlangıç ve bitiş zamanını açılıştaki elementlerden alarak start ve end değişkenlerine date olarak atar.
   var getWorkspaceTimers = function()
   {
@@ -450,8 +442,8 @@ var WallManager = function () {
   {
     $(".saveButton").click(function()
     {
-      workspaceObj={
-        workspaceId:1,
+      var newWorkspaceObj = 
+      {
         name:"test",
         starttime:$("#datetimepicker1").find("input").val(),
         endtime:$("#datetimepicker2").find("input").val(),
@@ -459,9 +451,11 @@ var WallManager = function () {
         height:$("#pageHeight").val(),
         walls:walls
       }
+      
+      workspaceObj=Util.mergeObjects(workspaceObj,newWorkspaceObj);
       console.log(JSON.stringify(workspaceObj));
       
-      var data = { accessToken:"5", workspace: workspaceObj};
+      var data = { accessToken:accessToken, workspace: workspaceObj};
       $.ajax({
         type: "POST",
         url: serviceUrl+"saveworkspace",

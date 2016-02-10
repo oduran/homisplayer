@@ -41,7 +41,8 @@ var WebServiceManager = function(router)
   
   /* Private Methods */
    // Creates a user.
-  var login = function (req, res, next){
+  var login = function (req, res, next)
+  {
     var username = req.body.username;
     var password = req.body.password;
     dbManager.getUserByUsername(username, function(user)
@@ -49,30 +50,31 @@ var WebServiceManager = function(router)
       if(user === null)
       {
         res.json({message: "user doesn't exist"});
-		return;
+        return;
       }
 	  
       passwordModule.comparePassword(password, user.password,function(error,passwordMatch){
-		if(error)
-		{
-			res.json({message:error.toString()});
-			return;
-		}
-		
-		if(passwordMatch){
-			user.accessToken = dbManager.createAccessToken(username);
-			dbManager.saveUser(user, function()
-			{
-			  res.cookie('accessToken', user.accessToken, { maxAge: 900000 });
-			  res.json({accessToken: user.accessToken});
-			});
-		}
-		else
-		{
-			res.json({message:"wrong password"});
-		}
-	  });
-	});
+        if(error)
+        {
+          res.json({message:error.toString()});
+          return;
+        }
+        
+        if(passwordMatch)
+        {
+          user.accessToken = dbManager.createUniqueId();
+          dbManager.saveUser(user, function()
+          {
+            res.cookie('accessToken', user.accessToken, { maxAge: 900000 });
+            res.json({accessToken: user.accessToken});
+          });
+        }
+        else
+        {
+          res.json({message:"wrong password"});
+        }
+      });
+    });
   };
   
   // Saves a user. If it doesn't exist inserts new record. If it does exist updates current user.
@@ -83,22 +85,23 @@ var WebServiceManager = function(router)
       if(!operator)
       {
         res.json({message: "nopermission"});
-		return;
+        return;
       }
       
       if(operator.type == "admin")
       {
-		var newUser = req.body.user;
-		dbManager.getUserByUsername(newUser.name,function(existingUser){
-			if(existingUser)
-			{
-				updateUser(newUser,existingUser,res);
-			}
-			else
-			{
-				insertUser(newUser,res);
-			}
-		});
+        var newUser = req.body.user;
+        dbManager.getUserByUsername(newUser.name,function(existingUser)
+        {
+          if(existingUser)
+          {
+            updateUser(newUser,existingUser,res);
+          }
+          else
+          {
+            insertUser(newUser,res);
+          }
+        });
       }
       else
       {
@@ -122,7 +125,7 @@ var WebServiceManager = function(router)
 	  
 	  if(user.password.length < 6)
 	  {
-		return "Password length should be at least 6 characters."
+      return "Password length should be at least 6 characters."
 	  }
 	  
 	  return "valid";
@@ -131,66 +134,67 @@ var WebServiceManager = function(router)
   // Inserts a new user. Used by saveUser method.
   var insertUser = function(user, res)
   {
-	var validMessage = validateUser(user);
-	if(validMessage == "valid")
-	{
-		passwordModule.cryptPassword(user.password,
-			function(error, encryptedPassword)
-			{
-				if(error)
-				{
-					res.json({message:error.toString()});
-					return;
-				}
-				
-				user.password = encryptedPassword;
-				dbManager.saveUser(user,
-				  function(success)
-				  {
-					res.json({message:"success"});
-				  }
-				);
-			}
-		);
-	}
-	else
-	{
-		res.json({message: validMessage});
-		return;				  
-	}
+    var validMessage = validateUser(user);
+    if(validMessage == "valid")
+    {
+      passwordModule.cryptPassword(user.password,
+        function(error, encryptedPassword)
+        {
+          if(error)
+          {
+            res.json({message:error.toString()});
+            return;
+          }
+          
+          user.password = encryptedPassword;
+          dbManager.saveUser(user,
+            function(success)
+            {
+            res.json({message:"success"});
+            }
+          );
+        }
+      );
+    }
+    else
+    {
+      res.json({message: validMessage});
+      return;				  
+    }
   }
   
   // Update's already existing user. Used by saveUser method.
   var updateUser = function(user, existingUser, res)
   {
-	user._id = existingUser._id;
-	if(user.password)
-	{
-		passwordModule.cryptPassword(user.password, function(error, encryptedPassword){
-			if(error)
-			{
-				res.json({message: error.toString()});
-			}
-			
-			user.password = encryptedPassword;
-			dbManager.saveUser(user,
-			  function(success)
-			  {
-				res.json({message:"success"});
-			  }
-			);
-		});
-	}
-	else
-	{
-		user.password = existingUser.password;
-		dbManager.saveUser(user,
-		  function(success)
-		  {
-			res.json({message:"success"});
-		  }
-		);
-	}
+    user._id = existingUser._id;
+    if(user.password)
+    {
+      passwordModule.cryptPassword(user.password, function(error, encryptedPassword)
+      {
+        if(error)
+        {
+          res.json({message: error.toString()});
+        }
+        
+        user.password = encryptedPassword;
+        dbManager.saveUser(user,
+          function(success)
+          {
+          res.json({message:"success"});
+          }
+        );
+      });
+    }
+    else
+    {
+      user.password = existingUser.password;
+      dbManager.saveUser(user,
+        function(success)
+        {
+        res.json({message:"success"});
+        }
+      );
+    }
   }
   
   // Deletes user.
@@ -225,37 +229,38 @@ var WebServiceManager = function(router)
   // Brings user when access token is given.
   var getUser = function(req, res) 
   {
-	var accessToken = req.body.accessToken;
-	var requiredUserName = req.body.username;
+    var accessToken = req.body.accessToken;
+    var requiredUserName = req.body.username;
     dbManager.getUserByAccessToken(accessToken, function(user)
     {
       if(user === null)
       {
         res.json({message: "user doesn't exist"});
-		return;
+        return;
       }
       
-	  if(user.type == "admin" && requiredUserName)
+      if(user.type == "admin" && requiredUserName)
       {
-		  dbManager.getUserByUsername(requiredUserName, function(user)
-			  {
-				res.json({user:user});
-				return;
-			  }
-		  );
-	  }
-	  
-	  user.password = "";
-	  user.accessToken = "";
-	  res.json({user:user});
+        dbManager.getUserByUsername(requiredUserName, function(user)
+         {
+          res.json({user:user});
+          return;
+        });
+      }
+      
+      user.password = "";
+      user.accessToken = "";
+      res.json({user:user});
     });     
   }
   
   
   
   // Creates a workspace with given access token of the user and workspace object.
-  var saveWorkspace = function (req, res, next){
+  var saveWorkspace = function (req, res, next)
+  {
     var accessToken = req.body.accessToken;
+    var workspaceToSave = req.body.workspace;
     dbManager.getUserByAccessToken(accessToken, 
       function(user)
       {
@@ -266,7 +271,7 @@ var WebServiceManager = function(router)
           return;
         }
         
-        if(typeof user.workspaces === 'undefined')
+        if(!user.workspaces)
         {
           user.workspaces = [];
         }
@@ -274,7 +279,7 @@ var WebServiceManager = function(router)
         {
           for(var i = 0;i < user.workspaces.length; i++)
           {
-            if(user.workspaces[i].workspaceId == req.body.workspace.workspaceId)
+            if(user.workspaces[i].workspaceId == workspaceToSave.workspaceId)
             {
               user.workspaces[i] = req.body.workspace;
               workspaceExist = true;
@@ -283,6 +288,7 @@ var WebServiceManager = function(router)
           
           if(!workspaceExist)
           {
+            workspaceToSave.workspaceId = dbManager.createUniqueId();
             user.workspaces.push(req.body.workspace);
           }
         }

@@ -1,6 +1,7 @@
-var url = Util.getWindowUrl();
-  var data = { accessToken:"5"};
+  var url = Util.getWindowUrl();
+  var accessToken = Util.getCookieValue("accessToken")
   alert(document.cookie.toString());
+  var data = { accessToken:accessToken};
   $.ajax({
     type: "POST",
     url: url+"service/getuser",
@@ -13,6 +14,12 @@ var url = Util.getWindowUrl();
        $("#players").css("width","35.333333%")
        $("#adminPanel").css("display","block"); 
       }
+      
+      if(!data.user.workspaces)
+      {
+        return;
+      }
+      
       for(var i = 0 ;i<data.user.workspaces.length; i++)
       {
         var workspaceName = "<li><a href='#'>Çalışma Alanı " + (i+1)+"<button class='btn btn-info' id="+data.user.workspaces[i].workspaceId+" onclick='showWorkspaceById("+data.user.workspaces[i].workspaceId+")' style='float:right;margin-top:-5px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a></li>";
@@ -25,4 +32,15 @@ var url = Util.getWindowUrl();
   {
      window.location.href=url+"newScreen.html?workspaceId="+id;
   }
+  var addNewWorkspace = function()
+  {
+    $("#addNewWorkspace").click(function()
+    {
+      window.location.href=url+"workspace.html";
+    });
+  }
+  $( document ).ready(function() 
+  {	 
+    addNewWorkspace();
+  });
  
