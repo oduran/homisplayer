@@ -8,12 +8,17 @@ var Util =
   getCookieValue : function (name) 
   {
    var result = document.cookie.match(new RegExp(name + '=([^;]+)'));
-   if(result.length===null)
+   if(!result)
    {
      return null;
    }
    
    return result[1];
+  },
+  
+  deleteCookie : function (name)
+  {
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
   },
   
   getParameterByName : function(name, url)

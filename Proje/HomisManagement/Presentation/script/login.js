@@ -1,6 +1,14 @@
 
-var addLoginOnClick = function (){
+var initializeLoginPage = function ()
+{
   var url = Util.getWindowUrl();
+  var accessToken = Util.getCookieValue("accessToken")
+  if(accessToken)
+  {
+    window.location.href = url+"manager.html";
+   
+  }
+  
   $("#login").click(function ()
   {
     var username = $("#username").val();
@@ -24,7 +32,8 @@ var addLoginOnClick = function (){
     });
   });
 }
+
 $( document ).ready(function() 
 {	 
-  addLoginOnClick();
+  initializeLoginPage();
 });
