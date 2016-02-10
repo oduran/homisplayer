@@ -26,6 +26,9 @@ webServiceManager.start();
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
+app.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname + '/presentation/public/login.html'));
+});
 app.use('/service', router);
 app.use('/', express.static('./presentation/public'));
 app.use('/script', express.static('./presentation/script'));

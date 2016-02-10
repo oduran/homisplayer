@@ -15,7 +15,7 @@ var WebServiceManager = function(router)
   this.start = function()
   {
     // test route to make sure everything is working (accessed at GET http://localhost:8080/service)
-    router.get('/', test);
+    router.get('/test', test);
    
     // login to website. username, pass input, output is access token (could be as cookie in the future)
     router.post('/login', login);
@@ -66,6 +66,7 @@ var WebServiceManager = function(router)
           user.accessToken = dbManager.createUniqueId();
           dbManager.saveUser(user, function()
           {
+			res.clearCookie();
             res.cookie('accessToken', user.accessToken, {});
             if(rememberMe)
             {
