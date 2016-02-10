@@ -4,8 +4,9 @@ var addLoginOnClick = function (){
   $("#login").click(function ()
   {
     var username = $("#username").val();
-    var userpassword = $("#password").val();
-    var data = {username: username , password: userpassword };
+    var password = $("#password").val();
+    var rememberMe = document.getElementById("remember").checked;
+    var data = {username: username , password: password, rememberMe : rememberMe };
     $.ajax({
       type: "POST",
       url: url+"service/login",

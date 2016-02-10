@@ -45,6 +45,7 @@ var WebServiceManager = function(router)
   {
     var username = req.body.username;
     var password = req.body.password;
+    var rememberMe = req.body.rememberMe;
     dbManager.getUserByUsername(username, function(user)
     {
       if(user === null)
@@ -65,7 +66,12 @@ var WebServiceManager = function(router)
           user.accessToken = dbManager.createUniqueId();
           dbManager.saveUser(user, function()
           {
-            res.cookie('accessToken', user.accessToken, { maxAge: 900000 });
+            res.cookie('accessToken', user.accessToken, {});
+            if(rememberMe)
+            {
+              res.cookie('accessToken', user.accessToken, { maxAge :  2590000000 });
+            }
+            
             res.json({accessToken: user.accessToken});
           });
         }
@@ -285,12 +291,12 @@ var WebServiceManager = function(router)
               workspaceExist = true;
             }
           }
-          
-          if(!workspaceExist)
-          {
-            workspaceToSave.workspaceId = dbManager.createUniqueId();
-            user.workspaces.push(req.body.workspace);
-          }
+        }
+        
+        if(!workspaceExist)
+        {
+          workspaceToSave.workspaceId = dbManager.createUniqueId();
+          user.workspaces.push(req.body.workspace);
         }
         
         dbManager.saveUser(user,

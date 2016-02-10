@@ -8,7 +8,7 @@ var Util =
   getCookieValue : function (name) 
   {
    var result = document.cookie.match(new RegExp(name + '=([^;]+)'));
-   if(!result.length)
+   if(result.length===null)
    {
      return null;
    }

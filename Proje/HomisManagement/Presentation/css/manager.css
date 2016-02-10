@@ -32,3 +32,8 @@ display:none;
 margin-left: 2% !important; 
 background-color: white !important;
 }
+#workspaceDiv
+{
+  border: 1px solid #428bca;
+  border-radius: 2px;
+}
