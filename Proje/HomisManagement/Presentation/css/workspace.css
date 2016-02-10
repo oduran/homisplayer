@@ -81,3 +81,9 @@ body{
   border: 1px solid #010101;
   background-color: #D2D9DE;
 }
+#managerPageButton
+{
+  float: left;
+  margin-top: -25px;
+  margin-left: -15px;
+}

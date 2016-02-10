@@ -5,7 +5,8 @@ var WallManager = function () {
   this.temp=0;
   this.screentype = "dividedscreen";	
   this.date = new Date();
-  var serviceUrl=Util.getWindowUrl()+"service/";
+  var url = Util.getWindowUrl();
+  var serviceUrl = url+"service/";
   var accessToken = Util.getCookieValue("accessToken");
   var currentStep=1;
   var currentWallStep=1;
@@ -17,6 +18,12 @@ var WallManager = function () {
   var end;
   var workspaceObj={};
   var walls=[];
+  debugger;
+  if(!accessToken)
+    {
+      window.location.href = url+"login.html";
+      return;
+    }
   //Set edilen baslangıç ve bitiş zamanlarının arasındaki dakika farkını bulan fonksiyon. Burada startTime ve endTime da set ediliyor.
   var calculateTimeDifference = function(startTime,endTime)
   {
@@ -442,9 +449,18 @@ var WallManager = function () {
   {
     $(".saveButton").click(function()
     {
+      $("#workspaceNameDialog").modal("show");
+    });
+  }
+  var addSaveWorkSpaceWithName = function ()
+  {
+    $("#saveWorkspaceName").click(function()
+    {
+      $("#workspaceNameDialog").modal("hide");
+      var name = $("#workspaceName").val();
       var newWorkspaceObj = 
       {
-        name:"test",
+        name:name ,
         starttime:$("#datetimepicker1").find("input").val(),
         endtime:$("#datetimepicker2").find("input").val(),
         width:$("#pageWidth").val(),
@@ -467,8 +483,9 @@ var WallManager = function () {
       });
       console.log(workspaceObj);
     });
-  }
-
+      
+    }
+ 
   // Workspace div in içinde yer alan "Yeni duvar ekle" butonuna bastığımızda çalışan fonksiyon.
   var addNewWallOnClick = function()
   {
@@ -656,6 +673,14 @@ var WallManager = function () {
       currentStep=(--currentStep<0)?++currentStep:currentStep;
       showCurrentStep(currentStep);
     });
+  }
+  var addManagerPageButtonOnClick = function()
+  {
+    $("#managerPageButton").click(function()
+    {	
+      window.location.href = url+"manager.html";
+      return;
+    });
   }  
   // Keyup Function = Sayfada çıkan ikinci dialog da Workspace ve Ekranların width-height modunu alıp kontrol ediyor.
   var addPageValidationControls = function()
@@ -740,6 +765,8 @@ var WallManager = function () {
     addInitialModalNextOnClick();
     addInitialModalBackOnClick();
     addScreenTimerTabs();
+    addManagerPageButtonOnClick();
+    addSaveWorkSpaceWithName();
   }
   
  	var self=this;

@@ -30,6 +30,9 @@
         <div class = "panel panel-primary" style="margin-bottom:0px; height:100vh ">
            <div class = "panel-heading">
               <h3 class = "panel-title">Çalışma Alanı</h3>
+              <button id="managerPageButton" class="btn btn-info">
+                  <span class="glyphicon glyphicon-home"></span>Anasayfa
+              </button>
            </div>
            <div class = "panel-body">
               <button id="addNewWall" class="btn btn-success">
@@ -169,6 +172,22 @@
         </div>
         <div class="modal-footer">
           <button type="button" id="changeTimeApply" class="btn btn-success">Kaydet</button>
+        </div>
+			</div>
+		</div>
+	</div>
+  <div class="modal fade" id="workspaceNameDialog" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+       <div class="modal-header">
+           <label class="modal-title">Çalışma Alanı İsmini Giriniz</label>
+				</div>
+        <div class="modal-body">
+          <input id="workspaceName" class="form-control" placeholder="Çalışma Alanı İsmini Giriniz"></input>
+          <br><br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="saveWorkspaceName" class="btn btn-success">Kaydet</button>
         </div>
 			</div>
 		</div>

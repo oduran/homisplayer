@@ -5,7 +5,7 @@
   var getWorkspaces = function (accessToken)
   {
     if(!accessToken)
-    {debugger;
+    {
       window.location.href = url+"login.html";
       return;
     }
@@ -31,7 +31,7 @@
         
         for(var i = 0 ;i<data.user.workspaces.length; i++)
         {
-          var workspaceName = "<a class='list-group-item' href='#'>Çalışma Alanı " + (i+1)+"<button class='btn btn-danger' style='float:right;margin-top:-7px'>Sil&nbsp;<span style='float:right' class='glyphicon glyphicon-remove'></span></button><button class='btn btn-info' id='"+data.user.workspaces[i].workspaceId+"' onclick=showWorkspaceById('"+data.user.workspaces[i].workspaceId+"') style='float:right;margin-top:-7px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a>";
+          var workspaceName = "<a class='list-group-item' href='#'>"+ data.user.workspaces[i].name+"<button class='btn btn-info' id='"+data.user.workspaces[i].workspaceId+"' onclick=showWorkspaceById('"+data.user.workspaces[i].workspaceId+"') style='float:right;margin-top:-7px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a>";
           $('#workspaceList').append(workspaceName);  
         }
       },
