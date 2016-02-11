@@ -66,7 +66,7 @@ var WebServiceManager = function(router)
           user.accessToken = dbManager.createUniqueId();
           dbManager.saveUser(user, function()
           {
-			res.clearCookie();
+            res.clearCookie();
             res.cookie('accessToken', user.accessToken, {});
             if(rememberMe)
             {
@@ -157,7 +157,7 @@ var WebServiceManager = function(router)
           dbManager.saveUser(user,
             function(success)
             {
-            res.json({message:"success"});
+              res.json({message:"success"});
             }
           );
         }

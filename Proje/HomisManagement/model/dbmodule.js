@@ -90,6 +90,25 @@ var DbManager = function()
 	  return uniqueId;
   }
   
+  //Removes one or more items from collection with given query. Query as {} for removing all.
+  this.removeFromCollection = function(collectionName, query, callback)
+  {
+    executeDbQuery(
+    function(db){
+      db.collection(collectionName).remove(query,function(error,numberRemoved)
+      {
+        if(error)
+        {
+          console.log(error.toString());
+          return;
+        }
+        
+        console.log(numberRemoved+" removed from "+collectionName);
+        callback();
+      });
+    })
+  }
+  
   /*Private methods*/
   // Gives db connection to client for query execution
   var executeDbQuery = function(callback) {
@@ -127,29 +146,29 @@ var DbManager = function()
   var getCollection = function(collectionName,callback)
   {
     executeDbQuery(
-        function(db)
-        {
-          var collectionArray = [];
-          var cursor =db.collection(collectionName).find();
-          var i = 0;
-          cursor.each(function(err, doc) {
-            if(err)
-            {
-              res.json({message:err.toString()});
-              return;
-            }
-            
-            if(doc)
-            {
-              collectionArray.push(doc);
-            }
-            else
-            {
-              callback(collectionArray);
-            }
-          });
-        }
-      );
+      function(db)
+      {
+        var collectionArray = [];
+        var cursor =db.collection(collectionName).find();
+        var i = 0;
+        cursor.each(function(err, doc) {
+          if(err)
+          {
+            res.json({message:err.toString()});
+            return;
+          }
+          
+          if(doc)
+          {
+            collectionArray.push(doc);
+          }
+          else
+          {
+            callback(collectionArray);
+          }
+        });
+      }
+    );
   }
   
   // Updates an object in db collection.
