@@ -68,8 +68,9 @@ var WebServiceManager = function(router)
           {
             res.clearCookie();
             res.cookie('accessToken', user.accessToken, {});
-            if(rememberMe)
+            if(stringToBool(rememberMe))
             {
+              res.clearCookie();
               res.cookie('accessToken', user.accessToken, { maxAge :  2590000000 });
             }
             
@@ -85,7 +86,8 @@ var WebServiceManager = function(router)
   };
   
   // Saves a user. If it doesn't exist inserts new record. If it does exist updates current user.
-  var saveUser = function (req, res, next){
+  var saveUser = function (req, res, next)
+  {
     var accessToken = req.body.accessToken;
     dbManager.getUserByAccessToken(accessToken, function(operator)
     {
@@ -311,7 +313,8 @@ var WebServiceManager = function(router)
   };
   
   // Gets a workspace with given access token of the user and workspace id.
-  var getWorkspace = function (req, res, next){
+  var getWorkspace = function (req, res, next)
+  {
     var accessToken = req.body.accessToken;
     var workspaceId = req.body.workspaceId;
     dbManager.getUserByAccessToken(accessToken, 
@@ -341,6 +344,12 @@ var WebServiceManager = function(router)
       }
     );
   };
+  
+  // Converts string true false to bool true false. other values returned as false.
+  var stringToBool = function(boolString)
+  {
+    return (boolString === "true")? true : false;
+  }
   
   // Just a web service test/
   var test = function(req, res) 

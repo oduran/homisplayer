@@ -45,14 +45,5 @@ console.log('Magic happens on port ' + port);
 process.on('uncaughtException', function (err) {
 	console.log(err.message);
 	console.error(err.stack);
-	var db = dbManager.getDb();
-	if(db)
-	{
-		db.close(true, function(err,result) {
-			console.log('MongoDb disconnected on app termination');
-			process.exit(0);
-		});
-	}
-	
-	process.exit(1);
+	process.exit(0);
 });
