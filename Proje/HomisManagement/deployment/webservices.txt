@@ -44,6 +44,19 @@ $.ajax({
   error: function(error){debugger;}
 });
 
+/* Get User */
+actors: admin
+--
+accessToken: own access token.
+var data = {accessToken:"5"};
+$.ajax({
+  type: "POST",
+  url: "http://www.homisida.com:8080/service/getusers",
+  data: data,
+  success: function(data){debugger;},
+  error: function(error){debugger;}
+});
+
 
 /* Save Workspace */
 actors: admin, user

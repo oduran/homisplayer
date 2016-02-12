@@ -215,7 +215,17 @@ var WebServiceManager = function(router)
   // Brings all the users to the client
   var getUsers = function(req, res) 
   {
-    dbManager.getUsers(
+    var accessToken = req.body.accessToken;
+    dbManager.getUserByAccessToken(accessToken, 
+    function(operator)
+    {
+      if(!operator)
+      {
+        res.json({message: "nopermission"});
+        return;
+      }
+      
+      dbManager.getUsers(
       function(users)
       {
         for(var i = 0; i< users.length; i++)
@@ -231,8 +241,8 @@ var WebServiceManager = function(router)
         }
         
         res.json(users); 
-      }
-    );      
+      });  
+    });
   }
   
   // Brings user when access token is given.
