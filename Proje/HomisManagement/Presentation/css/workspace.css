@@ -1,7 +1,20 @@
+html,body
+{
+height:100%;  
+}
 body{
   background:url(../media/wallpaper.jpg);
   background-size: cover; 
   overflow:hidden;
+  margin-right:0px !important;
+}
+.workspacecontainer
+{
+  height :100%;
+}
+.workspacepanelfooter
+{
+  height:20%
 }
 .wall_screen:hover
 {
@@ -39,6 +52,15 @@ body{
 	display: -webkit-inline-box;
 	
 }
+.workspacepanel
+{
+  margin-bottom:0px; 
+  height:100% 
+}
+.workspacepanelbody
+{
+  height:100% 
+}
 .changeTime{
   float:right;
 }
@@ -56,7 +78,7 @@ body{
 }
 
 #timeline {
-  height:100%;
+  height:40%;
 }
 
 .wall
@@ -73,7 +95,7 @@ body{
 #workspaceForm
 {
   background-color: rgb(229, 229, 229) !important;
-  height: 43pc;
+  height: 70%;
   border: 5px solid #428BCA;
   overflow-y: scroll;
   border-radius: 5px;
