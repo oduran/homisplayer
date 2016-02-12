@@ -80,17 +80,17 @@
     $("#createNewUser").click(function()
     {
       $("#createUserModal").modal("show");
-      $("#username").focusout(
+      $("#name").focusout(
         function (event) 
         {
-          var username = $("#username").val();
-           checkUser(username);
+          var name = $("#name").val();
+          checkUser(name);
         });
     });
   }
-  function checkUser(username)
-  {console.log(username);
-    var data = { accessToken:accessToken,username:username};
+  function checkUser(name)
+  {console.log(name);
+    var data = { accessToken:accessToken,name:name};
     $.ajax({
       type: "POST",
       url: url+"service/getuser",
@@ -114,7 +114,7 @@
     {
       debugger;
       var data = {user: {
-                         "name":$("#username").val(),
+                         "name":$("#name").val(),
                          "surname":$("#surname").val(),
                          "email":$("#email").val(),
                          "phone":$("#phone").val(),
