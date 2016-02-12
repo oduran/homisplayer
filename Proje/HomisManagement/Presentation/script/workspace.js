@@ -85,6 +85,12 @@ var WallManager = function () {
       }
     }
     
+    if(timedWalls.length===0&&periodicWalls.length===0)
+    {
+      $("#timeline").empty();
+      return;
+    }
+    
     var timeIntervalArray = divideTime({startTime: new Date(self.start.getTime()), endTime: new Date(self.end.getTime())}, timedWalls);//input-output date
     for(var i = 0; i<timeIntervalArray.length;i++)
     {
@@ -450,6 +456,10 @@ var WallManager = function () {
     $(".saveButton").click(function()
     {
       $("#workspaceNameDialog").modal("show");
+      if(workspaceObj.name)
+      {
+        $("#workspaceName").val(workspaceObj.name);
+      }
     });
   }
   var addSaveWorkSpaceWithName = function ()
@@ -526,6 +536,10 @@ var WallManager = function () {
     if($active[0].id==="determinedTime")
     {
       if($("#newwalldatetimepicker1").find("input").val()>=$("#newwalldatetimepicker2").find("input").val())
+      {
+        return false;
+      }
+      if($("#newwalldatetimepicker1").find("input").val()>=$("#datetimepicker2").find("input").val()||$("#newwalldatetimepicker2").find("input").val()>$("#datetimepicker2").find("input").val())
       {
         return false;
       }

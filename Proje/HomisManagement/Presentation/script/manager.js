@@ -56,7 +56,7 @@
     $("#logoutButton").click(function()
     {
       Util.deleteCookie("accessToken");
-      window.location.href=url+"login.html";
+      window.location.href=url;
     });
   }
   
