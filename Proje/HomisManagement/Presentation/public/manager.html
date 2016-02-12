@@ -46,13 +46,19 @@
             </div>
         </div>
       </div>
-      <div id="adminPanel" class="col-md-3 text-center column3">
+      <div id="adminPanel" class="col-md-3 column3">
           <div id="adminPanelDiv">
-            <div class = "panel panel-primary">
+            <div class = "panel panel-primary  text-center ">
                  <div class = "panel-heading">
                     <h3 class = "panel-title">Admin Panel</h3>
                  </div>
-              </div>
+                 <div class = "panel-body">
+                  <button id="createNewUser" class="btn btn-success">
+                      <span class="glyphicon glyphicon-plus"></span> Yeni Kullanıcı Ekle
+                  </button>
+                </div>
+            </div>
+            <div id="userList"></div>
           </div>
       </div>  
     </div>
@@ -61,5 +67,34 @@
         <p>© 2016 - Homis Management</p>
     </footer>
   </div>
+  <div class="modal modaldesign" id="createUserModal" role="dialog">
+      <div class="modal-dialog">
+
+	  <!-- Modal content-->
+        <div class="modal-content" >
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <label class="modal-title">Yeni Duvar Tipini Seçiniz</label>
+          </div>
+          <br>
+          <form id="userForm">
+            <fieldset>
+              <div class="form-group">
+                <input type="text" class="form-control" id="username" name="username" placeholder="Kullanıcı Adı">
+                <input type="text" class="form-control" id="surname" name="surname" placeholder="Kullanıcı Soyadı">
+                <input type="text" class="form-control" id="password" name="password" placeholder="Şifre">
+                <input type="text" class="form-control" id="email" name="email" placeholder="Email" >
+                <input type="text" class="form-control" id="phone" name="phone" placeholder="Telefon">
+                <input type="text" class="form-control" id="type" name="type" placeholder="Kullanıcı Tipi">
+              </div>
+            </fieldset>
+          </form>
+          <div class="modal-footer">
+            <button type="button"  class="btn btn-primary createUser" >Kaydet</button>
+          </div>
+        </div>
+			
+		</div>
+	</div>
 </body>
 </html>
