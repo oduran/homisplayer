@@ -275,7 +275,7 @@ var WebServiceManager = function(router)
         });
       }
 
-      res.json({message:"user doesn't exit"});
+      res.json({user:user});
     });     
   }
   
