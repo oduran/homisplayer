@@ -57,7 +57,6 @@ $.ajax({
   error: function(error){debugger;}
 });
 
-
 /* Save Workspace */
 actors: admin, user
 --
