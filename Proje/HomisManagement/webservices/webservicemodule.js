@@ -274,7 +274,9 @@ var WebServiceManager = function(router)
             return;
         });
       }
-
+      
+      user.password = "";
+      user.accessToken = "";
       res.json({user:user});
     });     
   }
