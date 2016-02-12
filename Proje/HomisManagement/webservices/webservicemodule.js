@@ -209,7 +209,28 @@ var WebServiceManager = function(router)
   // Deletes user.
   var deleteUser = function(req, res)
   {
-  
+    var accessToken = req.accessToken;
+    var username = req.username;
+    dbManager.getUserByAccessToken(accessToken, 
+    function(operator)
+    {
+      if(!operator)
+      {
+        res.json({message:"no access token"});  
+      }
+      
+      if(operator == "admin")
+      {
+        dbManager.removeFromCollection("users",{name:username}, 
+        function(){
+          res.json({message:"success"});
+        });
+      }
+      else
+      {
+        res.json({message:"nopermission"});
+      }
+    });
   };
   
   // Brings all the users to the client
@@ -254,30 +275,44 @@ var WebServiceManager = function(router)
     {
       if(!user)
       {
+        console.log("user doesn't exist");
         res.json({message: "user doesn't exist"});
         return;
       }
       
-      if(user.type == "admin" && requiredUserName)
+      if(user.type == "admin")
       {
-        dbManager.getUserByUsername(requiredUserName, function(requiredUser)
-         {
-           if(!requiredUser)
+        if(requiredUserName)
+        {
+          dbManager.getUserByUsername(requiredUserName, 
+           function(requiredUser)
            {
-              res.json({message: "user doesn't exist"});
-              return;     
-           }
-           
-            requiredUser.accessToken="";
-            requiredUser.password="";
-            res.json({user:requiredUser});
-            return;
-        });
+             if(!requiredUser)
+             {
+               console.log("user doesn't exist");
+                res.json({message: "user doesn't exist"});
+                return;     
+             }
+             
+              requiredUser.accessToken="";
+              requiredUser.password="";
+              res.json({user:requiredUser});
+              return;
+          });
+        }
+        else
+        {
+          user.password = "";
+          user.accessToken = "";
+          res.json({user:user});
+        }
       }
-      
-      user.password = "";
-      user.accessToken = "";
-      res.json({user:user});
+      else
+      {
+        user.password = "";
+        user.accessToken = "";
+        res.json({user:user});
+      }
     });     
   }
   
