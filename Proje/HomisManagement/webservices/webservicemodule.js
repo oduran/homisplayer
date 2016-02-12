@@ -252,7 +252,7 @@ var WebServiceManager = function(router)
     var requiredUserName = req.body.username;
     dbManager.getUserByAccessToken(accessToken, function(user)
     {
-      if(user === null)
+      if(!user && !requiredUserName)
       {
         res.json({message: "user doesn't exist"});
         return;
@@ -262,14 +262,22 @@ var WebServiceManager = function(router)
       {
         dbManager.getUserByUsername(requiredUserName, function(user)
          {
-          res.json({user:user});
-          return;
+           if(!user)
+           {
+              res.json({message: "user doesn't exist"});
+              return;     
+           }
+           
+            user.accessToken="";
+            user.password="";
+            res.json({user:user});
+            return;
         });
       }
-      
-      user.password = "";
-      user.accessToken = "";
-      res.json({user:user});
+      else
+      {
+        res.json({message:"user doesn't exit"});
+      }
     });     
   }
   
