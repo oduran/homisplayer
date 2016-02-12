@@ -17,7 +17,7 @@ var WebServiceManager = function(router)
     // test route to make sure everything is working (accessed at GET http://localhost:8080/service)
     router.get('/test', test);
    
-    // login to website. username, pass input, output is access token (could be as cookie in the future)
+    // login to website. name, pass input, output is access token (could be as cookie in the future)
     router.post('/login', login);
    
     // creates user.
@@ -43,10 +43,10 @@ var WebServiceManager = function(router)
    // Creates a user.
   var login = function (req, res, next)
   {
-    var username = req.body.username;
+    var name = req.body.name;
     var password = req.body.password;
     var rememberMe = req.body.rememberMe;
-    dbManager.getUserByUsername(username, function(user)
+    dbManager.getUserByName(name, function(user)
     {
       if(user === null)
       {
@@ -100,7 +100,7 @@ var WebServiceManager = function(router)
       if(operator.type == "admin")
       {
         var newUser = req.body.user;
-        dbManager.getUserByUsername(newUser.name,function(existingUser)
+        dbManager.getUserByName(newUser.name,function(existingUser)
         {
           if(existingUser)
           {
@@ -124,7 +124,7 @@ var WebServiceManager = function(router)
   {
 	  if(user.name.length <= 0)
 	  {
-		  return "Username cannot be empty."
+		  return "Name cannot be empty."
 	  }
 	  
 	  if(user.password.length <= 0)
@@ -210,7 +210,7 @@ var WebServiceManager = function(router)
   var deleteUser = function(req, res)
   {
     var accessToken = req.accessToken;
-    var username = req.username;
+    var name = req.name;
     dbManager.getUserByAccessToken(accessToken, 
     function(operator)
     {
@@ -221,7 +221,7 @@ var WebServiceManager = function(router)
       
       if(operator == "admin")
       {
-        dbManager.removeFromCollection("users",{name:username}, 
+        dbManager.removeFromCollection("users",{name:name}, 
         function(){
           res.json({message:"success"});
         });
@@ -270,7 +270,7 @@ var WebServiceManager = function(router)
   var getUser = function(req, res) 
   {
     var accessToken = req.body.accessToken;
-    var requiredUserName = req.body.username;
+    var requiredName = req.body.name;
     dbManager.getUserByAccessToken(accessToken, function(user)
     {
       if(!user)
@@ -282,9 +282,9 @@ var WebServiceManager = function(router)
       
       if(user.type == "admin")
       {
-        if(requiredUserName)
+        if(requiredName)
         {
-          dbManager.getUserByUsername(requiredUserName, 
+          dbManager.getUserByName(requiredName, 
            function(requiredUser)
            {
              if(!requiredUser)

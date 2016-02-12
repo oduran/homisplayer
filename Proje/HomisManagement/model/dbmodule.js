@@ -43,7 +43,7 @@ var DbManager = function()
   }
   
   // Gets a user by given access token.
-  this.getUserByUsername = function(name,callback)
+  this.getUserByName = function(name,callback)
   {
     executeDbQuery(
       function(db)
