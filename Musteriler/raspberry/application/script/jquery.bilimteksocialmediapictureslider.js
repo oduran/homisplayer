@@ -466,7 +466,7 @@ if (typeof Object.create !== 'function') {
 					 Feed.instagram.setPictures(contents);
 					  }
 					}
-				  xhr.open("GET","http://www.homisida.com:83/?targetPage=https://www.instagram.com/"+account+"/", true);
+				  xhr.open("GET","http://bilimtek.com:83/?targetPage=https://www.instagram.com/"+account+"/", true);
 				  xhr.send();
 				 
 					 
