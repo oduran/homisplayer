@@ -186,22 +186,27 @@ var WallManager = function () {
       type: "POST",
       url:  serviceUrl+"getworkspace",
       data: data,
-      success: function(data){
-        workspaceObj = data;
-        $( "#pageHeight" ).val(data.height);
-        $( "#pageWidth" ).val(data.width);
-        $("#datetimepicker1").find("input").val(data.starttime);
-        $("#datetimepicker2").find("input").val(data.endtime);
-        var workspaceTimer = splitStartAndEndTime(data.starttime,data.endtime)
+      success: function(response){
+        debugger;
+        if(response.message)
+        {
+          return;
+        }
+        workspaceObj = response;
+        $( "#pageHeight" ).val(response.height);
+        $( "#pageWidth" ).val(response.width);
+        $("#datetimepicker1").find("input").val(response.starttime);
+        $("#datetimepicker2").find("input").val(response.endtime);
+        var workspaceTimer = splitStartAndEndTime(response.starttime,response.endtime)
         self.start = new Date(self.date.getFullYear(), self.date.getMonth(),self.date.getDate(),workspaceTimer.startTime,workspaceTimer.startTimeMinute,0);
         self.end = new Date(self.date.getFullYear(), self.date.getMonth(),self.date.getDate(),workspaceTimer.endTime,workspaceTimer.endTimeMinute,0);
 
-        for(var i = 0 ; i<data.walls.length ;i++)
+        for(var i = 0 ; i<response.walls.length ;i++)
         {
           var wall = {
-          id: data.walls[i].id,
-          type: data.walls[i].type,
-          showTime: data.walls[i].showTime,
+          id: response.walls[i].id,
+          type: response.walls[i].type,
+          showTime: response.walls[i].showTime,
           }
           
           walls.push(wall);
@@ -369,7 +374,7 @@ var WallManager = function () {
 		});	
     var getWorkspaceId=Util.getParameterByName('workspaceId');
     if(getWorkspaceId!==null)
-    {
+    {debugger;
       getWorkspace(getWorkspaceId);
       return;
     }
@@ -456,6 +461,7 @@ var WallManager = function () {
     $(".saveButton").click(function()
     {
       $("#workspaceNameDialog").modal("show");
+      debugger;
       if(workspaceObj.name)
       {
         $("#workspaceName").val(workspaceObj.name);

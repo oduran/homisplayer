@@ -5,16 +5,18 @@ var initializeLoginPage = function ()
   var accessToken = Util.getCookieValue("accessToken")
   if(accessToken)
   {
+      debugger;
     window.location.href = url+"manager.html";
-   
+
   }
   
   $("#login").click(function ()
   {
-    var username = $("#username").val();
+    var name = $("#name").val();
     var password = $("#password").val();
     var rememberMe = document.getElementById("remember").checked;
-    var data = {username: username , password: password, rememberMe : rememberMe };
+    var data = {name: name , password: password, rememberMe : rememberMe };
+    
     $.ajax({
       type: "POST",
       url: url+"service/login",
