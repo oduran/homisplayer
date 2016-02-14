@@ -48,7 +48,7 @@ var WebServiceManager = function(router)
     var rememberMe = req.body.rememberMe;
     dbManager.getUserByName(name, function(user)
     {
-      if(user === null)
+      if(!user)
       {
         res.json({message: "user doesn't exist"});
         return;

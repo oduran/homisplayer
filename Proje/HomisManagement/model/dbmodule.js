@@ -55,16 +55,16 @@ var DbManager = function()
           if (doc != null) {
             users.push(doc);
           } 
-		  else 
-		  {
-            if(users.length === 0) 
-            {
-              callback(null);
-            }
-            else
-            {
-              callback(users[0]);
-            }
+          else 
+          {
+                if(users.length === 0) 
+                {
+                  callback(null);
+                }
+                else
+                {
+                  callback(users[0]);
+                }
           }
         });
       }
