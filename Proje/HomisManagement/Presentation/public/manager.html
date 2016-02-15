@@ -80,12 +80,27 @@
           <form id="userForm">
             <fieldset>
               <div class="form-group">
+                <label>Kullanıcı Adı</label>
                 <input type="text" class="form-control" id="name" name="name" placeholder="Kullanıcı Adı">
+                <label>Soyadı</label>
                 <input type="text" class="form-control" id="surname" name="surname" placeholder="Kullanıcı Soyadı">
+                <label>Şifre</label>
                 <input type="text" class="form-control" id="password" name="password" placeholder="Şifre">
+                <label>Email</label>
                 <input type="text" class="form-control" id="email" name="email" placeholder="Email" >
+                <label>Telefon</label>
                 <input type="text" class="form-control" id="phone" name="phone" placeholder="Telefon">
-                <input type="text" class="form-control" id="type" name="type" placeholder="Kullanıcı Tipi">
+                <div class="dropdown" id="userTypeMenu">
+                  <button class="btn btn-info"  data-toggle="dropdown">Kullanıcı Tipi
+                    <span class="glyphicon glyphicon-user"></span>
+                  </button>
+                  <label id="platform"></label>
+                  <ul id="userTypeDropdown"class="dropdown-menu" >
+                    <li><a tabindex="-1" href="#" class="usertype">&nbsp;Admin</a></li>
+                    <li><a tabindex="-1" href="#" class="usertype" >&nbsp;Superuser</a></li>
+                    <li><a tabindex="-1" href="#" class="usertype" >&nbsp;User</a></li>
+                  </ul>
+                </div>
               </div>
             </fieldset>
           </form>

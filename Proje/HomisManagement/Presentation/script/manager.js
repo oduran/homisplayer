@@ -1,6 +1,7 @@
   var url = Util.getWindowUrl();
   var accessToken = Util.getCookieValue("accessToken");
   var users = [];
+  var adminControl=false;
   var getWorkspaces = function (accessToken)
   {
     if(!accessToken)
@@ -15,7 +16,7 @@
       url: url+"service/getuser",
       data: data,
       success: function(response)
-      { 
+      { debugger;
         if(response.message)
         {
           Util.deleteCookie("accessToken");
@@ -24,6 +25,7 @@
         }
         if(response.user.type=="admin")
         {
+          adminControl=true;
          $("#workspaces").css("width","35.333333%")
          $("#players").css("width","25.333333%")
          $("#adminPanel").css("display","block");
@@ -42,8 +44,7 @@
           + response.user.workspaces[i].name+
           "<button class='btn btn-info' id='"
           +response.user.workspaces[i].workspaceId+
-          "' onclick=showWorkspaceById('"+response.user.workspaces[i].workspaceId+
-          "') style='float:right;margin-top:-7px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a>";
+          "' onclick=showWorkspaceById('"+response.user.workspaces[i].workspaceId+"') style='float:right;margin-top:-7px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a>";
           $('#workspaceList').append(workspaceName);  
         }
       },
@@ -53,6 +54,7 @@
   
   function getUserList()
   {
+    $('#userList').empty();
     var data = { accessToken:accessToken};
     $.ajax({
       type: "POST",
@@ -74,7 +76,7 @@
           user._id+"'><fieldset><div class='form-group'><label>Kullanıcı Adı</label><input type='text' class='form-control formelement name' name='name' placeholder='Kullanıcı Adı' value="+
           user.name+"><label>Soyadı</label><input type='text' class='form-control formelement surname' name='surname' placeholder='Soyadı' value="
           +user.surname+"><label>Email</label><input type='text' class='form-control formelement email' name='email' placeholder='Email' value="+
-          user.email+"><button class='btn btn-success' onclick=editUserById('"+user._id+"') style='float:right'><span style='float:right' class='glyphicon glyphicon-saved'></span></button></div></fieldset></form></div></a>";
+          user.email+"><button class='btn btn-success' onclick=editUserById('"+user._id+"') style='float:right'><span style='float:right' class='glyphicon glyphicon-saved'></span></button></div></fieldset></form></div></a><input id='userId' value="+user._id+"/>";
           $('#userList').append(userList);  
         }
       },
@@ -90,7 +92,7 @@
     url: url+"service/deleteuser",
     data: data,
     success: function(response)
-    { debugger;
+    {
       $('#userList').empty();
       getUserList();      
     },
@@ -100,6 +102,7 @@
   
   function getWorkspacesByUsername(name)
   {
+    
     $("#workspaceList").empty();
     var data = { accessToken:accessToken, name:name.id};
     $.ajax({
@@ -107,7 +110,7 @@
     url: url+"service/getuser",
     data: data,
     success: function(response)
-    { debugger;
+    {
       if(!response.user.workspaces)
       {
         return;
@@ -115,7 +118,10 @@
       
       for(var i = 0 ;i<response.user.workspaces.length; i++)
       {
-        var workspaceName = "<a class='list-group-item' href='#'>"+ response.user.workspaces[i].name+"<button class='btn btn-info' id='"+response.user.workspaces[i].workspaceId+"' onclick=showWorkspaceById('"+response.user.workspaces[i].workspaceId+"') style='float:right;margin-top:-7px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a>";
+        var workspaceId = response.user.workspaces[i].workspaceId;
+        var userId = response.user._id;
+        $("#userId").val(userId);
+        var workspaceName = "<a class='list-group-item' href='#'>"+ response.user.workspaces[i].name+"<button class='btn btn-info' id='"+response.user.workspaces[i].workspaceId+"' onclick=showWorkspaceById('"+workspaceId+"-"+userId+"') style='float:right;margin-top:-7px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a>";
         $('#workspaceList').append(workspaceName);  
       }
     },
@@ -125,6 +131,7 @@
   
   function editUserById(id)
   {
+    
     var name="";
     var surname="";
     var email="";
@@ -161,15 +168,36 @@
       error: function(error){debugger;}
     });
   }
-  function showWorkspaceById(id)
+  function showWorkspaceById(workspaceId)
   {
-     window.location.href=url+"workspace.html?workspaceId="+id;
+    var splitWorkspaceId = workspaceId.split("-");
+    var workspaceId = splitWorkspaceId[0];
+    var userId = splitWorkspaceId[1]; 
+    if(adminControl)
+    {
+      window.location.href=url+"workspace.html?workspaceId="+workspaceId+"&"+"userId="+userId;
+    }
+    
+    else
+    {
+     window.location.href=url+"workspace.html?workspaceId="+workspaceId; 
+    }
+    
   }
   var addNewWorkspace = function()
   {
     $("#addNewWorkspace").click(function()
     {
-      window.location.href=url+"workspace.html";
+      if(adminControl)
+      {
+        var userId = $("#userId").val();
+        window.location.href=url+"workspace.html?userId="+userId;
+      }
+      else
+      {
+      window.location.href=url+"workspace.html";  
+      }
+      
     });
   }
   var addCreateNewUser = function ()
@@ -215,7 +243,7 @@
                          "email":$("#email").val(),
                          "phone":$("#phone").val(),
                          "password":$("#password").val(),
-                         "type":$("#type").val(),
+                         "type": $('#platform').text().toLowerCase(),
                          "workspaces":[],
                          "players":[],
                          "mediaResources":[]
@@ -224,7 +252,12 @@
         type: "POST",
         url: url+"service/saveuser",
         data: data,
-        success: function(response){alert(response.message);},
+        success: function(response)
+        {
+          alert(response.message);
+          getUserList();
+          $("#createUserModal").modal("hide");
+        },
         error: function(error){debugger;}
       });
     
@@ -241,6 +274,19 @@
       }
     }
   }
+   var addUserTypeDropdownOnClick = function()
+  {
+    
+    $('#userTypeDropdown a').click(function(e) {
+      $('#userTypeDropdown a').removeClass('selected');
+      $(this).addClass('selected');
+    });
+    
+    $("#userTypeMenu").on("click", "li a", function() {
+      var platform = $(this).text();
+      $('#platform').html(platform);
+    });
+  }
   
   $( document ).ready(function() 
   {	 
@@ -248,6 +294,7 @@
     addNewWorkspace();
     addCreateNewUser();
     addSaveUserButtonOnClick();
+    addUserTypeDropdownOnClick();
     addLogoutButtonOnClick();
   });
  

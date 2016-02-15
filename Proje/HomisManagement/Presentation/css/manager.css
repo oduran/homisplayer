@@ -48,3 +48,15 @@ background-color: white !important;
 {
   width:100% !important;
 }
+#userTypeMenu
+{
+  margin-top:10px;
+}
+#userId
+{
+  display:none;
+}
+#userForm
+{
+  margin-left:6%;
+}
