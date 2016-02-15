@@ -24,7 +24,7 @@
           window.location.href = url+"login.html";
           return;
         }
-        var username = "Hoşgeldin " +response.user.name;
+        var username = response.user.name;
         $("#username").text(username);
         if(response.user.type=="admin")
         {
@@ -65,7 +65,7 @@
       url: url+"service/getUsers",
       data: data,
       success: function(response)
-      {   debugger;     
+      {       
         users = response;      
         for(var i = 0 ;i<response.length; i++)
         {
@@ -81,6 +81,14 @@
           +user.surname+"><label>Email</label><input type='text' class='form-control formelement email' name='email' placeholder='Email' value="+
           user.email+"><button class='btn btn-success' onclick=editUserById('"+user._id+"') style='float:right'><span style='float:right' class='glyphicon glyphicon-saved'></span></button></div></fieldset></form></div></a><input id='userId' value='"+user._id+"'/>";
           $('#userList').append(userList);  
+        }
+        debugger;
+        for(var i = 0 ; i< users.length ; i++)
+        {
+          if($("#username").text()===users[i].name)
+          {
+            $("#userId").val(users[i]._id);
+          }
         }
       },
       error: function(error){debugger;}
@@ -106,6 +114,8 @@
   function getWorkspacesByUsername(name,id)
   {
     $("#workspaceList").empty();
+    $("#userId").val(id);
+
     var data = { accessToken:accessToken, name:name};
     $.ajax({
     type: "POST",
@@ -123,7 +133,6 @@
       {
         var workspaceId = response.user.workspaces[i].workspaceId;
         var userId = response.user._id;
-        $("#userId").val(userId);
         var workspaceName = "<a class='list-group-item' href='#'>"+ response.user.workspaces[i].name+"<button class='btn btn-info' id='"+response.user.workspaces[i].workspaceId+"' onclick=showWorkspaceById('"+workspaceId+"-"+userId+"') style='float:right;margin-top:-7px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a>";
         $('#workspaceList').append(workspaceName);  
       }
