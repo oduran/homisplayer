@@ -34,7 +34,8 @@ $.ajax({
 actors: admin, user
 --
 accessToken: own access token.
-username: if provided access token is admin's then he/she can demand another user by username. (admin only)
+name: if provided access token is admin's then he/she can demand another user by username. (admin only)
+_id: if provided access token is admin's then he/she can demand another user by use id. (admin only). Prior to name query.
 var data = {accessToken:"5", username:"Oğuzhan" };
 $.ajax({
   type: "POST",
@@ -44,7 +45,7 @@ $.ajax({
   error: function(error){debugger;}
 });
 
-/* Get User */
+/* Get Users */
 actors: admin
 --
 accessToken: own access token.

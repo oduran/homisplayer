@@ -103,9 +103,9 @@ var WebServiceManager = function(router)
         if(newUser._id)
         {
           console.log(JSON.stringify(newUser));
-          dbManager.getUserById(newUser.name,function(existingUser)
+          dbManager.getUserById(newUser._id,function(existingUser)
           {
-            updateUser(existingUser,existingUser,res);
+            updateUser(newUser, existingUser, res);
           });
         }
         else
@@ -197,7 +197,7 @@ var WebServiceManager = function(router)
         dbManager.saveUser(user,
           function(success)
           {
-          res.json({message:"success"});
+            res.json({message:"success"});
           }
         );
       });
@@ -279,6 +279,7 @@ var WebServiceManager = function(router)
   {
     var accessToken = req.body.accessToken;
     var requiredName = req.body.name;
+    var requiredId = req.body._id;
     dbManager.getUserByAccessToken(accessToken, function(user)
     {
       if(!user)
@@ -290,7 +291,25 @@ var WebServiceManager = function(router)
       
       if(user.type == "admin")
       {
-        if(requiredName)
+        if(requiredId)
+        {
+          dbManager.getUserById(requiredId, 
+           function(requiredUser)
+           {
+             if(!requiredUser)
+             {
+               console.log("user doesn't exist");
+                res.json({message: "user doesn't exist"});
+                return;     
+             }
+             
+              requiredUser.accessToken="";
+              requiredUser.password="";
+              res.json({user:requiredUser});
+              return;
+          });
+        }
+        else if(requiredName)
         {
           dbManager.getUserByName(requiredName, 
            function(requiredUser)

@@ -1,5 +1,6 @@
   var url = Util.getWindowUrl();
   var accessToken = Util.getCookieValue("accessToken");
+  var users = [];
   var getWorkspaces = function (accessToken)
   {
     if(!accessToken)
@@ -49,6 +50,7 @@
       error: function(error){debugger;}
     });
   }
+  
   function getUserList()
   {
     var data = { accessToken:accessToken};
@@ -57,18 +59,29 @@
       url: url+"service/getUsers",
       data: data,
       success: function(response)
-      {   debugger;       
+      {   debugger;     
+        users = response;      
         for(var i = 0 ;i<response.length; i++)
         {
+          var user = response[i];
       //    var $html = $('<div id="MainMenu"><div class="list-group panel"><a href="#demo3" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">Item 3</a><div class="collapse" id="demo3">href="#SubMenu1" class="list-group-item" data-toggle="collapse" data-parent="#SubMenu1">Subitem 1 <i class="fa fa-caret-down"></i></a>     <div class="collapse list-group-submenu" id="SubMenu1">        <a href="#" class="list-group-item" data-parent="#SubMenu1">Subitem 1 a</a>        <a href="#" class="list-group-item" data-parent="#SubMenu1">Subitem 2 b</a>        <a href="#SubSubMenu1" class="list-group-item" data-toggle="collapse" data-parent="#SubSubMenu1">Subitem 3 c <i class="fa fa-caret-down"></i></a>        <div class="collapse list-group-submenu list-group-submenu-1" id="SubSubMenu1">          <a href="#" class="list-group-item" data-parent="#SubSubMenu1">Sub sub item 1</a>          <a href="#" class="list-group-item" data-parent="#SubSubMenu1">Sub sub item 2</a>        </div>        <a href="#" class="list-group-item" data-parent="#SubMenu1">Subitem 4 d</a>      </div>      <a href="javascript:;" class="list-group-item">Subitem 2</a>      <a href="javascript:;" class="list-group-item">Subitem 3</a>    </div>    <a href="#demo4" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">Item 4</a>    <div class="collapse" id="demo4">      <a href="" class="list-group-item">Subitem 1</a>      <a href="" class="list-group-item">Subitem 2</a>      <a href="" class="list-group-item">Subitem 3</a>    </div>  </div></div>');
-          var userList = "<a class='list-group-item' id='"+response[i].name+"'>"+ response[i].name+" "+ response[i].surname+"<button class='btn btn-danger' onclick=deleteUser('"+response[i].name+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-trash'></span></button><button class='btn btn-info accordion-toggle' data-toggle='collapse' href='#"+response[i]._id+"' onclick='getWorkspaceByUsername("+response[i].name+");' style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-edit'></span></button><div id='"+response[i]._id+"' class='collapse'><form class ='"+response[i]._id+"'><fieldset><div class='form-group'><label>Kullanıcı Adı</label><input type='text' class='form-control formelement name' name='name' placeholder='Kullanıcı Adı' value="+response[i].name+"><label>Soyadı</label><input type='text' class='form-control formelement surname' name='surname' placeholder='Soyadı' value="+response[i].surname+"><label>Email</label><input type='text' class='form-control formelement email' name='email' placeholder='Email' value="+response[i].email+"><button class='btn btn-success' onclick=editUserById('"+response[i]._id+"') style='float:right'><span style='float:right' class='glyphicon glyphicon-saved'></span></button></div></fieldset></form></div></a>";
+          var userList = "<a class='list-group-item' href='#' id='"+user.name+
+          "'>"+ user.name+"<button class='btn btn-danger' onclick=deleteUser('"
+          +user.name+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-trash'></span></button><button class='btn btn-info accordion-toggle' data-toggle='collapse' href='#"+
+          user._id+"' onclick='getWorkspacesByUsername("+
+          user.name+");' style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-edit'></span></button><div id='"+
+          user._id+"' class='collapse'><form class ='"+
+          user._id+"'><fieldset><div class='form-group'><label>Kullanıcı Adı</label><input type='text' class='form-control formelement name' name='name' placeholder='Kullanıcı Adı' value="+
+          user.name+"><label>Soyadı</label><input type='text' class='form-control formelement surname' name='surname' placeholder='Soyadı' value="
+          +user.surname+"><label>Email</label><input type='text' class='form-control formelement email' name='email' placeholder='Email' value="+
+          user.email+"><button class='btn btn-success' onclick=editUserById('"+user._id+"') style='float:right'><span style='float:right' class='glyphicon glyphicon-saved'></span></button></div></fieldset></form></div></a>";
           $('#userList').append(userList);  
         }
       },
       error: function(error){debugger;}
     });
-    
   }
+  
   function deleteUser(name)
   { 
     var data = {accessToken:accessToken,name : name};
@@ -85,7 +98,7 @@
     });  
   }
   
-  function getWorkspaceByUsername(name)
+  function getWorkspacesByUsername(name)
   {
     $("#workspaceList").empty();
     var data = { accessToken:accessToken, name:name.id};
@@ -109,6 +122,7 @@
     error: function(error){debugger;}
     });
   }
+  
   function editUserById(id)
   {
     var name="";
@@ -131,14 +145,19 @@
         }
      
     });
-  
-    var data = {accessToken:accessToken, user: {"name":name,"surname":surname,"type":"admin","email":email,"workspaces":[]}};
     debugger;
+    var userToSave = findUser(id);
+    userToSave._id = id;
+    userToSave.name = name;
+    userToSave.surname = surname;
+    userToSave.type = "admin";//TODO: kullanıcı seçimine bağlı
+    userToSave.email = email;
+    var data = {accessToken: accessToken, user: userToSave };
     $.ajax({
       type: "POST",
       url: url+"service/saveuser",
       data: data,
-      success: function(response){debugger;},
+      success: function(response){alert(response.message)},
       error: function(error){debugger;}
     });
   }
@@ -205,11 +224,22 @@
         type: "POST",
         url: url+"service/saveuser",
         data: data,
-        success: function(response){debugger;},
+        success: function(response){alert(response.message);},
         error: function(error){debugger;}
       });
     
     })
+  }
+  
+  var findUser = function(userId)
+  {
+    for(var i = 0; i<users.length;i++)
+    {
+      if(userId === users[i]._id)
+      {
+        return users[i];
+      }
+    }
   }
   
   $( document ).ready(function() 
