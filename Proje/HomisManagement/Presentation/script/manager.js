@@ -17,15 +17,18 @@
       data: data,
       success: function(response)
       { debugger;
+        
         if(response.message)
         {
           Util.deleteCookie("accessToken");
           window.location.href = url+"login.html";
           return;
         }
+        var username = "Hoşgeldin " +response.user.name;
+        $("#username").text(username);
         if(response.user.type=="admin")
         {
-          adminControl=true;
+         adminControl=true;
          $("#workspaces").css("width","35.333333%")
          $("#players").css("width","25.333333%")
          $("#adminPanel").css("display","block");
@@ -37,7 +40,8 @@
         {
           return;
         }
-        
+        var userWorkspace = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+response.user.name+"</a>";
+        $('#workspaceList').append(userWorkspace);
         for(var i = 0 ;i<response.user.workspaces.length; i++)
         {
           var workspaceName = "<a class='list-group-item' href='#'>"
@@ -70,13 +74,12 @@
           var userList = "<a class='list-group-item' href='#' id='"+user.name+
           "'>"+ user.name+"<button class='btn btn-danger' onclick=deleteUser('"
           +user.name+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-trash'></span></button><button class='btn btn-info accordion-toggle' data-toggle='collapse' href='#"+
-          user._id+"' onclick='getWorkspacesByUsername("+
-          user.name+");' style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-edit'></span></button><div id='"+
+          user._id+"' onclick=getWorkspacesByUsername('"+user.name+"','"+user._id+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-edit'></span></button><div id='"+
           user._id+"' class='collapse'><form class ='"+
           user._id+"'><fieldset><div class='form-group'><label>Kullanıcı Adı</label><input type='text' class='form-control formelement name' name='name' placeholder='Kullanıcı Adı' value="+
           user.name+"><label>Soyadı</label><input type='text' class='form-control formelement surname' name='surname' placeholder='Soyadı' value="
           +user.surname+"><label>Email</label><input type='text' class='form-control formelement email' name='email' placeholder='Email' value="+
-          user.email+"><button class='btn btn-success' onclick=editUserById('"+user._id+"') style='float:right'><span style='float:right' class='glyphicon glyphicon-saved'></span></button></div></fieldset></form></div></a><input id='userId' value="+user._id+"/>";
+          user.email+"><button class='btn btn-success' onclick=editUserById('"+user._id+"') style='float:right'><span style='float:right' class='glyphicon glyphicon-saved'></span></button></div></fieldset></form></div></a><input id='userId' value='"+user._id+"'/>";
           $('#userList').append(userList);  
         }
       },
@@ -100,11 +103,10 @@
     });  
   }
   
-  function getWorkspacesByUsername(name)
+  function getWorkspacesByUsername(name,id)
   {
-    
     $("#workspaceList").empty();
-    var data = { accessToken:accessToken, name:name.id};
+    var data = { accessToken:accessToken, name:name};
     $.ajax({
     type: "POST",
     url: url+"service/getuser",
@@ -115,7 +117,8 @@
       {
         return;
       }
-      
+       var userWorkspace = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+response.user.name+"</a>";
+        $('#workspaceList').append(userWorkspace);
       for(var i = 0 ;i<response.user.workspaces.length; i++)
       {
         var workspaceId = response.user.workspaces[i].workspaceId;
@@ -287,14 +290,23 @@
       $('#platform').html(platform);
     });
   }
+  var scrollBarDesign = function ()
+  {
+    $('body, #adminPanel').enscroll({
+    showOnHover: false,
+    verticalTrackClass: 'track3',
+    verticalHandleClass: 'handle3'
+    });
+  }
   
   $( document ).ready(function() 
-  {	 
+  {	scrollBarDesign();
     getWorkspaces(accessToken);
     addNewWorkspace();
     addCreateNewUser();
     addSaveUserButtonOnClick();
     addUserTypeDropdownOnClick();
     addLogoutButtonOnClick();
+  
   });
  

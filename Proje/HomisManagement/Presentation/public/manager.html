@@ -8,12 +8,14 @@
   <script src="../script/util.js" type="text/javascript"></script>	
   <script src="../script/bootstrap3.min.js" type="text/javascript"></script>
   <script src="../script/manager.js" type="text/javascript"></script>	
+  <script src="http://enscrollplugin.com/releases/enscroll-0.6.0.min.js" type="text/javascript"></script>	
 </head>
  
 <body class="bodyclass">
   <div class="container containerclass ">
     <div class = "panel panel-primary  text-center">
        <div class = "panel-heading">
+       <p id="username"></p>
           <h3 class = "panel-title">Yönetim Paneli</h3>
           <button type="button" id="logoutButton" class="btn btn-info btn-md logoutbutton">
           Çıkış &nbsp;<span class="glyphicon glyphicon-log-out"></span> 
@@ -80,16 +82,50 @@
           <form id="userForm">
             <fieldset>
               <div class="form-group">
-                <label>Kullanıcı Adı</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="Kullanıcı Adı">
-                <label>Soyadı</label>
-                <input type="text" class="form-control" id="surname" name="surname" placeholder="Kullanıcı Soyadı">
-                <label>Şifre</label>
-                <input type="text" class="form-control" id="password" name="password" placeholder="Şifre">
-                <label>Email</label>
-                <input type="text" class="form-control" id="email" name="email" placeholder="Email" >
-                <label>Telefon</label>
-                <input type="text" class="form-control" id="phone" name="phone" placeholder="Telefon">
+                <table>
+                <tr>
+                  <td>
+                    <label>Kullanıcı Adı</label>
+                  </td>
+                  <td>
+                    <input type="text" class="form-control formelement" id="name" name="name" >
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Soyadı</label>
+                  </td>
+                  <td>
+                    <input type="text" class="form-control formelement" id="surname" name="surname" >
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Şifre</label>
+                  </td>
+                  <td>
+                    <input type="text" class="form-control formelement" id="password" name="password">
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Email</label>
+                  </td>
+                  <td>
+                    <input type="text" class="form-control formelement" id="email" name="email" >
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Telefon</label>
+                  </td>
+                  <td>
+                    <input type="text" class="form-control formelement" id="phone" name="phone" >
+                  </td>
+                </tr>
+                </table>
+                
+              
                 <div class="dropdown" id="userTypeMenu">
                   <button class="btn btn-info"  data-toggle="dropdown">Kullanıcı Tipi
                     <span class="glyphicon glyphicon-user"></span>

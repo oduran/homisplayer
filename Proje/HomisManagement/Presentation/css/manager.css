@@ -1,17 +1,29 @@
 .bodyclass
 {
-  height:100vh !important;
+  height:100% !important;
+}
+html
+{
+  height:100% !important;
 }
 .column4
 {
   padding-left:0 !important;
   padding-right:0 !important;
   background-color: white !important;
+  height:100%;
+  border:1px solid #428bca;
+  border-radius: 2px;
+  overflow:auto;
 }
 .column3
 {
   padding-left:0 !important;
   padding-right:0 !important;
+  height:100%;
+  border:1px solid #428bca;
+  border-radius: 2px;
+  overflow:auto;
 }
 .containerclass
 {
@@ -34,8 +46,6 @@ background-color: white !important;
 }
 #workspaceDiv
 {
-  border: 1px solid #428bca;
-  border-radius: 2px;
 }
 .logoutbutton
 {
@@ -52,6 +62,10 @@ background-color: white !important;
 {
   margin-top:10px;
 }
+#username
+{
+float:left;  
+}
 #userId
 {
   display:none;
@@ -59,4 +73,34 @@ background-color: white !important;
 #userForm
 {
   margin-left:6%;
+}
+.track3 {
+    width: 10px;
+    background: rgba(0, 0, 0, 0);
+    margin-right: 2px;
+    border-radius: 10px;
+    -webkit-transition: background 250ms linear;
+    transition: background 250ms linear;
+}
+
+.track3:hover,
+.track3.dragging {
+    background: #d9d9d9; 
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.handle3 {
+    width: 7px;
+    left:27px;
+    right: 0;
+    background: #999;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 7px;
+    -webkit-transition: width 250ms;
+    transition: width 250ms;
+}
+
+.track3:hover .handle3,
+.track3.dragging .handle3 {
+    width: 10px;
 }
