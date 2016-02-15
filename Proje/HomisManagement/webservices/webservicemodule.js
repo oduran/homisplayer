@@ -196,6 +196,11 @@ var WebServiceManager = function(router)
   {
     var returnObj = returnObj || {message:"success"};
     user._id = existingUser._id;
+    if(!user.accessToken && existingUser.accessToken)
+    {
+      user.accessToken = existingUser.accessToken;
+    }
+    
     if(user.password)
     {
       passwordModule.cryptPassword(user.password, function(error, encryptedPassword)
