@@ -37,7 +37,12 @@
         
         for(var i = 0 ;i<response.user.workspaces.length; i++)
         {
-          var workspaceName = "<a class='list-group-item' href='#'>"+ response.user.workspaces[i].name+"<button class='btn btn-info' id='"+response.user.workspaces[i].workspaceId+"' onclick=showWorkspaceById('"+response.user.workspaces[i].workspaceId+"') style='float:right;margin-top:-7px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a>";
+          var workspaceName = "<a class='list-group-item' href='#'>"
+          + response.user.workspaces[i].name+
+          "<button class='btn btn-info' id='"
+          +response.user.workspaces[i].workspaceId+
+          "' onclick=showWorkspaceById('"+response.user.workspaces[i].workspaceId+
+          "') style='float:right;margin-top:-7px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a>";
           $('#workspaceList').append(workspaceName);  
         }
       },
@@ -56,7 +61,7 @@
         for(var i = 0 ;i<response.length; i++)
         {
       //    var $html = $('<div id="MainMenu"><div class="list-group panel"><a href="#demo3" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">Item 3</a><div class="collapse" id="demo3">href="#SubMenu1" class="list-group-item" data-toggle="collapse" data-parent="#SubMenu1">Subitem 1 <i class="fa fa-caret-down"></i></a>     <div class="collapse list-group-submenu" id="SubMenu1">        <a href="#" class="list-group-item" data-parent="#SubMenu1">Subitem 1 a</a>        <a href="#" class="list-group-item" data-parent="#SubMenu1">Subitem 2 b</a>        <a href="#SubSubMenu1" class="list-group-item" data-toggle="collapse" data-parent="#SubSubMenu1">Subitem 3 c <i class="fa fa-caret-down"></i></a>        <div class="collapse list-group-submenu list-group-submenu-1" id="SubSubMenu1">          <a href="#" class="list-group-item" data-parent="#SubSubMenu1">Sub sub item 1</a>          <a href="#" class="list-group-item" data-parent="#SubSubMenu1">Sub sub item 2</a>        </div>        <a href="#" class="list-group-item" data-parent="#SubMenu1">Subitem 4 d</a>      </div>      <a href="javascript:;" class="list-group-item">Subitem 2</a>      <a href="javascript:;" class="list-group-item">Subitem 3</a>    </div>    <a href="#demo4" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">Item 4</a>    <div class="collapse" id="demo4">      <a href="" class="list-group-item">Subitem 1</a>      <a href="" class="list-group-item">Subitem 2</a>      <a href="" class="list-group-item">Subitem 3</a>    </div>  </div></div>');
-          var userList = "<a class='list-group-item' id='"+response[i].name+"' href='#' onclick='return getWorkspaceById("+response[i].name+");' >"+ response[i].name+" "+ response[i].surname+"<button class='btn btn-danger' onclick=deleteUser('"+response[i].name+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-trash'></span></button><button class='btn btn-info accordion-toggle' data-toggle='collapse' href='#"+response[i]._id+"' style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-edit'></span></button><div id='"+response[i]._id+"' class='collapse'><form class ='"+response[i]._id+"'><fieldset><div class='form-group'><label>Kullanıcı Adı</label><input type='text' class='form-control formelement name' name='name' placeholder='Kullanıcı Adı' value="+response[i].name+"><label>Soyadı</label><input type='text' class='form-control formelement surname' name='surname' placeholder='Soyadı' value="+response[i].surname+"><label>Email</label><input type='text' class='form-control formelement email' name='email' placeholder='Email' value="+response[i].email+"><button class='btn btn-success' onclick=editUserById('"+response[i]._id+"') style='float:right'><span style='float:right' class='glyphicon glyphicon-saved'></span></button></div></fieldset></form></div></a>";
+          var userList = "<a class='list-group-item' id='"+response[i].name+"'>"+ response[i].name+" "+ response[i].surname+"<button class='btn btn-danger' onclick=deleteUser('"+response[i].name+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-trash'></span></button><button class='btn btn-info accordion-toggle' data-toggle='collapse' href='#"+response[i]._id+"' onclick='getWorkspaceByUsername("+response[i].name+");' style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-edit'></span></button><div id='"+response[i]._id+"' class='collapse'><form class ='"+response[i]._id+"'><fieldset><div class='form-group'><label>Kullanıcı Adı</label><input type='text' class='form-control formelement name' name='name' placeholder='Kullanıcı Adı' value="+response[i].name+"><label>Soyadı</label><input type='text' class='form-control formelement surname' name='surname' placeholder='Soyadı' value="+response[i].surname+"><label>Email</label><input type='text' class='form-control formelement email' name='email' placeholder='Email' value="+response[i].email+"><button class='btn btn-success' onclick=editUserById('"+response[i]._id+"') style='float:right'><span style='float:right' class='glyphicon glyphicon-saved'></span></button></div></fieldset></form></div></a>";
           $('#userList').append(userList);  
         }
       },
@@ -79,7 +84,8 @@
     error: function(error){debugger;}
     });  
   }
-  function getWorkspaceById(name)
+  
+  function getWorkspaceByUsername(name)
   {
     $("#workspaceList").empty();
     var data = { accessToken:accessToken, name:name.id};
@@ -127,11 +133,12 @@
     });
   
     var data = {accessToken:accessToken, user: {"name":name,"surname":surname,"type":"admin","email":email,"workspaces":[]}};
+    debugger;
     $.ajax({
       type: "POST",
       url: url+"service/saveuser",
       data: data,
-      success: function(data){debugger;},
+      success: function(response){debugger;},
       error: function(error){debugger;}
     });
   }

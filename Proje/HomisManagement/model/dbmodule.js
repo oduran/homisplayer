@@ -42,13 +42,42 @@ var DbManager = function()
     );
   }
   
-  // Gets a user by given access token.
+  // Gets a user by given name.
   this.getUserByName = function(name,callback)
   {
     executeDbQuery(
       function(db)
       {
         var cursor = db.collection("users").find({ "name": name });
+        var users = [];
+        cursor.each(function(err, doc) {
+          assert.equal(err, null);
+          if (doc != null) {
+            users.push(doc);
+          } 
+          else 
+          {
+                if(users.length === 0) 
+                {
+                  callback(null);
+                }
+                else
+                {
+                  callback(users[0]);
+                }
+          }
+        });
+      }
+    );
+  }
+  
+  // Gets a user by given user Id.
+  this.getUserById = function(id,callback)
+  {
+    executeDbQuery(
+      function(db)
+      {
+        var cursor = db.collection("users").find({ "_id": new ObjectID(id) });
         var users = [];
         cursor.each(function(err, doc) {
           assert.equal(err, null);

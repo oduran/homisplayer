@@ -100,17 +100,20 @@ var WebServiceManager = function(router)
       if(operator.type == "admin")
       {
         var newUser = req.body.user;
-        dbManager.getUserByName(newUser.name,function(existingUser)
+        if(newUser._id)
         {
-          if(existingUser)
+          console.log(JSON.stringify(newUser));
+          dbManager.getUserById(newUser.name,function(existingUser)
           {
-            updateUser(newUser,existingUser,res);
-          }
-          else
-          {
-            insertUser(newUser,res);
-          }
-        });
+            updateUser(existingUser,existingUser,res);
+          });
+        }
+        else
+        {
+          console.log("id doesn't exist")
+          console.log(JSON.stringify(newUser));
+          insertUser(newUser,res);
+        }
       }
       else
       {
@@ -122,6 +125,11 @@ var WebServiceManager = function(router)
   // Validate user's attributes with application criterias.
   var validateUser = function(user)
   {
+    if(!user.password)
+    {
+      return "New user must have a password";
+    }
+    
 	  if(user.name.length <= 0)
 	  {
 		  return "Name cannot be empty."
@@ -200,7 +208,7 @@ var WebServiceManager = function(router)
       dbManager.saveUser(user,
         function(success)
         {
-        res.json({message:"success"});
+          res.json({message:"success"});
         }
       );
     }
