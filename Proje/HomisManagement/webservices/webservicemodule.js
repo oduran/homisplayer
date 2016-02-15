@@ -101,11 +101,12 @@ var WebServiceManager = function(router)
       if(operator.type == "admin")
       {
         var newUser = req.body.user;
+        console.log(JSON.stringify(newUser));
         if(newUser._id)
         {
           if(newUser.workspaces)
           {
-            for(var i = 0; i< newUser.workspaces; i++)
+            for(var i = 0; i< newUser.workspaces.length; i++)
             {
               if(!newUser.workspaces[i].workspaceId)
               {

@@ -390,7 +390,21 @@ var WallManager = function () {
       getWorkspace(userId, workspaceId);
       return;
     }
-    
+    else
+    {
+      getUser(userId,function(userFromService)
+      {
+          if(userFromService)
+          {
+            user = userFromService;
+          }
+          showNewWorkspaceForm();
+      });
+    }
+  }
+  
+  var showNewWorkspaceForm = function()
+  {
     $('#initialModal').modal(
     {
       backdrop: 'static',
@@ -398,7 +412,32 @@ var WallManager = function () {
     });
     $('#initialModal').modal('show');
 		showCurrentStep(currentStep);
-     
+  }
+  
+  var getUser = function(userId,callback)
+  {
+    if(!userId)
+    {
+      callback();
+      return;
+    }
+    
+    var data = {accessToken:accessToken, _id: userId};
+    var targetUrl = serviceUrl+"getUser";
+    $.ajax({
+      type: "POST",
+      url:  targetUrl,
+      data: data,
+      success: function(response){
+        if(response.message)
+        {
+          BootstrapDialog.alert(response.message);
+          return;
+        }
+        
+        callback(response.user);
+      }
+    });
   }
  
   // Çalışma alanının başlangıç ve bitiş zamanını açılıştaki elementlerden alarak start ve end değişkenlerine date olarak atar.
