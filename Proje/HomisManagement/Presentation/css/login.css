@@ -3,6 +3,23 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
 }
+.bilimteklogo
+{
+  background: url(../media/bilimteklogo.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    height:50px;
+}
+.logotext
+{
+  font-family: 'Hind', sans-serif;
+  font-size: 33px;
+  position: absolute;
+  left: 200px;
+  top: -1px;
+  color: #5B82B7;
+  font-weight: 400;
+}
 .container{
     margin-top:10%;!important;
 }
