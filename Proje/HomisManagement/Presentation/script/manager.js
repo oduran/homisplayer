@@ -73,9 +73,9 @@
       //    var $html = $('<div id="MainMenu"><div class="list-group panel"><a href="#demo3" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">Item 3</a><div class="collapse" id="demo3">href="#SubMenu1" class="list-group-item" data-toggle="collapse" data-parent="#SubMenu1">Subitem 1 <i class="fa fa-caret-down"></i></a>     <div class="collapse list-group-submenu" id="SubMenu1">        <a href="#" class="list-group-item" data-parent="#SubMenu1">Subitem 1 a</a>        <a href="#" class="list-group-item" data-parent="#SubMenu1">Subitem 2 b</a>        <a href="#SubSubMenu1" class="list-group-item" data-toggle="collapse" data-parent="#SubSubMenu1">Subitem 3 c <i class="fa fa-caret-down"></i></a>        <div class="collapse list-group-submenu list-group-submenu-1" id="SubSubMenu1">          <a href="#" class="list-group-item" data-parent="#SubSubMenu1">Sub sub item 1</a>          <a href="#" class="list-group-item" data-parent="#SubSubMenu1">Sub sub item 2</a>        </div>        <a href="#" class="list-group-item" data-parent="#SubMenu1">Subitem 4 d</a>      </div>      <a href="javascript:;" class="list-group-item">Subitem 2</a>      <a href="javascript:;" class="list-group-item">Subitem 3</a>    </div>    <a href="#demo4" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">Item 4</a>    <div class="collapse" id="demo4">      <a href="" class="list-group-item">Subitem 1</a>      <a href="" class="list-group-item">Subitem 2</a>      <a href="" class="list-group-item">Subitem 3</a>    </div>  </div></div>');
           var userList = "<a class='list-group-item' href='#' id='"+user.name+
           "'>"+ user.name+"<button class='btn btn-danger' onclick=deleteUser('"
-          +user.name+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-trash'></span></button><button class='btn btn-info accordion-toggle' data-toggle='collapse' href='#"+
+          +user.name+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-trash'></span></button><button class='btn btn-info accordion-toggle'  data-parent='#userList' data-toggle='collapse' href='#"+
           user._id+"' onclick=getWorkspacesByUsername('"+user.name+"','"+user._id+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-edit'></span></button><div id='"+
-          user._id+"' class='collapse'><form class ='"+
+          user._id+"' class='userForm collapse'><form class ='"+
           user._id+"'><fieldset><div class='form-group'><label>Kullanıcı Adı</label><input type='text' class='form-control formelement name' name='name' placeholder='Kullanıcı Adı' value="+
           user.name+"><label>Soyadı</label><input type='text' class='form-control formelement surname' name='surname' placeholder='Soyadı' value="
           +user.surname+"><label>Email</label><input type='text' class='form-control formelement email' name='email' placeholder='Email' value="+
@@ -94,7 +94,7 @@
       error: function(error){debugger;}
     });
   }
-  
+ 
   function deleteUser(name)
   { 
     var data = {accessToken:accessToken,name : name};
@@ -113,6 +113,23 @@
   
   function getWorkspacesByUsername(name,id)
   {
+    if($("#"+id).hasClass('in'))
+    {
+      $("#"+id).removeClass('in');
+      $("#"+id).addClass('collapse');
+      $("#workspaceList").empty();
+      getWorkspaces(accessToken);
+      return;
+    }
+    $('.userForm').each(function() 
+    {
+      if($(this).hasClass('in'))
+        {
+          $(this).removeClass('in');
+          $(this).addClass('collapse');   
+        } 
+    });
+    
     $("#workspaceList").empty();
     $("#userId").val(id);
 
@@ -143,7 +160,7 @@
   
   function editUserById(id)
   {
-    
+   
     var name="";
     var surname="";
     var email="";
