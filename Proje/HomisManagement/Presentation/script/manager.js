@@ -48,7 +48,7 @@
           + response.user.workspaces[i].name+
           "<button class='btn btn-info' id='"
           +response.user.workspaces[i].workspaceId+
-          "' onclick=showWorkspaceById('"+response.user.workspaces[i].workspaceId+"') style='float:right;margin-top:-7px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a>";
+          "' onclick=showWorkspaceById('"+response.user.workspaces[i].workspaceId+"','"+response.user._id+"') style='float:right;margin-top:-7px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a>";
           $('#workspaceList').append(workspaceName);  
         }
       },
@@ -150,7 +150,7 @@
       {
         var workspaceId = response.user.workspaces[i].workspaceId;
         var userId = response.user._id;
-        var workspaceName = "<a class='list-group-item' href='#'>"+ response.user.workspaces[i].name+"<button class='btn btn-info' id='"+response.user.workspaces[i].workspaceId+"' onclick=showWorkspaceById('"+workspaceId+"-"+userId+"') style='float:right;margin-top:-7px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a>";
+        var workspaceName = "<a class='list-group-item' href='#'>"+ response.user.workspaces[i].name+"<button class='btn btn-info' id='"+response.user.workspaces[i].workspaceId+"' onclick=showWorkspaceById('"+workspaceId+"','"+userId+"') style='float:right;margin-top:-7px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a>";
         $('#workspaceList').append(workspaceName);  
       }
     },
@@ -197,11 +197,8 @@
       error: function(error){debugger;}
     });
   }
-  function showWorkspaceById(workspaceId)
-  {
-    var splitWorkspaceId = workspaceId.split("-");
-    var workspaceId = splitWorkspaceId[0];
-    var userId = splitWorkspaceId[1]; 
+  function showWorkspaceById(workspaceId,userId)
+  { 
     if(adminControl)
     {
       window.location.href=url+"workspace.html?workspaceId="+workspaceId+"&"+"userId="+userId;
