@@ -88,6 +88,7 @@ var WebServiceManager = function(router)
   // Saves a user. If it doesn't exist inserts new record. If it does exist updates current user.
   var saveUser = function (req, res, next)
   {
+    var returnObj = {message:"success"};
     var accessToken = req.body.accessToken;
     dbManager.getUserByAccessToken(accessToken, function(operator)
     {
@@ -102,16 +103,25 @@ var WebServiceManager = function(router)
         var newUser = req.body.user;
         if(newUser._id)
         {
-          console.log(JSON.stringify(newUser));
+          if(newUser.workspaces)
+          {
+            for(var i = 0; i< newUser.workspaces; i++)
+            {
+              if(!newUser.workspaces[i].workspaceId)
+              {
+                newUser.workspaces[i].workspaceId = dbManager.createUniqueId();
+                returnObj = {workspaceId: newUser.workspaces[i].workspaceId};
+              }
+            }
+          }
+
           dbManager.getUserById(newUser._id,function(existingUser)
           {
-            updateUser(newUser, existingUser, res);
+            updateUser(newUser, existingUser, res, returnObj);
           });
         }
         else
         {
-          console.log("id doesn't exist")
-          console.log(JSON.stringify(newUser));
           insertUser(newUser,res);
         }
       }
@@ -181,8 +191,9 @@ var WebServiceManager = function(router)
   }
   
   // Update's already existing user. Used by saveUser method.
-  var updateUser = function(user, existingUser, res)
+  var updateUser = function(user, existingUser, res, returnObj)
   {
+    var returnObj = returnObj || {message:"success"};
     user._id = existingUser._id;
     if(user.password)
     {
@@ -197,7 +208,7 @@ var WebServiceManager = function(router)
         dbManager.saveUser(user,
           function(success)
           {
-            res.json({message:"success"});
+            res.json(returnObj);
           }
         );
       });
@@ -208,7 +219,7 @@ var WebServiceManager = function(router)
       dbManager.saveUser(user,
         function(success)
         {
-          res.json({message:"success"});
+          res.json(returnObj);
         }
       );
     }
@@ -350,6 +361,7 @@ var WebServiceManager = function(router)
   {
     var accessToken = req.body.accessToken;
     var workspaceToSave = req.body.workspace;
+    var returnObj = {message: "success"};
     dbManager.getUserByAccessToken(accessToken, 
       function(user)
       {
@@ -379,13 +391,14 @@ var WebServiceManager = function(router)
         if(!workspaceExist)
         {
           workspaceToSave.workspaceId = dbManager.createUniqueId();
+          returnObj = {workspaceId : workspaceToSave.workspaceId};
           user.workspaces.push(req.body.workspace);
         }
         
         dbManager.saveUser(user,
           function()
           {
-            res.json({message: "success"});
+            res.json(returnObj);
           }
         );
       }

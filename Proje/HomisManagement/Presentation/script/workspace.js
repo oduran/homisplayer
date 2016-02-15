@@ -18,12 +18,14 @@ var WallManager = function () {
   var end;
   var workspaceObj={};
   var walls=[];
-  debugger;
+  var user;
+  
   if(!accessToken)
-    {
-      window.location.href = url+"login.html";
-      return;
-    }
+  {
+    window.location.href = url+"login.html";
+    return;
+  }
+  
   //Set edilen baslangıç ve bitiş zamanlarının arasındaki dakika farkını bulan fonksiyon. Burada startTime ve endTime da set ediliyor.
   var calculateTimeDifference = function(startTime,endTime)
   {
@@ -49,7 +51,7 @@ var WallManager = function () {
     
   // Timeline datarow çizimi sağlıyor
   var drawVisualization = function()
-  { debugger;
+  { 
     totalMinutes=0;
     var	data= null;
     data = new google.visualization.DataTable();
@@ -69,7 +71,7 @@ var WallManager = function () {
   }
   
   var createRows = function() 
-  { debugger;
+  { 
     var rows = [];
     var periodicWalls = [];
     var timedWalls = [];
@@ -179,34 +181,42 @@ var WallManager = function () {
   }
   
   // Workspace halihazırda varsa ekrana servisten gelen workspace objesinde belirlenmiş olan duvarları ekler.
-  var getWorkspace = function(workspaceId)
+  var getWorkspace = function(userId, workspaceId)
   {
-    var data = { accessToken:accessToken, workspaceId:workspaceId};
+    var targetUrl = serviceUrl+"getworkspace";
+    var data = { accessToken:accessToken, workspaceId: workspaceId};
+    
+    if(userId)
+    {
+      data = {accessToken:accessToken, _id: userId};
+      targetUrl = serviceUrl+"getUser"
+    }
+
     $.ajax({
       type: "POST",
-      url:  serviceUrl+"getworkspace",
+      url:  targetUrl,
       data: data,
       success: function(response){
-        debugger;
         if(response.message)
         {
           return;
         }
-        workspaceObj = response;
-        $( "#pageHeight" ).val(response.height);
-        $( "#pageWidth" ).val(response.width);
-        $("#datetimepicker1").find("input").val(response.starttime);
-        $("#datetimepicker2").find("input").val(response.endtime);
-        var workspaceTimer = splitStartAndEndTime(response.starttime,response.endtime)
+        workspaceObj = userId? findUserWorkspace(workspaceId,response.user.workspaces) : response;
+        user = userId? response.user : user;
+        $( "#pageHeight" ).val(workspaceObj.height);
+        $( "#pageWidth" ).val(workspaceObj.width);
+        $("#datetimepicker1").find("input").val(workspaceObj.starttime);
+        $("#datetimepicker2").find("input").val(workspaceObj.endtime);
+        var workspaceTimer = splitStartAndEndTime(workspaceObj.starttime,workspaceObj.endtime)
         self.start = new Date(self.date.getFullYear(), self.date.getMonth(),self.date.getDate(),workspaceTimer.startTime,workspaceTimer.startTimeMinute,0);
         self.end = new Date(self.date.getFullYear(), self.date.getMonth(),self.date.getDate(),workspaceTimer.endTime,workspaceTimer.endTimeMinute,0);
 
-        for(var i = 0 ; i<response.walls.length ;i++)
+        for(var i = 0 ; i<workspaceObj.walls.length ;i++)
         {
           var wall = {
-          id: response.walls[i].id,
-          type: response.walls[i].type,
-          showTime: response.walls[i].showTime,
+          id: workspaceObj.walls[i].id,
+          type: workspaceObj.walls[i].type,
+          showTime: workspaceObj.walls[i].showTime,
           }
           
           walls.push(wall);
@@ -214,13 +224,14 @@ var WallManager = function () {
           drawVisualization();
         }
       },
-      error: function(error){debugger;}
+      error: function(error){
+        BootstrapDialog.alert("hata:"+error.toString());
+      }
     });
-    
   }
+  
   function getNewWallUpdateTimeSelectedTab ()
   {
-    debugger;
     var newWallTime = 0;
     var $tab = $('#changeTimeTabContent');
     var $active = $tab.find('.tab-pane.active');
@@ -275,7 +286,7 @@ var WallManager = function () {
   var addChangeTimeOnClick = function () 
   {
     $(document).on("click", ".changeTime", function () 
-    {debugger;
+    {
       var wallId = $(this).parent().find('h2').html();
       var screenName = wallId.replace("Ekran","wall");
        $("#changeTimeScreenName").val(""+screenName);
@@ -372,10 +383,11 @@ var WallManager = function () {
         $("#drophere .screeniframe").css("transform-origin","transform-origin: 0px 0px 0px");
 			}
 		});	
-    var getWorkspaceId=Util.getParameterByName('workspaceId');
-    if(getWorkspaceId!==null)
-    {debugger;
-      getWorkspace(getWorkspaceId);
+    var workspaceId=Util.getParameterByName('workspaceId');
+    var userId = Util.getParameterByName('userId');
+    if(workspaceId)
+    {
+      getWorkspace(userId, workspaceId);
       return;
     }
     
@@ -461,7 +473,6 @@ var WallManager = function () {
     $(".saveButton").click(function()
     {
       $("#workspaceNameDialog").modal("show");
-      debugger;
       if(workspaceObj.name)
       {
         $("#workspaceName").val(workspaceObj.name);
@@ -472,6 +483,7 @@ var WallManager = function () {
   {
     $("#saveWorkspaceName").click(function()
     {
+
       $("#workspaceNameDialog").modal("hide");
       var name = $("#workspaceName").val();
       var newWorkspaceObj = 
@@ -483,19 +495,40 @@ var WallManager = function () {
         height:$("#pageHeight").val(),
         walls:walls
       }
-      
+      var targetUrl = serviceUrl+"saveworkspace";
       workspaceObj=Util.mergeObjects(workspaceObj,newWorkspaceObj);
-      console.log(JSON.stringify(workspaceObj));
-      
       var data = { accessToken:accessToken, workspace: workspaceObj};
+      if(user)
+      {
+        targetUrl = serviceUrl+"saveuser";
+        user = changeUserWorkspace(workspaceObj, user);
+        data = { accessToken:accessToken, user:user };
+      }
+      
       $.ajax({
         type: "POST",
-        url: serviceUrl+"saveworkspace",
+        url: targetUrl,
         data: data,
-        success: function(data){
-         BootstrapDialog.alert("Çalışma Alanı Başarıyla Kaydedildi.");
+        success: function(response){
+          if(response.workspaceId)
+          {
+            workspaceObj.workspaceId = response.workspaceId;
+            if(user)
+            {
+              for(var i=0;i<user.workspaces.length;i++)
+              {
+                if(!user.workspaces[i].workspaceId)
+                {
+                  user.workspaces[i].workspaceId = response.workspaceId;
+                }
+              }
+            }
+          }
+          BootstrapDialog.alert("Çalışma Alanı Başarıyla Kaydedildi.");
         },
-        error: function(error){}
+        error: function(error){
+          BootstrapDialog.alert("Hata: "+error.toString());
+        }
       });
       console.log(workspaceObj);
     });
@@ -566,7 +599,6 @@ var WallManager = function () {
   }
   function checkUsedTime(startTime,endTime)
   {
-    debugger;
     for(var i in walls)
     {
       if(walls[i].showTime.indexOf("-")>-1)
@@ -590,7 +622,7 @@ var WallManager = function () {
   }
   // Yeni Duvar Ekle butonunda çıkan dialogdaki en son next butonu.
   var applyNewWall = function()
-  {   debugger;
+  {   
       var screenType = $(".selected").attr('id') ;
       var newWallTime = getNewWallTimeSelectedTab();
       if(newWallTime===false)
@@ -766,6 +798,48 @@ var WallManager = function () {
     $(".nav-tabs a").click(function(){
         $(this).tab('show');
     });
+  }
+  
+  //Kullanıcının id ile verilen workspace' ini bulur.
+  findUserWorkspace = function(workspaceId,workspaces)
+  {
+    for(var i = 0; i<workspaces.length;i++)
+    {
+      if(workspaceId === workspaces[i].workspaceId)
+      {
+        return workspaces[i];
+      }
+    }
+    
+    return null;
+  }
+  
+  // Kullanıcının workspace ini değiştirir. Id ile doğru workspace i bulur değiştirir ve workspace' i değişmiş user döndürür.
+  changeUserWorkspace = function(workspace,user)
+  {
+    var found = false;
+    for(var i = 0; i<user.workspaces.length;i++)
+    {
+      if(workspace.workspaceId === user.workspaces[i].workspaceId)
+      {
+        user.workspaces[i] = workspace;
+        found = true;
+      }
+    }
+    
+    if(!found)
+    {
+      if(user.workspaces)
+      {
+        user.workspaces.push(workspace);
+      }
+      else
+      {
+        user.workspaces = [workspace];
+      }
+    }
+    
+    return user;
   }
   
   // Sayfada bulunan elementlerin onclick, validate gibi olaylarının set edilmesini sağlar.
