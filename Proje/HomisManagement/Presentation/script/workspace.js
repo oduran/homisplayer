@@ -540,7 +540,7 @@ var WallManager = function () {
       if(user)
       {
         targetUrl = serviceUrl+"saveuser";
-        user = changeUserWorkspace(workspaceObj, user);
+        user = upsertWorkspaceToUser(workspaceObj, user);
         data = { accessToken:accessToken, user:user };
       }
       
@@ -854,9 +854,15 @@ var WallManager = function () {
   }
   
   // Kullanıcının workspace ini değiştirir. Id ile doğru workspace i bulur değiştirir ve workspace' i değişmiş user döndürür.
-  changeUserWorkspace = function(workspace,user)
+  upsertWorkspaceToUser = function(workspace,user)
   {
     var found = false;
+    if(!user.workspaces)
+    {
+      user.workspaces = [workspace];
+      return user;
+    }
+    
     for(var i = 0; i<user.workspaces.length;i++)
     {
       if(workspace.workspaceId === user.workspaces[i].workspaceId)
@@ -868,14 +874,7 @@ var WallManager = function () {
     
     if(!found)
     {
-      if(user.workspaces)
-      {
-        user.workspaces.push(workspace);
-      }
-      else
-      {
-        user.workspaces = [workspace];
-      }
+      user.workspaces.push(workspace);
     }
     
     return user;
