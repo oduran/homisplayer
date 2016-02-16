@@ -343,46 +343,6 @@ var WallManager = function () {
         format: 'HH:mm'
     });
 
-    /*Ekran seçiminde çıkacak draggable objectlerin set edildiği yer */
-		$(".draggable").draggable();
-    var draggableArguments={
-			 revert: 'true',
-			 helper:'clone',
-			 appendTo: '#drophere',
-			 refreshPositions: true,
-			 containment: 'DOM',
-			 zIndex: 1500,
-			 addClasses: false
-		};
-
-		$('.group').draggable(draggableArguments);
-		$('.group').droppable();
-
-		$(".nav-sidebar").droppable({
-			tolerance: "intersect",
-			accept: ".group",
-			activeClass: "ui-state-default",
-			hoverClass: "ui-state-hover",
-			drop: function(event, ui) {
-				$(".nav-sidebar").append($(ui.draggable));
-			}
-		});
-		$('#drophere').droppable({
-			accept: ".group",
-			activeClass: "ui-state-highlight",
-			drop: function( event, ui ) 
-      {
-        // clone item to retain in original "list"
-        var $item = ui.draggable.clone();
-        $(this).addClass('has-drop').html($item);
-        $("#drophere .group").css("width","100%");
-        $("#drophere .group").css("height","100%");
-        $("#drophere .screeniframe").css("width","100%");
-        $("#drophere .screeniframe").css("height","75vh");
-        $("#drophere .screeniframe").css("transform","scale(1)");
-        $("#drophere .screeniframe").css("transform-origin","transform-origin: 0px 0px 0px");
-			}
-		});	
     var workspaceId=Util.getParameterByName('workspaceId');
     var userId = Util.getParameterByName('userId');
     if(workspaceId)
@@ -587,11 +547,77 @@ var WallManager = function () {
   // Workspace div in içinde eklenen ekranlara bastığımızda çalışan fonksiyon.
   var addScreenOnClick = function()
   {
-    $('#workspaceForm').on('click', '[class^=wall_screen]', function(){
-       $('#fsModal').modal('show');
+    $('#workspaceForm').on('click', '[class^=wall_screen]', function()
+    {
+      $('#screenConfigModal').modal(
+      {
+        backdrop: 'static',
+        keyboard: false 
+      });
+      $('#screenConfigModal').modal('show');
+      getAllTemplatesImages();
     });
   }
+  
+  var getAllTemplatesImages = function () 
+  {
+    $('#templatesDiv').empty();
+    for(var i = 1 ; i<5; i++)
+    { var chr = String.fromCharCode(96 +i);
+      var img = " <label for='"+url+"/media/template"+i+".png'><input id='"+url+"/media/template"+i+".png' type='radio' name='type' value='ekran"+chr+".html'/><img src='"+url+"/media/template"+i+".png' class='screeniframe' style='margin-top:10px;width:100%'/></label>";
+      $('#templatesDiv').append(img);
+    }
+    
+    $('#templatesDiv input').on('change', function() {
+       var templateUrl = $('input[name=type]:checked', '#templatesDiv').val();
+        $("#templateUrl").attr("src",url+"kafesfirin/public/"+templateUrl)
+       
+    });
+  }
+  
+  var setDraggableObjects = function()
+  {
+    /*Ekran seçiminde çıkacak draggable objectlerin set edildiği yer */
+		$(".draggable").draggable();
+    var draggableArguments={
+			 revert: 'true',
+			 helper:'clone',
+			 appendTo: '#drophere',
+			 refreshPositions: true,
+			 containment: 'DOM',
+			 zIndex: 1500,
+			 addClasses: false
+		};
 
+		$('.group').draggable(draggableArguments);
+		$('.group').droppable();
+
+		$(".nav-sidebar").droppable({
+			tolerance: "intersect",
+			accept: ".group",
+			activeClass: "ui-state-default",
+			hoverClass: "ui-state-hover",
+			drop: function(event, ui) {
+				$(".nav-sidebar").append($(ui.draggable));
+			}
+		});
+		$('#drophere').droppable({
+			accept: ".group",
+			activeClass: "ui-state-highlight",
+			drop: function( event, ui ) 
+      {
+        // clone item to retain in original "list"
+        var $item = ui.draggable.clone();
+        $(this).addClass('has-drop').html($item);
+        $("#drophere .group").css("width","100%");
+        $("#drophere .group").css("height","100%");
+        $("#drophere .screeniframe").css("width","100%");
+        $("#drophere .screeniframe").css("height","75vh");
+        $("#drophere .screeniframe").css("transform","scale(1)");
+        $("#drophere .screeniframe").css("transform-origin","transform-origin: 0px 0px 0px");
+			}
+		});
+  }
   // Yeni Duvar Ekle butonuna bastığımızda çıkan ilk dialogdaki ekran tiplerinin bulunduğu dropdownlist.
   var addNewWallDropdownOnClick = function()
   {

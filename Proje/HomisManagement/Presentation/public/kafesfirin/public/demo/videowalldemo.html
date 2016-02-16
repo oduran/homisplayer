@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HOMIS Video Wall Demo</title>
+    <style>
+        body{
+            background: black;
+        }
+        iframe{
+            margin-top:36vh;
+            width:7680px;
+			height:1080px;
+            margin-bottom: 36vh;
+			transform-origin: top left;
+			transform: scale(0.7);
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<iframe id="appFrame" src="../application.html"></iframe>
+<script>
+var w = window,
+    d = document,
+    e = d.documentElement,
+    g = d.getElementsByTagName('body')[0],
+    windowScreenWidth = w.innerWidth || e.clientWidth || g.clientWidth,
+    windowScreenHeight = w.innerHeight|| e.clientHeight|| g.clientHeight;
+
+var wallWidth = 7680;
+var division = windowScreenWidth/wallWidth;
+console.log(wallWidth+" "+windowScreenWidth+division);
+var appFrame = document.getElementById("appFrame");
+appFrame.style.transform = "scale("+division+")";
+
+</script>
+</body>
+</html>

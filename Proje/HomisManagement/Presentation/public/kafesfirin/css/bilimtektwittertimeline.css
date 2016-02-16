@@ -1,0 +1,2021 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+      v2.0 | 20110126
+      License: none (public domain)
+   */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+@font-face {
+    font-family: "kafesfontswisslight";
+    src: url("../media/font/SWZ721L.woff") format('woff');
+}
+
+@font-face {
+    font-family: "kafesfontswissnormal";
+    src: url("../media/font/SWZ921N.woff") format('woff');
+}
+
+@font-face {
+    font-family: "kafesfont";
+    src: url("../media/font/HappyFox-Condensed.woff") format('woff');
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.hidden {
+    display: none;
+}
+
+.unhidden {
+    display: block;
+}
+
+.container{
+    -webkit-border-radius : 10px !important;
+}
+
+
+
+      /*Bold*/
+@font-face {
+    font-family: kafesfontswisslight; /* 'Roboto Condensed Bold';*/
+    /*
+    src: url('/Media/Fonts/robotocondensed-bold.eot');
+    src: url('/Media/Fonts/robotocondensed-bold.eot?#iefix') format('embedded-opentype'),
+    url('/Media/Fonts/robotocondensed-bold.woff') format('woff'),
+
+    url('/roboto_condensed/RobotoCondensed-Bold.ttf') format('truetype'),
+
+    url('/Media/Fonts/robotocondensed-bold.svg#roboto_condensedbold') format('svg');
+    */
+    /*src: local('Roboto Condensed Bold'), local('./roboto_condensed/RobotoCondensed-Bold.ttf'), url("./roboto_condensed/RobotoCondensed-Bold.ttf") format('truetype');*/
+
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*Italisized*/
+@font-face {
+    font-family: 'Roboto Condensed Bold Italic';
+    /*
+    src: url('/Media/Fonts/robotocondensed-bolditalic.eot');
+    src: url('/Media/Fonts/robotocondensed-bolditalic.eot?#iefix') format('embedded-opentype'),
+    url('/Media/Fonts/robotocondensed-bolditalic.woff') format('woff'),
+
+    url('/roboto_condensed/RobotoCondensed-BoldItalic.ttf') format('truetype'),
+
+    url('/Media/Fonts/robotocondensed-bolditalic.svg#roboto_condensedbold_italic') format('svg');
+    */
+    src: local('Roboto Condensed Bold Italic'), local('./roboto_condensed/RobotoCondensed-BoldItalic.ttf'), url("./roboto_condensed/RobotoCondensed-BoldItalic.ttf") format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body,html{width:100%; height:100%; overflow:hidden}
+body {
+    vertical-align: middle;
+}
+
+.container {
+    text-align: center;
+    height: 100%;
+}
+
+ul {
+    position: relative;
+    top: 100%;
+}
+
+ul, ul li {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+ul li {
+    position: absolute;
+    top: 0;
+}
+
+.tweet {
+    width: 100%;
+    height: 100%;
+    text-align: left;
+}
+
+#nostyles {
+    font-size: 30px;
+    color: #000;
+    z-index: 10000;
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    text-align: left;
+    background-color: #FFF;
+    padding: 10px;
+    margin-right: 30px;
+}
+
+.userInfoWrap h2,.userInfoWrap h3 {
+    font-family: kafesfontswisslight;/*'Roboto Condensed Bold';*/
+    color: white;
+}
+
+.userInfoWrap h3{
+	font-family: kafesfontswisslight;
+}
+
+.userInfoWrap h4 {
+    font-family: kafesfontswisslight;/*'Roboto Condensed Bold Italic';*/
+    color: white;
+}
+
+.tweet p {
+    width: 100%;
+    font-family: kafesfontswisslight;
+	color: white;
+}
+
+#bottomBar {
+    width: 100%;
+    position: absolute;
+    z-index: 100;
+}
+
+#top-tweets-logo {
+    float: left;
+    margin-left: 10%;
+    max-height: 100%;
+}
+
+.animateIn {
+    -webkit-transform: translateY(-100%);
+    -moz-transform: translateY(-100%);
+    -ms-transform: translateY(-100%);
+    -o-transform: translateY(-100%);
+    transform: translateY(-100%);
+}
+
+.animateIn .imgWrap {
+    -webkit-animation:moveLeftToRight 1.5s ease-out forwards;
+    -moz-animation:moveLeftToRight 1.5s ease-out forwards;
+    -ms-animation:moveLeftToRight 1.5s ease-out forwards;
+    -o-animation:moveLeftToRight 1.5s ease-out forwards;
+    animation:moveLeftToRight 1.5s ease-out forwards;
+}
+
+.animateIn p {
+    -webkit-animation: moveBottomToTop 2s ease;
+    -moz-animation: moveBottomToTop 2s ease;
+    -ms-animation: moveBottomToTop 2s ease;
+    -o-animation: moveBottomToTop 2s ease;
+    animation: moveBottomToTop 2s ease;
+}
+
+.animateIn h2 {
+    opacity: 0;
+    -webkit-animation: fadeIn 2s ease-out .5s forwards;
+    -moz-animation: fadeIn 2s ease-out .5s forwards;
+    -ms-animation: fadeIn 2s ease-out .5s forwards;
+    -o-animation: fadeIn 2s ease-out .5s forwards;
+    animation: fadeIn 2s ease-out .5s forwards;
+}
+
+.animateIn h3 {
+    opacity: 0;
+    -webkit-animation: fadeIn 2s ease-out .75s forwards;
+    -moz-animation: fadeIn 2s ease-out .75s forwards;
+    -ms-animation: fadeIn 2s ease-out .75s forwards;
+    -o-animation: fadeIn 2s ease-out .75s forwards;
+    animation: fadeIn 2s ease-out .75s forwards;
+}
+
+.animateIn h4 {
+    opacity: 0;
+    -webkit-animation: fadeIn 2s ease-out 1s forwards;
+    -moz-animation: fadeIn 2s ease-out 1s forwards;
+    -ms-animation: fadeIn 2s ease-out 1s forwards;
+    -o-animation: fadeIn 2s ease-out 1s forwards;
+    animation: fadeIn 2s ease-out 1s forwards;
+}
+
+.animateOut {
+    -webkit-transform: translateY(-100%);
+    -moz-transform: translateY(-100%);
+    -ms-transform: translateY(-100%);
+    -o-transform: translateY(-100%);
+    transform: translateY(-100%);
+}
+
+.animateOut .imgWrap {
+    -webkit-animation:moveOutRight 1.5s ease-out forwards;
+    -moz-animation:moveOutRight 1.5s ease-out forwards;
+    -ms-animation:moveOutRight 1.5s ease-out forwards;
+    -o-animation:moveOutRight 1.5s ease-out forwards;
+    animation: moveOutRight 1.5s ease-out forwards;
+}
+
+.animateOut p {
+    -webkit-animation: moveOutTop 1.5s ease forwards;
+    -moz-animation: moveOutTop 1.5s ease forwards;
+    -ms-animation: moveOutTop 1.5s ease forwards;
+    -o-animation: moveOutTop 1.5s ease forwards;
+    animation: moveOutTop 1.5s ease forwards;
+}
+
+.animateOut h2 {
+    -webkit-animation: fadeOut 1s ease-out forwards;
+    -moz-animation: fadeOut 1s ease-out forwards;
+    -ms-animation: fadeOut 1s ease-out forwards;
+    -o-animation: fadeOut 1s ease-out forwards;
+    animation: fadeOut 1s ease-out forwards;
+}
+
+.animateOut h3 {
+    -webkit-animation: fadeOut 1s ease-out forwards;
+    -moz-animation: fadeOut 1s ease-out forwards;
+    -ms-animation: fadeOut 1s ease-out forwards;
+    -o-animation: fadeOut 1s ease-out forwards;
+    animation: fadeOut 1s ease-out forwards;
+}
+
+.animateOut h4 {
+    -webkit-animation: fadeOut 1s ease-out forwards;
+    -moz-animation: fadeOut 1s ease-out forwards;
+    -ms-animation: fadeOut 1s ease-out forwards;
+    -o-animation: fadeOut 1s ease-out forwards;
+    animation: fadeOut 1s ease-out forwards;
+}
+
+
+/*1920x1080 and larger*/
+@media all and (min-width: 1920px) and (min-height:1080px){
+    #nostyles {
+        display: none;
+    }
+
+    .container {
+        width: 1620px;
+        /*height: 980px;*/
+        margin-left: 150px;
+        margin-right: 150px;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        position: relative;
+        z-index: 5;
+    }
+
+    .topwrap {
+        height: 330px;
+        width: 100%;
+    }
+
+    .topwrap .imgWrap{
+        float: left;
+        width: 310px;
+        height: 100%;
+        margin-top: 20px;
+        overflow: hidden;
+    }
+
+    .topwrap .imgWrap img {
+        /*max-width: 100%;
+        max-height: 100%;*/
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .userInfoWrap {
+        float: left;
+        width: 1200px;
+        margin-left: 40px;
+    }
+
+    .userInfoWrap h2 { margin-top:10px;
+        font-size: 140px;
+        text-shadow: 3px 4px 0 #FFFFFF, 5px 5px 2px rgba(0,0,0,.3);
+    }
+
+    .userInfoWrap h3 {
+        font-size: 64px;
+        margin-top: 20px;
+    }
+
+    .userInfoWrap h4 {
+        margin-top: 60px;
+        font-size: 64px;
+    }
+
+    .tweet p {
+        margin-top: 70px;
+        font-size: 100px;
+        min-height: 400px;
+    }
+
+    #bottomBar {
+        height: 100px;
+        bottom: 40px;
+    }
+}
+
+/*1920x1080 and larger*/
+@media all and (min-width: 1919px) and (min-height:1000px) and (max-height:1079px){
+    #nostyles {
+        display: none;
+    }
+
+    .container {
+        width: 1620px;
+        /*height: 980px;*/
+        margin-left: 150px;
+        margin-right: 150px;
+        margin-top: 50px;
+        margin-bottom: 50px;
+        position: relative;
+        z-index: 5;
+    }
+
+    .topwrap {
+        height: 330px;
+        width: 100%;
+    }
+
+    .topwrap .imgWrap{
+        float: left;
+        width: 310px;
+        height: 100%;
+        margin-top: 20px;
+        overflow: hidden;
+    }
+
+    .topwrap .imgWrap img {
+        /*max-width: 100%;
+        max-height: 100%;*/
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .userInfoWrap {
+        float: left;
+        width: 1200px;
+        margin-left: 40px;
+    }
+
+    .userInfoWrap h2 { margin-top:10px;
+        font-size: 140px;
+        text-shadow: 3px 4px 0 #FFFFFF, 5px 5px 2px rgba(0,0,0,.3);
+    }
+
+    .userInfoWrap h3 {
+        font-size: 64px;
+        margin-top: 20px;
+    }
+
+    .userInfoWrap h4 {
+        margin-top: 60px;
+        font-size: 64px;
+    }
+
+    .tweet p {
+        margin-top: 70px;
+        font-size: 100px;
+        min-height: 400px;
+    }
+
+    #bottomBar {
+        height: 100px;
+        bottom: 40px;
+    }
+}
+
+/*between 1366x768 and 1920*/
+@media all and (min-width: 1366px) and (max-width:1919px) and (min-height:768px) {
+    #nostyles {
+        display: none;
+    }
+
+    .container {
+        width: 1106px;
+        /*height: 668px;*/
+        margin: auto;
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+
+    .topwrap {
+        height: 250px;
+        width: 100%;
+    }
+
+    .topwrap .imgWrap{
+        float: left;
+        width: 240px;
+        height: 100%;
+        margin-top: 20px;
+        overflow: hidden;
+    }
+
+    .topwrap .imgWrap img {
+        /*max-width: 100%;
+        max-height: 100%;*/
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .userInfoWrap {
+        float: left;
+        width: 813px;
+        margin-left: 40px;
+    }
+
+    .userInfoWrap h2 { margin-top:10px;
+        font-size: 92px;
+        text-shadow: 3px 3px 0 #FFFFFF, 5px 5px 2px rgba(0,0,0,.3);
+    }
+
+    .userInfoWrap h3 {
+        font-size: 46px;
+        margin-top: 10px;
+    }
+
+    .userInfoWrap h4 {
+        margin-top: 50px;
+        font-size: 46px;
+    }
+
+    .tweet p {
+        margin-top: 50px;
+        font-size: 58px;
+        min-height: 300px;
+    }
+
+    #bottomBar {
+        height: 75px;
+        bottom: 40px;
+    }
+}
+
+/*between 1280x720 and 1366x768*/
+@media all and (min-width: 1280px) and (max-width:1365px) and (max-height:768px) and (min-height:720px) {
+    #nostyles {
+        display: none;
+    }
+
+    .container {
+        width: 1030px;
+        /*height: 640px;*/
+        margin: auto;
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+
+    .topwrap {
+        height: 230px;
+        width: 100%;
+    }
+
+    .topwrap .imgWrap{
+        float: left;
+        width: 230px;
+        height: 100%;
+        margin-top: 10px;
+        overflow: hidden;
+    }
+
+    .topwrap .imgWrap img {
+        /*max-width: 100%;
+        max-height: 100%;*/
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .userInfoWrap {
+        float: left;
+        width: 759px;
+        margin-left: 40px;
+    }
+
+    .userInfoWrap h2 { margin-top:10px;
+        font-size: 86px;
+        text-shadow: 2px 2px 0 #FFFFFF, 4px 4px 2px rgba(0,0,0,.3);
+    }
+
+    .userInfoWrap h3 {
+        font-size: 40px;
+        margin-top: 5px;
+    }
+
+    .userInfoWrap h4 {
+        margin-top: 50px;
+        font-size: 40px;
+    }
+
+    .tweet p {
+        margin-top: 50px;
+        font-size: 54px;
+        min-height: 300px;
+    }
+
+    #bottomBar {
+        height: 70px;
+        bottom: 30px;
+    }
+}
+
+/*between 1024 by 768 and 1280x720*/
+@media all and (min-width: 1024px) and (max-width:1366px) and (min-height:768px) {
+    #nostyles {
+        display: none;
+    }
+
+    .container {
+        width: 874px;
+        /*height: 688px;*/
+        margin: auto;
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+
+    .topwrap {
+        height: 230px;
+        width: 100%;
+    }
+
+    .topwrap .imgWrap{
+        float: left;
+        width: 230px;
+        height: 100%;
+        margin-top: 10px;
+        overflow: hidden;
+    }
+
+    .topwrap .imgWrap img {
+        /*max-width: 100%;
+       max-height: 100%;*/
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .userInfoWrap {
+        float: left;
+        width: 610px;
+        margin-left: 30px;
+    }
+
+    .userInfoWrap h2 { margin-top:10px;
+        font-size: 82px;
+        text-shadow: 2px 2px 0 #FFFFFF, 4px 4px 2px rgba(0,0,0,.3);
+    }
+
+    .userInfoWrap h3 {
+        font-size: 36px;
+        margin-top: 5px;
+    }
+
+    .userInfoWrap h4 {
+        margin-top: 50px;
+        font-size: 36px;
+    }
+
+    .tweet p {
+        margin-top: 50px;
+        font-size: 50px;
+        min-height: 300px;
+    }
+
+    #bottomBar {
+        height: 70px;
+        bottom: 30px;
+    }
+}
+
+/*between starting at 1000x562 */
+@media all and (min-width: 1000px) and (max-width:1280px) and (max-height:719px) and (min-height:562px) {
+    #nostyles {
+        display: none;
+    }
+
+    .container {
+        width: 900px;
+        /*height: 640px;*/
+        margin: auto;
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
+
+    .topwrap {
+        height: 176px;
+        width: 100%;
+    }
+
+    .topwrap .imgWrap{
+        float: left;
+        width: 172px;
+        height: 100%;
+       /* uygar
+       margin-top: 8px;
+       */
+        overflow: hidden;
+    }
+
+    .topwrap .imgWrap img {
+        /*max-width: 100%;
+        max-height: 100%;*/
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .userInfoWrap {
+        float: left;
+        width: 605px;
+        margin-left: 30px;
+    }
+
+    .userInfoWrap h2 { margin-top:10px;
+        font-size: 51px;
+        text-shadow: 1px 1px 0 #FFFFFF, 3px 3px 2px rgba(0,0,0,.3);
+    }
+
+    .userInfoWrap h3 {
+        font-size: 26px;
+        margin-top: 5px;
+    }
+
+    .userInfoWrap h4 {
+        font-size: 26px;
+        margin-top: 19px;
+    }
+
+    .tweet p {
+        margin-top: 25px;
+        font-size: 60px;
+        min-height: 270px;
+    }
+
+    #bottomBar {
+        height: 45px;
+        bottom: 10px;
+    }
+
+    #top-tweets-logo {
+        margin-left: 7%;
+    }
+}
+
+/*between starting at 1000x750 */
+@media all and (min-width: 1000px) and (max-width:1023px) and (max-height:767px) and (min-height:750px) {
+    #nostyles {
+        display: none;
+    }
+
+    .container {
+        width: 900px;
+        /*height: 640px;*/
+        margin: auto;
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
+
+    .topwrap {
+        height: 176px;
+        width: 100%;
+    }
+
+    .topwrap .imgWrap{
+        float: left;
+        width: 172px;
+        height: 100%;
+        margin-top: 8px;
+        overflow: hidden;
+    }
+
+    .topwrap .imgWrap img {
+        /*max-width: 100%;
+        max-height: 100%;*/
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .userInfoWrap {
+        float: left;
+        width: 605px;
+        margin-left: 30px;
+    }
+
+    .userInfoWrap h2 { margin-top:10px;
+        font-size: 51px;
+        text-shadow: 1px 1px 0 #FFFFFF, 3px 3px 2px rgba(0,0,0,.3);
+    }
+
+    .userInfoWrap h3 {
+        font-size: 26px;
+        margin-top: 5px;
+    }
+
+    .userInfoWrap h4 {
+        font-size: 26px;
+        margin-top: 10px;
+    }
+
+    .tweet p {
+        margin-top: 25px;
+        font-size: 33px;
+        min-height: 270px;
+    }
+
+    #bottomBar {
+        height: 45px;
+        bottom: 10px;
+    }
+
+    #top-tweets-logo {
+        margin-left: 7%;
+    }
+}
+
+
+/*between starting at 800x400 */
+@media all and (min-width: 800px) and (max-width:1200px) and (max-height:600px) and (min-height:400px) {
+    #nostyles {
+        display: none;
+    }
+
+    .container {
+        width: 700px;
+        /*height: 640px;*/
+        margin: auto;
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
+
+    .topwrap {
+        height: 139px;
+        width: 100%;
+    }
+
+    .topwrap .imgWrap{
+        float: left;
+        width: 136px;
+        height: 100%;
+        margin-top: 10px;
+        overflow: visible;
+		border-radius : 50px;
+    }
+
+    .topwrap .imgWrap img {
+        /*max-width: 100%;
+        max-height: 100%;*/
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .userInfoWrap {
+        float: left;
+        width: 507px;
+        margin-left: 30px;
+    }
+
+    .userInfoWrap h2 { margin-top:10px;
+        font-size: 50px;
+        text-shadow: 1px 1px 0 #FFFFFF, 3px 3px 2px rgba(0,0,0,.3);
+    }
+
+    .userInfoWrap h3 {
+        font-size: 20px;
+        margin-top: 5px;
+    }
+
+    .userInfoWrap h4 {
+        font-size: 20px;
+        margin-top: 10px;
+    }
+
+    .tweet p {
+        margin-top: 25px;
+        font-size: 26px;
+        min-height: 300px;
+    }
+
+    #bottomBar {
+        height: 40px;
+        bottom: 10px;
+    }
+
+    #top-tweets-logo {
+        margin-left: 5%;
+    }
+}
+
+/*between starting at 800x600 */
+@media all and (min-width: 800px) and (max-width:1000px) and (max-height:720px) and (min-height:600px) {
+    #nostyles {
+        display: none;
+    }
+
+    .container {
+        width: 700px;
+        /*height: 640px;*/
+        margin: auto;
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
+
+    .topwrap {
+        height: 139px;
+        width: 100%;
+    }
+
+    .topwrap .imgWrap{
+        float: left;
+        width: 136px;
+        height: 100%;
+        margin-top: 10px;
+        overflow: hidden;
+    }
+
+    .topwrap .imgWrap img {
+        /*max-width: 100%;
+        max-height: 100%;*/
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .userInfoWrap {
+        float: left;
+        width: 507px;
+        margin-left: 30px;
+    }
+
+    .userInfoWrap h2 { margin-top:10px;
+        font-size: 50px;
+        text-shadow: 1px 1px 0 #FFFFFF, 3px 3px 2px rgba(0,0,0,.3);
+    }
+
+    .userInfoWrap h3 {
+        font-size: 20px;
+        margin-top: 5px;
+    }
+
+    .userInfoWrap h4 {
+        font-size: 20px;
+        margin-top: 10px;
+    }
+
+    .tweet p {
+        margin-top: 25px;
+        font-size: 26px;
+        min-height: 300px;
+    }
+
+    #bottomBar {
+        height: 40px;
+        bottom: 10px;
+    }
+
+    #top-tweets-logo {
+        margin-left: 5%;
+    }
+}
+
+/*between starting at 400x225*/
+@media all and (min-width: 400px) and (max-width:800px) and (max-height:299px) and (min-height:225px) {
+    #nostyles {
+        display: none;
+    }
+
+    .container {
+        width: 340px;
+        /*height: 640px;*/
+        margin: auto;
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
+
+    .topwrap {
+        height: 73px;
+        width: 100%;
+    }
+
+    .topwrap .imgWrap{
+        float: left;
+        width: 73px;
+        height: 100%;
+        margin-top: 0;
+        overflow: hidden;
+    }
+
+    .topwrap .imgWrap img {
+        /*max-width: 100%;
+        max-height: 100%;*/
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .userInfoWrap {
+        float: left;
+        width: 247px;
+        margin-left: 20px;
+    }
+
+    .userInfoWrap h2 { margin-top:10px;
+        font-size: 22px;
+        text-shadow: 1px 1px 0 #FFFFFF, 3px 3px 2px rgba(0,0,0,.3);
+    }
+
+    .userInfoWrap h3 {
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+    .userInfoWrap h4 {
+        font-size: 12px;
+        margin-top: 20px;
+    }
+
+    .tweet p {
+        margin-top: 15px;
+        font-size: 17px;
+        min-height: 80px;
+    }
+
+    #bottomBar {
+        height: 20px;
+        bottom: 10px;
+    }
+
+    #top-tweets-logo {
+        margin-left: 5%;
+    }
+}
+
+/*between starting at 400x300 */
+@media all and (min-width: 400px) and (max-width:799px) and (max-height:449px) and (min-height:300px) {
+    #nostyles {
+        display: none;
+    }
+
+    .container {
+        width: 340px;
+        /*height: 640px;*/
+        margin: auto;
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
+
+    .topwrap {
+        height: 73px;
+        width: 100%;
+    }
+
+    .topwrap .imgWrap{
+        float: left;
+        width: 73px;
+        height: 100%;
+        margin-top: 0;
+        overflow: hidden;
+    }
+
+    .topwrap .imgWrap img {
+        /*max-width: 100%;
+        max-height: 100%;*/
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .userInfoWrap {
+        float: left;
+        width: 247px;
+        margin-left: 20px;
+    }
+
+    .userInfoWrap h2 { margin-top:10px;
+        font-size: 22px;
+    }
+
+    .userInfoWrap h3 {
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+    .userInfoWrap h4 {
+        font-size: 12px;
+        margin-top: 20px;
+    }
+
+    .tweet p {
+        margin-top: 15px;
+        font-size: 17px;
+        min-height: 80px;
+    }
+
+    #bottomBar {
+        height: 20px;
+        bottom: 10px;
+    }
+
+    #top-tweets-logo {
+        margin-left: 5%;
+    }
+}
+
+/*between starting at 200x113 */
+@media all and (min-width: 200px) and (max-width:400px) and (max-height:149px) and (min-height:113px) {
+    #nostyles {
+        display: none;
+    }
+
+    .container {
+        width: 180px;
+        /*height: 640px;*/
+        margin: auto;
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
+
+    .topwrap {
+        height: 37px;
+        width: 100%;
+    }
+
+    .topwrap .imgWrap{
+        float: left;
+        width: 37px;
+        height: 100%;
+        margin-top: 0;
+        overflow: hidden;
+    }
+
+    .topwrap .imgWrap img {
+        /*max-width: 100%;
+        max-height: 100%;*/
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .userInfoWrap {
+        float: left;
+        width: 119px;
+        margin-left: 10px;
+    }
+
+    .userInfoWrap h2 { margin-top:10px;
+        font-size: 12px;
+        text-shadow: 1px 1px 0 #FFFFFF, 1px 1px 1px rgba(0,0,0,.3);
+    }
+
+    .userInfoWrap h3 {
+        font-size: 8px;
+        margin-top: 5px;
+    }
+
+    .userInfoWrap h4 {
+        font-size: 8px;
+        margin-top: 10px;
+    }
+
+    .tweet p {
+        margin-top: 10px;
+        font-size: 9px;
+        min-height: 60px;
+    }
+
+    #bottomBar {
+        height: 10px;
+        bottom: 10px;
+    }
+
+    #top-tweets-logo {
+        margin-left: 5%;
+    }
+}
+
+
+/*between starting at 200x150*/
+@media all and (min-width: 200px) and (max-width:399px) and (max-height:299px) and (min-height:150px) {
+    #nostyles {
+        display: none;
+    }
+
+    .container {
+        width: 180px;
+        /*height: 640px;*/
+        margin: auto;
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
+
+    .topwrap {
+        height: 37px;
+        width: 100%;
+    }
+
+    .topwrap .imgWrap{
+        float: left;
+        width: 37px;
+        height: 100%;
+        margin-top: 0;
+        overflow: hidden;
+    }
+
+    .topwrap .imgWrap img {
+        /*max-width: 100%;
+        max-height: 100%;*/
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .userInfoWrap {
+        float: left;
+        width: 119px;
+        margin-left: 10px;
+    }
+
+    .userInfoWrap h2 { margin-top:10px;
+        font-size: 12px;
+        text-shadow: 1px 1px 0 #FFFFFF, 1px 1px 1px rgba(0,0,0,.3);
+    }
+
+    .userInfoWrap h3 {
+        font-size: 8px;
+        margin-top: 5px;
+    }
+
+    .userInfoWrap h4 {
+        font-size: 8px;
+        margin-top: 10px;
+    }
+
+    .tweet p {
+        margin-top: 10px;
+        font-size: 9px;
+        min-height: 60px;
+    }
+
+    #bottomBar {
+        height: 10px;
+        bottom: 10px;
+    }
+
+    #top-tweets-logo {
+        margin-left: 5%;
+    }
+}
+
+
+/*------------------------------------------
+    VERTICAL FORMATS
+    -------------------------------------------
+    */
+@media all and (min-width: 400px) and (max-width:599px) and (min-height:711px) and (max-height:1066px) {
+    #nostyles {
+        display: none;
+    }
+
+    body {
+        background: url("/Media/Images/TwitterHtml/vertical-bg.png") no-repeat;
+        vertical-align: middle;
+    }
+
+    .container {
+        width: 360px;
+        /*height: 640px;*/
+        margin: auto;
+        margin-top: 15%;
+        margin-bottom: 5%;
+    }
+
+    .topwrap {
+        height: 155px;
+        width: 100%;
+    }
+
+    .topwrap .imgWrap{
+        float: left;
+        width: 115px;
+        height: 100%;
+        margin-top: 0;
+        overflow: hidden;
+    }
+
+    .topwrap .imgWrap img {
+        /*max-width: 100%;
+        max-height: 100%;*/
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .userInfoWrap {
+        float: left;
+        width: 205px;
+        margin-left: 15px;
+    }
+
+    .userInfoWrap h2 { margin-top:10px;
+        font-size: 34px;
+        text-shadow: 1px 1px 0 #FFFFFF, 1px 1px 1px rgba(0,0,0,.3);
+    }
+
+    .userInfoWrap h3 {
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
+    .userInfoWrap h4 {
+        font-size: 14px;
+        margin-top: 20px;
+    }
+
+    .tweet p {
+        margin-top: 20px;
+        font-size: 30px;
+        min-height: 600px;
+        line-height: 38px;
+    }
+
+    #bottomBar {
+        height: 60px;
+        bottom: 10px;
+    }
+
+    #top-tweets-logo {
+        margin-left: 5%;
+    }
+}
+
+
+@media all and (min-width: 600px) and (max-width:799px) and (min-height:1067px) and (max-height:1421px) {
+    #nostyles {
+        display: none;
+    }
+
+    body {
+        background: url("/Media/Images/TwitterHtml/vertical-bg.png") no-repeat;
+        vertical-align: middle;
+    }
+
+    .container {
+        width: 540px;
+        /*height: 640px;*/
+        margin: auto;
+        margin-top: 15%;
+        margin-bottom: 5%;
+    }
+
+    .topwrap {
+        height: 212px;
+        width: 100%;
+    }
+
+    .topwrap .imgWrap{
+        float: left;
+        width: 171px;
+        height: 100%;
+        margin-top: 0;
+        overflow: hidden;
+    }
+
+    .topwrap .imgWrap img {
+        /*max-width: 100%;
+        max-height: 100%;*/
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .userInfoWrap {
+        float: left;
+        width: 330px;
+        margin-left: 15px;
+    }
+
+    .userInfoWrap h2 { margin-top:10px;
+        font-size: 46px;
+        text-shadow: 2px 2px 0 #FFFFFF, 3px 3px 2px rgba(0,0,0,.3);
+    }
+
+    .userInfoWrap h3 {
+        font-size: 24px;
+        margin-top: 5px;
+    }
+
+    .userInfoWrap h4 {
+        font-size: 24px;
+        margin-top: 40px;
+    }
+
+    .tweet p {
+        margin-top: 20px;
+        font-size: 40px;
+        min-height: 600px;
+        line-height: 50px;
+    }
+
+    #bottomBar {
+        height: 70px;
+        bottom: 20px;
+    }
+
+    #top-tweets-logo {
+        margin-left: 5%;
+    }
+}
+
+@media all and (min-width: 600px) and (max-width:799px) and (min-height:1067px) and (max-height:1421px) {
+    #nostyles {
+        display: none;
+    }
+
+    body {
+        background: url("/Media/Images/TwitterHtml/vertical-bg.png") no-repeat;
+        vertical-align: middle;
+    }
+
+    .container {
+        width: 540px;
+        /*height: 640px;*/
+        margin: auto;
+        margin-top: 15%;
+        margin-bottom: 5%;
+    }
+
+    .topwrap {
+        height: 212px;
+        width: 100%;
+    }
+
+    .topwrap .imgWrap{
+        float: left;
+        width: 171px;
+        height: 100%;
+        margin-top: 0;
+        overflow: hidden;
+    }
+
+    .topwrap .imgWrap img {
+        /*max-width: 100%;
+        max-height: 100%;*/
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .userInfoWrap {
+        float: left;
+        width: 330px;
+        margin-left: 15px;
+    }
+
+    .userInfoWrap h2 { margin-top:10px;
+        font-size: 46px;
+        text-shadow: 2px 2px 0 #FFFFFF, 3px 3px 2px rgba(0,0,0,.3);
+    }
+
+    .userInfoWrap h3 {
+        font-size: 24px;
+        margin-top: 5px;
+    }
+
+    .userInfoWrap h4 {
+        font-size: 24px;
+        margin-top: 40px;
+    }
+
+    .tweet p {
+        margin-top: 20px;
+        font-size: 40px;
+        min-height: 600px;
+        line-height: 50px;
+    }
+
+    #bottomBar {
+        height: 70px;
+        bottom: 20px;
+    }
+
+    #top-tweets-logo {
+        margin-left: 5%;
+    }
+}
+
+@media all and (min-width: 800px) and (max-width:1079px) and (min-height:1422px) and (max-height:1919px) {
+    #nostyles {
+        display: none;
+    }
+
+    body {
+        background: url("../../Media/Images/TwitterHtml/vertical-bg.png") no-repeat;
+        vertical-align: middle;
+    }
+
+    .container {
+        width: 700px;
+        /*height: 640px;*/
+        margin: auto;
+        margin-top: 15%;
+        margin-bottom: 5%;
+    }
+
+    .topwrap {
+        height: 270px;
+        width: 100%;
+    }
+
+    .topwrap .imgWrap{
+        float: left;
+        width: 231px;
+        height: 100%;
+        margin-top: 0;
+        overflow: hidden;
+    }
+
+    .topwrap .imgWrap img {
+        /*max-width: 100%;
+        max-height: 100%;*/
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .userInfoWrap {
+        float: left;
+        width: 420px;
+        margin-left: 20px;
+    }
+
+    .userInfoWrap h2 { margin-top:10px;
+        font-size: 60px;
+        text-shadow: 2px 2px 0 #FFFFFF, 3px 3px 2px rgba(0,0,0,.3);
+    }
+
+    .userInfoWrap h3 {
+        font-size: 38px;
+        margin-top: 5px;
+    }
+
+    .userInfoWrap h4 {
+        font-size: 38px;
+        margin-top: 70px;
+    }
+
+    .tweet p {
+        margin-top: 60px;
+        font-size: 54px;
+        min-height: 800px;
+        line-height: 64px;
+    }
+
+    #bottomBar {
+        height: 80px;
+        bottom: 20px;
+    }
+
+    #top-tweets-logo {
+        margin-left: 5%;
+    }
+}
+
+
+@media all and (min-width: 1080px) and (min-height:1920px){
+    #nostyles {
+        display: none;
+    }
+
+    body {
+        background: url("../../Media/Images/TwitterHtml/vertical-bg.png") repeat;
+        vertical-align: middle;
+    }
+
+    .container {
+        width: 980px;
+        /*height: 640px;*/
+        margin: auto;
+        margin-top: 15%;
+        margin-bottom: 5%;
+    }
+
+    .topwrap {
+        height: 380px;
+        width: 100%;
+    }
+
+    .topwrap .imgWrap{
+        float: left;
+        width: 311px;
+        height: 100%;
+        margin-top: 0;
+        overflow: hidden;
+    }
+
+    .topwrap .imgWrap img {
+        /*max-width: 100%;
+        max-height: 100%;*/
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .userInfoWrap {
+        float: left;
+        width: 590px;
+        margin-left: 30px;
+    }
+
+    .userInfoWrap h2 { margin-top:10px;
+        font-size: 80px;
+        text-shadow: 2px 2px 0 #FFFFFF, 3px 3px 2px rgba(0,0,0,.3);
+    }
+
+    .userInfoWrap h3 {
+        font-size: 58px;
+        margin-top: 5px;
+    }
+
+    .userInfoWrap h4 {
+        font-size: 58px;
+        margin-top: 70px;
+    }
+
+    .tweet p {
+        margin-top: 60px;
+        font-size: 74px;
+        min-height: 1000px;
+        line-height: 84px;
+    }
+
+    #bottomBar {
+        height: 100px;
+        bottom: 20px;
+    }
+
+    #top-tweets-logo {
+        margin-left: 5%;
+    }
+}
+
+/*Lower bar*/
+@media all and (min-width: 800px) and (max-width:1200px) and (max-height:300px){
+    #nostyles {
+        display: none;
+    }
+
+
+    .animateOut .imgWrap {
+        -webkit-animation:moveOutRightMucho 1.5s ease-out forwards;
+        -moz-animation:moveOutRightMucho 1.5s ease-out forwards;
+        -ms-animation:moveOutRightMucho 1.5s ease-out forwards;
+        -o-animation:moveOutRightMucho 1.5s ease-out forwards;
+        animation: moveOutRightMucho 1.5s ease-out forwards;
+    }
+
+    body {
+        background: url("../../Media/bg.png") repeat;
+        vertical-align: middle;
+    }
+
+    .container {
+        width: 780px;
+        /*height: 640px;*/
+        margin: auto;
+        margin-top: 2%;
+        margin-bottom: 5%;
+    }
+
+    .topwrap {
+        height: 380px;
+        width: 400px;
+        float: left;
+    }
+
+    .topwrap .imgWrap{
+        float: left;
+        width: 100px;
+        height: 100%;
+        margin-top: 0;
+        overflow: hidden;
+    }
+
+    .topwrap .imgWrap img {
+        /*max-width: 100%;
+        max-height: 100%;*/
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .userInfoWrap {
+        float: left;
+        width: 255px;
+        margin-left: 20px;
+    }
+
+    .userInfoWrap h2 { margin-top:10px;
+        font-size: 40px;
+        text-shadow: 1px 1px 0 #FFFFFF, 2px 2px 1px rgba(0,0,0,.3);
+    }
+
+    .userInfoWrap h3 {
+        font-size: 24px;
+        margin-top: 5px;
+    }
+
+    .userInfoWrap h4 {
+        font-size: 24px;
+        margin-top: 10px;
+    }
+
+    .tweet p {
+        margin-top: 10px;
+        font-size: 30px;
+        min-height: 300px;
+    }
+
+    #bottomBar {
+        height: 20px;
+        bottom: 10px;
+    }
+
+    #top-tweets-logo {
+        margin-left: 5%;
+    }
+}
+
+
+/*Lower bar*/
+@media all and (min-width: 1201px) and (max-width:1920px) and (max-height:300px){
+    #nostyles {
+        display: none;
+    }
+
+    .animateOut .imgWrap {
+        -webkit-animation:moveOutRightMucho 1.5s ease-out forwards;
+        -moz-animation:moveOutRightMucho 1.5s ease-out forwards;
+        -ms-animation:moveOutRightMucho 1.5s ease-out forwards;
+        -o-animation:moveOutRightMucho 1.5s ease-out forwards;
+        animation: moveOutRightMucho 1.5s ease-out forwards;
+    }
+
+    body {
+        background: url("../../Media/bg.png") repeat;
+        vertical-align: middle;
+    }
+
+    .container {
+        width: 1151px;
+        /*height: 640px;*/
+        margin: auto;
+        margin-top: 2%;
+        margin-bottom: 5%;
+    }
+
+    .topwrap {
+        height: 380px;
+        width: 600px;
+        float: left;
+    }
+
+    .topwrap .imgWrap{
+        float: left;
+        width: 140px;
+        height: 100%;
+        margin-top: 0;
+        overflow: hidden;
+    }
+
+    .topwrap .imgWrap img {
+        /*max-width: 100%;
+        max-height: 100%;*/
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .userInfoWrap {
+        float: left;
+        width: 385px;
+        margin-left: 40px;
+    }
+
+    .userInfoWrap h2 { margin-top:10px;
+        font-size: 40px;
+        text-shadow: 1px 1px 0 #FFFFFF, 2px 2px 1px rgba(0,0,0,.3);
+    }
+
+    .userInfoWrap h3 {
+        font-size: 24px;
+        margin-top: 5px;
+    }
+
+    .userInfoWrap h4 {
+        font-size: 24px;
+        margin-top: 10px;
+    }
+
+    .tweet p {
+        margin-top: 12px;
+        font-size: 34px;
+        min-height: 300px;
+    }
+
+    #bottomBar {
+        height: 20px;
+        bottom: 10px;
+    }
+
+    #top-tweets-logo {
+        margin-left: 5%;
+    }
+}
+
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+.clearfix {
+    display: inline-block;
+}
+
+html[xmlns] .clearfix {
+    display: block;
+}
+
+* html .clearfix {
+    height: 1%;
+}
+
+
+
+
+@keyframes moveLeftToRight {
+    from {
+        transform: translateX(-350%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@-moz-keyframes moveLeftToRight {
+    from {
+        -moz-transform: translateX(-350%);
+    }
+    to {
+        -moz-transform: translateX(0);
+    }
+}
+
+@-webkit-keyframes moveLeftToRight {
+    from {
+        -webkit-transform: translateX(-350%);
+    }
+    to {
+        -webkit-transform: translateX(0);
+    }
+}
+
+@keyframes moveOutRight {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(700%);
+    }
+}
+
+@-moz-keyframes moveOutRight {
+    from {
+        -moz-transform: translateX(0);
+    }
+    to {
+        -moz-transform: translateX(700%);
+    }
+}
+
+@-webkit-keyframes moveOutRight {
+    from {
+        -webkit-transform: translateX(0);
+    }
+    to {
+        -webkit-transform: translateX(700%);
+    }
+}
+
+@keyframes moveOutRightMucho {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(1200%);
+    }
+}
+
+@-moz-keyframes moveOutRightMucho {
+    from {
+        -moz-transform: translateX(0);
+    }
+    to {
+        -moz-transform: translateX(1200%);
+    }
+}
+
+@-webkit-keyframes moveOutRightMucho {
+    from {
+        -webkit-transform: translateX(0);
+    }
+    to {
+        -webkit-transform: translateX(1200%);
+    }
+}
+
+@keyframes moveBottomToTop {
+    from {
+        transform: translateY(250%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@-moz-keyframes moveBottomToTop {
+    from {
+        -moz-transform: translateY(250%);
+    }
+    to {
+        -moz-transform: translateY(0);
+    }
+}
+
+@-webkit-keyframes moveBottomToTop {
+    from {
+        -webkit-transform: translateY(250%);
+    }
+    to {
+        -webkit-transform: translateY(0);
+    }
+}
+
+@keyframes moveOutTop {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-250%);
+    }
+}
+
+@-moz-keyframes moveOutTop {
+    from {
+        -moz-transform: translateY(0);
+    }
+    to {
+        -moz-transform: translateY(-250%);
+    }
+}
+
+@-webkit-keyframes moveOutTop {
+    from {
+        -webkit-transform: translateY(0);
+    }
+    to {
+        -webkit-transform: translateY(-250%);
+    }
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity:1;
+    }
+}
+
+@-moz-keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity:1;
+    }
+}
+
+@-webkit-keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity:1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity:0;
+    }
+}
+
+@-moz-keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity:0;
+    }
+}
+
+@-webkit-keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity:0;
+    }
+}
+
+.imgWrap
+{
+	
+	width: 15.92vh;
+    height: 15.92vh;
+	z-index: 9999;
+	border-radius: 10px !important;
+}
+
+.imgWrap img
+{
+	
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	border-radius: 10px !important;
+}
+
+a {
+    color: #cbb394;
+	text-decoration: none;
+}
+
+.twitterelement
+{
+    height:100%;
+    float:right;
+}
+.twitterelement p
+{
+    height:100%;
+    float:right;
+    margin-top:10px;
+    font-family: kafesfontswisslight;
+    color: white;
+    font-size:50px;
+}
+
+
+
+
+

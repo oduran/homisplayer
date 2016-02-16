@@ -37,6 +37,9 @@ app.use('/css', express.static('./presentation/css'));
 app.use('/media', express.static('./presentation/media'));
 app.use('/fonts', express.static('./presentation/fonts'));
 app.use('/favicon.ico', express.static('./presentation/media/favicon.ico'));
+app.use('/themes', express.static('./webservices/themes'));
+app.use('/logs', express.static('./webservices/logs'));
+app.use('/mediaresources', express.static('./webservices/mediaresources'));
 // START THE SERVER
 // =============================================================================
 app.listen(port);

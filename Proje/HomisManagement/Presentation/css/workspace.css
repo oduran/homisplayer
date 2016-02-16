@@ -52,6 +52,25 @@ body{
 	display: -webkit-inline-box;
 	
 }
+.column4
+{
+  padding-left:0 !important;
+  padding-right:0 !important;
+  background-color: white !important;
+  height:100%;
+  border:1px solid #428bca;
+  border-radius: 2px;
+  overflow:auto;
+}
+.column3
+{
+  padding-left:0 !important;
+  padding-right:0 !important;
+  height:100%;
+  border:1px solid #428bca;
+  border-radius: 2px;
+  overflow:auto;
+}
 .workspacepanel
 {
   margin-bottom:0px; 
@@ -70,6 +89,15 @@ body{
 	padding-right: 3%;
 	float: right;
 }
+.configdialog
+{
+  width:100% !important;
+  height:100% !important;
+}
+.configbody
+{
+  height:85% !important;
+}
 #drophere{
 	padding: 0;
 	background:url(../media/dragdrop.jpg);
@@ -80,7 +108,11 @@ body{
 #timeline {
   height:40%;
 }
-
+#screenConfigModal
+{
+  margin-left:5% !important;
+  width:90% !important;
+}
 .wall
 {
 	display: -webkit-inline-box;
@@ -92,6 +124,20 @@ body{
 	justify-content : center;
 	box-sizing: inherit;
 }
+label > input{ /* HIDE RADIO */
+  display:none;
+}
+label > input + img{ /* IMAGE STYLES */
+  cursor:pointer;
+  border:2px solid transparent;
+}
+label > input:checked + img{ /* (CHECKED) IMAGE STYLES */
+  border:2px solid #f00;
+}
+.rowclass
+{
+  height:100%;
+}
 #workspaceForm
 {
   background-color: rgb(229, 229, 229) !important;
@@ -101,6 +147,10 @@ body{
   border-radius: 5px;
   width: 98.6%;
   margin-left: 0.7%;
+}
+#players
+{
+  overflow:hidden;
 }
 .newScreen{
   width:100%;
@@ -113,4 +163,21 @@ body{
   float: left;
   margin-top: -25px;
   margin-left: -15px;
+}
+#templateUrl
+{
+  width: 160%  !important;
+  height: 160%  !important;
+    -ms-transform: scale(0.63);
+    -moz-transform: scale(0.63);
+    -o-transform: scale(0.63);
+    -webkit-transform: scale(0.63) !important;
+    
+    -ms-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+    -o-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    
+  
 }
