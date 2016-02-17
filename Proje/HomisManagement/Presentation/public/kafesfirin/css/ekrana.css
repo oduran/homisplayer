@@ -75,6 +75,14 @@ p{
 	
 	  
 }
+.rightbottomimage
+{
+  left:55%;
+  width:44%;
+  top:56.5%;
+  border:0px  !important;
+}
+
 .animationclass{
 	  -webkit-animation-name: spinnerRotate;
     -webkit-animation-duration: 1s;
@@ -164,12 +172,9 @@ li {
 
 
 #right_bottom_image {
-	width:100%;
-	top: 540px !important;
+	width:78%;
 	position: relative !important;
-	left: 641px;
- 	height: 811px;
-	background: url(../media/vector_smart_object_2.png);
+	height: 350px;
  	background-repeat:no-repeat;
 }
  
@@ -203,6 +208,8 @@ width:100%;
 {
 width:100%;
 display:none;
+height:100%;
+
 }
 
 #right img.active{

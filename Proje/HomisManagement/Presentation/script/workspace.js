@@ -555,10 +555,22 @@ var WallManager = function () {
         keyboard: false 
       });
       $('#screenConfigModal').modal('show');
+      $("#wallScreenId").val(this.id);
       getAllTemplatesImages();
     });
   }
-  
+  var addSaveWallScreen = function ()
+  {
+    $("#saveWallScreen").click(function()
+    {
+      var templateIframe = document.getElementById('templateUrl').contentWindow.document.getElementsByTagName("html")[0].outerHTML;
+      var newScreen = "<iframe>#document"+templateIframe+"</iframe>";
+      console.log(newScreen);
+      var wallScreenId = $("#wallScreenId").val();
+      $("#"+wallScreenId).append(newScreen);
+      $('#screenConfigModal').modal('hide');
+    });
+  }
   var getAllTemplatesImages = function () 
   {
     $('#templatesDiv').empty();
@@ -925,6 +937,7 @@ var WallManager = function () {
     addScreenTimerTabs();
     addManagerPageButtonOnClick();
     addSaveWorkSpaceWithName();
+    addSaveWallScreen();
   }
   
  	var self=this;
