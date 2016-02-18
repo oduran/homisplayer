@@ -559,77 +559,45 @@ var WallManager = function () {
       getAllTemplatesImages();
     });
   }
+  
+  //Şablon Dialogundaki Iframe i seçilen wall_screen e set eder.
   var addSaveWallScreen = function ()
   {
     $("#saveWallScreen").click(function()
-    {
-      var templateIframe = document.getElementById('templateUrl').contentWindow.document.getElementsByTagName("html")[0].outerHTML;
-      var newScreen = "<iframe>#document"+templateIframe+"</iframe>";
-      console.log(newScreen);
-      var wallScreenId = $("#wallScreenId").val();
-      $("#"+wallScreenId).append(newScreen);
+    {  
       $('#screenConfigModal').modal('hide');
+      var templateIframe = document.getElementById('templateUrl').contentWindow.document.getElementsByTagName("html")[0].outerHTML;
+      
+      var ifrm = document.createElement("IFRAME");
+      ifrm.style.width = 1920+"px";
+      ifrm.style.height = 1080+"px";
+      ifrm.srcdoc = templateIframe;
+      var wallScreenId = $("#wallScreenId").val();
+      $("#"+wallScreenId).empty();
+      $("#"+wallScreenId).append(ifrm);
     });
   }
+  
+  //Şablon Dialogundaki Şablonlar Kısmındaki resimleri getirmeye yarar ve tıklandığında o sayfanın theme ini getirir.
   var getAllTemplatesImages = function () 
   {
     $('#templatesDiv').empty();
     for(var i = 1 ; i<5; i++)
-    { var chr = String.fromCharCode(96 +i);
-      var img = " <label for='"+url+"/media/template"+i+".png'><input id='"+url+"/media/template"+i+".png' type='radio' name='type' value='ekran"+chr+".html'/><img src='"+url+"/media/template"+i+".png' class='screeniframe' style='margin-top:10px;width:100%'/></label>";
+    {  
+      var img = " <label for='"+url+"/media/template"+i+".png'><input id='"+url+"/media/template"+i+".png' type='radio' name='type' value='theme"+i+".html'/><img src='"+url+"/media/template"+i+".png' class='screeniframe' style='margin-top:10px;width:100%'/></label>";
       $('#templatesDiv').append(img);
     }
     
     $('#templatesDiv input').on('change', function() {
        var templateUrl = $('input[name=type]:checked', '#templatesDiv').val();
-        $("#templateUrl").attr("src",url+"kafesfirin/public/"+templateUrl)
+       var numb = templateUrl.match(/\d/g);
+       numb = numb.join("");
+       $("#templateUrl").attr("src",url+"themes/theme"+numb+"/public/"+templateUrl)
        
     });
   }
   
-  var setDraggableObjects = function()
-  {
-    /*Ekran seçiminde çıkacak draggable objectlerin set edildiği yer */
-		$(".draggable").draggable();
-    var draggableArguments={
-			 revert: 'true',
-			 helper:'clone',
-			 appendTo: '#drophere',
-			 refreshPositions: true,
-			 containment: 'DOM',
-			 zIndex: 1500,
-			 addClasses: false
-		};
-
-		$('.group').draggable(draggableArguments);
-		$('.group').droppable();
-
-		$(".nav-sidebar").droppable({
-			tolerance: "intersect",
-			accept: ".group",
-			activeClass: "ui-state-default",
-			hoverClass: "ui-state-hover",
-			drop: function(event, ui) {
-				$(".nav-sidebar").append($(ui.draggable));
-			}
-		});
-		$('#drophere').droppable({
-			accept: ".group",
-			activeClass: "ui-state-highlight",
-			drop: function( event, ui ) 
-      {
-        // clone item to retain in original "list"
-        var $item = ui.draggable.clone();
-        $(this).addClass('has-drop').html($item);
-        $("#drophere .group").css("width","100%");
-        $("#drophere .group").css("height","100%");
-        $("#drophere .screeniframe").css("width","100%");
-        $("#drophere .screeniframe").css("height","75vh");
-        $("#drophere .screeniframe").css("transform","scale(1)");
-        $("#drophere .screeniframe").css("transform-origin","transform-origin: 0px 0px 0px");
-			}
-		});
-  }
+ 
   // Yeni Duvar Ekle butonuna bastığımızda çıkan ilk dialogdaki ekran tiplerinin bulunduğu dropdownlist.
   var addNewWallDropdownOnClick = function()
   {
@@ -644,6 +612,8 @@ var WallManager = function () {
       $('#platform').html(platform);
     });
   }
+  
+  //Yeni Duvar Ekledeki seçilen zamanın kontrollerini yapar.Örnegin yeni duvar için seçilen zaman aralığı çalışma alanının zaman aralığından büyük veya kullanılan bir zaman aralığı olamaz. 
   function getNewWallTimeSelectedTab ()
   {
     var newWallTime = 0;
@@ -674,6 +644,8 @@ var WallManager = function () {
     }
     return newWallTime;
   }
+  
+  //Seçilen zaman aralığının Timelineda kullanılıp kullanılmadığını kontrol eder.
   function checkUsedTime(startTime,endTime)
   {
     for(var i in walls)
@@ -691,12 +663,15 @@ var WallManager = function () {
     }
     return true;
   }
+  
+  //Gönderilen başlangıç ve bitiş zamanını split eder
   function splitStartAndEndTime(startTime,endTime)
   {
     var splitStartTime = startTime.split(":");
     var splitEndTime = endTime.split(":");
     return{startTime:splitStartTime[0],endTime:splitEndTime[0],startTimeMinute:splitStartTime[1],endTimeMinute:splitEndTime[1]}
   }
+  
   // Yeni Duvar Ekle butonunda çıkan dialogdaki en son next butonu.
   var applyNewWall = function()
   {   
