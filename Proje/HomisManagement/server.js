@@ -12,7 +12,7 @@ var WebServiceManager = require('./webservices/webservicemodule').WebServiceMana
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '100mb'}));
 app.use(bodyParser.json({limit: '100mb'}));
 app.use(cookieParser());
 

@@ -451,8 +451,8 @@ var WebServiceManager = function(router)
   // Gets a workspace with given access token of the user and workspace id.
   var saveMediaResource = function (req, res)
   {
-        console.log(req.body.file);
-        console.log(req.body.mediaResource);
+        console.log(req.body.filename);
+        console.log(req.body.data);
         res.json({message: "Success"});
   };
   
