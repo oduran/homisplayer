@@ -137,5 +137,9 @@ float:left;
 }
 .panel-heading
 {
-  border-radius:4px;
+  border-radius:0px;
+}
+.panel
+{
+  border-radius:0px;
 }
