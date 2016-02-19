@@ -37,6 +37,10 @@ var WebServiceManager = function(router)
     
     // creates workspace for user with given access token and workspace object.
     router.post('/getworkspace', getWorkspace);
+    
+    // save mediaresources for user with given access token or admin with given userid
+    router.post('/savemediaresource', saveMediaResource);
+    
   }
   
   /* Private Methods */
@@ -442,6 +446,12 @@ var WebServiceManager = function(router)
         res.json({message: "No workspace with given id for this user."});
       }
     );
+  };
+  
+  // Gets a workspace with given access token of the user and workspace id.
+  var saveMediaResource = function (req, res)
+  {
+        res.json({message: "Success"});
   };
   
   // Converts string true false to bool true false. other values returned as false.

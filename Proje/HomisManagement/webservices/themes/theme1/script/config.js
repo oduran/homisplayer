@@ -97,11 +97,13 @@ var doubleClickFunctions = function()
       
       function previewImage(file)
       {
+        var image = file;
+        var name = file.name;
+        
         var reader = new FileReader();
         reader.onload = (function(aImg) {
-          img.src="";
             return function(e) {
-                img.src = e.target.result;
+                img.src = "http://localhost:8080/mediaresources/"+name;
                 };
         })(img);
         reader.readAsDataURL(file);

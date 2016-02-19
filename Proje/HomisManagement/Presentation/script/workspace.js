@@ -462,7 +462,7 @@ var WallManager = function () {
     var screenName = wall.id.replace("wall","Ekran");
     var workspaceDiv = "<br><div class='newScreen'><h2>"+screenName+"</h2><button type='button' class='btn btn-danger removeScreen'><span class='glyphicon glyphicon-trash'></span></button><button type='button' class='btn btn-default changeTime' data-toggle='modal' data-id='' href='#changeTimeModal'><span class='glyphicon glyphicon-time'></span></button><div id='"+wall.id+"' class='wall' style='width:100%;height:"+$("#pageHeight").val()+"px;zoom:13%;'></div>";
     document.getElementById('workspaceForm').innerHTML+=workspaceDiv;
-    var playerScreenDiv = "<div id='"+wall.id+"_screen' class='wall_screen' style='width:"+$("#pageWidth").val()+"px;height:"+$("#pageHeight").val()+"px;'></div>";
+    var playerScreenDiv = "<div id='"+wall.id+"_screen' class='wall_screen media' style='width:"+$("#pageWidth").val()+"px;height:"+$("#pageHeight").val()+"px;'> <input id='"+wall.id+"_screen_file' type='file' class='file' name='image' style='display:none'/></div>";
     document.getElementById(wall.id).innerHTML+=playerScreenDiv ;
     document.getElementById(wall.id).innerHTML+="<br><br>";
   }
@@ -547,16 +547,31 @@ var WallManager = function () {
   // Workspace div in içinde eklenen ekranlara bastığımızda çalışan fonksiyon.
   var addScreenOnClick = function()
   {
-    $('#workspaceForm').on('click', '[class^=wall_screen]', function()
+    $('#workspaceForm').on('click', '[class^=wall_screen]', function(e)
     {
-      $('#screenConfigModal').modal(
+      var id = this.id;
+      if(e.target.className == "wall_screen media")
       {
-        backdrop: 'static',
-        keyboard: false 
-      });
-      $('#screenConfigModal').modal('show');
-      $("#wallScreenId").val(this.id);
-      getAllTemplatesImages();
+        $(this).find('input[type="file"]').click();
+        document.getElementById(id+"_file").addEventListener("change",function(e)
+        {
+            var mediaName = e.target.files[0].name;
+            var video = '<video src="'+url+'"/"'+mediaName+'"></video>';
+            $("#"+this.id).append(video)
+        });
+        
+      }
+      if(e.target.className == "wall_screen")
+      {
+        $('#screenConfigModal').modal(
+        {
+          backdrop: 'static',
+          keyboard: false 
+        });
+        $('#screenConfigModal').modal('show');
+        $("#wallScreenId").val(e.id);
+        getAllTemplatesImages();
+      }    
     });
   }
   
@@ -575,6 +590,14 @@ var WallManager = function () {
       var wallScreenId = $("#wallScreenId").val();
       $("#"+wallScreenId).empty();
       $("#"+wallScreenId).append(ifrm);
+    });
+  }
+  
+  var addCloseWallScreen = function ()
+  {
+    $("#closeWallScreen").click(function()
+    {  
+      $('#screenConfigModal').modal('hide');
     });
   }
   
@@ -913,6 +936,7 @@ var WallManager = function () {
     addManagerPageButtonOnClick();
     addSaveWorkSpaceWithName();
     addSaveWallScreen();
+    addCloseWallScreen();
   }
   
  	var self=this;

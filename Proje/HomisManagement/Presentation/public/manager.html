@@ -2,8 +2,8 @@
 <html>
 <meta charset="utf-8">
 <head> 
-  <link rel="stylesheet" href="../css/manager.css" /> 
 	<link rel="stylesheet" href="../css/bootstrap3.css" media="screen">
+  <link rel="stylesheet" href="../css/manager.css" /> 
  	<script src="../script/jquery-1.11.1.min.js" type="text/javascript"></script>
   <script src="../script/util.js" type="text/javascript"></script>	
   <script src="../script/bootstrap3.min.js" type="text/javascript"></script>
@@ -23,7 +23,7 @@
        </div>
     </div>
     <div class="row equal rowclass">
-      <div class="col-md-4 column4" id="workspaces">
+      <div class="col-md-3 column4" id="workspaces">
         <div id="workspaceDiv">
            <div class = "panel panel-primary  text-center">
                <div class = "panel-heading">
@@ -39,7 +39,7 @@
             </div>
         </div>
       </div>
-      <div id="players" class="col-md-4 text-center column4">
+      <div id="players" class="col-md-3 text-center column4">
         <div id="playersDiv">
            <div class = "panel panel-primary">
                <div class = "panel-heading">
@@ -48,7 +48,24 @@
             </div>
         </div>
       </div>
-      <div id="adminPanel" class="col-md-3 column3">
+      <div id="mediaResources" class="col-md-3 text-center column4">
+        <div id="mediaResourcesDiv">
+           <div class = "panel panel-primary">
+               <div class = "panel-heading">
+                  <h3 class = "panel-title">Kaynaklar</h3>
+               </div>
+               <div class = "panel-body">
+              <button id="addNewMediaResources" class="btn btn-success"><input id='upload_file'  multiple type='file' class='file'/>
+                  <span class="glyphicon glyphicon-plus"></span> Yeni Kaynak Ekle
+              </button>
+            </div>
+            </div>
+            <div id="uploadingfiles">      </div>
+            <button id="uploadMediaResources" class="btn btn-info"><span class="glyphicon glyphicon-upload"></span>&nbsp;Dosyaları Yükle</button>
+
+        </div>
+      </div>
+      <div id="adminPanel" class="col-md-3 column4">
           <div id="adminPanelDiv">
             <div class = "panel panel-primary  text-center ">
                  <div class = "panel-heading">

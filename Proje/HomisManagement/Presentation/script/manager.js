@@ -2,6 +2,7 @@
   var accessToken = Util.getCookieValue("accessToken");
   var users = [];
   var adminControl=false;
+  this.uploadMediaFile=[];
   var getWorkspaces = function (accessToken)
   {
     if(!accessToken)
@@ -29,10 +30,7 @@
         if(response.user.type=="admin")
         {
          adminControl=true;
-         $("#workspaces").css("width","35.333333%")
-         $("#players").css("width","25.333333%")
          $("#adminPanel").css("display","block");
-         $("#adminPanel").css("width","35.333333%"); 
          getUserList();
         }
         
@@ -313,23 +311,80 @@
       $('#platform').html(platform);
     });
   }
-  var scrollBarDesign = function ()
+  var addSelectFileMediaResources = function()
   {
-    $('body, #adminPanel').enscroll({
-    showOnHover: false,
-    verticalTrackClass: 'track3',
-    verticalHandleClass: 'handle3'
-    });
+     $(this).find('input[type="file"]').click();
+        document.getElementById("upload_file").addEventListener("change",function(e)
+        {   
+          for(var i = 0 ; i<this.files.length;i++)
+          {
+            var mediaName="";
+            var element=""; 
+            var files =
+            {
+              name:this.files[i].name,
+              type:this.files[i].type,
+              size:this.files[i].size,
+            };
+            self.uploadMediaFile.push(files);
+            if(e.target.files[i].type.indexOf("video")>-1)
+            {
+              mediaName = e.target.files[i].name;
+              element = '<video src="'+url+'mediaresources/'+mediaName+'" style="width:100px;height:100px;"></video><p>"'+mediaName+'"</p>';
+            }
+            if(e.target.files[i].type.indexOf("image")>-1)
+            {
+              mediaName = e.target.files[i].name;
+              element = '<img src="'+url+'mediaresources/'+mediaName+'" style="width:100px;height:100px;"></img><p>"'+mediaName+'"</p>';
+            }
+   
+            $("#uploadingfiles").append(element);
+          }
+        });
   }
+   
+  var addUploadMediaResources = function()
+  {
+    $("#uploadMediaResources").click(function()
+    {
+      for(var i=0; i< self.uploadMediaFile.length; i++)
+      {console.log(self.uploadMediaFile[i]);
+        uploadFile( self.uploadMediaFile[i]); // call the function to upload the file
+      }
+      
+    })
+  } 
   
+  var uploadFile = function (file)
+  {
+    var url = Util.getWindowUrl()+'service/savemediaresource';
+
+    var xhr = new XMLHttpRequest();
+    var fd = new FormData();
+    xhr.open("POST", url, true);
+    xhr.onreadystatechange = function() 
+    {
+      if (xhr.readyState == 4 && xhr.status == 200) 
+      {
+          console.log(xhr.responseText); // handle response.
+      }
+    };
+
+    fd.append("mediaResource", file);
+    xhr.send(fd);
+  }
+
   $( document ).ready(function() 
-  {	scrollBarDesign();
+  { 
+    
+    addSelectFileMediaResources();
     getWorkspaces(accessToken);
     addNewWorkspace();
     addCreateNewUser();
     addSaveUserButtonOnClick();
     addUserTypeDropdownOnClick();
     addLogoutButtonOnClick();
+    addUploadMediaResources();
   
   });
  

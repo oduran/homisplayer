@@ -48,6 +48,7 @@ var Util =
     }
         
     return o1;
-  }
+  },
+  test: function (){}
 } 
  

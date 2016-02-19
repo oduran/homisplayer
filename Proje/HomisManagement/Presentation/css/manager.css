@@ -1,11 +1,4 @@
-.bodyclass
-{
-  height:100% !important;
-}
-html
-{
-  height:100% !important;
-}
+
 .column4
 {
   padding-left:0 !important;
@@ -13,7 +6,7 @@ html
   background-color: white !important;
   height:100%;
   border:1px solid #428bca;
-  border-radius: 2px;
+  border-radius: 4px;
   overflow:auto;
 }
 .column3
@@ -29,19 +22,17 @@ html
 {
   background-color: rgb(229, 229, 229) !important;
   height:100% !important;
+
 }
 .rowclass
-{ margin:2% !important;
+{
   height:85% !important;
 }
-#players
-{
-margin-left: 2% !important; 
-}
+
 #adminPanel
 {
 display:none;
-margin-left: 2% !important; 
+
 background-color: white !important;
 }
 #workspaceDiv
@@ -103,4 +94,48 @@ float:left;
 .track3:hover .handle3,
 .track3.dragging .handle3 {
     width: 10px;
+}
+#upload_file
+{
+  width: 100%;
+  height:10%;
+  opacity:0;
+  position:absolute;
+  top:0;
+  left:0;
+}
+#uploadingfiles
+{
+  width: 100%;
+  height:79%;
+  border: 1px solid #428BCA;
+  overflow: auto;
+}
+#mediaResourcesDiv
+{
+  width: 100%;
+  height:100%;
+  
+}
+  html,body,.container
+{
+  height:100%;
+  width:100%;
+  padding: 0;
+}
+/*bootstrap overrides */
+.container {
+    max-width: 100%;
+  }
+.row {
+    margin: 0;
+}
+.col-md-3 {
+    width: 24%;
+    margin-left:0.5%;
+    margin-right:0.5%;
+}
+.panel-heading
+{
+  border-radius:4px;
 }

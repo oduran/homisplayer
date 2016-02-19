@@ -505,7 +505,7 @@ h1,
 
 h2,
 .h2 {
-  font-size: 30px;
+  font-size: 20px;
 }
 
 h3,
@@ -886,7 +886,7 @@ pre code {
 }
 
 .col-xs-6 {
-  width: 50%;
+  width: 100%;
 }
 
 .col-xs-7 {
@@ -1094,7 +1094,7 @@ pre code {
     width: 25%;
   }
   .col-md-4 {
-    width: 33.33333333333333%;
+    width: 48.33333333333333%;
   }
   .col-md-5 {
     width: 41.66666666666667%;
@@ -1707,7 +1707,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .form-control {
   display: block;
-  width: 100%;
+  width: 30%;
   height: 34px;
   padding: 6px 12px;
   font-size: 14px;
@@ -2041,7 +2041,7 @@ fieldset[disabled] .btn {
   color: #333333;
   background-color: #ffffff;
   border-color: #cccccc;
-}
+} 
 
 .btn-default:hover,
 .btn-default:focus,
@@ -2164,6 +2164,8 @@ fieldset[disabled] .btn-warning.active {
   color: #ffffff;
   background-color: #d9534f;
   border-color: #d43f3a;
+  float:right;
+  
 }
 
 .btn-danger:hover,
@@ -2390,6 +2392,7 @@ input[type="button"].btn-block {
 }
 
 .glyphicon {
+  float:left;
   position: relative;
   top: 1px;
   display: inline-block;
@@ -3256,7 +3259,7 @@ input[type="button"].btn-block {
 
 .dropdown-menu > li > a {
   display: block;
-  padding: 3px 20px;
+  padding: 20px 20px;
   clear: both;
   font-weight: normal;
   line-height: 1.428571429;
@@ -5446,7 +5449,6 @@ a.list-group-item:focus {
 }
 
 .panel-primary {
-  border-color: #428bca;
 }
 
 .panel-primary > .panel-heading {
@@ -5678,8 +5680,11 @@ body.modal-open,
 }
 
 .modal-title {
-  margin: 0;
-  line-height: 1.428571429;
+     margin: 0;
+    line-height: 1.428571429;
+    color: blue;
+    font-weight: bold;
+    font-size: 20px;
 }
 
 .modal-body {
