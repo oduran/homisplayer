@@ -320,13 +320,9 @@
           {
             var mediaName="";
             var element=""; 
-            var files =
-            {
-              name:this.files[i].name,
-              type:this.files[i].type,
-              size:this.files[i].size,
-            };
-            self.uploadMediaFile.push(files);
+          
+            self.uploadMediaFile.push(this.files[i]);
+            console.log(self.uploadMediaFile);
             if(e.target.files[i].type.indexOf("video")>-1)
             {
               mediaName = e.target.files[i].name;
