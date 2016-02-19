@@ -2,7 +2,7 @@
   var accessToken = Util.getCookieValue("accessToken");
   var users = [];
   var adminControl=false;
-  this.uploadMediaFile=[];
+  var files = [];
   var getWorkspaces = function (accessToken)
   {
     if(!accessToken)
@@ -314,45 +314,51 @@
   var addSelectFileMediaResources = function()
   {
      $(this).find('input[type="file"]').click();
-        document.getElementById("upload_file").addEventListener("change",function(e)
+        document.getElementById("upload_file").addEventListener("change",function(event)
         {   
-          for(var i = 0 ; i<this.files.length;i++)
-          {
-            var mediaName="";
-            var element=""; 
-          
-            self.uploadMediaFile.push(this.files[i]);
-            console.log(self.uploadMediaFile);
-            if(e.target.files[i].type.indexOf("video")>-1)
-            {
-              mediaName = e.target.files[i].name;
-              element = '<video src="'+url+'mediaresources/'+mediaName+'" style="width:100px;height:100px;"></video><p>"'+mediaName+'"</p>';
-            }
-            if(e.target.files[i].type.indexOf("image")>-1)
-            {
-              mediaName = e.target.files[i].name;
-              element = '<img src="'+url+'mediaresources/'+mediaName+'" style="width:100px;height:100px;"></img><p>"'+mediaName+'"</p>';
-            }
-   
-            $("#uploadingfiles").append(element);
-          }
+          $.each(event.target.files, function(index, file) {
+              var reader = new FileReader();
+              reader.onload = function(event) {  
+              object = {};
+              object.filename = file.name;
+              object.data = event.target.result;
+              files.push(object);
+              };  
+              reader.readAsDataURL(file);
+          });
         });
   }
    
+
   var addUploadMediaResources = function()
   {
     $("#uploadMediaResources").click(function()
     {
-      for(var i=0; i< self.uploadMediaFile.length; i++)
-      {console.log(self.uploadMediaFile[i]);
-        uploadFile( self.uploadMediaFile[i]); // call the function to upload the file
-      }
-      
+      $.each(files, function(index, file) 
+      {
+         $.ajax({
+            url: url+"service/savemediaresource",
+            type: 'POST',
+            data: {filename: file.filename, data: file.data},
+            success: function(data, status, xhr) {}
+          });      
+      });
+      files = [];
     })
   } 
   
   var uploadFile = function (file)
   {
+     $.each(files, function(index, file) 
+    {
+       $.ajax({
+          url: "/ajax-upload",
+          type: 'POST',
+          data: {filename: file.filename, data: file.data},
+          success: function(data, status, xhr) {}
+        });      
+    });
+    files = [];
     var url = Util.getWindowUrl()+'service/savemediaresource';
 
     var xhr = new XMLHttpRequest();
