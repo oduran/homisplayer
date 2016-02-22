@@ -17,7 +17,7 @@
       url: url+"service/getuser",
       data: data,
       success: function(response)
-      { debugger;
+      {  
         
         if(response.message)
         {
@@ -50,7 +50,7 @@
           $('#workspaceList').append(workspaceName);  
         }
       },
-      error: function(error){debugger;}
+      error: function(error){ }
     });
   }
   
@@ -80,7 +80,7 @@
           user.email+"><button class='btn btn-success' onclick=editUserById('"+user._id+"') style='float:right'><span style='float:right' class='glyphicon glyphicon-saved'></span></button></div></fieldset></form></div></a><input id='userId' value='"+user._id+"'/>";
           $('#userList').append(userList);  
         }
-        debugger;
+         
         for(var i = 0 ; i< users.length ; i++)
         {
           if($("#username").text()===users[i].name)
@@ -89,7 +89,7 @@
           }
         }
       },
-      error: function(error){debugger;}
+      error: function(error){ }
     });
   }
  
@@ -105,7 +105,7 @@
       $('#userList').empty();
       getUserList();      
     },
-    error: function(error){debugger;}
+    error: function(error){ }
     });  
   }
   
@@ -152,7 +152,7 @@
         $('#workspaceList').append(workspaceName);  
       }
     },
-    error: function(error){debugger;}
+    error: function(error){ }
     });
   }
   
@@ -179,7 +179,7 @@
         }
      
     });
-    debugger;
+     
     var userToSave = findUser(id);
     userToSave._id = id;
     userToSave.name = name;
@@ -192,7 +192,7 @@
       url: url+"service/saveuser",
       data: data,
       success: function(response){alert(response.message)},
-      error: function(error){debugger;}
+      error: function(error){ }
     });
   }
   function showWorkspaceById(workspaceId,userId)
@@ -244,8 +244,8 @@
       type: "POST",
       url: url+"service/getuser",
       data: data,
-      success: function(response){debugger;},
-      error: function(error){debugger;}
+      success: function(response){ },
+      error: function(error){ }
     });
   }
   var addLogoutButtonOnClick = function()
@@ -282,7 +282,7 @@
           getUserList();
           $("#createUserModal").modal("hide");
         },
-        error: function(error){debugger;}
+        error: function(error){ }
       });
     
     })
@@ -322,6 +322,8 @@
               object = {};
               object.filename = file.name;
               object.data = event.target.result;
+              var fileelements = "<div>"+file.name+"</div>"
+              $("#uploadingfiles").append(fileelements);
               files.push(object);
               };  
               reader.readAsDataURL(file);
@@ -334,47 +336,94 @@
   {
     $("#uploadMediaResources").click(function()
     {
+      waitingDialog.show();
       $.each(files, function(index, file) 
       {
          $.ajax({
             url: url+"service/savemediaresource",
             type: 'POST',
             data: {filename: file.filename, data: file.data},
-            success: function(data, status, xhr) {}
+            success: function(data, status, xhr) {
+              debugger;
+              if(status==="success")
+              {
+                waitingDialog.message(file.filename);
+              }
+            },
+            error: function(){debugger;}
           });      
       });
+      waitingDialog.hide();
       files = [];
+      $("#uploadingfiles").empty();
     })
   } 
+  var waitingDialog = waitingDialog || (function ($) {
+    'use strict';
+
+	// Creating modal dialog's DOM
+	var $dialog = $(
+		'<div class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top:15%; overflow-y:visible;">' +
+		'<div class="modal-dialog modal-m">' +
+		'<div class="modal-content">' +
+			'<div class="modal-header"><h3 style="margin:0;"></h3></div>' +
+			'<div class="modal-body">' +
+				'<div class="progress progress-striped active" style="margin-bottom:0;"><div class="progress-bar" style="width: 100%"></div></div>' +
+			'</div>' +
+		'</div></div></div>');
+
+	return {
+		/**
+		 * Opens our dialog
+		 * @param message Custom message
+		 * @param options Custom options:
+		 * 				  options.dialogSize - bootstrap postfix for dialog size, e.g. "sm", "m";
+		 * 				  options.progressType - bootstrap postfix for progress bar type, e.g. "success", "warning".
+		 */
+    message: function (message) {
+        debugger;
+        $dialog.find("h3").text(message);
+       },
+		show: function (message, options) {
+			// Assigning defaults
+			if (typeof options === 'undefined') {
+				options = {};
+			}
+			if (typeof message === 'undefined') {
+				message = 'Loading';
+			}
+			var settings = $.extend({
+				dialogSize: 'm',
+				progressType: '',
+				onHide: null // This callback runs after the dialog was hidden
+			}, options);
+
+			// Configuring dialog
+			$dialog.find('.modal-dialog').attr('class', 'modal-dialog').addClass('modal-' + settings.dialogSize);
+			$dialog.find('.progress-bar').attr('class', 'progress-bar');
+			if (settings.progressType) {
+				$dialog.find('.progress-bar').addClass('progress-bar-' + settings.progressType);
+			}
+			$dialog.find('h3').text(message);
+			// Adding callbacks
+			if (typeof settings.onHide === 'function') {
+				$dialog.off('hidden.bs.modal').on('hidden.bs.modal', function (e) {
+					settings.onHide.call($dialog);
+				});
+			}
+			// Opening dialog
+			$dialog.modal();
+		},
+		/**
+		 * Closes dialog
+		 */
+		hide: function () {
+			$dialog.modal('hide');
+		}
+	};
+
+})(jQuery);
   
-  var uploadFile = function (file)
-  {
-     $.each(files, function(index, file) 
-    {
-       $.ajax({
-          url: "/ajax-upload",
-          type: 'POST',
-          data: {filename: file.filename, data: file.data},
-          success: function(data, status, xhr) {}
-        });      
-    });
-    files = [];
-    var url = Util.getWindowUrl()+'service/savemediaresource';
-
-    var xhr = new XMLHttpRequest();
-    var fd = new FormData();
-    xhr.open("POST", url, true);
-    xhr.onreadystatechange = function() 
-    {
-      if (xhr.readyState == 4 && xhr.status == 200) 
-      {
-          console.log(xhr.responseText); // handle response.
-      }
-    };
-
-    fd.append("mediaResource", file);
-    xhr.send(fd);
-  }
 
   $( document ).ready(function() 
   { 

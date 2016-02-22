@@ -451,9 +451,13 @@ var WebServiceManager = function(router)
   // Gets a workspace with given access token of the user and workspace id.
   var saveMediaResource = function (req, res)
   {
-        console.log(req.body.filename);
-        console.log(req.body.data);
-        res.json({message: "Success"});
+    var fs = require('fs');
+
+    var base64Image = req.body.data.split(',')[1].toString('base64');
+    var decodedImage = new Buffer(base64Image, 'base64');
+    fs.writeFile(req.body.filename, decodedImage, function(err) {});
+    console.log(req.body.filename);
+    res.json({message: "Success"});
   };
   
   // Converts string true false to bool true false. other values returned as false.
