@@ -316,37 +316,24 @@
      $(this).find('input[type="file"]').click();
         document.getElementById("upload_file").addEventListener("change",function(event)
         {   
-          var self = event.currentTarget,
-             blob = self.files[0],
-             BYTES_PER_CHUNK, SIZE, NUM_CHUNKS, start, end;
-         
-        var BYTES_PER_CHUNK =  blob.size;
-        var SIZE = blob.size;
-       var  NUM_CHUNKS = Math.max(Math.ceil(SIZE / BYTES_PER_CHUNK), 1);
-      
-       var  start = 0;
-        var end = BYTES_PER_CHUNK;
-         while (start < SIZE) {
-             upload(blob.slice(start, end));
-             start = end;
-             end = start + BYTES_PER_CHUNK;
-         }
+          $.each(event.target.files, function(index, file) {
+          
+          files.push(file);
+          $("#uploadingfiles").append("<div>"+file.name+"</div>");
+          });
+
+          
         });
+          
   }
-  var upload = function (blobOrFile) {
+  var upload = function (blobOrFile,filename) {
     var fd = new FormData();    
-    fd.append( 'file', blobOrFile );
+    fd.append( 'file', blobOrFile,filename );
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/service/savemediaresource', true);
     //xhr.onreadystatechange = handler;
     xhr.send(fd);
-      
-      /*
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/service/savemediaresource', true);
-        xhr.setRequestHeader("Content-type", "multipart/form-data");
-        xhr.send(blobOrFile);
-        */
+   
  };
 
   var addUploadMediaResources = function()
@@ -354,22 +341,22 @@
     $("#uploadMediaResources").click(function()
     {
       waitingDialog.show();
-      $.each(files, function(index, file) 
+      for(var i=0;i<files.length;i++)
       {
-         $.ajax({
-            url: url+"service/savemediaresource",
-            type: 'POST',
-            data: {filename: file.filename, data: file.data},
-            async: true,
-            success: function(data, status, xhr) {
-              if(status==="success")
-              {
-                waitingDialog.message(file.filename);
-              }
-            },
-            error: function(){}
-          });      
-      });
+          var BYTES_PER_CHUNK =  files[i].size;
+          var SIZE = files[i].size;
+          var  NUM_CHUNKS = Math.max(Math.ceil(SIZE / BYTES_PER_CHUNK), 1);
+          var  start = 0;
+          var end = BYTES_PER_CHUNK;
+          
+          while (start < SIZE)
+          {
+             upload(files[i].slice(start, end),files[i].name);
+             start = end;
+             end = start + BYTES_PER_CHUNK;
+          }
+      }
+      
       waitingDialog.hide();
       files = [];
       $("#uploadingfiles").empty();
