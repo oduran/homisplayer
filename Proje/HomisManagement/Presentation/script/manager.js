@@ -316,21 +316,31 @@
      $(this).find('input[type="file"]').click();
         document.getElementById("upload_file").addEventListener("change",function(event)
         {   
-          $.each(event.target.files, function(index, file) {
-              var reader = new FileReader();
-              reader.onload = function(event) {  
-              object = {};
-              object.filename = file.name;
-              object.data = event.target.result;
-              var fileelements = "<div>"+file.name+"</div>"
-              $("#uploadingfiles").append(fileelements);
-              files.push(object);
-              };  
-              reader.readAsDataURL(file);
-          });
+          var self = event.currentTarget,
+             blob = self.files[0],
+             BYTES_PER_CHUNK, SIZE, NUM_CHUNKS, start, end;
+         
+        var BYTES_PER_CHUNK =  blob.size;
+        var SIZE = blob.size;
+       var  NUM_CHUNKS = Math.max(Math.ceil(SIZE / BYTES_PER_CHUNK), 1);
+      debugger;
+       var  start = 0;
+        var end = BYTES_PER_CHUNK;
+         while (start < SIZE) {
+             upload(blob.slice(start, end));
+             start = end;
+             end = start + BYTES_PER_CHUNK;
+         }
         });
   }
-   
+  var upload = function (blobOrFile) {
+       
+
+        var xhr = new XMLHttpRequest();
+         xhr.open('POST', '/service/savemediaresource', true);
+          
+         xhr.send(blobOrFile);
+     };
 
   var addUploadMediaResources = function()
   {
@@ -343,6 +353,7 @@
             url: url+"service/savemediaresource",
             type: 'POST',
             data: {filename: file.filename, data: file.data},
+            async: true,
             success: function(data, status, xhr) {
               debugger;
               if(status==="success")

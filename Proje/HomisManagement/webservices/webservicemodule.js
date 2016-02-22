@@ -451,11 +451,7 @@ var WebServiceManager = function(router)
   // Gets a workspace with given access token of the user and workspace id.
   var saveMediaResource = function (req, res)
   {
-    var fs = require('fs');
-
-    var base64Image = req.body.data.split(',')[1].toString('base64');
-    var decodedImage = new Buffer(base64Image, 'base64');
-    fs.writeFile(req.body.filename, decodedImage, function(err) {});
+     
     console.log(req.body.filename);
     res.json({message: "Success"});
   };
