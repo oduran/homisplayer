@@ -7,6 +7,7 @@ var path = require("path");
 var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
+var busboy = require('connect-busboy'); //middleware for form/file upload
 var cookieParser = require('cookie-parser');
 var WebServiceManager = require('./webservices/webservicemodule').WebServiceManager;
 
@@ -14,6 +15,7 @@ var WebServiceManager = require('./webservices/webservicemodule').WebServiceMana
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true, limit: '100mb'}));
 app.use(bodyParser.json({limit: '100mb'}));
+app.use(busboy());
 app.use(cookieParser());
 
 var port = process.env.PORT || 8080;        // set our port

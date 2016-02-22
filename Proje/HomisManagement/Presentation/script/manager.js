@@ -323,7 +323,7 @@
         var BYTES_PER_CHUNK =  blob.size;
         var SIZE = blob.size;
        var  NUM_CHUNKS = Math.max(Math.ceil(SIZE / BYTES_PER_CHUNK), 1);
-      debugger;
+      
        var  start = 0;
         var end = BYTES_PER_CHUNK;
          while (start < SIZE) {
@@ -334,13 +334,20 @@
         });
   }
   var upload = function (blobOrFile) {
-       
-
+    var fd = new FormData();    
+    fd.append( 'file', blobOrFile );
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/service/savemediaresource', true);
+    //xhr.onreadystatechange = handler;
+    xhr.send(fd);
+      
+      /*
         var xhr = new XMLHttpRequest();
-         xhr.open('POST', '/service/savemediaresource', true);
-          
-         xhr.send(blobOrFile);
-     };
+        xhr.open('POST', '/service/savemediaresource', true);
+        xhr.setRequestHeader("Content-type", "multipart/form-data");
+        xhr.send(blobOrFile);
+        */
+ };
 
   var addUploadMediaResources = function()
   {
@@ -355,13 +362,12 @@
             data: {filename: file.filename, data: file.data},
             async: true,
             success: function(data, status, xhr) {
-              debugger;
               if(status==="success")
               {
                 waitingDialog.message(file.filename);
               }
             },
-            error: function(){debugger;}
+            error: function(){}
           });      
       });
       waitingDialog.hide();
@@ -392,7 +398,7 @@
 		 * 				  options.progressType - bootstrap postfix for progress bar type, e.g. "success", "warning".
 		 */
     message: function (message) {
-        debugger;
+        
         $dialog.find("h3").text(message);
        },
 		show: function (message, options) {

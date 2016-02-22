@@ -9,6 +9,7 @@ var WebServiceManager = function(router)
   var dbModule = require('../model/dbmodule');
   var passwordModule = require('../util/passmodule');
   var dbManager = new dbModule.DbManager();
+  var fs = require("fs");
   
   /* Public Methods */
   // starts web services defined inside
@@ -452,8 +453,18 @@ var WebServiceManager = function(router)
   var saveMediaResource = function (req, res)
   {
      
-    console.log(req.body.filename);
-    res.json({message: "Success"});
+    var fstream;
+    req.pipe(req.busboy);
+    req.busboy.on('file', function (fieldname, file, filename) {
+        console.log("Uploading: " + filename);
+        //Path where image will be uploaded
+        fstream = fs.createWriteStream(__dirname + '/' + filename);
+        file.pipe(fstream);
+        fstream.on('close', function () {    
+            console.log("Upload Finished of " + filename);              
+            res.redirect('back');           //where to go next
+        });
+    });
   };
   
   // Converts string true false to bool true false. other values returned as false.
