@@ -313,125 +313,107 @@
   }
   var addSelectFileMediaResources = function()
   {
-     $(this).find('input[type="file"]').click();
-        document.getElementById("upload_file").addEventListener("change",function(event)
-        {   
-          $.each(event.target.files, function(index, file) {
-          
-          files.push(file);
-          $("#uploadingfiles").append("<div>"+file.name+"</div>");
-          });
-
-          
-        });
-          
+    $(this).find('input[type="file"]').click();
+    document.getElementById("uploadFile").addEventListener("change",function(event)
+    {   
+      $.each(event.target.files, function(index, file) {
+      var fileIndex  ="<div class='mediaelement'><div >"+file.name+"</div><div class='progress'><div id='"+file.name+"' class='progress-bar progress-bar-info' role='progress-bar ' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='height:20px'>&nbsp;</div></div></div>"
+      files.push(file);
+      $("#uploadingFiles").append(fileIndex);
+      });
+    });
   }
-  var upload = function (blobOrFile,filename) {
+  var upload = function (file,filename) {
     var fd = new FormData();    
-    fd.append( 'file', blobOrFile,filename );
+    var count=0;
+    fd.append( 'file', file,filename );
     var xhr = new XMLHttpRequest();
+    xhr.upload.addEventListener("progress", updateProgress);
+    xhr.addEventListener("load", transferComplete);
+    xhr.addEventListener("error", transferFailed);
+    xhr.addEventListener("abort", transferCanceled);
+    
     xhr.open('POST', '/service/savemediaresource', true);
     //xhr.onreadystatechange = handler;
     xhr.send(fd);
-   
+   function updateProgress (oEvent) 
+   {
+      if (oEvent.lengthComputable)
+      {
+        var pc = parseInt((oEvent.loaded / oEvent.total * 100));
+        document.getElementById(filename).setAttribute("aria-valuenow",""+pc+""); 
+        document.getElementById(filename).style.width=pc+"%"; 
+        document.getElementById(filename).innerHTML=pc+"%"; 
+      }
+
+      else 
+      {
+        // Unable to compute progress information since the total size is unknown
+      }
+    }
+
+    function transferComplete(evt) 
+    {
+
+     var file = document.getElementById(filename);
+     file.setAttribute("class","progress-bar-success"); 
+     for(var i=0;i<files.length;i++)
+     {
+       if(files[i].name==filename)
+       {
+         files.splice(i,1);
+       }
+     }
+     
+     if(files.length===0)
+     {
+       alert("Dosya Yüklemesi Başarıyla Tamamlandı");
+       files=[];
+       $("#uploadingFiles").empty();
+       document.getElementById("uploadFile").value = "";
+       $("#fileUploadModal").modal("hide");
+     }
+     
+    }
+
+    function transferFailed(evt) 
+    {
+      document.getElementById(filename).setAttribute("class","progress-bar-danger"); 
+    }
+
+    function transferCanceled(evt) 
+    {
+      console.log("The transfer has been canceled by the user.");
+    }
  };
 
   var addUploadMediaResources = function()
   {
     $("#uploadMediaResources").click(function()
     {
-      waitingDialog.show();
-      for(var i=0;i<files.length;i++)
+      if(files.length===0)
       {
-          var BYTES_PER_CHUNK =  files[i].size;
-          var SIZE = files[i].size;
-          var  NUM_CHUNKS = Math.max(Math.ceil(SIZE / BYTES_PER_CHUNK), 1);
-          var  start = 0;
-          var end = BYTES_PER_CHUNK;
-          
-          while (start < SIZE)
-          {
-             upload(files[i].slice(start, end),files[i].name);
-             start = end;
-             end = start + BYTES_PER_CHUNK;
-          }
+        alert("Dosya seçilmedi!!");
       }
       
-      waitingDialog.hide();
-      files = [];
-      $("#uploadingfiles").empty();
-    })
-  } 
-  var waitingDialog = waitingDialog || (function ($) {
-    'use strict';
-
-	// Creating modal dialog's DOM
-	var $dialog = $(
-		'<div class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top:15%; overflow-y:visible;">' +
-		'<div class="modal-dialog modal-m">' +
-		'<div class="modal-content">' +
-			'<div class="modal-header"><h3 style="margin:0;"></h3></div>' +
-			'<div class="modal-body">' +
-				'<div class="progress progress-striped active" style="margin-bottom:0;"><div class="progress-bar" style="width: 100%"></div></div>' +
-			'</div>' +
-		'</div></div></div>');
-
-	return {
-		/**
-		 * Opens our dialog
-		 * @param message Custom message
-		 * @param options Custom options:
-		 * 				  options.dialogSize - bootstrap postfix for dialog size, e.g. "sm", "m";
-		 * 				  options.progressType - bootstrap postfix for progress bar type, e.g. "success", "warning".
-		 */
-    message: function (message) {
-        
-        $dialog.find("h3").text(message);
-       },
-		show: function (message, options) {
-			// Assigning defaults
-			if (typeof options === 'undefined') {
-				options = {};
-			}
-			if (typeof message === 'undefined') {
-				message = 'Loading';
-			}
-			var settings = $.extend({
-				dialogSize: 'm',
-				progressType: '',
-				onHide: null // This callback runs after the dialog was hidden
-			}, options);
-
-			// Configuring dialog
-			$dialog.find('.modal-dialog').attr('class', 'modal-dialog').addClass('modal-' + settings.dialogSize);
-			$dialog.find('.progress-bar').attr('class', 'progress-bar');
-			if (settings.progressType) {
-				$dialog.find('.progress-bar').addClass('progress-bar-' + settings.progressType);
-			}
-			$dialog.find('h3').text(message);
-			// Adding callbacks
-			if (typeof settings.onHide === 'function') {
-				$dialog.off('hidden.bs.modal').on('hidden.bs.modal', function (e) {
-					settings.onHide.call($dialog);
-				});
-			}
-			// Opening dialog
-			$dialog.modal();
-		},
-		/**
-		 * Closes dialog
-		 */
-		hide: function () {
-			$dialog.modal('hide');
-		}
-	};
-
-})(jQuery);
-  
+      for(var i=0;i<files.length;i++)
+      {
+       upload(files[i],files[i].name);
+      }
+      
+    });
+  }
+  var addNewMediaResourceButton = function()
+  {
+    $("#addNewMediaResources").click(function()
+    {
+      $("#fileUploadModal").modal("show");
+    });
+  }   
 
   $( document ).ready(function() 
   { 
-    
+    addNewMediaResourceButton();
     addSelectFileMediaResources();
     getWorkspaces(accessToken);
     addNewWorkspace();

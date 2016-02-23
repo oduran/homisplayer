@@ -607,7 +607,7 @@ var WallManager = function () {
     $('#templatesDiv').empty();
     for(var i = 1 ; i<5; i++)
     {  
-      var img = " <label for='"+url+"/media/template"+i+".png'><input id='"+url+"/media/template"+i+".png' type='radio' name='type' value='theme"+i+".html'/><img src='"+url+"/media/template"+i+".png' class='screeniframe' style='margin-top:10px;width:100%'/></label>";
+      var img = " <label for='"+url+"/media/template"+i+".jpg'><input id='"+url+"/media/template"+i+".jpg' type='radio' name='type' value='theme"+i+".html'/><img src='"+url+"/media/template"+i+".jpg' class='screeniframe' style='margin-top:10px;width:100%'/></label>";
       $('#templatesDiv').append(img);
     }
     

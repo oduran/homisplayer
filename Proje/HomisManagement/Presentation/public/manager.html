@@ -56,14 +56,11 @@
                </div>
                <div class = "panel-body">
               <button id="addNewMediaResources" class="btn btn-success">
-                  <span class="glyphicon glyphicon-plus"></span> Yeni Kaynak Ekle<input id='upload_file'  multiple type='file' class='file'/>
+                  <span class="glyphicon glyphicon-plus"></span> Yeni Kaynak Ekle
               </button>
             </div>
             </div>
-             
-            <div id="uploadingfiles">      </div>
-            <button id="uploadMediaResources" class="btn btn-info"><span class="glyphicon glyphicon-upload"></span>&nbsp;Dosyaları Yükle</button>
-
+            
         </div>
       </div>
       <div id="adminPanel" class="col-md-3 column4">
@@ -166,5 +163,22 @@
 			
 		</div>
 	</div>
+  <div class="modal modaldesign" id="fileUploadModal" role="dialog"> 
+    <div class="modal-dialog">
+
+	  <!-- Modal content-->
+        <div class="modal-content" >
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <label class="modal-title">Yükleyeceğiniz Dosyaları Seçiniz</label>
+          </div>
+          <div class="modal-body text-center">      
+            <input id='uploadFile' multiple type='file' class='file col-xs-6 '/> <button id="uploadMediaResources" class="btn btn-info col-xs-6"><span class="glyphicon glyphicon-upload"></span>&nbsp;Dosyaları Yükle</button>
+            <div id="uploadingFiles">      </div>
+            
+          </div> 
+      </div>
+    </div>
+  </div>    
 </body>
 </html>
