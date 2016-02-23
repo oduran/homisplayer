@@ -1,116 +1,18 @@
-//  dbmodule.js
 /*
-Manages db activities.
+  Önder ALTINTAŞ 03.02.2016
+  Manages db activities.
 */
-var DbManager = function()
+var DbManager = function(databaseName)
 {
+  console.log("DbManager instance was created");
   /*Variables*/
-  var dbName = 'homis';
-  var assert = require('assert');
+  var dbName = databaseName || 'homis';
   var ObjectID = require('mongodb').ObjectID;
   var Db = require('mongodb').Db;
   var Connection = require('mongodb').Connection;
   var Server = require('mongodb').Server;
   var serverConnection = new Server("127.0.0.1", 27017, { auto_reconnect: true });
   var connectionInstance;
-  
-  /*Public Methods*/
-  // Gets a user by given access token.
-  this.getUserByAccessToken = function(accessToken,callback)
-  {
-    executeDbQuery(
-      function(db)
-      {
-        var cursor = db.collection("users").find({ "accessToken": accessToken });
-        var users = [];
-        cursor.each(function(err, doc) {
-          assert.equal(err, null);
-          if (doc != null) {
-            users.push(doc);
-          } else {
-            if(users.length === 0) 
-            {
-              callback(null);
-            }
-            else
-            {
-              callback(users[0]);
-            }
-          }
-        });
-      }
-    );
-  }
-  
-  // Gets a user by given name.
-  this.getUserByName = function(name,callback)
-  {
-    executeDbQuery(
-      function(db)
-      {
-        var cursor = db.collection("users").find({ "name": name });
-        var users = [];
-        cursor.each(function(err, doc) {
-          assert.equal(err, null);
-          if (doc != null) {
-            users.push(doc);
-          } 
-          else 
-          {
-                if(users.length === 0) 
-                {
-                  callback(null);
-                }
-                else
-                {
-                  callback(users[0]);
-                }
-          }
-        });
-      }
-    );
-  }
-  
-  // Gets a user by given user Id.
-  this.getUserById = function(id,callback)
-  {
-    executeDbQuery(
-      function(db)
-      {
-        var cursor = db.collection("users").find({ "_id": new ObjectID(id) });
-        var users = [];
-        cursor.each(function(err, doc) {
-          assert.equal(err, null);
-          if (doc != null) {
-            users.push(doc);
-          } 
-          else 
-          {
-                if(users.length === 0) 
-                {
-                  callback(null);
-                }
-                else
-                {
-                  callback(users[0]);
-                }
-          }
-        });
-      }
-    );
-  }
-  
-  // Adds a user to database.
-  this.saveUser = function(user,callback)
-  {
-    updateInCollection("users",user,callback);
-  }
-  
-  // Gets all users from database
-  this.getUsers = function(callback)
-  {
-    getCollection("users",callback);
-  }
   
   // Creates unique access token with using mongodb's ObjectID.
   this.createUniqueId = function()
@@ -119,11 +21,19 @@ var DbManager = function()
 	  return uniqueId;
   }
   
+  // Creates MongoDb object id with given id
+  this.createObjectId = function(objectId)
+  {
+	  var objId = new ObjectID(objectId);
+    return objId;
+  }
+  
   //Removes one or more items from collection with given query. Query as {} for removing all.
   this.removeFromCollection = function(collectionName, query, callback)
   {
-    executeDbQuery(
-    function(db){
+    this.executeDbQuery(
+    function(db)
+    {
       db.collection(collectionName).remove(query,function(error,numberRemoved)
       {
         if(error)
@@ -135,21 +45,25 @@ var DbManager = function()
         console.log(numberRemoved+" removed from "+collectionName);
         callback();
       });
-    })
+    });
   }
   
   /*Private methods*/
   // Gives db connection to client for query execution
-  var executeDbQuery = function(callback) {
+  this.executeDbQuery = function(callback) 
+  {
     //if already we have a connection, don't connect to database again
-    if (connectionInstance) {
+    if (connectionInstance) 
+    {
       callback(connectionInstance);
       console.log("db connection already exist");
       return;
     }
 
     var db = new Db(dbName, serverConnection);
-    db.open(function(error, databaseConnection) {
+    db.open(
+    function(error, databaseConnection) 
+    {
       if (error) throw new Error(error);
       console.log("db connection created newly");
       connectionInstance = databaseConnection;
@@ -158,9 +72,9 @@ var DbManager = function()
   };
   
   // Inserts an object to db collection
-  var insertToCollection = function(collectionName,objToBeInserted,callback)
+  this.insertToCollection = function(collectionName,objToBeInserted,callback)
   {
-    executeDbQuery(
+    this.executeDbQuery(
       function(db)
       {
         db.collection(collectionName).insert(objToBeInserted, function(err, records) {
@@ -172,9 +86,9 @@ var DbManager = function()
   }
   
   // Gets collection by given name
-  var getCollection = function(collectionName,callback)
+  this.getCollection = function(collectionName,callback)
   {
-    executeDbQuery(
+    this.executeDbQuery(
       function(db)
       {
         var collectionArray = [];
@@ -201,13 +115,13 @@ var DbManager = function()
   }
   
   // Updates an object in db collection.
-  var updateInCollection = function(collectionName, objectToUpdate, callback)
+  this.updateInCollection = function(collectionName, objectToUpdate, callback)
   {
-    executeDbQuery(
-        function(db)
-        {
-          db.collection(collectionName).save(objectToUpdate, callback);
-        }
+    this.executeDbQuery(
+      function(db)
+      {
+        db.collection(collectionName).save(objectToUpdate, callback);
+      }
     );
   }
   

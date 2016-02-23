@@ -1,15 +1,16 @@
-//  webservicemodule.js
 /*
+Önder ALTINTAŞ 03.02.2016
 Manages web services.
 */
 var WebServiceManager = function(router)
 {
   /* Variables */
-  var router = router;
-  var dbModule = require('../model/dbmodule');
-  var passwordModule = require('../util/passmodule');
-  var dbManager = new dbModule.DbManager();
   var fs = require("fs");
+  var router = router;
+  var dbModule = require('../model/homisdbmodule');
+  var passUtil = require('../util/passutil');
+  var dbManager = new dbModule.HomisDbManager("homis");
+  
   
   /* Public Methods */
   // starts web services defined inside
@@ -59,7 +60,7 @@ var WebServiceManager = function(router)
         return;
       }
 	  
-      passwordModule.comparePassword(password, user.password,function(error,passwordMatch){
+      passUtil.comparePassword(password, user.password,function(error,passwordMatch){
         if(error)
         {
           res.json({message:error.toString()});
@@ -170,7 +171,7 @@ var WebServiceManager = function(router)
     var validMessage = validateUser(user);
     if(validMessage == "valid")
     {
-      passwordModule.cryptPassword(user.password,
+      passUtil.cryptPassword(user.password,
         function(error, encryptedPassword)
         {
           if(error)
@@ -208,7 +209,7 @@ var WebServiceManager = function(router)
     
     if(user.password)
     {
-      passwordModule.cryptPassword(user.password, function(error, encryptedPassword)
+      passUtil.cryptPassword(user.password, function(error, encryptedPassword)
       {
         if(error)
         {
@@ -452,7 +453,6 @@ var WebServiceManager = function(router)
   // Gets a workspace with given access token of the user and workspace id.
   var saveMediaResource = function (req, res)
   {
-     
     var fstream;
     req.pipe(req.busboy);
     req.busboy.on('file', function (fieldname, file, filename) {
@@ -460,6 +460,9 @@ var WebServiceManager = function(router)
         //Path where image will be uploaded
         fstream = fs.createWriteStream(__dirname + '/' + filename);
         file.pipe(fstream);
+        file.on('data', function(data) {
+          console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
+        });
         fstream.on('close', function () {    
             console.log("Upload Finished of " + filename);              
             res.redirect('back');           //where to go next
