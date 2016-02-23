@@ -235,10 +235,17 @@
           var name = $("#name").val();
           checkUser(name);
         });
+      $("#email").focusout(
+      function (event) 
+      {
+        var email = $("#email").val();
+        addCheckEmailisValid(email);
+      });
+      
     });
   }
   function checkUser(name)
-  {console.log(name);
+  { 
     var data = {name:name};
     $.ajax({
       type: "POST",
@@ -399,9 +406,25 @@
       $("#fileUploadModal").modal("show");
     });
   }   
+   
+  var addCheckEmailisValid = function(email) 
+  {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+    if(re.test(email))
+      {
+        $("#email").css("border","1px solid green");
+      }
+      
+      else
+      {
+        $("#email").css("border","1px solid red");
+      }
+  }
+  
   $( document ).ready(function() 
   { 
+    addCheckEmailisValid();
     addNewMediaResourceButton();
     addSelectFileMediaResources();
     getWorkspaces(accessToken);
