@@ -267,7 +267,7 @@
                          "email":$("#email").val(),
                          "phone":$("#phone").val(),
                          "password":$("#password").val(),
-                         "type": $('#platform').text().toLowerCase(),
+                         "type": document.getElementById('userTypeDropdown').value,
                          "workspaces":[],
                          "players":[],
                          "mediaResources":[]
@@ -298,19 +298,8 @@
       }
     }
   }
-   var addUserTypeDropdownOnClick = function()
-  {
-    
-    $('#userTypeDropdown a').click(function(e) {
-      $('#userTypeDropdown a').removeClass('selected');
-      $(this).addClass('selected');
-    });
-    
-    $("#userTypeMenu").on("click", "li a", function() {
-      var platform = $(this).text();
-      $('#platform').html(platform);
-    });
-  }
+  
+
   var addSelectFileMediaResources = function()
   {
     $(this).find('input[type="file"]').click();
@@ -419,7 +408,6 @@
     addNewWorkspace();
     addCreateNewUser();
     addSaveUserButtonOnClick();
-    addUserTypeDropdownOnClick();
     addLogoutButtonOnClick();
     addUploadMediaResources();
   

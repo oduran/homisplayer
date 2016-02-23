@@ -139,20 +139,19 @@
                     <input type="text" class="form-control formelement" id="phone" name="phone" >
                   </td>
                 </tr>
+                <tr>
+                  <td>
+                    <label>Kullanıcı Tipi</label>
+                  </td>
+                  <td>
+                    <select id="userTypeDropdown"  name="userTypeDropdown">
+                    <option value="Admin">Admin</option>
+                    <option value="Superuser">Superuser</option>
+                    <option value="User" selected>User</option>
+                  </select>
+                  </td>
+                </tr>
                 </table>
-                
-              
-                <div class="dropdown" id="userTypeMenu">
-                  <button class="btn btn-info"  data-toggle="dropdown">Kullanıcı Tipi
-                    <span class="glyphicon glyphicon-user"></span>
-                  </button>
-                  <label id="platform"></label>
-                  <ul id="userTypeDropdown"class="dropdown-menu" >
-                    <li><a tabindex="-1" href="#" class="usertype">&nbsp;Admin</a></li>
-                    <li><a tabindex="-1" href="#" class="usertype" >&nbsp;Superuser</a></li>
-                    <li><a tabindex="-1" href="#" class="usertype" >&nbsp;User</a></li>
-                  </ul>
-                </div>
               </div>
             </fieldset>
           </form>
