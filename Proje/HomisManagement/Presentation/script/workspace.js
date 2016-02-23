@@ -184,7 +184,7 @@ var WallManager = function () {
   var getWorkspace = function(userId, workspaceId)
   {
     var targetUrl = serviceUrl+"getworkspace";
-    var data = { accessToken:accessToken, workspaceId: workspaceId};
+    var data = {  workspaceId: workspaceId};
     
     if(userId)
     {
@@ -496,12 +496,12 @@ var WallManager = function () {
       }
       var targetUrl = serviceUrl+"saveworkspace";
       workspaceObj=Util.mergeObjects(workspaceObj,newWorkspaceObj);
-      var data = { accessToken:accessToken, workspace: workspaceObj};
+      var data = { workspace: workspaceObj};
       if(user)
       {
         targetUrl = serviceUrl+"saveuser";
         user = upsertWorkspaceToUser(workspaceObj, user);
-        data = { accessToken:accessToken, user:user };
+        data = {  user:user };
       }
       
       $.ajax({

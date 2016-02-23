@@ -11,7 +11,7 @@
       return;
     }
     
-    var data = { accessToken:accessToken};
+    var data = {};
     $.ajax({
       type: "POST",
       url: url+"service/getuser",
@@ -57,7 +57,7 @@
   function getUserList()
   {
     $('#userList').empty();
-    var data = { accessToken:accessToken};
+    var data = null;
     $.ajax({
       type: "POST",
       url: url+"service/getUsers",
@@ -95,7 +95,7 @@
  
   function deleteUser(name)
   { 
-    var data = {accessToken:accessToken,name : name};
+    var data = {name : name};
     $.ajax({
     type: "POST",
     url: url+"service/deleteuser",
@@ -131,7 +131,7 @@
     $("#workspaceList").empty();
     $("#userId").val(id);
 
-    var data = { accessToken:accessToken, name:name};
+    var data = {name:name};
     $.ajax({
     type: "POST",
     url: url+"service/getuser",
@@ -186,7 +186,7 @@
     userToSave.surname = surname;
     userToSave.type = "admin";//TODO: kullanıcı seçimine bağlı
     userToSave.email = email;
-    var data = {accessToken: accessToken, user: userToSave };
+    var data = {user: userToSave };
     $.ajax({
       type: "POST",
       url: url+"service/saveuser",
@@ -239,7 +239,7 @@
   }
   function checkUser(name)
   {console.log(name);
-    var data = { accessToken:accessToken,name:name};
+    var data = {name:name};
     $.ajax({
       type: "POST",
       url: url+"service/getuser",
