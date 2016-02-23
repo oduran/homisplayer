@@ -76,7 +76,9 @@
           user.name+"'><fieldset><div class='form-group'><label>Kullanıcı Adı</label><input type='text' class='form-control formelement name' name='name' placeholder='Kullanıcı Adı' value="+
           user.name+"><label>Soyadı</label><input type='text' class='form-control formelement surname' name='surname' placeholder='Soyadı' value="
           +user.surname+"><label>Email</label><input type='text' class='form-control formelement email' name='email' placeholder='Email' value="+
-          user.email+"><button class='btn btn-success' onclick=editUserByName('"+user.name+"',"+i+") style='float:right'><span style='float:right' class='glyphicon glyphicon-saved'></span></button></div></fieldset></form></div></a>";
+          user.email+">"+
+          "<label>Kullanıcı Tipi</label><select class='userType' name='userType'>"+createOptionStrings(user.type)+"</select>"+
+          "<button class='btn btn-success' onclick=editUserByName('"+user.name+"',"+i+") style='float:right'><span style='float:right' class='glyphicon glyphicon-saved'></span></button></div></fieldset></form></div></a>";
           $('#userList').append(userList);  
         }
       },
@@ -152,26 +154,35 @@
     var name="";
     var surname="";
     var email="";
+    var userType="";
     $('.'+userName+' input' ).each(function() 
     {
-        if($(this).attr('name')==="name")
-        {
-          name = $(this).val();   
-        }
-        if($(this).attr('name')==="surname")
-        {
-          surname = $(this).val();   
-        }
-        if($(this).attr('name')==="email")
-        {
-          email = $(this).val();   
-        }
+      if($(this).attr('name')==="name")
+      {
+        name = $(this).val();   
+      }
+      if($(this).attr('name')==="surname")
+      {
+        surname = $(this).val();   
+      }
+      if($(this).attr('name')==="email")
+      {
+        email = $(this).val();   
+      }
+    });
+    $('.'+userName+' select' ).each(function() 
+    {
+      if($(this).attr('name')==="userType")
+      {
+        userType = $(this).val();   
+        console.log(userType);
+      }
     });
      
     var userToSave = users[index];
     userToSave.name = name;
     userToSave.surname = surname;
-    userToSave.type = "admin";//TODO: kullanıcı seçimine bağlı
+    userToSave.type = userType;//TODO: kullanıcı seçimine bağlı
     userToSave.email = email;
     var data = {user: userToSave };
     $.ajax({
@@ -394,6 +405,20 @@
       {
         $("#email").css("border","1px solid red");
       }
+  }
+  
+  // Creates options string for user edit combobox. Chooses the one which was given as userType.
+  var createOptionStrings = function(userType)
+  {
+    console.log(userType)
+    var optionsString = "";
+    var userTypes = ["admin","user"];
+    for(var i=0;i<userTypes.length;i++)
+    {   
+        var stringAddition = (userType === userTypes[i])? "selected":"";
+        optionsString += "<option value='"+userTypes[i]+"' "+stringAddition+">"+userTypes[i]+"</option>";
+    }
+    return optionsString;
   }
   
   $( document ).ready(function() 
