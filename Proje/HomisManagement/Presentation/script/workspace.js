@@ -181,14 +181,14 @@ var WallManager = function () {
   }
   
   // Workspace halihazırda varsa ekrana servisten gelen workspace objesinde belirlenmiş olan duvarları ekler.
-  var getWorkspace = function(userId, workspaceId)
+  var getWorkspace = function(userName, workspaceId)
   {
     var targetUrl = serviceUrl+"getworkspace";
     var data = {  workspaceId: workspaceId};
     
-    if(userId)
+    if(userName)
     {
-      data = {accessToken:accessToken, _id: userId};
+      data = { name: userName};
       targetUrl = serviceUrl+"getUser"
     }
 
@@ -201,8 +201,8 @@ var WallManager = function () {
         {
           return;
         }
-        workspaceObj = userId? findUserWorkspace(workspaceId,response.user.workspaces) : response;
-        user = userId? response.user : user;
+        workspaceObj = userName? findUserWorkspace(workspaceId,response.user.workspaces) : response;
+        user = userName? response.user : user;
         $( "#pageHeight" ).val(workspaceObj.height);
         $( "#pageWidth" ).val(workspaceObj.width);
         $("#datetimepicker1").find("input").val(workspaceObj.starttime);
@@ -315,8 +315,6 @@ var WallManager = function () {
   // Başlangıçta çalışma alanı, ekran büyüklüklerinin girilebileceği modal penceresinin açılmasını sağlar ve sürükle bırak objelerini set eder.
   this.initialize = function()
   {
-    
-  
     setHtmlElementEvents();
     $('#datetimepicker1').datetimepicker({
         format: 'HH:mm'
@@ -344,15 +342,15 @@ var WallManager = function () {
     });
 
     var workspaceId=Util.getParameterByName('workspaceId');
-    var userId = Util.getParameterByName('userId');
+    var userName = Util.getParameterByName('userName');
     if(workspaceId)
     {
-      getWorkspace(userId, workspaceId);
+      getWorkspace(userName, workspaceId);
       return;
     }
     else
     {
-      getUser(userId,function(userFromService)
+      getUser(userName,function(userFromService)
       {
           if(userFromService)
           {
@@ -374,15 +372,15 @@ var WallManager = function () {
 		showCurrentStep(currentStep);
   }
   
-  var getUser = function(userId,callback)
+  var getUser = function(userName,callback)
   {
-    if(!userId)
+    if(!userName)
     {
       callback();
       return;
     }
     
-    var data = {accessToken:accessToken, _id: userId};
+    var data = {name: userName};
     var targetUrl = serviceUrl+"getUser";
     $.ajax({
       type: "POST",

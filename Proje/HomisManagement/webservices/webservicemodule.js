@@ -304,7 +304,6 @@ var WebServiceManager = function(router)
   {
     var accessToken = req.cookies.accessToken;
     var requiredName = req.body.name;
-    var requiredId = req.body._id;
     dbManager.getUserByAccessToken(accessToken, function(user)
     {
       if(!user)
@@ -316,25 +315,7 @@ var WebServiceManager = function(router)
       
       if(user.type == "admin")
       {
-        if(requiredId)
-        {
-          dbManager.getUserById(requiredId, 
-           function(requiredUser)
-           {
-             if(!requiredUser)
-             {
-               console.log("user doesn't exist");
-                res.json({message: "user doesn't exist"});
-                return;     
-             }
-             
-              requiredUser.accessToken="";
-              requiredUser.password="";
-              res.json({user:requiredUser});
-              return;
-          });
-        }
-        else if(requiredName)
+        if(requiredName)
         {
           dbManager.getUserByName(requiredName, 
            function(requiredUser)
@@ -456,6 +437,7 @@ var WebServiceManager = function(router)
   var saveMediaResource = function (req, res)
   {
     var fstream;
+    var accessToken = req.cookies.accessToken;
     req.pipe(req.busboy);
     req.busboy.on('file', function (fieldname, file, filename) {
         console.log("Uploading: " + filename);

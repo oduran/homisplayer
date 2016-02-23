@@ -46,7 +46,7 @@
           + response.user.workspaces[i].name+
           "<button class='btn btn-info' id='"
           +response.user.workspaces[i].workspaceId+
-          "' onclick=showWorkspaceById('"+response.user.workspaces[i].workspaceId+"','"+response.user._id+"') style='float:right;margin-top:-7px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a>";
+          "' onclick=showWorkspaceByName('"+response.user.workspaces[i].workspaceId+"','"+response.user.name+"') style='float:right;margin-top:-7px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a>";
           $('#workspaceList').append(workspaceName);  
         }
       },
@@ -68,25 +68,16 @@
         for(var i = 0 ;i<response.length; i++)
         {
           var user = response[i];
-      //    var $html = $('<div id="MainMenu"><div class="list-group panel"><a href="#demo3" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">Item 3</a><div class="collapse" id="demo3">href="#SubMenu1" class="list-group-item" data-toggle="collapse" data-parent="#SubMenu1">Subitem 1 <i class="fa fa-caret-down"></i></a>     <div class="collapse list-group-submenu" id="SubMenu1">        <a href="#" class="list-group-item" data-parent="#SubMenu1">Subitem 1 a</a>        <a href="#" class="list-group-item" data-parent="#SubMenu1">Subitem 2 b</a>        <a href="#SubSubMenu1" class="list-group-item" data-toggle="collapse" data-parent="#SubSubMenu1">Subitem 3 c <i class="fa fa-caret-down"></i></a>        <div class="collapse list-group-submenu list-group-submenu-1" id="SubSubMenu1">          <a href="#" class="list-group-item" data-parent="#SubSubMenu1">Sub sub item 1</a>          <a href="#" class="list-group-item" data-parent="#SubSubMenu1">Sub sub item 2</a>        </div>        <a href="#" class="list-group-item" data-parent="#SubMenu1">Subitem 4 d</a>      </div>      <a href="javascript:;" class="list-group-item">Subitem 2</a>      <a href="javascript:;" class="list-group-item">Subitem 3</a>    </div>    <a href="#demo4" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">Item 4</a>    <div class="collapse" id="demo4">      <a href="" class="list-group-item">Subitem 1</a>      <a href="" class="list-group-item">Subitem 2</a>      <a href="" class="list-group-item">Subitem 3</a>    </div>  </div></div>');
           var userList = "<a class='list-group-item' href='#' id='"+user.name+
-          "'>"+ user.name+"<button class='btn btn-danger' onclick=deleteUser('"
+          "ListItem'>"+ user.name+"<button class='btn btn-danger' onclick=deleteUser('"
           +user.name+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-trash'></span></button><button class='btn btn-info accordion-toggle'  data-parent='#userList' data-toggle='collapse' href='#"+
-          user._id+"' onclick=getWorkspacesByUsername('"+user.name+"','"+user._id+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-edit'></span></button><div id='"+
-          user._id+"' class='userForm collapse'><form class ='"+
-          user._id+"'><fieldset><div class='form-group'><label>Kullanıcı Adı</label><input type='text' class='form-control formelement name' name='name' placeholder='Kullanıcı Adı' value="+
+          user.name+"Form' onclick=getWorkspacesByUsername('"+user.name+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-edit'></span></button><div id='"+
+          user.name+"Form' class='userForm collapse'><form class ='"+
+          user.name+"'><fieldset><div class='form-group'><label>Kullanıcı Adı</label><input type='text' class='form-control formelement name' name='name' placeholder='Kullanıcı Adı' value="+
           user.name+"><label>Soyadı</label><input type='text' class='form-control formelement surname' name='surname' placeholder='Soyadı' value="
           +user.surname+"><label>Email</label><input type='text' class='form-control formelement email' name='email' placeholder='Email' value="+
-          user.email+"><button class='btn btn-success' onclick=editUserById('"+user._id+"') style='float:right'><span style='float:right' class='glyphicon glyphicon-saved'></span></button></div></fieldset></form></div></a><input id='userId' value='"+user._id+"'/>";
+          user.email+"><button class='btn btn-success' onclick=editUserByName('"+user.name+"',"+i+") style='float:right'><span style='float:right' class='glyphicon glyphicon-saved'></span></button></div></fieldset></form></div></a>";
           $('#userList').append(userList);  
-        }
-         
-        for(var i = 0 ; i< users.length ; i++)
-        {
-          if($("#username").text()===users[i].name)
-          {
-            $("#userId").val(users[i]._id);
-          }
         }
       },
       error: function(error){ }
@@ -109,12 +100,12 @@
     });  
   }
   
-  function getWorkspacesByUsername(name,id)
+  function getWorkspacesByUsername(name)
   {
-    if($("#"+id).hasClass('in'))
+    if($("#"+name).hasClass('in'))
     {
-      $("#"+id).removeClass('in');
-      $("#"+id).addClass('collapse');
+      $("#"+name).removeClass('in');
+      $("#"+name).addClass('collapse');
       $("#workspaceList").empty();
       getWorkspaces(accessToken);
       return;
@@ -129,7 +120,6 @@
     });
     
     $("#workspaceList").empty();
-    $("#userId").val(id);
 
     var data = {name:name};
     $.ajax({
@@ -147,8 +137,8 @@
       for(var i = 0 ;i<response.user.workspaces.length; i++)
       {
         var workspaceId = response.user.workspaces[i].workspaceId;
-        var userId = response.user._id;
-        var workspaceName = "<a class='list-group-item' href='#'>"+ response.user.workspaces[i].name+"<button class='btn btn-info' id='"+response.user.workspaces[i].workspaceId+"' onclick=showWorkspaceById('"+workspaceId+"','"+userId+"') style='float:right;margin-top:-7px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a>";
+        var userName = response.user.name;
+        var workspaceName = "<a class='list-group-item' href='#'>"+ response.user.workspaces[i].name+"<button class='btn btn-info' id='"+response.user.workspaces[i].workspaceId+"' onclick=showWorkspaceByName('"+workspaceId+"','"+userName+"') style='float:right;margin-top:-7px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a>";
         $('#workspaceList').append(workspaceName);  
       }
     },
@@ -156,14 +146,13 @@
     });
   }
   
-  function editUserById(id)
+  function editUserByName(userName, index)
   {
    
     var name="";
     var surname="";
     var email="";
-    var inputs = id.elements;
-    $('.'+id+' input' ).each(function() 
+    $('.'+userName+' input' ).each(function() 
     {
         if($(this).attr('name')==="name")
         {
@@ -177,11 +166,9 @@
         {
           email = $(this).val();   
         }
-     
     });
      
-    var userToSave = findUser(id);
-    userToSave._id = id;
+    var userToSave = users[index];
     userToSave.name = name;
     userToSave.surname = surname;
     userToSave.type = "admin";//TODO: kullanıcı seçimine bağlı
@@ -195,11 +182,11 @@
       error: function(error){ }
     });
   }
-  function showWorkspaceById(workspaceId,userId)
+  function showWorkspaceByName(workspaceId,userName)
   { 
     if(adminControl)
     {
-      window.location.href=url+"workspace.html?workspaceId="+workspaceId+"&"+"userId="+userId;
+      window.location.href=url+"workspace.html?workspaceId="+workspaceId+"&"+"userName="+userName;
     }
     
     else
@@ -212,16 +199,15 @@
   {
     $("#addNewWorkspace").click(function()
     {
-      if(adminControl)
+      if(adminControl && $(".userForm.in").length != 0)
       {
-        var userId = $("#userId").val();
-        window.location.href=url+"workspace.html?userId="+userId;
+        var userName = $(".userForm.in form input.name").val();
+        window.location.href=url+"workspace.html?userName="+userName;
       }
       else
       {
-      window.location.href=url+"workspace.html";  
+        window.location.href=url+"workspace.html";  
       }
-      
     });
   }
   var addCreateNewUser = function ()
@@ -294,18 +280,6 @@
     
     })
   }
-  
-  var findUser = function(userId)
-  {
-    for(var i = 0; i<users.length;i++)
-    {
-      if(userId === users[i]._id)
-      {
-        return users[i];
-      }
-    }
-  }
-  
 
   var addSelectFileMediaResources = function()
   {
