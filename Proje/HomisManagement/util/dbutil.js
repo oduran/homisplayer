@@ -4,7 +4,6 @@
 */
 var DbManager = function(databaseName)
 {
-  console.log("DbManager instance was created");
   /*Variables*/
   var dbName = databaseName || 'homis';
   var ObjectID = require('mongodb').ObjectID;
@@ -131,4 +130,3 @@ var DbManager = function(databaseName)
 module.exports = {
   DbManager: DbManager
 }
-

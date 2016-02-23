@@ -1,9 +1,12 @@
 ﻿// For deploying application to server. 
 // Deletes all collections then adds required super user, admin user and a user in users collection
 // Use it for caution!
-var DbManager = require('../model/dbmodule').DbManager;
-var passwordModule = require('../util/passmodule');
-var dbManager = new DbManager();
+var DbManager = require('../util/dbutil').DbManager;
+var HomisDbManager = require('../model/homisdbmodule').HomisDbManager;
+var PassManager = require('../util/passutil').PassManager;
+var dbManager = new DbManager("homis");
+var homisDbManager = new HomisDbManager("homis");
+var passManager = new PassManager();
 
 var DeploymentManager = function()
 {
@@ -60,7 +63,7 @@ var DeploymentManager = function()
   
   var addUserToDb = function(user,callback)
   {
-    passwordModule.cryptPassword(user.password,
+    passManager.cryptPassword(user.password,
       function(error, encryptedPassword)
       {
         if(error)
@@ -70,7 +73,7 @@ var DeploymentManager = function()
         }
         
         user.password = encryptedPassword;
-        dbManager.saveUser(user,
+        homisDbManager.saveUser(user,
           function(success)
           {
             console.log("Successfully saved "+user.name);
@@ -85,15 +88,6 @@ var DeploymentManager = function()
 process.on('uncaughtException', function (err) {
 	console.log(err.message);
 	console.error(err.stack);
-	var db = dbManager.getDb();
-	if(db)
-	{
-		db.close(true, function(err,result) {
-			console.log('MongoDb disconnected on app termination');
-			process.exit(0);
-		});
-	}
-	
 	process.exit(1);
 });
 

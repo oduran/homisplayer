@@ -8,8 +8,11 @@ var WebServiceManager = function(router)
   var fs = require("fs");
   var router = router;
   var dbModule = require('../model/homisdbmodule');
+  var fileUtil = require('../util/fileutil');
   var passUtil = require('../util/passutil');
   var dbManager = new dbModule.HomisDbManager("homis");
+  var fileManager = new fileUtil.FileManager();
+  var passManager = new passUtil.PassManager();
   
   
   /* Public Methods */
@@ -60,7 +63,7 @@ var WebServiceManager = function(router)
         return;
       }
 	  
-      passUtil.comparePassword(password, user.password,function(error,passwordMatch){
+      passManager.comparePassword(password, user.password,function(error,passwordMatch){
         if(error)
         {
           res.json({message:error.toString()});
@@ -95,7 +98,7 @@ var WebServiceManager = function(router)
   var saveUser = function (req, res, next)
   {
     var returnObj = {message:"success"};
-    var accessToken = req.body.accessToken;
+    var accessToken = req.cookies.accessToken;
     dbManager.getUserByAccessToken(accessToken, function(operator)
     {
       if(!operator)
@@ -107,7 +110,6 @@ var WebServiceManager = function(router)
       if(operator.type == "admin")
       {
         var newUser = req.body.user;
-        console.log(JSON.stringify(newUser));
         if(newUser._id)
         {
           if(newUser.workspaces)
@@ -171,7 +173,7 @@ var WebServiceManager = function(router)
     var validMessage = validateUser(user);
     if(validMessage == "valid")
     {
-      passUtil.cryptPassword(user.password,
+      passManager.cryptPassword(user.password,
         function(error, encryptedPassword)
         {
           if(error)
@@ -209,7 +211,7 @@ var WebServiceManager = function(router)
     
     if(user.password)
     {
-      passUtil.cryptPassword(user.password, function(error, encryptedPassword)
+      passManager.cryptPassword(user.password, function(error, encryptedPassword)
       {
         if(error)
         {
@@ -240,7 +242,7 @@ var WebServiceManager = function(router)
   // Deletes user.
   var deleteUser = function(req, res)
   {
-    var accessToken = req.accessToken;
+    var accessToken = req.cookies.accessToken;
     var name = req.name;
     dbManager.getUserByAccessToken(accessToken, 
     function(operator)
@@ -267,7 +269,7 @@ var WebServiceManager = function(router)
   // Brings all the users to the client
   var getUsers = function(req, res) 
   {
-    var accessToken = req.body.accessToken;
+    var accessToken = req.cookies.accessToken;
     dbManager.getUserByAccessToken(accessToken, 
     function(operator)
     {
@@ -300,7 +302,7 @@ var WebServiceManager = function(router)
   // Brings user when access token is given.
   var getUser = function(req, res) 
   {
-    var accessToken = req.body.accessToken;
+    var accessToken = req.cookies.accessToken;
     var requiredName = req.body.name;
     var requiredId = req.body._id;
     dbManager.getUserByAccessToken(accessToken, function(user)
@@ -371,7 +373,7 @@ var WebServiceManager = function(router)
   // Creates a workspace with given access token of the user and workspace object.
   var saveWorkspace = function (req, res, next)
   {
-    var accessToken = req.body.accessToken;
+    var accessToken = req.cookies.accessToken;
     var workspaceToSave = req.body.workspace;
     var returnObj = {message: "success"};
     dbManager.getUserByAccessToken(accessToken, 
@@ -420,7 +422,7 @@ var WebServiceManager = function(router)
   // Gets a workspace with given access token of the user and workspace id.
   var getWorkspace = function (req, res, next)
   {
-    var accessToken = req.body.accessToken;
+    var accessToken = req.cookies.accessToken;
     var workspaceId = req.body.workspaceId;
     dbManager.getUserByAccessToken(accessToken, 
       function(user)

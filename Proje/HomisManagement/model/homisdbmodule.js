@@ -6,7 +6,7 @@ var HomisDbManager = function(databaseName)
 {
   var databaseName = databaseName || 'homis';
   var assert = require('assert');
-  var DbManager = require("./dbmodule").DbManager;
+  var DbManager = require("../util/dbutil").DbManager;
   var dbManager = new DbManager(databaseName);
 
   /*Public Methods*/
