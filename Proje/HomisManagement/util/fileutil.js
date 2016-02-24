@@ -205,7 +205,7 @@ var FileManager = function()
       case "bmp":
       case "jpeg":
       case "tif":
-        return "picture"
+        return "image"
         break;
       default:
         return "unknown";

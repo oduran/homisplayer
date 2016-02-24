@@ -88,3 +88,15 @@ $.ajax({
   error: function(error){debugger;}
 });
 
+/* Save Media Resource */
+    var fd = new FormData();    
+    var count=0;
+    fd.append( 'file', file,filename );
+    var xhr = new XMLHttpRequest();
+    xhr.upload.addEventListener("progress", updateProgress);
+    xhr.addEventListener("load", transferComplete);
+    xhr.addEventListener("error", transferFailed);
+    xhr.addEventListener("abort", transferCanceled);
+    xhr.open('POST', '/service/savemediaresource', true);
+    xhr.send(fd);
+
