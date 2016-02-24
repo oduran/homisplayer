@@ -217,8 +217,9 @@ var WallManager = function () {
           id: workspaceObj.walls[i].id,
           type: workspaceObj.walls[i].type,
           showTime: workspaceObj.walls[i].showTime,
+          screens: workspaceObj.walls[i].screens,
+
           }
-          
           walls.push(wall);
           createDiv(wall);
           drawVisualization();
@@ -448,8 +449,22 @@ var WallManager = function () {
     document.getElementById('workspaceForm').innerHTML+=workspaceDiv;
     for(var i = 0; i<numberOfScreens;i++)
     {
-      var playerScreenDiv = "<div id='"+wall.id+"_screen"+i+"' class='wall_screen' style='width:"+$("#screenWidth").val()+"px;height:"+$("#screenHeight").val()+"px;'></div>";
-      
+
+      if(wall.screens)
+      {
+        if(wall.screens[i])
+        {
+          var playerScreenDiv = "<div id='"+wall.id+"_screen"+i+"'  class='wall_screen' style='width:"+$("#screenWidth").val()+"px;height:"+$("#screenHeight").val()+"px; background-image:url("+wall.screens[i].thumbnail+");background-repeat:no-repeat;background-size:cover;'></div>";
+        }
+        else
+        {
+          var playerScreenDiv = "<div id='"+wall.id+"_screen"+i+"' class='wall_screen' style='width:"+$("#screenWidth").val()+"px;height:"+$("#screenHeight").val()+"px;'></div>";
+        }
+      }
+      else
+      {
+        var playerScreenDiv = "<div id='"+wall.id+"_screen"+i+"' class='wall_screen' style='width:"+$("#screenWidth").val()+"px;height:"+$("#screenHeight").val()+"px;'></div>";
+      }
       document.getElementById(wall.id).innerHTML+=playerScreenDiv ;
     }
     document.getElementById(wall.id).innerHTML+="<br><br>";
@@ -568,7 +583,7 @@ var WallManager = function () {
         });
         $('#screenConfigModal').modal('show');
         $("#wallScreenId").val(e.target.id);
-        getAllTemplatesImages();
+        getAllTemplatesImages(e.target.id);
       }    
     });
   }
@@ -590,7 +605,7 @@ var WallManager = function () {
            var thumbnailWidth = parseInt(canvas.width/4);
            var thumbnailHeight = parseInt(canvas.height/4);
            var thumbnail = imageToThumbnail(base64Pic,thumbnailWidth,thumbnailHeight);
-
+     
           $("#"+wallScreenId).css("background-image","url("+thumbnail+")");
           var wallIndex = getWallIndex(wallScreenId);
           var screen = {
@@ -598,13 +613,24 @@ var WallManager = function () {
             thumbnail : thumbnail,
             html : iframeHtml
           }
-          
-          if(!walls[wallIndex-1].screens)
+          var screenIndex = -1;
+          if(!walls[wallIndex].screens)
           {
-            walls[wallIndex-1].screens =[];
+            walls[wallIndex].screens =[];
+          }
+          else
+          {
+            screenIndex = findScreenInWall(walls[wallIndex].screens,screen);
+          }
+          if(screenIndex===-1)
+          {
+            walls[wallIndex].screens.push(screen);  
+          }
+          else
+          {
+            walls[wallIndex].screens[screenIndex] = screen;
           }
           
-          walls[wallIndex-1].screens.push(screen);
           debugger;
           $('#screenConfigModal').modal('hide');
            
@@ -613,11 +639,23 @@ var WallManager = function () {
     });
   }
   
+  var findScreenInWall = function (screens,screen)
+  {
+    for (var i=0;i<screens.length;i++)
+    {
+      if(screens[i].id===screen.id)
+      {
+        return i;
+      }
+    }
+    
+    return -1;
+  }
   var getWallIndex = function (wallScreenId)  
   {
     var wallIndex = wallScreenId.split("_");
     var index = wallIndex[0].substr(wallIndex[0].length - 1);
-    return index;
+    return index-1;
     
   }
   
@@ -652,7 +690,6 @@ var WallManager = function () {
     canvas.width = img.width * ratio;
     canvas.height = img.height * ratio;
     ctx.drawImage(canvasCopy, 0, 0, canvasCopy.width, canvasCopy.height, 0, 0, canvas.width, canvas.height);
-
     return canvas.toDataURL();
   }
   
@@ -665,7 +702,7 @@ var WallManager = function () {
   }
   
   //Şablon Dialogundaki Şablonlar Kısmındaki resimleri getirmeye yarar ve tıklandığında o sayfanın theme ini getirir.
-  var getAllTemplatesImages = function () 
+  var getAllTemplatesImages = function (id) 
   {
     $('#templatesDiv').empty();
     for(var i = 1 ; i<5; i++)
@@ -673,7 +710,7 @@ var WallManager = function () {
       var img = " <label for='"+url+"/media/template"+i+".jpg'><input id='"+url+"/media/template"+i+".jpg' type='radio' name='type' value='theme"+i+".html'/><img src='"+url+"/media/template"+i+".jpg' class='screeniframe' style='margin-top:10px;width:100%'/></label>";
       $('#templatesDiv').append(img);
     }
-    
+
     $('#templatesDiv input').on('change', function() {
        var templateUrl = $('input[name=type]:checked', '#templatesDiv').val();
        $("#templateUrl").css("width",$("#screenWidth").val()+"px");
