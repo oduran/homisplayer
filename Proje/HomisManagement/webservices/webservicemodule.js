@@ -284,9 +284,9 @@ var WebServiceManager = function(router)
       {
         for(var i = 0; i< users.length; i++)
         {
-            if(users[i].pass)
+            if(users[i].password)
             {
-              users[i].pass = "";
+              users[i].password = "";
             }
             if(users[i].accessToken)
             {
@@ -440,9 +440,15 @@ var WebServiceManager = function(router)
     var accessToken = req.cookies.accessToken;
     req.pipe(req.busboy);
     req.busboy.on('file', function (fieldname, file, filename) {
+      dbManager.getUserByAccessToken(accessToken, 
+      function(user)
+      {
+        var userId = user._id;
+        var directoryToSave = __dirname + "/mediaresources/" + userId + "/";
         console.log("Uploading: " + filename);
-        //Path where image will be uploaded
-        fstream = fs.createWriteStream(__dirname + '/' + filename);
+        //Path where media will be uploaded
+        fileManager.ensureDirectoryExists(directoryToSave,function(){});
+        fstream = fs.createWriteStream(directoryToSave + filename);
         file.pipe(fstream);
         file.on('data', function(data) {
           console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
@@ -451,6 +457,7 @@ var WebServiceManager = function(router)
             console.log("Upload Finished of " + filename);              
             res.redirect('back');           //where to go next
         });
+      });
     });
   };
   

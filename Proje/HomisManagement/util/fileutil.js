@@ -15,19 +15,22 @@ var FileManager = function()
 
   /*
    Creates directory.
+   path: directory to be created.
+   mask: rights, chmod like mask
+   callback: function to be executed if error happens.
   */
-  this.ensureDirectoryExists = function(path, mask, cb) 
+  this.ensureDirectoryExists = function(path, mask, callback) 
   {
       if (typeof mask == 'function') { // allow the `mask` parameter to be optional
-          cb = mask;
+          callback = mask;
           mask = 7777;
       }
       
       fs.mkdir(path, mask, function(err) {
           if (err) {
-              if (err.code == 'EEXIST') cb(null); // ignore the error if the folder already exists
-              else cb(err); // something else went wrong
-          } else cb(null); // successfully created folder
+              if (err.code == 'EEXIST') callback(null); // ignore the error if the folder already exists
+              else callback(err); // something else went wrong
+          } else callback(null); // successfully created folder
       });
   }
 
