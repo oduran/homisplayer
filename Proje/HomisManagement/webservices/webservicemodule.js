@@ -461,7 +461,7 @@ var WebServiceManager = function(router)
           }
           
           var mediaResource = fileManager.getFileObject(filename);
-          mediaResource.url = "/mediaresources/" + userId + "/" + filename;
+          mediaResource.url = "mediaresources/" + userId + "/" + filename;
           user.mediaResources.push(mediaResource)
           dbManager.saveUser(user,
           function()
