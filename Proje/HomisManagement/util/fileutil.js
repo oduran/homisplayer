@@ -178,6 +178,40 @@ var FileManager = function()
          
     return resultFiles;
   }
+  
+  // Creates json object for media files. Includes extension, filename, media type
+  this.getFileObject = function(filename)
+  {
+    var extension = filename.split('.').pop();
+    var fileType = this.getFileType(extension);
+    var fileObject = {fileName: filename, fileType: fileType, extension: extension};
+    return fileObject;
+  }
+  
+  // Returns file type. Right now only video and picture types can be recognized.
+  this.getFileType = function(extension)
+  {
+    var lowerCaseExtension = extension.toString().toLowerCase();
+    switch(lowerCaseExtension)
+    {
+      case "avi":
+      case "webm":
+      case "mp4":
+      case "ogg":
+        return "video"
+        break;
+      case "jpg":
+      case "png":
+      case "bmp":
+      case "jpeg":
+      case "tif":
+        return "picture"
+        break;
+      default:
+        return "unknown";
+    }
+  }
+  
 }
 
 module.exports = {

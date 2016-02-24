@@ -453,9 +453,21 @@ var WebServiceManager = function(router)
         file.on('data', function(data) {
           console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
         });
-        fstream.on('close', function () {    
-            console.log("Upload Finished of " + filename);              
+        fstream.on('close', function () {   
+          console.log("Upload Finished of " + filename);
+          if(!user.mediaResources)
+          {
+            user.mediaResources = [];
+          }
+          
+          var mediaResource = fileManager.getFileObject(filename);
+          mediaResource.url = "/mediaresources/" + userId + "/" + filename;
+          user.mediaResources.push(mediaResource)
+          dbManager.saveUser(user,
+          function()
+          {
             res.redirect('back');           //where to go next
+          });            
         });
       });
     });
