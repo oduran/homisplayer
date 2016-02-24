@@ -567,7 +567,7 @@ var WallManager = function () {
           keyboard: false 
         });
         $('#screenConfigModal').modal('show');
-        $("#wallScreenId").val(e.id);
+        $("#wallScreenId").val(e.target.id);
         getAllTemplatesImages();
       }    
     });
@@ -577,17 +577,21 @@ var WallManager = function () {
   var addSaveWallScreen = function ()
   {
     $("#saveWallScreen").click(function()
-    {  
-      $('#screenConfigModal').modal('hide');
-      var templateIframe = document.getElementById('templateUrl').contentWindow.document.getElementsByTagName("html")[0].outerHTML;
-      
-      var ifrm = document.createElement("IFRAME");
-      ifrm.style.width = 1920+"px";
-      ifrm.style.height = 1080+"px";
-      ifrm.srcdoc = templateIframe;
+    {
       var wallScreenId = $("#wallScreenId").val();
       $("#"+wallScreenId).empty();
-      $("#"+wallScreenId).append(ifrm);
+      var iframe = document.getElementById('templateUrl').contentWindow.document.getElementsByTagName("html");
+      var iframeHtml = document.getElementById('templateUrl').contentWindow.document.getElementsByTagName("html").outerHTML;
+      html2canvas(iframe, {
+        onrendered: function(canvas) {
+            // canvas is the final rendered <canvas> element
+           
+         
+          $("#"+wallScreenId).css("background-image","url("+canvas.toDataURL('image/png')+")");
+          $('#screenConfigModal').modal('hide');
+           
+        }
+      });
     });
   }
   
@@ -611,9 +615,12 @@ var WallManager = function () {
     
     $('#templatesDiv input').on('change', function() {
        var templateUrl = $('input[name=type]:checked', '#templatesDiv').val();
-       var numb = templateUrl.match(/\d/g);
-       numb = numb.join("");
-       $("#templateUrl").attr("src",url+"themes/theme"+numb+"/public/"+templateUrl)
+       $("#templateUrl").css("width",$("#screenWidth").val()+"px");
+       $("#templateUrl").css("height",$("#screenHeight").val()+"px");
+       $("#templateUrl").css("transform-origin","0 0");
+       $("#templateUrl").css("-webkit-transform","scale("+$("#screenConfigDiv").width()/$("#screenWidth").val()+")");
+       $("#templateUrl").attr("class","")
+       $("#templateUrl").attr("src",url+"themes/"+templateUrl)
        
     });
   }

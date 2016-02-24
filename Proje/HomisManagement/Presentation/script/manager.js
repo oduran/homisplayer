@@ -38,23 +38,44 @@
         {
           return;
         }
-        var userWorkspace = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+response.user.name+"</a>";
-        $('#workspaceList').append(userWorkspace);
-        for(var i = 0 ;i<response.user.workspaces.length; i++)
-        {
-          var workspaceName = "<a class='list-group-item' href='#'>"
-          + response.user.workspaces[i].name+
-          "<button class='btn btn-info' id='"
-          +response.user.workspaces[i].workspaceId+
-          "' onclick=showWorkspaceByName('"+response.user.workspaces[i].workspaceId+"','"+response.user.name+"') style='float:right;margin-top:-7px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a>";
-          $('#workspaceList').append(workspaceName);  
-        }
+        getUserWorkspace(response.user);
+        getUserMediaResources(response.user);
+        
+        
       },
       error: function(error){ }
     });
   }
   
-  function getUserList()
+  var getUserWorkspace = function(user)
+  {debugger;
+    var userWorkspace = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+user.name+"</a>";
+    $('#workspaceList').append(userWorkspace);
+    for(var i = 0 ;i<user.workspaces.length; i++)
+    {
+      var workspaceName = "<a class='list-group-item' href='#'>"
+      + user.workspaces[i].name+
+      "<button class='btn btn-info' id='"
+      +user.workspaces[i].workspaceId+
+      "' onclick=showWorkspaceByName('"+user.workspaces[i].workspaceId+"','"+user.name+"') style='float:right;margin-top:-7px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a>";
+      $('#workspaceList').append(workspaceName);  
+    }
+  }
+  
+  var getUserMediaResources = function(user)
+  {
+    var userMediaResource = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+user.name+"</a>";
+    $('#userMediaResource').append(userMediaResource);
+    for(var i = 0 ;i<user.mediaResources.length; i++)
+    {
+      var mediaUrl = url + user.mediaResources[i].url;
+      var mediaResourceName = "<a class='list-group-item' target='_blank' href='"+mediaUrl+"'>"
+      + user.mediaResources[i].fileName+"</a>";
+      $('#userMediaResource').append(mediaResourceName);  
+    }
+  }
+  
+  var getUserList = function()
   {
     $('#userList').empty();
     var data = null;
@@ -104,24 +125,26 @@
   
   function getWorkspacesByUsername(name)
   {
-    if($("#"+name).hasClass('in'))
-    {
+    if($("#"+name+"Form").hasClass('in'))
+    { 
       $("#"+name).removeClass('in');
       $("#"+name).addClass('collapse');
       $("#workspaceList").empty();
+      $("#userMediaResource").empty();
       getWorkspaces(accessToken);
       return;
     }
+  
     $('.userForm').each(function() 
     {
       if($(this).hasClass('in'))
-        {
-          $(this).removeClass('in');
-          $(this).addClass('collapse');   
-        } 
+      {
+        $(this).removeClass('in');
+        $(this).addClass('collapse');   
+      }
     });
-    
     $("#workspaceList").empty();
+    $("#userMediaResource").empty();
 
     var data = {name:name};
     $.ajax({
@@ -134,15 +157,9 @@
       {
         return;
       }
-       var userWorkspace = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+response.user.name+"</a>";
-        $('#workspaceList').append(userWorkspace);
-      for(var i = 0 ;i<response.user.workspaces.length; i++)
-      {
-        var workspaceId = response.user.workspaces[i].workspaceId;
-        var userName = response.user.name;
-        var workspaceName = "<a class='list-group-item' href='#'>"+ response.user.workspaces[i].name+"<button class='btn btn-info' id='"+response.user.workspaces[i].workspaceId+"' onclick=showWorkspaceByName('"+workspaceId+"','"+userName+"') style='float:right;margin-top:-7px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a>";
-        $('#workspaceList').append(workspaceName);  
-      }
+      getUserWorkspace(response.user);
+      getUserMediaResources(response.user);
+
     },
     error: function(error){ }
     });
@@ -174,15 +191,14 @@
     {
       if($(this).attr('name')==="userType")
       {
-        userType = $(this).val();   
-        console.log(userType);
+        userType = $(this).val();
       }
     });
      
     var userToSave = users[index];
     userToSave.name = name;
     userToSave.surname = surname;
-    userToSave.type = userType;//TODO: kullanıcı seçimine bağlı
+    userToSave.type = userType;
     userToSave.email = email;
     var data = {user: userToSave };
     $.ajax({
@@ -315,7 +331,6 @@
     xhr.addEventListener("abort", transferCanceled);
     
     xhr.open('POST', '/service/savemediaresource', true);
-    //xhr.onreadystatechange = handler;
     xhr.send(fd);
    function updateProgress (oEvent) 
    {
@@ -325,11 +340,6 @@
         document.getElementById(filename).setAttribute("aria-valuenow",""+pc+""); 
         document.getElementById(filename).style.width=pc+"%"; 
         document.getElementById(filename).innerHTML=pc+"%"; 
-      }
-
-      else 
-      {
-        // Unable to compute progress information since the total size is unknown
       }
     }
 
@@ -352,6 +362,9 @@
        files=[];
        $("#uploadingFiles").empty();
        document.getElementById("uploadFile").value = "";
+       $("#workspaceList").empty();
+       $("#userMediaResource").empty();
+       getWorkspaces(accessToken);
        $("#fileUploadModal").modal("hide");
      }
      
@@ -364,7 +377,6 @@
 
     function transferCanceled(evt) 
     {
-      console.log("The transfer has been canceled by the user.");
     }
  };
 
@@ -410,7 +422,6 @@
   // Creates options string for user edit combobox. Chooses the one which was given as userType.
   var createOptionStrings = function(userType)
   {
-    console.log(userType)
     var optionsString = "";
     var userTypes = ["admin","user"];
     for(var i=0;i<userTypes.length;i++)
