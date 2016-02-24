@@ -580,8 +580,9 @@ var WallManager = function () {
     {
       var wallScreenId = $("#wallScreenId").val();
       $("#"+wallScreenId).empty();
-      var iframe = document.getElementById('templateUrl').contentWindow.document.getElementsByTagName("html");
-      var iframeHtml = document.getElementById('templateUrl').contentWindow.document.getElementsByTagName("html").outerHTML;
+      var iframe = document.getElementById('templateUrl').contentWindow.document.getElementsByTagName("html")[0];
+      var iframeHtml = iframe.outerHTML;
+
       html2canvas(iframe, {
         onrendered: function(canvas) {
           // canvas is the final rendered <canvas> element
@@ -591,11 +592,33 @@ var WallManager = function () {
            var thumbnail = imageToThumbnail(base64Pic,thumbnailWidth,thumbnailHeight);
 
           $("#"+wallScreenId).css("background-image","url("+thumbnail+")");
+          var wallIndex = getWallIndex(wallScreenId);
+          var screen = {
+            id : wallScreenId,
+            thumbnail : thumbnail,
+            html : iframeHtml
+          }
+          
+          if(!walls[wallIndex-1].screens)
+          {
+            walls[wallIndex-1].screens =[];
+          }
+          
+          walls[wallIndex-1].screens.push(screen);
+          debugger;
           $('#screenConfigModal').modal('hide');
            
         }
       });
     });
+  }
+  
+  var getWallIndex = function (wallScreenId)  
+  {
+    var wallIndex = wallScreenId.split("_");
+    var index = wallIndex[0].substr(wallIndex[0].length - 1);
+    return index;
+    
   }
   
   var imageToThumbnail = function(base64, maxWidth, maxHeight) {
