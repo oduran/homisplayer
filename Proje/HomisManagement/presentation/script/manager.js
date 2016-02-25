@@ -28,19 +28,17 @@
           window.location.href = url+"login.html";
           return;
         }
+
         var username = response.user.name;
         $("#username").text(username);
+
         if(response.user.type=="admin")
         {
          adminControl=true;
          $("#adminPanel").css("display","block");
          getUserList();
         }
-        
-        if(!response.user.workspaces)
-        {
-          return;
-        }
+
         getUserWorkspace(response.user);
         getUserMediaResources(response.user);
         
@@ -51,6 +49,11 @@
   
   var getUserWorkspace = function(user)
   {
+    if(!user.workspaces)
+    {
+      return;
+    }
+    
     var userWorkspace = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+user.name+"</a>";
     $('#workspaceList').append(userWorkspace);
     for(var i = 0 ;i<user.workspaces.length; i++)
@@ -65,8 +68,12 @@
   }
   
   var getUserMediaResources = function(user)
-  { debugger;
-
+  { 
+    if(!user.mediaResources)
+    {
+      return;
+    }
+    
     var userMediaResource = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+user.name+"</a>";
     $('#userMediaResource').append(userMediaResource);
     if(user.mediaResources)
@@ -163,11 +170,6 @@
     data: data,
     success: function(response)
     {
-      if(!response.user.workspaces)
-      {
-        return;
-      }
-      debugger;
       getUserWorkspace(response.user);
       getUserMediaResources(response.user);
 
@@ -345,9 +347,10 @@
     xhr.addEventListener("load", transferComplete);
     xhr.addEventListener("error", transferFailed);
     xhr.addEventListener("abort", transferCanceled);
-    uploadRequests.push(xhr);
     xhr.open('POST', '/service/savemediaresource', true);
     xhr.send(fd);
+    uploadRequests.push(xhr);
+
    function updateProgress (oEvent) 
    {
       if (oEvent.lengthComputable)

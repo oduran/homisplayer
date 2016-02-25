@@ -77,7 +77,7 @@ var Util =
 				options = {};
 			}
 			if (typeof message === 'undefined') {
-				message = 'Loading';
+				message = 'Yükleniyor';
 			}
 			var settings = $.extend({
 				dialogSize: 'm',
