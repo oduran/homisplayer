@@ -460,34 +460,35 @@ var WebServiceManager = function(router)
     var accessToken = req.cookies.accessToken;
     req.pipe(req.busboy);
     req.busboy.on('file', function (fieldname, file, filename) {
-      dbManager.getUserByAccessToken(accessToken, 
-      function(user)
-      {
-        var userId = user._id;
-        var directoryToSave = __dirname + "/mediaresources/" + userId + "/";
-        console.log("Uploading: " + filename);
-        //Path where media will be uploaded
-        fileManager.ensureDirectoryExists(directoryToSave,function(){});
-        fstream = fs.createWriteStream(directoryToSave + filename);
-        file.pipe(fstream);
-        file.on('data', function(data) {
-          console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
-        });
-        fstream.on('close', function () {   
-          console.log("Upload Finished of " + filename);
-          if(!user.mediaResources)
+
+      var userId = user._id;
+      var directoryToSave = __dirname + "/mediaresources/" + userId + "/";
+      console.log("Uploading: " + filename);
+      //Path where media will be uploaded
+      fileManager.ensureDirectoryExists(directoryToSave,function(){});
+      fstream = fs.createWriteStream(directoryToSave + filename);
+      file.pipe(fstream);
+      file.on('data', function(data) {
+        console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
+      });
+      fstream.on('close', function () {   
+        console.log("Upload Finished of " + filename);
+        var mediaResource = fileManager.getFileObject(filename);
+        mediaResource.url = "mediaresources/" + userId + "/" + filename;
+        dbManager.getUserByAccessToken(accessToken, 
+          function(user)
           {
-            user.mediaResources = [];
-          }
-          
-          var mediaResource = fileManager.getFileObject(filename);
-          mediaResource.url = "mediaresources/" + userId + "/" + filename;
-          user.mediaResources.push(mediaResource)
-          dbManager.saveUser(user,
-          function()
-          {
-            res.redirect('back');           //where to go next
-          });            
+            if(!user.mediaResources)
+            {
+              user.mediaResources = [];
+            }
+        
+            user.mediaResources.push(mediaResource)
+            dbManager.saveUser(user,
+            function()
+            {
+              res.redirect('back');           //where to go next
+            });    
         });
       });
     });
