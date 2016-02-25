@@ -19,8 +19,8 @@ var DeploymentManager = function()
     var usersToBeInserted = [
       {name:"superuser", password:"superuser", type:"admin"},
       {name:"admin", password:"admin", type:"admin"},
-      {name:"user", password:"user", type:"user"}
-      {name:"oguz", password:"qwe123", type:"admin"}
+      {name:"user", password:"user", type:"user"},
+      {name:"oguz", password:"qwe123", type:"admin"},
       {name:"onder", password:"qwe123", type:"admin"}
     ]
     clearCollections(collectionsToBeCleared, function()
