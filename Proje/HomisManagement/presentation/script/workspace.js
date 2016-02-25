@@ -183,6 +183,7 @@ var WallManager = function () {
   // Workspace halihazırda varsa ekrana servisten gelen workspace objesinde belirlenmiş olan duvarları ekler.
   var getWorkspace = function(userName, workspaceId)
   {
+    Util.loadingDialog.show();
     var targetUrl = serviceUrl+"getworkspace";
     var data = {  workspaceId: workspaceId};
     
@@ -224,6 +225,7 @@ var WallManager = function () {
           createDiv(wall);
           drawVisualization();
         }
+        Util.loadingDialog.hide();
       },
       error: function(error){
         BootstrapDialog.alert("hata:"+error.toString());
@@ -497,6 +499,7 @@ var WallManager = function () {
     {
 
       $("#workspaceNameDialog").modal("hide");
+      Util.loadingDialog.show();
       var name = $("#workspaceName").val();
       var newWorkspaceObj = 
       {
@@ -536,6 +539,7 @@ var WallManager = function () {
               }
             }
           }
+          Util.loadingDialog.hide();
           BootstrapDialog.alert("Çalışma Alanı Başarıyla Kaydedildi.");
         },
         error: function(error){
@@ -593,6 +597,7 @@ var WallManager = function () {
   {
     $("#saveWallScreen").click(function()
     {
+      Util.loadingDialog.show();
       var wallScreenId = $("#wallScreenId").val();
       $("#"+wallScreenId).empty();
       var iframe = document.getElementById('templateUrl').contentWindow.document.getElementsByTagName("html")[0];
@@ -602,8 +607,8 @@ var WallManager = function () {
         onrendered: function(canvas) {
           // canvas is the final rendered <canvas> element
            var base64Pic = canvas.toDataURL('image/png');
-           var thumbnailWidth = parseInt(canvas.width/8);
-           var thumbnailHeight = parseInt(canvas.height/8);
+           var thumbnailWidth = parseInt(canvas.width/4);
+           var thumbnailHeight = parseInt(canvas.height/4);
            var thumbnail = imageToThumbnail(base64Pic,thumbnailWidth,thumbnailHeight);
      
           $("#"+wallScreenId).css("background-image","url("+thumbnail+")");
@@ -631,7 +636,8 @@ var WallManager = function () {
             walls[wallIndex].screens[screenIndex] = screen;
           }
           
-          debugger;
+          Util.loadingDialog.hide();
+          $('#templateUrl').attr('src', '');
           $('#screenConfigModal').modal('hide');
            
         }
@@ -690,7 +696,7 @@ var WallManager = function () {
     canvas.width = img.width * ratio;
     canvas.height = img.height * ratio;
     ctx.drawImage(canvasCopy, 0, 0, canvasCopy.width, canvasCopy.height, 0, 0, canvas.width, canvas.height);
-    return canvas.toDataURL();
+    return canvas.toDataURL("image/jpeg", 0.5);
   }
   
   var addCloseWallScreen = function ()

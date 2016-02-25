@@ -3,8 +3,10 @@
   var users = [];
   var adminControl=false;
   var files = [];
+  var xhr = new XMLHttpRequest();
   var getWorkspaces = function (accessToken)
   {
+    Util.loadingDialog.show();
     if(!accessToken)
     {
       window.location.href = url+"login.html";
@@ -40,7 +42,7 @@
         }
         getUserWorkspace(response.user);
         getUserMediaResources(response.user);
-        
+        Util.loadingDialog.hide();
         
       },
       error: function(error){ }
@@ -66,12 +68,20 @@
   {
     var userMediaResource = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+user.name+"</a>";
     $('#userMediaResource').append(userMediaResource);
-    for(var i = 0 ;i<user.mediaResources.length; i++)
+ 
+    if(user.mediaResources)
     {
-      var mediaUrl = url + user.mediaResources[i].url;
-      var mediaResourceName = "<a class='list-group-item' target='_blank' href='"+mediaUrl+"'>"
-      + user.mediaResources[i].fileName+"</a>";
-      $('#userMediaResource').append(mediaResourceName);  
+      for(var i = 0 ;i<user.mediaResources.length; i++)
+      {
+        var mediaUrl = url + user.mediaResources[i].url;
+        var mediaResourceName = "<a class='list-group-item' target='_blank' href='"+mediaUrl+"'>"
+        + user.mediaResources[i].fileName+"</a>";
+        $('#userMediaResource').append(mediaResourceName);  
+      }
+    }
+    else
+    {
+      return;
     }
   }
   
@@ -167,7 +177,7 @@
   
   function editUserByName(userName, index)
   {
-   
+    Util.loadingDialog.show();
     var name="";
     var surname="";
     var email="";
@@ -205,7 +215,11 @@
       type: "POST",
       url: url+"service/saveuser",
       data: data,
-      success: function(response){alert(response.message)},
+      success: function(response)
+      { 
+        Util.loadingDialog.hide();
+        BootstrapDialog.alert(response.message);
+      },
       error: function(error){ }
     });
   }
@@ -298,7 +312,7 @@
         data: data,
         success: function(response)
         {
-          alert(response.message);
+          BootstrapDialog.alert(response.message);
           getUserList();
           $("#createUserModal").modal("hide");
         },
@@ -320,16 +334,15 @@
       });
     });
   }
-  var upload = function (file,filename) {
+  var upload = function (file,filename,cancelUpload) {
+   
     var fd = new FormData();    
     var count=0;
     fd.append( 'file', file,filename );
-    var xhr = new XMLHttpRequest();
     xhr.upload.addEventListener("progress", updateProgress);
     xhr.addEventListener("load", transferComplete);
     xhr.addEventListener("error", transferFailed);
     xhr.addEventListener("abort", transferCanceled);
-    
     xhr.open('POST', '/service/savemediaresource', true);
     xhr.send(fd);
    function updateProgress (oEvent) 
@@ -358,7 +371,7 @@
      
      if(files.length===0)
      {
-       alert("Dosya Yüklemesi Başarıyla Tamamlandı");
+       BootstrapDialog.alert("Dosya Yüklemesi Başarıyla Tamamlandı");
        files=[];
        $("#uploadingFiles").empty();
        document.getElementById("uploadFile").value = "";
@@ -386,7 +399,7 @@
     {
       if(files.length===0)
       {
-        alert("Dosya seçilmedi!!");
+        BootstrapDialog.alert("Dosya seçilmedi!!");
       }
       
       for(var i=0;i<files.length;i++)
@@ -432,8 +445,17 @@
     return optionsString;
   }
   
+  var addCancelUploadButtonOnClick = function () 
+  {
+    $("#cancelUpload").click(function()
+    {
+      xhr.abort();
+    })
+  }
+  
   $( document ).ready(function() 
   { 
+    addCancelUploadButtonOnClick();
     addCheckEmailisValid();
     addNewMediaResourceButton();
     addSelectFileMediaResources();
