@@ -284,19 +284,38 @@ var WebServiceManager = function(router)
       {
         for(var i = 0; i< users.length; i++)
         {
-            if(users[i].password)
-            {
-              users[i].password = "";
-            }
-            if(users[i].accessToken)
-            {
-              users[i].accessToken = "";
-            }
+          users[i] = summarizeUser(users[i]);
         }
         
         res.json(users); 
       });  
     });
+  }
+  
+  // For using with getusers service. Removes password, accessToken, workspaces, mediaresources properties from user object.
+  var summarizeUser = function(user)
+  {
+    if(user['password'])
+    {
+      delete user['password'];
+    }
+    
+    if(user['accessToken'])
+    {
+      delete user['accessToken'];
+    }
+    
+    if(user['workspaces'])
+    {
+      delete user['workspaces'];
+    }
+    
+    if(user['mediaResources'])
+    {
+      delete user['mediaResources'];
+    }
+    
+    return user;
   }
   
   // Brings user when access token is given.
@@ -394,6 +413,7 @@ var WebServiceManager = function(router)
           function()
           {
             res.json(returnObj);
+            return;
           }
         );
       }
