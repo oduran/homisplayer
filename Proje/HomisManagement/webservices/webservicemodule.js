@@ -13,6 +13,7 @@ var WebServiceManager = function(router)
   var dbManager = new dbModule.HomisDbManager("homis");
   var fileManager = new fileUtil.FileManager();
   var passManager = new passUtil.PassManager();
+  var mediaUploaders = [];
   
   
   /* Public Methods */
@@ -423,6 +424,7 @@ var WebServiceManager = function(router)
   // Gets a workspace with given access token of the user and workspace id.
   var getWorkspace = function (req, res, next)
   {
+    var mediaFileUploaders = [];
     var accessToken = req.cookies.accessToken;
     var workspaceId = req.body.workspaceId;
     dbManager.getUserByAccessToken(accessToken, 
@@ -458,37 +460,85 @@ var WebServiceManager = function(router)
   {
     var fstream;
     var accessToken = req.cookies.accessToken;
+    var totalNumberOfFiles = 0;
     req.pipe(req.busboy);
+    
+    req.busboy.on('field', function(key, value, keyTruncated, valueTruncated) {
+      if(key === "totalNumberOfFiles") 
+      {
+        totalNumberOfFiles = value;
+      }
+    });
+    
     req.busboy.on('file', function (fieldname, file, filename) {
-
-      var userId = user._id;
-      var directoryToSave = __dirname + "/mediaresources/" + userId + "/";
-      console.log("Uploading: " + filename);
-      //Path where media will be uploaded
-      fileManager.ensureDirectoryExists(directoryToSave,function(){});
-      fstream = fs.createWriteStream(directoryToSave + filename);
-      file.pipe(fstream);
-      file.on('data', function(data) {
-        console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
-      });
-      fstream.on('close', function () {   
-        console.log("Upload Finished of " + filename);
+      dbManager.getUserByAccessToken(accessToken, 
+      function(user)
+      {
+        var userFound = false;
+        var userId = user._id;
+        var directoryToSave = __dirname + "/mediaresources/" + userId + "/";
         var mediaResource = fileManager.getFileObject(filename);
         mediaResource.url = "mediaresources/" + userId + "/" + filename;
-        dbManager.getUserByAccessToken(accessToken, 
-          function(user)
+        fileManager.ensureDirectoryExists(directoryToSave,function(){});
+        for(var i = 0; i< mediaUploaders.length;i++)
+        {
+          if(user.name === mediaUploaders[i].name)
           {
-            if(!user.mediaResources)
-            {
-              user.mediaResources = [];
-            }
+            userFound = true;
+            mediaUploaders[i].mediaResources.push(mediaResource);
+          }
+        }
         
-            user.mediaResources.push(mediaResource)
-            dbManager.saveUser(user,
+        if(!userFound)
+        {
+          if(!user.mediaResources)
+          {
+            user.mediaResources = [];
+          }            
+          user.mediaResources.push(mediaResource);
+          user.totalNumberOfFiles = parseInt(totalNumberOfFiles);
+          user.completedFiles = 0;
+          console.log("Total number of "+ totalNumberOfFiles + "will be uploaded. First file this is.")
+          mediaUploaders.push(user);
+        }
+        
+        fstream = fs.createWriteStream(directoryToSave + filename);
+        file.pipe(fstream);
+        console.log("file uploading");
+        file.on('data', function(data) {
+          //console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
+        });
+        fstream.on('close', function () {
+          console.log("mediaUploadCompleted");
+          var mediaUploader = "";
+          for(var i = 0;i<mediaUploaders.length;i++)
+          {
+              if(mediaUploaders[i].name === user.name)
+              {
+                console.log("I've found the user!! " + i)
+                mediaUploaders[i].totalNumberOfFiles;
+                mediaUploaders[i].completedFiles++;
+                console.log(mediaUploaders[i].completedFiles+" / " + mediaUploaders[i].totalNumberOfFiles+" completed")
+                mediaUploader = mediaUploaders[i];
+              }
+          }
+          
+          if(mediaUploader.totalNumberOfFiles === mediaUploader.completedFiles)
+          {
+            console.log("All files finished, saving user to database");
+            delete mediaUploader["totalNumberOfFiles"];
+            delete mediaUploader["completedFiles"];
+            dbManager.saveUser(mediaUploader,
             function()
             {
+              console.log("file finished");
               res.redirect('back');           //where to go next
-            });    
+            });
+          }
+          else
+          {
+            res.redirect('back');           //where to go next
+          }
         });
       });
     });
