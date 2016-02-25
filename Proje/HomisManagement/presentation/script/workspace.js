@@ -463,7 +463,7 @@ var WallManager = function () {
     var screenName = wall.id.replace("wall","Ekran");
     var numberOfScreens=($("#pageWidth").val() /$("#screenWidth").val())*($("#pageHeight").val()/$("#screenHeight").val());
     
-    var workspaceDiv = "<br><div class='newScreen'><h2>"+screenName+"</h2><button type='button' class='btn btn-danger removeScreen'><span class='glyphicon glyphicon-trash'></span></button><button type='button' class='btn btn-default changeTime' data-toggle='modal' data-id='' href='#changeTimeModal'><span class='glyphicon glyphicon-time'></span></button><div id='"+wall.id+"' class='wall' style='width:100%;height:"+$("#pageHeight").val()+"px;zoom:13%;'></div>";
+    var workspaceDiv = "<br><div class='newScreen'><h2>"+screenName+"</h2><button type='button' class='btn btn-danger removeScreen'><span class='glyphicon glyphicon-trash'></span></button><button type='button' class='btn btn-default changeTime' data-toggle='modal' data-id='' href='#changeTimeModal'><span class='glyphicon glyphicon-time'></span></button><ul id='"+wall.id+"' class='list-inline wall' style='width:100%;height:"+$("#pageHeight").val()+"px;zoom:13%;'></ul>";
     document.getElementById('workspaceForm').innerHTML+=workspaceDiv;
     for(var i = 0; i<numberOfScreens;i++)
     {
@@ -472,17 +472,17 @@ var WallManager = function () {
       {
         if(wall.screens[i])
         {
-          var playerScreenDiv = "<div id='"+wall.id+"_screen"+i+"'  class='wall_screen' style='width:"+$("#screenWidth").val()+"px;height:"+$("#screenHeight").val()+"px; background-image:url("+wall.screens[i].thumbnail+");background-repeat:no-repeat;background-size:cover;'></div>";
+          var playerScreenDiv = "<li id='"+wall.id+"_screen"+i+"'  class='wall_screen' style='width:"+$("#screenWidth").val()+"px;height:"+$("#screenHeight").val()+"px; background-image:url("+wall.screens[i].thumbnail+");background-repeat:no-repeat;background-size:cover;'></li>";
         }
         else
         {
-          var playerScreenDiv = "<div id='"+wall.id+"_screen"+i+"' class='wall_screen' style='width:"+$("#screenWidth").val()+"px;height:"+$("#screenHeight").val()+"px;'></div>";
+          var playerScreenDiv = "<li id='"+wall.id+"_screen"+i+"' class='wall_screen' style='width:"+$("#screenWidth").val()+"px;height:"+$("#screenHeight").val()+"px;'></li>";
         }
       }
       
       else
       {
-        var playerScreenDiv = "<div id='"+wall.id+"_screen"+i+"' class='wall_screen' style='width:"+$("#screenWidth").val()+"px;height:"+$("#screenHeight").val()+"px;'></div>";
+        var playerScreenDiv = "<li id='"+wall.id+"_screen"+i+"' class='wall_screen' style='width:"+$("#screenWidth").val()+"px;height:"+$("#screenHeight").val()+"px;'></li>";
       }
       
       document.getElementById(wall.id).innerHTML+=playerScreenDiv ;

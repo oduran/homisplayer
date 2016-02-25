@@ -342,6 +342,7 @@
     var fd = new FormData();    
     var count=0;
     fd.append( 'file', file,filename );
+    fd.append( 'totalNumberOfFiles', files.length );
     var xhr = new XMLHttpRequest();
     xhr.upload.addEventListener("progress", updateProgress);
     xhr.addEventListener("load", transferComplete);
@@ -421,6 +422,9 @@
     $("#addNewMediaResources").click(function()
     {
       $("#fileUploadModal").modal("show");
+      files=[];
+      $("#uploadingFiles").empty();
+      $("#uploadFile").val("");
     });
   }   
    
