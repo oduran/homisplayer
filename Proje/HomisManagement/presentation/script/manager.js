@@ -3,7 +3,7 @@
   var users = [];
   var adminControl=false;
   var files = [];
-  var xhr = new XMLHttpRequest();
+  var uploadRequests =[];
   var getWorkspaces = function (accessToken)
   {
     Util.loadingDialog.show();
@@ -50,7 +50,7 @@
   }
   
   var getUserWorkspace = function(user)
-  {debugger;
+  {
     var userWorkspace = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+user.name+"</a>";
     $('#workspaceList').append(userWorkspace);
     for(var i = 0 ;i<user.workspaces.length; i++)
@@ -65,10 +65,10 @@
   }
   
   var getUserMediaResources = function(user)
-  {
+  { debugger;
+
     var userMediaResource = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+user.name+"</a>";
     $('#userMediaResource').append(userMediaResource);
- 
     if(user.mediaResources)
     {
       for(var i = 0 ;i<user.mediaResources.length; i++)
@@ -167,6 +167,7 @@
       {
         return;
       }
+      debugger;
       getUserWorkspace(response.user);
       getUserMediaResources(response.user);
 
@@ -334,15 +335,17 @@
       });
     });
   }
-  var upload = function (file,filename,cancelUpload) {
+  var upload = function (file,filename) {
    
     var fd = new FormData();    
     var count=0;
     fd.append( 'file', file,filename );
+    var xhr = new XMLHttpRequest();
     xhr.upload.addEventListener("progress", updateProgress);
     xhr.addEventListener("load", transferComplete);
     xhr.addEventListener("error", transferFailed);
     xhr.addEventListener("abort", transferCanceled);
+    uploadRequests.push(xhr);
     xhr.open('POST', '/service/savemediaresource', true);
     xhr.send(fd);
    function updateProgress (oEvent) 
@@ -358,7 +361,7 @@
 
     function transferComplete(evt) 
     {
-
+     
      var file = document.getElementById(filename);
      file.setAttribute("class","progress-bar-success"); 
      for(var i=0;i<files.length;i++)
@@ -379,6 +382,7 @@
        $("#userMediaResource").empty();
        getWorkspaces(accessToken);
        $("#fileUploadModal").modal("hide");
+       uploadRequests=[];
      }
      
     }
@@ -449,8 +453,12 @@
   {
     $("#cancelUpload").click(function()
     {
-      xhr.abort();
+      for(var i=0;i<uploadRequests.length;i++)
+      {
+        uploadRequests[i].abort();
+      }
       $("#fileUploadModal").modal("hide");
+      uploadRequests=[];
     });
   }
   
