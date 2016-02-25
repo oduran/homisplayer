@@ -20,6 +20,7 @@
       data: data,
       success: function(response)
       {  
+        Util.loadingDialog.hide();
         
         if(response.message)
         {
@@ -42,7 +43,6 @@
         }
         getUserWorkspace(response.user);
         getUserMediaResources(response.user);
-        Util.loadingDialog.hide();
         
       },
       error: function(error){ }
@@ -450,7 +450,8 @@
     $("#cancelUpload").click(function()
     {
       xhr.abort();
-    })
+      $("#fileUploadModal").modal("hide");
+    });
   }
   
   $( document ).ready(function() 

@@ -198,10 +198,13 @@ var WallManager = function () {
       url:  targetUrl,
       data: data,
       success: function(response){
+        Util.loadingDialog.hide();
+        
         if(response.message)
         {
           return;
         }
+        
         workspaceObj = userName? findUserWorkspace(workspaceId,response.user.workspaces) : response;
         user = userName? response.user : user;
         $( "#pageHeight" ).val(workspaceObj.height);
@@ -221,11 +224,11 @@ var WallManager = function () {
           screens: workspaceObj.walls[i].screens,
 
           }
+          
           walls.push(wall);
           createDiv(wall);
           drawVisualization();
         }
-        Util.loadingDialog.hide();
       },
       error: function(error){
         BootstrapDialog.alert("hata:"+error.toString());
@@ -233,7 +236,7 @@ var WallManager = function () {
     });
   }
   
-  function getNewWallUpdateTimeSelectedTab ()
+  var getNewWallUpdateTimeSelectedTab = function  ()
   {
     var newWallTime = 0;
     var $tab = $('#changeTimeTabContent');
@@ -244,15 +247,19 @@ var WallManager = function () {
       {
         return false;
       }
+      
       var startTime =$("#changeDeterminedTimepicker1").find("input").val();
       var endTime = $("#changeDeterminedTimepicker2").find("input").val();
       var checkUsedTimeFlag = checkUsedTime(startTime,endTime);
+      
       if(checkUsedTimeFlag==false)
       {
         return false;
       }
+      
       newWallTime = startTime+"-"+endTime;
     }
+    
     else
     {
       newWallTime = $active.find('input').val();
@@ -268,19 +275,22 @@ var WallManager = function () {
       for (var i in walls) 
       {
        if (walls[i].id == $("#changeTimeScreenName").val()) 
-       {  walls[i].showTime ="-";
-          var newMinutes = getNewWallUpdateTimeSelectedTab();
-          
-          if(newMinutes==false)
-          {
-            BootstrapDialog.alert("Girdiğiniz zaman aralığı kullanılmaktadır.")
-            return false;
-          }
-          walls[i].showTime =newMinutes;
-          drawVisualization();
-          break; //Stop this loop, we found it!
+       {  
+        walls[i].showTime ="-";
+        var newMinutes = getNewWallUpdateTimeSelectedTab();
+        
+        if(newMinutes==false)
+        {
+          BootstrapDialog.alert("Girdiğiniz zaman aralığı kullanılmaktadır.")
+          return false;
+        }
+        
+        walls[i].showTime =newMinutes;
+        drawVisualization();
+        break; //Stop this loop, we found it!
        }
       }
+      
       $('#changeTimeModal').modal('hide');
     });
   }
@@ -292,7 +302,7 @@ var WallManager = function () {
     {
       var wallId = $(this).parent().find('h2').html();
       var screenName = wallId.replace("Ekran","wall");
-       $("#changeTimeScreenName").val(""+screenName);
+      $("#changeTimeScreenName").val(""+screenName);
     });
     
   }
@@ -301,18 +311,19 @@ var WallManager = function () {
   {
    $(document).on('click', '.removeScreen', function()
     {  
-        var wallId = $(this).parent().find('h2').html();
-        var removeItem = wallId.replace("Ekran","wall");
-        var screenName = wallId.replace(/[0-9]/g, '');
-        for(var i=0;i<walls.length;i++)
+      var wallId = $(this).parent().find('h2').html();
+      var removeItem = wallId.replace("Ekran","wall");
+      var screenName = wallId.replace(/[0-9]/g, '');
+      for(var i=0;i<walls.length;i++)
+      {
+        if(walls[i].id == removeItem)
         {
-            if(walls[i].id == removeItem){
-                walls.splice(i,1);
-            }
+          walls.splice(i,1);
         }
-        
-        $(this).parent().remove();
-        drawVisualization();
+      }
+      
+      $(this).parent().remove();
+      drawVisualization();
     });
   }
   // Başlangıçta çalışma alanı, ekran büyüklüklerinin girilebileceği modal penceresinin açılmasını sağlar ve sürükle bırak objelerini set eder.
@@ -346,6 +357,7 @@ var WallManager = function () {
 
     var workspaceId=Util.getParameterByName('workspaceId');
     var userName = Util.getParameterByName('userName');
+    
     if(workspaceId)
     {
       getWorkspace(userName, workspaceId);
@@ -355,11 +367,12 @@ var WallManager = function () {
     {
       getUser(userName,function(userFromService)
       {
-          if(userFromService)
-          {
-            user = userFromService;
-          }
-          showNewWorkspaceForm();
+        if(userFromService)
+        {
+          user = userFromService;
+        }
+        
+        showNewWorkspaceForm();
       });
     }
   }
@@ -389,7 +402,9 @@ var WallManager = function () {
       type: "POST",
       url:  targetUrl,
       data: data,
-      success: function(response){
+      success: function(response)
+      {
+        
         if(response.message)
         {
           BootstrapDialog.alert(response.message);
@@ -434,6 +449,7 @@ var WallManager = function () {
 		{
 			createDividedScreen(wall);
 		}
+    
 		else
     {
       createMediaScreen(wall);
@@ -463,12 +479,15 @@ var WallManager = function () {
           var playerScreenDiv = "<div id='"+wall.id+"_screen"+i+"' class='wall_screen' style='width:"+$("#screenWidth").val()+"px;height:"+$("#screenHeight").val()+"px;'></div>";
         }
       }
+      
       else
       {
         var playerScreenDiv = "<div id='"+wall.id+"_screen"+i+"' class='wall_screen' style='width:"+$("#screenWidth").val()+"px;height:"+$("#screenHeight").val()+"px;'></div>";
       }
+      
       document.getElementById(wall.id).innerHTML+=playerScreenDiv ;
     }
+    
     document.getElementById(wall.id).innerHTML+="<br><br>";
   }
   
@@ -487,10 +506,12 @@ var WallManager = function () {
     $(".saveButton").click(function()
     {
       $("#workspaceNameDialog").modal("show");
+    
       if(workspaceObj.name)
       {
         $("#workspaceName").val(workspaceObj.name);
       }
+      
     });
   }
   var addSaveWorkSpaceWithName = function ()
@@ -510,9 +531,11 @@ var WallManager = function () {
         height:$("#pageHeight").val(),
         walls:walls
       }
+      
       var targetUrl = serviceUrl+"saveworkspace";
       workspaceObj=Util.mergeObjects(workspaceObj,newWorkspaceObj);
       var data = { workspace: workspaceObj};
+      
       if(user)
       {
         targetUrl = serviceUrl+"saveuser";
@@ -525,9 +548,11 @@ var WallManager = function () {
         url: targetUrl,
         data: data,
         success: function(response){
+          
           if(response.workspaceId)
           {
             workspaceObj.workspaceId = response.workspaceId;
+      
             if(user)
             {
               for(var i=0;i<user.workspaces.length;i++)
@@ -539,6 +564,7 @@ var WallManager = function () {
               }
             }
           }
+          
           Util.loadingDialog.hide();
           BootstrapDialog.alert("Çalışma Alanı Başarıyla Kaydedildi.");
         },
@@ -546,10 +572,8 @@ var WallManager = function () {
           BootstrapDialog.alert("Hata: "+error.toString());
         }
       });
-      console.log(workspaceObj);
     });
-      
-    }
+  }
  
   // Workspace div in içinde yer alan "Yeni duvar ekle" butonuna bastığımızda çalışan fonksiyon.
   var addNewWallOnClick = function()
@@ -567,6 +591,7 @@ var WallManager = function () {
     $('#workspaceForm').on('click', '[class^=wall_screen]', function(e)
     {
       var id = this.id;
+  
       if(e.target.className == "wall_screen media")
       {
         $(this).find('input[type="file"]').click();
@@ -578,6 +603,7 @@ var WallManager = function () {
         });
         
       }
+      
       if(e.target.className == "wall_screen")
       {
         $('#screenConfigModal').modal(
@@ -588,7 +614,8 @@ var WallManager = function () {
         $('#screenConfigModal').modal('show');
         $("#wallScreenId").val(e.target.id);
         getAllTemplatesImages(e.target.id);
-      }    
+      }
+      
     });
   }
   
@@ -604,12 +631,13 @@ var WallManager = function () {
       var iframeHtml = iframe.outerHTML;
 
       html2canvas(iframe, {
-        onrendered: function(canvas) {
+        onrendered: function(canvas) 
+        {
           // canvas is the final rendered <canvas> element
-           var base64Pic = canvas.toDataURL('image/png');
-           var thumbnailWidth = parseInt(canvas.width/4);
-           var thumbnailHeight = parseInt(canvas.height/4);
-           var thumbnail = imageToThumbnail(base64Pic,thumbnailWidth,thumbnailHeight);
+          var base64Pic = canvas.toDataURL('image/png');
+          var thumbnailWidth = parseInt(canvas.width/4);
+          var thumbnailHeight = parseInt(canvas.height/4);
+          var thumbnail = imageToThumbnail(base64Pic,thumbnailWidth,thumbnailHeight);
      
           $("#"+wallScreenId).css("background-image","url("+thumbnail+")");
           var wallIndex = getWallIndex(wallScreenId);
@@ -619,18 +647,22 @@ var WallManager = function () {
             html : iframeHtml
           }
           var screenIndex = -1;
+        
           if(!walls[wallIndex].screens)
           {
             walls[wallIndex].screens =[];
           }
+          
           else
           {
             screenIndex = findScreenInWall(walls[wallIndex].screens,screen);
           }
+          
           if(screenIndex===-1)
           {
             walls[wallIndex].screens.push(screen);  
           }
+          
           else
           {
             walls[wallIndex].screens[screenIndex] = screen;
@@ -657,12 +689,12 @@ var WallManager = function () {
     
     return -1;
   }
+  
   var getWallIndex = function (wallScreenId)  
   {
     var wallIndex = wallScreenId.split("_");
     var index = wallIndex[0].substr(wallIndex[0].length - 1);
     return index-1;
-    
   }
   
   var imageToThumbnail = function(base64, maxWidth, maxHeight) {
@@ -717,23 +749,21 @@ var WallManager = function () {
       $('#templatesDiv').append(img);
     }
 
-    $('#templatesDiv input').on('change', function() {
+    $('#templatesDiv input').on('change', function() 
+    {
        var templateUrl = $('input[name=type]:checked', '#templatesDiv').val();
        $("#templateUrl").css("width",$("#screenWidth").val()+"px");
        $("#templateUrl").css("height",$("#screenHeight").val()+"px");
        $("#templateUrl").css("transform-origin","0 0");
        $("#templateUrl").css("-webkit-transform","scale("+$("#screenConfigDiv").width()/$("#screenWidth").val()+")");
        $("#templateUrl").attr("class","")
-       $("#templateUrl").attr("src",url+"themes/"+templateUrl)
-       
+       $("#templateUrl").attr("src",url+"themes/"+templateUrl);
     });
   }
   
- 
   // Yeni Duvar Ekle butonuna bastığımızda çıkan ilk dialogdaki ekran tiplerinin bulunduğu dropdownlist.
   var addNewWallDropdownOnClick = function()
   {
-    
     $('#screentypedropdown a').click(function(e) {
       $('#screentypedropdown a').removeClass('selected');
       $(this).addClass('selected');
@@ -746,39 +776,47 @@ var WallManager = function () {
   }
   
   //Yeni Duvar Ekledeki seçilen zamanın kontrollerini yapar.Örnegin yeni duvar için seçilen zaman aralığı çalışma alanının zaman aralığından büyük veya kullanılan bir zaman aralığı olamaz. 
-  function getNewWallTimeSelectedTab ()
+  var getNewWallTimeSelectedTab = function  ()
   {
     var newWallTime = 0;
     var $tab = $('#tabContent');
     var $active = $tab.find('.tab-pane.active');
+
     if($active[0].id==="determinedTime")
     {
+
       if($("#newwalldatetimepicker1").find("input").val()>=$("#newwalldatetimepicker2").find("input").val())
       {
         return false;
       }
+      
       if($("#newwalldatetimepicker1").find("input").val()>=$("#datetimepicker2").find("input").val()||$("#newwalldatetimepicker2").find("input").val()>$("#datetimepicker2").find("input").val())
       {
         return false;
       }
+      
       var startTime =$("#newwalldatetimepicker1").find("input").val();
       var endTime = $("#newwalldatetimepicker2").find("input").val();
       var checkUsedTimeFlag = checkUsedTime(startTime,endTime);
+      
       if(checkUsedTimeFlag==false)
       {
         return false;
       }
+      
       newWallTime = startTime+"-"+endTime;
     }
+    
     else
     {
       newWallTime = $active.find('input').val();
     }
+    
     return newWallTime;
   }
   
   //Seçilen zaman aralığının Timelineda kullanılıp kullanılmadığını kontrol eder.
-  function checkUsedTime(startTime,endTime)
+  var checkUsedTime = function (startTime,endTime)
   {
     for(var i in walls)
     {
@@ -787,17 +825,19 @@ var WallManager = function () {
         var wallShowTime = walls[i].showTime.split("-");
         var splitShowTime = splitStartAndEndTime(wallShowTime[0],wallShowTime[1])
         var splitNewWallShowTime = splitStartAndEndTime(startTime,endTime);
+    
         if((splitShowTime.startTime<=splitNewWallShowTime.startTime && splitNewWallShowTime.startTime<splitShowTime.endTime)||(splitShowTime.startTime<splitNewWallShowTime.endTime && splitNewWallShowTime.endTime<=splitShowTime.endTime)||(splitShowTime.startTime==splitNewWallShowTime.startTime && splitShowTime.endTime==splitNewWallShowTime.endTime))
         {
           return false;
         }
+        
       }
     }
     return true;
   }
   
   //Gönderilen başlangıç ve bitiş zamanını split eder
-  function splitStartAndEndTime(startTime,endTime)
+  var splitStartAndEndTime = function (startTime,endTime)
   {
     var splitStartTime = startTime.split(":");
     var splitEndTime = endTime.split(":");
@@ -807,40 +847,45 @@ var WallManager = function () {
   // Yeni Duvar Ekle butonunda çıkan dialogdaki en son next butonu.
   var applyNewWall = function()
   {   
-      var screenType = $(".selected").attr('id') ;
-      var newWallTime = getNewWallTimeSelectedTab();
-      if(newWallTime===false)
-      {
-        BootstrapDialog.alert('Başlangıç zamanı bitiş zamanından büyük ve eşit olamaz');
-         return;
-      }
-      if(newWallTime.length===0||newWallTime==="-")
-      {
-        BootstrapDialog.alert("Lütfen Ekranın Zamanını Giriniz");
-        return;
-      }
-      var wallId = "wall"+(walls.length+1);
-      if(walls.length>1)
-      {
-        var wallNumber = walls[walls.length-1].id.replace ( /[^\d.]/g, '' );
-        wallId= "wall"+(parseInt(wallNumber)+1);
-      }
-      var wall = {
-        id: wallId,
-        type: screenType,
-        showTime: newWallTime,
-      }
-      
-      walls.push(wall);
-      createDiv(wall);
-      drawVisualization();
-      currentWallStep=1;
+    var screenType = $(".selected").attr('id') ;
+    var newWallTime = getNewWallTimeSelectedTab();
+ 
+    if(newWallTime===false)
+    {
+      BootstrapDialog.alert('Başlangıç zamanı bitiş zamanından büyük ve eşit olamaz');
+       return;
+    }
+
+    if(newWallTime.length===0||newWallTime==="-")
+    {
+      BootstrapDialog.alert("Lütfen Ekranın Zamanını Giriniz");
+      return;
+    }
+
+    var wallId = "wall"+(walls.length+1);
+
+    if(walls.length>1)
+    {
+      var wallNumber = walls[walls.length-1].id.replace ( /[^\d.]/g, '' );
+      wallId= "wall"+(parseInt(wallNumber)+1);
+    }
+
+    var wall = 
+    {
+      id: wallId,
+      type: screenType,
+      showTime: newWallTime,
+    }
+    
+    walls.push(wall);
+    createDiv(wall);
+    drawVisualization();
+    currentWallStep=1;
   }    
   
   // Yeni Duvar Ekle butonunda çıkan dialogdaki back buttonu.
   var addNewWallModalBackOnClick = function()
   {  
-    
     $(".backWallButton").click(function()
     {	
       currentWallStep=(--currentWallStep<0)?++currentWallStep:currentWallStep;
@@ -886,8 +931,11 @@ var WallManager = function () {
         self.differenceTotalMinutes = workspaceTimers.differenceTotalMinutes;
         $("#initialModal").modal('hide');
       }
+      
       else
-        BootstrapDialog.alert("Eksik veya Yanlış Bilgi Giriniz")
+      { 
+        BootstrapDialog.alert("Eksik veya Yanlış Bilgi Giriniz");
+      }
     });
   }
   
@@ -910,6 +958,7 @@ var WallManager = function () {
       showCurrentStep(currentStep);
     });
   }
+  
   var addManagerPageButtonOnClick = function()
   {
     $("#managerPageButton").click(function()
@@ -918,6 +967,7 @@ var WallManager = function () {
       return;
     });
   }  
+  
   // Keyup Function = Sayfada çıkan ikinci dialog da Workspace ve Ekranların width-height modunu alıp kontrol ediyor.
   var addPageValidationControls = function()
   {
@@ -985,7 +1035,7 @@ var WallManager = function () {
   }
   
   //Kullanıcının id ile verilen workspace' ini bulur.
-  findUserWorkspace = function(workspaceId,workspaces)
+  var findUserWorkspace = function(workspaceId,workspaces)
   {
     for(var i = 0; i<workspaces.length;i++)
     {
@@ -999,7 +1049,7 @@ var WallManager = function () {
   }
   
   // Kullanıcının workspace ini değiştirir. Id ile doğru workspace i bulur değiştirir ve workspace' i değişmiş user döndürür.
-  upsertWorkspaceToUser = function(workspace,user)
+  var upsertWorkspaceToUser = function(workspace,user)
   {
     var found = false;
     if(!user.workspaces)
