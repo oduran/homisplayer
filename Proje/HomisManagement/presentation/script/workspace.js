@@ -602,8 +602,8 @@ var WallManager = function () {
         onrendered: function(canvas) {
           // canvas is the final rendered <canvas> element
            var base64Pic = canvas.toDataURL('image/png');
-           var thumbnailWidth = parseInt(canvas.width/4);
-           var thumbnailHeight = parseInt(canvas.height/4);
+           var thumbnailWidth = parseInt(canvas.width/8);
+           var thumbnailHeight = parseInt(canvas.height/8);
            var thumbnail = imageToThumbnail(base64Pic,thumbnailWidth,thumbnailHeight);
      
           $("#"+wallScreenId).css("background-image","url("+thumbnail+")");
