@@ -458,12 +458,25 @@ var WallManager = function () {
     $('#newWallModal').modal('hide');  
 	}
   
+  var checkHorizontalOrVerticalScreen = function(screenName,wall)
+  {
+    if($("#pageWidth").val()>$("#pageHeight").val())
+    {
+      return "<br><div class='newScreen'><h2>"+screenName+"</h2><button type='button' class='btn btn-danger removeScreen'><span class='glyphicon glyphicon-trash'></span></button><button type='button' class='btn btn-default changeTime' data-toggle='modal' data-id='' href='#changeTimeModal'><span class='glyphicon glyphicon-time'></span></button><ul id='"+wall.id+"' class='list-inline wall' style='width:100%;zoom:13%;'></ul>";      
+    }
+    
+    else
+    {
+      return "<br><div class='newScreen'><h2>"+screenName+"</h2><button type='button' class='btn btn-danger removeScreen'><span class='glyphicon glyphicon-trash'></span></button><button type='button' class='btn btn-default changeTime' data-toggle='modal' data-id='' href='#changeTimeModal'><span class='glyphicon glyphicon-time'></span></button><ul id='"+wall.id+"' class='list-group wall' style='zoom:13%;margin-left:43%'></ul>";      
+    }
+  }
+  
   var createDividedScreen = function(wall)
   {
     var screenName = wall.id.replace("wall","Ekran");
     var numberOfScreens=($("#pageWidth").val() /$("#screenWidth").val())*($("#pageHeight").val()/$("#screenHeight").val());
     
-    var workspaceDiv = "<br><div class='newScreen'><h2>"+screenName+"</h2><button type='button' class='btn btn-danger removeScreen'><span class='glyphicon glyphicon-trash'></span></button><button type='button' class='btn btn-default changeTime' data-toggle='modal' data-id='' href='#changeTimeModal'><span class='glyphicon glyphicon-time'></span></button><ul id='"+wall.id+"' class='list-inline wall' style='width:100%;height:"+$("#pageHeight").val()+"px;zoom:13%;'></ul>";
+    var workspaceDiv = checkHorizontalOrVerticalScreen(screenName,wall);    
     document.getElementById('workspaceForm').innerHTML+=workspaceDiv;
     for(var i = 0; i<numberOfScreens;i++)
     {
@@ -494,7 +507,7 @@ var WallManager = function () {
   var createMediaScreen = function(wall)
   {
     var screenName = wall.id.replace("wall","Ekran");
-    var workspaceDiv = "<br><div class='newScreen'><h2>"+screenName+"</h2><button type='button' class='btn btn-danger removeScreen'><span class='glyphicon glyphicon-trash'></span></button><button type='button' class='btn btn-default changeTime' data-toggle='modal' data-id='' href='#changeTimeModal'><span class='glyphicon glyphicon-time'></span></button><div id='"+wall.id+"' class='wall' style='width:100%;height:"+$("#pageHeight").val()+"px;zoom:13%;'></div>";
+    var workspaceDiv = checkHorizontalOrVerticalScreen(screenName,wall);    
     document.getElementById('workspaceForm').innerHTML+=workspaceDiv;
     var playerScreenDiv = "<div id='"+wall.id+"_screen' class='wall_screen media' style='width:"+$("#pageWidth").val()+"px;height:"+$("#pageHeight").val()+"px;'> <input id='"+wall.id+"_screen_file' type='file' class='file' name='image' style='display:none'/></div>";
     document.getElementById(wall.id).innerHTML+=playerScreenDiv ;

@@ -28,7 +28,6 @@ body{
   background-color: darkgrey;
   background-size: contain;
   background-position: 50% 50%;
-  display:table-cell;
 }
 .removeScreen
 {
@@ -123,7 +122,6 @@ body{
 }
 .wall
 {
-	display: -webkit-inline-box;
 	float:left;
 	position: relative;
 	-webkit-box-align : center;
@@ -131,6 +129,7 @@ body{
 	-webkit-box-pack : center;
 	justify-content : center;
 	box-sizing: inherit;
+  list-style-type: none;
 }
 label > input{ /* HIDE RADIO */
   display:none;
@@ -165,7 +164,16 @@ label > input:checked + img{ /* (CHECKED) IMAGE STYLES */
   height:50%;
   border: 1px solid #010101;
   background-color: #D2D9DE;
+  overflow: auto;
 }
+.newVerticalScreen{
+  width:30%;
+  height:96%;
+  overflow:auto;
+  border: 1px solid #010101;
+  background-color: #D2D9DE;
+}
+
 #managerPageButton
 {
   float: left;
