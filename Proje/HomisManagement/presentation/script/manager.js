@@ -148,8 +148,7 @@
     { 
       $("#"+name).removeClass('in');
       $("#"+name).addClass('collapse');
-      $("#workspaceList").empty();
-      $("#userMediaResource").empty();
+      
       getWorkspaces(accessToken);
       return;
     }
@@ -385,8 +384,7 @@
        files=[];
        $("#uploadingFiles").empty();
        document.getElementById("uploadFile").value = "";
-       $("#workspaceList").empty();
-       $("#userMediaResource").empty();
+     
        getWorkspaces(accessToken);
        $("#fileUploadModal").modal("hide");
        uploadRequests=[];
@@ -401,6 +399,9 @@
 
     function transferCanceled(evt) 
     {
+      $("#fileUploadModal").modal("hide");
+      uploadRequests=[];
+      getWorkspaces(accessToken);
     }
  };
 
@@ -489,10 +490,7 @@
       {
         uploadRequests[i].abort();
       }
-    
-    $("#fileUploadModal").modal("hide");
-    uploadRequests=[];
-    getWorkspaces(accessToken);
+   
   }
     
     
