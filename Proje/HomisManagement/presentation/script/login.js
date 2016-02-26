@@ -5,9 +5,7 @@ var initializeLoginPage = function ()
   var accessToken = Util.getCookieValue("accessToken")
   if(accessToken)
   {
-      debugger;
     window.location.href = url+"manager.html";
-
   }
   
   $("#login").click(function ()
@@ -32,6 +30,13 @@ var initializeLoginPage = function ()
       },
       error: function(error){debugger;}
     });
+  });
+  
+  $(document).keyup(function (e) {
+    if (e.keyCode == 13) 
+    {
+      $("#login").click();
+    }
   });
 }
 
