@@ -547,7 +547,7 @@ var WebServiceManager = function(router)
               {
                 for(var j=0;j<mediaUploaders[i].newMediaResources.length;j++)
                 {
-                  console.log(filename+" "+mediaUploaders[i].newMediaResources[j].filename)
+                  console.log(filename+" "+mediaUploaders[i].newMediaResources[j].fileName)
                   if(filename === mediaUploaders[i].newMediaResources[j].fileName)
                   {
                     mediaUploaders[i].newMediaResources[j].uploadCompleted = true;
@@ -565,7 +565,7 @@ var WebServiceManager = function(router)
           {
             console.log("All files finished, saving user to database");
             mediaUploader = cleanDirtyMediaUploader(mediaUploader);
-            console.log("Removing user "+cancelled+" from upload queue because of upload complete.");
+            console.log("Removing user "+user.name+" from upload queue because of upload complete.");
             mediaUploaders.splice(mediaUploaderIndex, 1);
             dbManager.saveUser(mediaUploader,
             function()
@@ -595,7 +595,20 @@ var WebServiceManager = function(router)
       if(mediaUpload.uploadCompleted)
       {
         delete mediaUpload["uploadCompleted"];
-        mediaUploader.mediaResources.push(mediaUpload);
+        var mediaResourceFound = false;
+        for(var j = 0;j<mediaUploader.mediaResources.length;j++)
+        {
+          if(mediaUpload.fileName === mediaUploader.mediaResources[j].fileName)
+          {
+              mediaUploader.mediaResources[j] = mediaUpload;
+              mediaResourceFound = true;
+          }
+        }
+        
+        if(!mediaResourceFound)
+        {
+          mediaUploader.mediaResources.push(mediaUpload);
+        }
       }
     }
     delete mediaUploader["newMediaResources"];
