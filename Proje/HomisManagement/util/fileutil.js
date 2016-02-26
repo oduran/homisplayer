@@ -212,6 +212,15 @@ var FileManager = function()
     }
   }
   
+  this.deleteFile = function(filePath)
+  {
+    console.log("Deleting file:" + filePath);
+    fs.unlink(filePath, function(err){
+      if (err) throw err;
+      console.log("Deleted file:" + filePath);
+    });
+  }
+  
 }
 
 module.exports = {

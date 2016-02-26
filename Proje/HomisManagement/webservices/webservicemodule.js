@@ -469,30 +469,6 @@ var WebServiceManager = function(router)
       }
     });
     
-    // if at any time upload is cancelled by the user.
-    req.on('close',function(){
-      dbManager.getUserByAccessToken(accessToken, 
-      function(user)
-      {
-        console.log("Uploading request cancel by "+user.name);
-        for(var i = 0; i< mediaUploaders.length;i++)
-        {
-          if(mediaUploaders[i].name == user.name)
-          {
-            var cancelledMediaUploader = mediaUploaders[i];
-            console.log("removing user "+user.name+" from upload queue.");
-            mediaUploaders.splice(i,1);
-            cancelledMediaUploader = cleanDirtyMediaUploader(cancelledMediaUploader);
-            dbManager.saveUser(cancelledMediaUploader,
-            function()
-            {
-              res.redirect('back');           //where to go next
-            });
-          }
-        }
-      });
-    });
-    
     req.busboy.on('file', function (fieldname, file, filename) {
       dbManager.getUserByAccessToken(accessToken, 
       function(user)
@@ -577,6 +553,29 @@ var WebServiceManager = function(router)
           else
           {
             res.redirect('back');           //where to go next
+          }
+        });
+        
+        // if at any time upload is cancelled by the user.
+        req.on('close',function(){
+          console.log("Uploading request cancel by "+user.name);
+          for(var i = 0; i< mediaUploaders.length;i++)
+          {
+            if(mediaUploaders[i].name == user.name)
+            {
+              var cancelledMediaUploader = mediaUploaders[i];
+              console.log("removing user "+user.name+" from upload queue.");
+              mediaUploaders.splice(i,1);
+              cancelledMediaUploader = cleanDirtyMediaUploader(cancelledMediaUploader);
+              dbManager.saveUser(cancelledMediaUploader,
+              function()
+              {
+                fstream.end(function(){
+                  fileManager.deleteFile(directoryToSave + filename);
+                })
+                res.redirect('back');           //where to go next
+              });
+            }
           }
         });
       });
