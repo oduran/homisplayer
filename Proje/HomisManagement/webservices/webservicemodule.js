@@ -462,12 +462,35 @@ var WebServiceManager = function(router)
     var accessToken = req.cookies.accessToken;
     var totalNumberOfFiles = 0;
     req.pipe(req.busboy);
-    
     req.busboy.on('field', function(key, value, keyTruncated, valueTruncated) {
       if(key === "totalNumberOfFiles") 
       {
         totalNumberOfFiles = value;
       }
+    });
+    
+    // if at any time upload is cancelled by the user.
+    req.on('close',function(){
+      dbManager.getUserByAccessToken(accessToken, 
+      function(user)
+      {
+        console.log("Uploading request cancel by "+user.name);
+        for(var i = 0; i< mediaUploaders.length;i++)
+        {
+          if(mediaUploaders[i].name == user.name)
+          {
+            var cancelledMediaUploader = mediaUploaders[i];
+            console.log("removing user "+user.name+" from upload queue.");
+            mediaUploaders.splice(i,1);
+            cancelledMediaUploader = cleanDirtyMediaUploader(cancelledMediaUploader);
+            dbManager.saveUser(cancelledMediaUploader,
+            function()
+            {
+              res.redirect('back');           //where to go next
+            });
+          }
+        }
+      });
     });
     
     req.busboy.on('file', function (fieldname, file, filename) {
@@ -479,13 +502,14 @@ var WebServiceManager = function(router)
         var directoryToSave = __dirname + "/mediaresources/" + userId + "/";
         var mediaResource = fileManager.getFileObject(filename);
         mediaResource.url = "mediaresources/" + userId + "/" + filename;
+        mediaResource.uploadCompleted = false;
         fileManager.ensureDirectoryExists(directoryToSave,function(){});
         for(var i = 0; i< mediaUploaders.length;i++)
         {
           if(user.name === mediaUploaders[i].name)
           {
             userFound = true;
-            mediaUploaders[i].mediaResources.push(mediaResource);
+            mediaUploaders[i].newMediaResources.push(mediaResource);
           }
         }
         
@@ -495,10 +519,15 @@ var WebServiceManager = function(router)
           {
             user.mediaResources = [];
           }            
-          user.mediaResources.push(mediaResource);
+          if(!user.newMediaResources)
+          {
+            user.newMediaResources = [];
+          }
+          
+          user.newMediaResources.push(mediaResource);
           user.totalNumberOfFiles = parseInt(totalNumberOfFiles);
           user.completedFiles = 0;
-          console.log("Total number of "+ totalNumberOfFiles + "will be uploaded. First file this is.")
+          console.log("Total number of "+ totalNumberOfFiles + " files will be uploaded. First file this is.")
           mediaUploaders.push(user);
         }
         
@@ -509,25 +538,35 @@ var WebServiceManager = function(router)
           //console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
         });
         fstream.on('close', function () {
-          console.log("mediaUploadCompleted");
+          console.log("mediaUploadCompleted:"+(new Date().getTime()));
           var mediaUploader = "";
+          var mediaUploaderIndex = 0;
           for(var i = 0;i<mediaUploaders.length;i++)
           {
               if(mediaUploaders[i].name === user.name)
               {
-                console.log("I've found the user!! " + i)
-                mediaUploaders[i].totalNumberOfFiles;
+                for(var j=0;j<mediaUploaders[i].newMediaResources.length;j++)
+                {
+                  console.log(filename+" "+mediaUploaders[i].newMediaResources[j].filename)
+                  if(filename === mediaUploaders[i].newMediaResources[j].fileName)
+                  {
+                    mediaUploaders[i].newMediaResources[j].uploadCompleted = true;
+                  }
+                }
+                
                 mediaUploaders[i].completedFiles++;
-                console.log(mediaUploaders[i].completedFiles+" / " + mediaUploaders[i].totalNumberOfFiles+" completed")
+                console.log(mediaUploaders[i].completedFiles+" / " + mediaUploaders[i].totalNumberOfFiles+" completed");
                 mediaUploader = mediaUploaders[i];
+                mediaUploaderIndex = i;
               }
           }
           
           if(mediaUploader.totalNumberOfFiles === mediaUploader.completedFiles)
           {
             console.log("All files finished, saving user to database");
-            delete mediaUploader["totalNumberOfFiles"];
-            delete mediaUploader["completedFiles"];
+            mediaUploader = cleanDirtyMediaUploader(mediaUploader);
+            console.log("Removing user "+cancelled+" from upload queue because of upload complete.");
+            mediaUploaders.splice(mediaUploaderIndex, 1);
             dbManager.saveUser(mediaUploader,
             function()
             {
@@ -543,6 +582,25 @@ var WebServiceManager = function(router)
       });
     });
   };
+  
+  // Removes unnecessary attributes added while file uploading.
+  var cleanDirtyMediaUploader = function(mediaUploader)
+  {
+    console.log("cleaning dirty media uploader "+mediaUploader.name);
+    delete mediaUploader["totalNumberOfFiles"];
+    delete mediaUploader["completedFiles"];
+    for(var i = 0; i<mediaUploader.newMediaResources.length;i++)
+    {
+      var mediaUpload = mediaUploader.newMediaResources[i];
+      if(mediaUpload.uploadCompleted)
+      {
+        delete mediaUpload["uploadCompleted"];
+        mediaUploader.mediaResources.push(mediaUpload);
+      }
+    }
+    delete mediaUploader["newMediaResources"];
+    return mediaUploader;
+  }
   
   // Converts string true false to bool true false. other values returned as false.
   var stringToBool = function(boolString)
