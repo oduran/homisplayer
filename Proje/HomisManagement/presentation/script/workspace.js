@@ -18,6 +18,7 @@ var WallManager = function () {
   var end;
   var workspaceObj={};
   var walls=[];
+  var wallscreens= [];
   var user;
   
   if(!accessToken)
@@ -217,18 +218,25 @@ var WallManager = function () {
 
         for(var i = 0 ; i<workspaceObj.walls.length ;i++)
         {
+          debugger;
           var wall = {
           id: workspaceObj.walls[i].id,
           type: workspaceObj.walls[i].type,
           showTime: workspaceObj.walls[i].showTime,
-          screens: workspaceObj.walls[i].screens,
-
+          screens:[]
           }
           
+          var screens = {
+          screens :  workspaceObj.walls[i].screens,
+          }
+          wallscreens.push(screens);
           walls.push(wall);
           createDiv(wall);
           drawVisualization();
         }
+     setScreenThumbnailImage();
+       
+          
       },
       error: function(error){
         BootstrapDialog.alert("hata:"+error.toString());
@@ -761,17 +769,70 @@ var WallManager = function () {
       var img = " <label for='"+url+"/media/template"+i+".jpg'><input id='"+url+"/media/template"+i+".jpg' type='radio' name='type' value='theme"+i+".html'/><img src='"+url+"/media/template"+i+".jpg' class='screeniframe' style='margin-top:10px;width:100%'/></label>";
       $('#templatesDiv').append(img);
     }
+    var wallIndex = getWallIndex(id)
+
+    if(walls[wallIndex].screens)
+    {
+     var isScreen = getSelectedScreenHtml(wallIndex,id);
+    
+     if(isScreen)
+     {
+       return; 
+     }
+      
+    }
+    
+    $("#templateUrl").removeAttr("srcdoc");
 
     $('#templatesDiv input').on('change', function() 
     {
+       $("#templateUrl").removeAttr("srcdoc");
        var templateUrl = $('input[name=type]:checked', '#templatesDiv').val();
        $("#templateUrl").css("width",$("#screenWidth").val()+"px");
        $("#templateUrl").css("height",$("#screenHeight").val()+"px");
        $("#templateUrl").css("transform-origin","0 0");
        $("#templateUrl").css("-webkit-transform","scale("+$("#screenConfigDiv").width()/$("#screenWidth").val()+")");
-       $("#templateUrl").attr("class","")
+       $("#templateUrl").attr("class","");
        $("#templateUrl").attr("src",url+"themes/"+templateUrl);
     });
+  }
+  
+  var setScreenThumbnailImage = function ()
+  {
+    for(var i = 0 ; i<wallscreens.length;i++)
+    {
+      if(wallscreens[i].screens)
+      {
+        for(var j = 0 ; j<wallscreens[i].screens.length ; j++)
+        {
+          var screen = wallscreens[i].screens[j];
+          
+          $("#"+screen.id).css("background-image","url("+screen.thumbnail+")");
+          walls[i].screens.push(screen);  
+
+        }
+      }
+    }
+  }
+  
+  var getSelectedScreenHtml = function (wallIndex,id)
+  {
+    var screens = walls[wallIndex].screens;
+    
+    for(var i=0;i<screens.length;i++)
+    {
+      if(screens[i].id===id)
+      {
+       $("#templateUrl").css("width",$("#screenWidth").val()+"px");
+       $("#templateUrl").css("height",$("#screenHeight").val()+"px");
+       $("#templateUrl").css("transform-origin","0 0");
+       $("#templateUrl").css("-webkit-transform","scale("+$("#screenConfigDiv").width()/$("#screenWidth").val()+")");
+       $("#templateUrl").attr("class","");
+       $("#templateUrl").attr("srcdoc",screens[i].html);
+       return true;
+      }
+    }
+    return false;
   }
   
   // Yeni Duvar Ekle butonuna bastığımızda çıkan ilk dialogdaki ekran tiplerinin bulunduğu dropdownlist.
