@@ -6,6 +6,8 @@
   var uploadRequests =[];
   var getWorkspaces = function (accessToken)
   {
+    $("#workspaceList").empty();
+    $("#userMediaResource").empty();
     Util.loadingDialog.show();
     if(!accessToken)
     {
@@ -461,14 +463,39 @@
   {
     $("#cancelUpload").click(function()
     {
-      for(var i=0;i<uploadRequests.length;i++)
+      BootstrapDialog.show({
+            title: 'Uyarı',
+            message: 'Dosya yüklemesini iptal etmek istiyor musunuz?',
+            buttons: [{
+                label: 'Evet',
+                action: function(dialog) {
+                    dialog.close();
+                    cancelUpload();
+                }
+            }, {
+                label: 'Hayır',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            }]
+        });
+    });   
+  }
+  
+  
+  var cancelUpload = function ()
+  {
+    for(var i=0;i<uploadRequests.length;i++)
       {
         uploadRequests[i].abort();
       }
-      $("#fileUploadModal").modal("hide");
-      uploadRequests=[];
-    });
+    
+    $("#fileUploadModal").modal("hide");
+    uploadRequests=[];
+    getWorkspaces(accessToken);
   }
+    
+    
   
   $( document ).ready(function() 
   { 
