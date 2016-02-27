@@ -1,5 +1,5 @@
 /*
-Önder ALTINTAÞ 03.02.2016
+Önder ALTINTAÞ 27.02.2016
 Manages media upload service
 */
 
@@ -8,8 +8,10 @@ var HomisMediaUploadManager = function(dbManager, rootDir)
   var dbManager = dbManager;
   var rootDir = rootDir || __dirname;
   var fs = require("fs");
-  var fileUtil = require('../util/fileutil');
-  var fileManager = new fileUtil.FileManager();
+  var FileManager = require('../util/fileutil').FileManager;
+  var MediaManager = require('../util/mediautil').MediaManager;
+  var fileManager = new FileManager();
+  var mediaManager = new MediaManager();
   var mediaUploaders = [];
   
   // Gets a workspace with given access token of the user and workspace id.
@@ -63,6 +65,7 @@ var HomisMediaUploadManager = function(dbManager, rootDir)
     var directoryToSave = rootDir + userId + "/";
     var mediaResource = fileManager.getFileObject(filename);
     mediaResource.url = "mediaresources/" + userId + "/" + filename;
+    mediaResource.thumbnailUrl = "mediaresources/" + userId + "/thumb_" +filename;
     mediaResource.uploadCompleted = false;
     fileManager.ensureDirectoryExists(directoryToSave,function(){});
     for(var i = 0; i< mediaUploaders.length;i++)
@@ -113,6 +116,7 @@ var HomisMediaUploadManager = function(dbManager, rootDir)
               {
                 mediaUploaders[i].newMediaResources[j].uploadCompleted = true;
                 mediaUploaders[i].newMediaResources[j].fileSize = fstream.bytesWritten;
+                mediaManager.createThumbnail(mediaUploaders[i].newMediaResources[j], directoryToSave, 150, 150);
               }
             }
             

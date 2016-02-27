@@ -84,9 +84,16 @@
     {
       for(var i = 0 ;i<user.mediaResources.length; i++)
       {
-        var mediaUrl = url + user.mediaResources[i].url;
+        var mediaResource = user.mediaResources[i]
+        var mediaUrl = url + mediaResource.url;
+        var thumbnailUrl = mediaResource.thumbnailUrl;
+        if(mediaResource.fileType !== "image")
+        {
+          thumbnailUrl = url + "media/videothumb.png";
+        }
+        var thumbnailElement = "<div><img src='"+thumbnailUrl+"'/></div>"
         var mediaResourceListItem = "<a class='list-group-item' target='_blank' href='"+mediaUrl+"'>"
-        + user.mediaResources[i].fileName+"</a>";
+        + thumbnailElement + user.mediaResources[i].fileName+"</a>";
         $('#userMediaResource').append(mediaResourceListItem);  
       }
     }

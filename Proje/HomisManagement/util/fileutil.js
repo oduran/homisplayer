@@ -224,5 +224,5 @@ var FileManager = function()
 }
 
 module.exports = {
-  FileManager: FileManager,
+  FileManager: FileManager
 };
