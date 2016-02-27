@@ -91,7 +91,7 @@ var HomisMediaUploadManager = function(dbManager, rootDir)
       user.newMediaResources.push(mediaResource);
       user.totalNumberOfFiles = parseInt(totalNumberOfFiles);
       user.completedFiles = 0;
-      console.log("Total number of "+ totalNumberOfFiles + " files will be uploaded. First file this is.")
+      console.log("Total number of "+ totalNumberOfFiles + " files will be uploaded. First file this is.");
       mediaUploaders.push(user);
     }
     
@@ -111,7 +111,7 @@ var HomisMediaUploadManager = function(dbManager, rootDir)
           {
             for(var j=0;j<mediaUploaders[i].newMediaResources.length;j++)
             {
-              console.log(filename+" "+mediaUploaders[i].newMediaResources[j].fileName)
+              console.log(filename+" "+mediaUploaders[i].newMediaResources[j].fileName);
               if(filename === mediaUploaders[i].newMediaResources[j].fileName)
               {
                 mediaUploaders[i].newMediaResources[j].uploadCompleted = true;
@@ -173,14 +173,14 @@ var HomisMediaUploadManager = function(dbManager, rootDir)
   var cleanDirtyMediaUploader = function(mediaUploader)
   {
     console.log("cleaning dirty media uploader "+mediaUploader.name);
-    delete mediaUploader["totalNumberOfFiles"];
-    delete mediaUploader["completedFiles"];
+    delete mediaUploader.totalNumberOfFiles;
+    delete mediaUploader.completedFiles;
     for(var i = 0; i<mediaUploader.newMediaResources.length;i++)
     {
       var mediaUpload = mediaUploader.newMediaResources[i];
       if(mediaUpload.uploadCompleted)
       {
-        delete mediaUpload["uploadCompleted"];
+        delete mediaUpload.uploadCompleted;
         var mediaResourceFound = false;
         for(var j = 0;j<mediaUploader.mediaResources.length;j++)
         {
@@ -197,11 +197,11 @@ var HomisMediaUploadManager = function(dbManager, rootDir)
         }
       }
     }
-    delete mediaUploader["newMediaResources"];
+    delete mediaUploader.newMediaResources;
     return mediaUploader;
-  }
-}
+  };
+};
 
 module.exports = {
   HomisMediaUploadManager: HomisMediaUploadManager
-}
+};

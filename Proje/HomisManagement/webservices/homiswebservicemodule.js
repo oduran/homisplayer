@@ -45,7 +45,7 @@ var HomisWebServiceManager = function(router)
     // save mediaresources for user with given access token or admin with given userid
     router.post('/savemediaresource', mediaUploadManager.saveMediaResource);
     
-  }
+  };
   
   /* Private Methods */
    // Creates a user.
@@ -150,21 +150,21 @@ var HomisWebServiceManager = function(router)
     
 	  if(user.name.length <= 0)
 	  {
-		  return "Name cannot be empty."
+		  return "Name cannot be empty.";
 	  }
 	  
 	  if(user.password.length <= 0)
 	  {
-		  return "Password cannot be empty."
+		  return "Password cannot be empty.";
 	  }
 	  
 	  if(user.password.length < 6)
 	  {
-      return "Password length should be at least 6 characters."
+      return "Password length should be at least 6 characters.";
 	  }
 	  
 	  return "valid";
-  }
+  };
   
   // Inserts a new user. Used by saveUser method.
   var insertUser = function(user, res)
@@ -196,7 +196,7 @@ var HomisWebServiceManager = function(router)
       res.json({message: validMessage});
       return;				  
     }
-  }
+  };
   
   // Update's already existing user. Used by saveUser method.
   var updateUser = function(user, existingUser, res, returnObj)
@@ -236,7 +236,7 @@ var HomisWebServiceManager = function(router)
         }
       );
     }
-  }
+  };
   
   // Deletes user.
   var deleteUser = function(req, res)
@@ -289,33 +289,33 @@ var HomisWebServiceManager = function(router)
         res.json(users); 
       });  
     });
-  }
+  };
   
   // For using with getusers service. Removes password, accessToken, workspaces, mediaresources properties from user object.
   var summarizeUser = function(user)
   {
-    if(user['password'])
+    if(user.password)
     {
-      delete user['password'];
+      delete user.password;
     }
     
-    if(user['accessToken'])
+    if(user.accessToken)
     {
-      delete user['accessToken'];
+      delete user.accessToken;
     }
     
-    if(user['workspaces'])
+    if(user.workspaces)
     {
-      delete user['workspaces'];
+      delete user.workspaces;
     }
     
-    if(user['mediaResources'])
+    if(user.mediaResources)
     {
-      delete user['mediaResources'];
+      delete user.mediaResources;
     }
     
     return user;
-  }
+  };
   
   // Brings user when access token is given.
   var getUser = function(req, res) 
@@ -365,9 +365,7 @@ var HomisWebServiceManager = function(router)
         res.json({user:user});
       }
     });     
-  }
-  
-  
+  };
   
   // Creates a workspace with given access token of the user and workspace object.
   var saveWorkspace = function (req, res, next)
@@ -456,18 +454,18 @@ var HomisWebServiceManager = function(router)
   var stringToBool = function(boolString)
   {
     return (boolString === "true")? true : false;
-  }
+  };
   
   // Just a web service test/
   var test = function(req, res) 
   {
     res.json({ message: 'working'});
-  }
+  };
   
   var self = this;
-}
+};
 
 module.exports = 
 {
   HomisWebServiceManager : HomisWebServiceManager
-}
+};

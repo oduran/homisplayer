@@ -23,7 +23,7 @@ var MediaManager = function()
         //To be implemented
       break;
     }
-  }
+  };
   
   // Creates image thumbnail
   var createImageThumbnail = function(mediaResource, path, width, height)
@@ -36,8 +36,8 @@ var MediaManager = function()
          .quality(50)                 // set JPEG quality 
          .write(thumbnailFilePath); // save 
     });
-  }
-}
+  };
+};
 
 module.exports = {
   MediaManager: MediaManager

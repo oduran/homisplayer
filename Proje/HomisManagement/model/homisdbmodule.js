@@ -20,7 +20,7 @@ var HomisDbManager = function(databaseName)
         var users = [];
         cursor.each(function(err, doc) {
           assert.equal(err, null);
-          if (doc != null) {
+          if (doc !== null) {
             users.push(doc);
           } else {
             if(users.length === 0) 
@@ -35,7 +35,7 @@ var HomisDbManager = function(databaseName)
         });
       }
     );
-  }
+  };
   
   // Gets a user by given name.
   this.getUserByName = function(name,callback)
@@ -47,7 +47,7 @@ var HomisDbManager = function(databaseName)
         var users = [];
         cursor.each(function(err, doc) {
           assert.equal(err, null);
-          if (doc != null) {
+          if (doc !== null) {
             users.push(doc);
           } 
           else 
@@ -64,7 +64,7 @@ var HomisDbManager = function(databaseName)
         });
       }
     );
-  }
+  };
   
   // Gets a user by given user Id.
   this.getUserById = function(id,callback)
@@ -77,7 +77,7 @@ var HomisDbManager = function(databaseName)
         var users = [];
         cursor.each(function(err, doc) {
           assert.equal(err, null);
-          if (doc != null) {
+          if (doc !== null) {
             users.push(doc);
           } 
           else 
@@ -94,29 +94,29 @@ var HomisDbManager = function(databaseName)
         });
       }
     );
-  }
+  };
   
   // Adds a user to database.
   this.saveUser = function(user,callback)
   {
     dbManager.updateInCollection("users",user,callback);
-  }
+  };
   
   // Gets all users from database
   this.getUsers = function(callback)
   {
     dbManager.getCollection("users",callback);
-  }
+  };
   
   // Creates unique access token with using mongodb's ObjectID.
   this.createUniqueId = function()
   {
 	  return dbManager.createUniqueId();
-  }
+  };
   
   var self = this;
-}
+};
 
 module.exports = {
   HomisDbManager: HomisDbManager
-}
+};
