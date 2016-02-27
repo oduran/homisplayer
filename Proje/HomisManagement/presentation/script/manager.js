@@ -4,7 +4,9 @@
   var adminControl=false;
   var files = [];
   var uploadRequests =[];
-  var getWorkspaces = function (accessToken)
+  var currentUserToEdit;
+  
+  var getUserDetails = function ()
   {
     $("#workspaceList").empty();
     $("#userMediaResource").empty();
@@ -22,6 +24,7 @@
       data: data,
       success: function(response)
       {  
+        currentUserToEdit = response.user;
         Util.loadingDialog.hide();
         
         if(response.message)
@@ -41,15 +44,14 @@
          getUserList();
         }
 
-        getUserWorkspace(response.user);
-        getUserMediaResources(response.user);
-        
+        showUserWorkspace(response.user);
+        showUserMediaResources(response.user);
       },
       error: function(error){ }
     });
   }
   
-  var getUserWorkspace = function(user)
+  var showUserWorkspace = function(user)
   {
     if(!user.workspaces)
     {
@@ -64,12 +66,12 @@
       + user.workspaces[i].name+
       "<button class='btn btn-info' id='"
       +user.workspaces[i].workspaceId+
-      "' onclick=showWorkspaceByName('"+user.workspaces[i].workspaceId+"','"+user.name+"') style='float:right;margin-top:-7px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a>";
+      "' onclick=showWorkspaceByName('"+currentUserToEdit.workspaces[i].workspaceId+"','"+currentUserToEdit.name+"') style='float:right;margin-top:-7px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a>";
       $('#workspaceList').append(workspaceName);  
     }
   }
   
-  var getUserMediaResources = function(user)
+  var showUserMediaResources = function(user)
   { 
     if(!user.mediaResources)
     {
@@ -111,7 +113,7 @@
           var userList = "<a class='list-group-item' href='#' id='"+user.name+
           "ListItem'>"+ user.name+"<button class='btn btn-danger' onclick=deleteUser('"
           +user.name+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-trash'></span></button><button class='btn btn-info accordion-toggle'  data-parent='#userList' data-toggle='collapse' href='#"+
-          user.name+"Form' onclick=getWorkspacesByUsername('"+user.name+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-edit'></span></button><div id='"+
+          user.name+"Form' onclick=getUserDetailsByUsername('"+user.name+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-edit'></span></button><div id='"+
           user.name+"Form' class='userForm collapse'><form class ='"+
           user.name+"'><fieldset><div class='form-group'><label>Kullanıcı Adı</label><input type='text' class='form-control formelement name' name='name' placeholder='Kullanıcı Adı' value="+
           user.name+"><label>Soyadı</label><input type='text' class='form-control formelement surname' name='surname' placeholder='Soyadı' value="
@@ -142,14 +144,14 @@
     });  
   }
   
-  function getWorkspacesByUsername(name)
+  var getUserDetailsByUsername = function(name)
   {
     if($("#"+name+"Form").hasClass('in'))
     { 
       $("#"+name).removeClass('in');
       $("#"+name).addClass('collapse');
       
-      getWorkspaces(accessToken);
+      getUserDetails();
       return;
     }
   
@@ -161,6 +163,7 @@
         $(this).addClass('collapse');   
       }
     });
+    
     $("#workspaceList").empty();
     $("#userMediaResource").empty();
 
@@ -171,15 +174,15 @@
     data: data,
     success: function(response)
     {
-      getUserWorkspace(response.user);
-      getUserMediaResources(response.user);
-
+      currentUserToEdit = response.user;
+      showUserWorkspace(response.user);
+      showUserMediaResources(response.user);
     },
     error: function(error){ }
     });
   }
   
-  function editUserByName(userName, index)
+  var editUserByName = function(userName, index)
   {
     Util.loadingDialog.show();
     var name="";
@@ -209,7 +212,7 @@
       }
     });
      
-    var userToSave = users[index];
+    var userToSave = currentUserToEdit;
     userToSave.name = name;
     userToSave.surname = surname;
     userToSave.type = userType;
@@ -227,7 +230,8 @@
       error: function(error){ }
     });
   }
-  function showWorkspaceByName(workspaceId,userName)
+  
+  var showWorkspaceByName = function(workspaceId,userName)
   { 
     if(adminControl)
     {
@@ -236,10 +240,10 @@
     
     else
     {
-     window.location.href=url+"workspace.html?workspaceId="+workspaceId; 
+      window.location.href=url+"workspace.html?workspaceId="+workspaceId; 
     }
-    
   }
+  
   var addNewWorkspace = function()
   {
     $("#addNewWorkspace").click(function()
@@ -255,6 +259,7 @@
       }
     });
   }
+  
   var addCreateNewUser = function ()
   {
     $("#createNewUser").click(function()
@@ -275,7 +280,8 @@
       
     });
   }
-  function checkUser(name)
+  
+  var checkUser = function(name)
   { 
     var data = {name:name};
     $.ajax({
@@ -286,6 +292,7 @@
       error: function(error){ }
     });
   }
+  
   var addLogoutButtonOnClick = function()
   {
     $("#logoutButton").click(function()
@@ -338,72 +345,74 @@
       });
     });
   }
-  var upload = function (file,filename) {
+  
+  /* Media Upload*/
+  var upload = function (file,filename) 
+  {
    
     var fd = new FormData();    
     var count=0;
-    fd.append( 'totalNumberOfFiles', files.length );
-    fd.append( 'file', file,filename );
+    fd.append('totalNumberOfFiles', files.length);
+    fd.append('name', currentUserToEdit.name);
+    fd.append('file', file,filename );
 
     var xhr = new XMLHttpRequest();
-    xhr.upload.addEventListener("progress", updateProgress);
-    xhr.addEventListener("load", transferComplete);
-    xhr.addEventListener("error", transferFailed);
-    xhr.addEventListener("abort", transferCanceled);
+    xhr.upload.addEventListener("progress", function(evt){updateProgress(evt,filename);});
+    xhr.addEventListener("load", function(evt){transferComplete(evt,filename);});
+    xhr.addEventListener("error", function(evt){transferFailed(evt,filename);});
+    xhr.addEventListener("abort", function(evt){transferCanceled(evt,filename);});
     xhr.open('POST', '/service/savemediaresource', true);
     xhr.send(fd);
     uploadRequests.push(xhr);
-
-   function updateProgress (oEvent) 
-   {
-      if (oEvent.lengthComputable)
-      {
-        var pc = parseInt((oEvent.loaded / oEvent.total * 100));
-        document.getElementById(filename).setAttribute("aria-valuenow",""+pc+""); 
-        document.getElementById(filename).style.width=pc+"%"; 
-        document.getElementById(filename).innerHTML=pc+"%"; 
-      }
-    }
-
-    function transferComplete(evt) 
+  };
+  
+  var updateProgress = function(evt, filename) 
+  {
+    if (evt.lengthComputable)
     {
-     
-     var file = document.getElementById(filename);
-     file.setAttribute("class","progress-bar-success"); 
-     for(var i=0;i<files.length;i++)
+      var percentage = parseInt((evt.loaded / evt.total * 100));
+      document.getElementById(filename).setAttribute("aria-valuenow",""+percentage+""); 
+      document.getElementById(filename).style.width=percentage+"%"; 
+      document.getElementById(filename).innerHTML=percentage+"%"; 
+    }
+  }
+
+  var transferComplete = function(evt, filename) 
+  {
+    var file = document.getElementById(filename);
+    file.setAttribute("class","progress-bar-success"); 
+    for(var i=0;i<files.length;i++)
+    {
+     if(files[i].name==filename)
      {
-       if(files[i].name==filename)
-       {
-         files.splice(i,1);
-       }
+       files.splice(i,1);
      }
-     
-     if(files.length===0)
-     {
-       BootstrapDialog.alert("Dosya Yüklemesi Başarıyla Tamamlandı");
-       files=[];
-       $("#uploadingFiles").empty();
-       document.getElementById("uploadFile").value = "";
-     
-       getWorkspaces(accessToken);
-       $("#fileUploadModal").modal("hide");
-       uploadRequests=[];
-     }
-     
     }
 
-    function transferFailed(evt) 
+    if(files.length===0)
     {
-      document.getElementById(filename).setAttribute("class","progress-bar-danger"); 
-    }
+     BootstrapDialog.alert("Dosya Yüklemesi Başarıyla Tamamlandı");
+     files=[];
+     $("#uploadingFiles").empty();
+     document.getElementById("uploadFile").value = "";
 
-    function transferCanceled(evt) 
-    {
-      $("#fileUploadModal").modal("hide");
-      uploadRequests=[];
-      getWorkspaces(accessToken);
+     getUserDetails();
+     $("#fileUploadModal").modal("hide");
+     uploadRequests=[];
     }
- };
+  }
+
+  var transferFailed = function(evt, filename) 
+  {
+    document.getElementById(filename).setAttribute("class","progress-bar-danger"); 
+  }
+
+  var transferCanceled = function(evt, filename) 
+  {
+    $("#fileUploadModal").modal("hide");
+    uploadRequests=[];
+    getUserDetails();
+  }
 
   var addUploadMediaResources = function()
   {
@@ -416,11 +425,11 @@
       
       for(var i=0;i<files.length;i++)
       {
-       upload(files[i],files[i].name);
+        upload(files[i],files[i].name);
       }
-      
     });
   }
+  
   var addNewMediaResourceButton = function()
   {
     $("#addNewMediaResources").click(function()
@@ -437,14 +446,13 @@
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     if(re.test(email))
-      {
-        $("#email").css("border","1px solid green");
-      }
-      
-      else
-      {
-        $("#email").css("border","1px solid red");
-      }
+    {
+      $("#email").css("border","1px solid green");
+    }
+    else
+    {
+      $("#email").css("border","1px solid red");
+    }
   }
   
   // Creates options string for user edit combobox. Chooses the one which was given as userType.
@@ -457,6 +465,7 @@
         var stringAddition = (userType === userTypes[i])? "selected":"";
         optionsString += "<option value='"+userTypes[i]+"' "+stringAddition+">"+userTypes[i]+"</option>";
     }
+    
     return optionsString;
   }
   
@@ -483,30 +492,25 @@
     });   
   }
   
-  
   var cancelUpload = function ()
   {
     for(var i=0;i<uploadRequests.length;i++)
       {
         uploadRequests[i].abort();
       }
-   
   }
     
-    
-  
   $( document ).ready(function() 
   { 
     addCancelUploadButtonOnClick();
     addCheckEmailisValid();
     addNewMediaResourceButton();
     addSelectFileMediaResources();
-    getWorkspaces(accessToken);
+    getUserDetails();
     addNewWorkspace();
     addCreateNewUser();
     addSaveUserButtonOnClick();
     addLogoutButtonOnClick();
     addUploadMediaResources();
-  
   });
  

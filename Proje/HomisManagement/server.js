@@ -12,7 +12,7 @@ var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
 var busboy = require('connect-busboy'); //middleware for form/file upload
 var cookieParser = require('cookie-parser');
-var WebServiceManager = require('./webservices/webservicemodule').WebServiceManager;
+var HomisWebServiceManager = require('./webservices/homiswebservicemodule').HomisWebServiceManager;
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -26,8 +26,7 @@ var port = process.env.PORT || 8080;        // set our port
 // ROUTES FOR OUR API
 // =============================================================================
 var router = express.Router();              // get an instance of the express Router
-
-var webServiceManager = new WebServiceManager(router);
+var webServiceManager = new HomisWebServiceManager(router);
 webServiceManager.start();
 
 // REGISTER OUR ROUTES -------------------------------

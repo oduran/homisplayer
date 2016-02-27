@@ -2,19 +2,17 @@
 Önder ALTINTAŞ 03.02.2016
 Manages web services.
 */
-var WebServiceManager = function(router)
+var HomisWebServiceManager = function(router)
 {
   /* Variables */
-  var fs = require("fs");
   var router = router;
-  var dbModule = require('../model/homisdbmodule');
-  var fileUtil = require('../util/fileutil');
-  var passUtil = require('../util/passutil');
-  var dbManager = new dbModule.HomisDbManager("homis");
-  var fileManager = new fileUtil.FileManager();
-  var passManager = new passUtil.PassManager();
-  var mediaUploaders = [];
-  
+  var mediaResourceDir = __dirname + "/mediaresources/";
+  var HomisDbManager = require('../model/homisdbmodule').HomisDbManager;
+  var PassManager = require('../util/passutil').PassManager;
+  var HomisMediaUploadManager = require('./homismediauploadmodule').HomisMediaUploadManager;
+  var dbManager = new HomisDbManager("homis");
+  var mediaUploadManager = new HomisMediaUploadManager(dbManager, mediaResourceDir);
+  var passManager = new PassManager();
   
   /* Public Methods */
   // starts web services defined inside
@@ -35,7 +33,7 @@ var WebServiceManager = function(router)
     // get all users, passwords and access tokens are removed.
     router.post('/getusers', getUsers);
 	
-	// get a user which access token was given.
+    // get a user which access token was given.
     router.post('/getuser', getUser);
     
     // creates workspace for user with given access token and workspace object.
@@ -45,7 +43,7 @@ var WebServiceManager = function(router)
     router.post('/getworkspace', getWorkspace);
     
     // save mediaresources for user with given access token or admin with given userid
-    router.post('/savemediaresource', saveMediaResource);
+    router.post('/savemediaresource', mediaUploadManager.saveMediaResource);
     
   }
   
@@ -424,7 +422,6 @@ var WebServiceManager = function(router)
   // Gets a workspace with given access token of the user and workspace id.
   var getWorkspace = function (req, res, next)
   {
-    var mediaFileUploaders = [];
     var accessToken = req.cookies.accessToken;
     var workspaceId = req.body.workspaceId;
     dbManager.getUserByAccessToken(accessToken, 
@@ -455,165 +452,6 @@ var WebServiceManager = function(router)
     );
   };
   
-  // Gets a workspace with given access token of the user and workspace id.
-  var saveMediaResource = function (req, res)
-  {
-    var fstream;
-    var accessToken = req.cookies.accessToken;
-    var totalNumberOfFiles = 0;
-    req.pipe(req.busboy);
-    req.busboy.on('field', function(key, value, keyTruncated, valueTruncated) {
-      if(key === "totalNumberOfFiles") 
-      {
-        totalNumberOfFiles = value;
-      }
-    });
-    
-    req.busboy.on('file', function (fieldname, file, filename) {
-      dbManager.getUserByAccessToken(accessToken, 
-      function(user)
-      {
-        var userFound = false;
-        var userId = user._id;
-        var directoryToSave = __dirname + "/mediaresources/" + userId + "/";
-        var mediaResource = fileManager.getFileObject(filename);
-        mediaResource.url = "mediaresources/" + userId + "/" + filename;
-        mediaResource.uploadCompleted = false;
-        fileManager.ensureDirectoryExists(directoryToSave,function(){});
-        for(var i = 0; i< mediaUploaders.length;i++)
-        {
-          if(user.name === mediaUploaders[i].name)
-          {
-            userFound = true;
-            mediaUploaders[i].newMediaResources.push(mediaResource);
-          }
-        }
-        
-        if(!userFound)
-        {
-          if(!user.mediaResources)
-          {
-            user.mediaResources = [];
-          }            
-          if(!user.newMediaResources)
-          {
-            user.newMediaResources = [];
-          }
-          
-          user.newMediaResources.push(mediaResource);
-          user.totalNumberOfFiles = parseInt(totalNumberOfFiles);
-          user.completedFiles = 0;
-          console.log("Total number of "+ totalNumberOfFiles + " files will be uploaded. First file this is.")
-          mediaUploaders.push(user);
-        }
-        
-        fstream = fs.createWriteStream(directoryToSave + filename);
-        file.pipe(fstream);
-        console.log("file uploading");
-        file.on('data', function(data) {
-          //console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
-        });
-        fstream.on('close', function () {
-          console.log("mediaUploadCompleted:"+(new Date().getTime()));
-          var mediaUploader = "";
-          var mediaUploaderIndex = 0;
-          for(var i = 0;i<mediaUploaders.length;i++)
-          {
-              if(mediaUploaders[i].name === user.name)
-              {
-                for(var j=0;j<mediaUploaders[i].newMediaResources.length;j++)
-                {
-                  console.log(filename+" "+mediaUploaders[i].newMediaResources[j].fileName)
-                  if(filename === mediaUploaders[i].newMediaResources[j].fileName)
-                  {
-                    mediaUploaders[i].newMediaResources[j].uploadCompleted = true;
-                  }
-                }
-                
-                mediaUploaders[i].completedFiles++;
-                console.log(mediaUploaders[i].completedFiles+" / " + mediaUploaders[i].totalNumberOfFiles+" completed");
-                mediaUploader = mediaUploaders[i];
-                mediaUploaderIndex = i;
-              }
-          }
-          
-          if(mediaUploader.totalNumberOfFiles === mediaUploader.completedFiles)
-          {
-            console.log("All files finished, saving user to database");
-            mediaUploader = cleanDirtyMediaUploader(mediaUploader);
-            console.log("Removing user "+user.name+" from upload queue because of upload complete.");
-            mediaUploaders.splice(mediaUploaderIndex, 1);
-            dbManager.saveUser(mediaUploader,
-            function()
-            {
-              console.log("file finished");
-              res.redirect('back');           //where to go next
-            });
-          }
-          else
-          {
-            res.redirect('back');           //where to go next
-          }
-        });
-        
-        // if at any time upload is cancelled by the user.
-        req.on('close',function(){
-          console.log("Uploading request cancel by "+user.name);
-          for(var i = 0; i< mediaUploaders.length;i++)
-          {
-            if(mediaUploaders[i].name == user.name)
-            {
-              var cancelledMediaUploader = mediaUploaders[i];
-              console.log("removing user "+user.name+" from upload queue.");
-              mediaUploaders.splice(i,1);
-              cancelledMediaUploader = cleanDirtyMediaUploader(cancelledMediaUploader);
-              dbManager.saveUser(cancelledMediaUploader,
-              function()
-              {
-                fstream.end(function(){
-                  fileManager.deleteFile(directoryToSave + filename);
-                })
-                res.redirect('back');           //where to go next
-              });
-            }
-          }
-        });
-      });
-    });
-  };
-  
-  // Removes unnecessary attributes added while file uploading.
-  var cleanDirtyMediaUploader = function(mediaUploader)
-  {
-    console.log("cleaning dirty media uploader "+mediaUploader.name);
-    delete mediaUploader["totalNumberOfFiles"];
-    delete mediaUploader["completedFiles"];
-    for(var i = 0; i<mediaUploader.newMediaResources.length;i++)
-    {
-      var mediaUpload = mediaUploader.newMediaResources[i];
-      if(mediaUpload.uploadCompleted)
-      {
-        delete mediaUpload["uploadCompleted"];
-        var mediaResourceFound = false;
-        for(var j = 0;j<mediaUploader.mediaResources.length;j++)
-        {
-          if(mediaUpload.fileName === mediaUploader.mediaResources[j].fileName)
-          {
-              mediaUploader.mediaResources[j] = mediaUpload;
-              mediaResourceFound = true;
-          }
-        }
-        
-        if(!mediaResourceFound)
-        {
-          mediaUploader.mediaResources.push(mediaUpload);
-        }
-      }
-    }
-    delete mediaUploader["newMediaResources"];
-    return mediaUploader;
-  }
-  
   // Converts string true false to bool true false. other values returned as false.
   var stringToBool = function(boolString)
   {
@@ -631,5 +469,5 @@ var WebServiceManager = function(router)
 
 module.exports = 
 {
-  WebServiceManager : WebServiceManager
+  HomisWebServiceManager : HomisWebServiceManager
 }
