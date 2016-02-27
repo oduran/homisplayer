@@ -99,7 +99,7 @@ var HomisMediaUploadManager = function(dbManager, rootDir)
       //console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
     });
     fstream.on('close', function () {
-      console.log("mediaUploadCompleted:"+(new Date().getTime()));
+      console.log("mediaUploadCompleted:"+new Date());
       var mediaUploader = "";
       var mediaUploaderIndex = 0;
       for(var i = 0;i<mediaUploaders.length;i++)
@@ -112,6 +112,7 @@ var HomisMediaUploadManager = function(dbManager, rootDir)
               if(filename === mediaUploaders[i].newMediaResources[j].fileName)
               {
                 mediaUploaders[i].newMediaResources[j].uploadCompleted = true;
+                mediaUploaders[i].newMediaResources[j].fileSize = fstream.bytesWritten;
               }
             }
             
@@ -132,12 +133,12 @@ var HomisMediaUploadManager = function(dbManager, rootDir)
         function()
         {
           console.log("file finished");
-          res.redirect('back');           //where to go next
+          res.json({message: "success"});           //where to go next
         });
       }
       else
       {
-        res.redirect('back');           //where to go next
+        res.json({message: "success"});           //where to go next
       }
     });
     
@@ -157,7 +158,7 @@ var HomisMediaUploadManager = function(dbManager, rootDir)
           {
             fstream.end(function(){
               fileManager.deleteFile(directoryToSave + filename);
-            })
+            });
           });
         }
       }

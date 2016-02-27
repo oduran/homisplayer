@@ -1,15 +1,15 @@
-
 {
     "name": "homismanagement",
     "main": "server.js",
     "dependencies": {
-	"mongoose": "~4.3.7",
-	"express": "~4.13.4",
-	"mongodb": "~2.1.4",
-	"body-parser": "~1.0.1",
-	"cookie-parser": "~1.4.1",
-    "connect-busboy": "~0.0.2",
-    "jimp": "^0.2.21",
-	"bcryptjs": "~2.3.0"
+      "mongoose": "~4.3.7",
+      "express": "~4.13.4",
+      "mongodb": "~2.1.4",
+      "body-parser": "~1.0.1",
+      "cookie-parser": "~1.4.1",
+      "connect-busboy": "~0.0.2",
+      "bcryptjs": "~2.3.0",
+      "jimp": "^0.2.21",
+      "fluent-ffmpeg": "^2.0.1"
     }
 }

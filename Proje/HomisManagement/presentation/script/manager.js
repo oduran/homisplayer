@@ -44,30 +44,30 @@
          getUserList();
         }
 
-        showUserWorkspace(response.user);
+        showUserWorkspaces(response.user);
         showUserMediaResources(response.user);
       },
       error: function(error){ }
     });
   }
   
-  var showUserWorkspace = function(user)
+  var showUserWorkspaces = function(user)
   {
     if(!user.workspaces)
     {
       return;
     }
     
-    var userWorkspace = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+user.name+"</a>";
-    $('#workspaceList').append(userWorkspace);
+    var userWorkspaceHeader = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+user.name+"</a>";
+    $('#workspaceList').append(userWorkspaceHeader);
     for(var i = 0 ;i<user.workspaces.length; i++)
     {
-      var workspaceName = "<a class='list-group-item' href='#'>"
+      var workspaceListItem = "<a class='list-group-item' href='#'>"
       + user.workspaces[i].name+
       "<button class='btn btn-info' id='"
       +user.workspaces[i].workspaceId+
       "' onclick=showWorkspaceByName('"+currentUserToEdit.workspaces[i].workspaceId+"','"+currentUserToEdit.name+"') style='float:right;margin-top:-7px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a>";
-      $('#workspaceList').append(workspaceName);  
+      $('#workspaceList').append(workspaceListItem);  
     }
   }
   
@@ -78,16 +78,16 @@
       return;
     }
     
-    var userMediaResource = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+user.name+"</a>";
-    $('#userMediaResource').append(userMediaResource);
+    var userMediaResourcesHeader = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+user.name+"</a>";
+    $('#userMediaResource').append(userMediaResourcesHeader);
     if(user.mediaResources)
     {
       for(var i = 0 ;i<user.mediaResources.length; i++)
       {
         var mediaUrl = url + user.mediaResources[i].url;
-        var mediaResourceName = "<a class='list-group-item' target='_blank' href='"+mediaUrl+"'>"
+        var mediaResourceListItem = "<a class='list-group-item' target='_blank' href='"+mediaUrl+"'>"
         + user.mediaResources[i].fileName+"</a>";
-        $('#userMediaResource').append(mediaResourceName);  
+        $('#userMediaResource').append(mediaResourceListItem);  
       }
     }
     else
@@ -110,7 +110,7 @@
         for(var i = 0 ;i<response.length; i++)
         {
           var user = response[i];
-          var userList = "<a class='list-group-item' href='#' id='"+user.name+
+          var userListItem = "<a class='list-group-item' href='#' id='"+user.name+
           "ListItem'>"+ user.name+"<button class='btn btn-danger' onclick=deleteUser('"
           +user.name+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-trash'></span></button><button class='btn btn-info accordion-toggle'  data-parent='#userList' data-toggle='collapse' href='#"+
           user.name+"Form' onclick=getUserDetailsByUsername('"+user.name+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-edit'></span></button><div id='"+
@@ -121,7 +121,7 @@
           user.email+">"+
           "<label>Kullanıcı Tipi</label><select class='usertype' name='userType'>"+createOptionStrings(user.type)+"</select><br><br>"+
           "<button class='btn btn-success' onclick=editUserByName('"+user.name+"',"+i+") style='float:right'><span style='float:right' class='glyphicon glyphicon-saved'></span></button></div></fieldset></form></div></a>";
-          $('#userList').append(userList);  
+          $('#userList').append(userListItem);  
         }
       },
       error: function(error){ }
@@ -150,7 +150,6 @@
     { 
       $("#"+name).removeClass('in');
       $("#"+name).addClass('collapse');
-      
       getUserDetails();
       return;
     }
@@ -175,7 +174,7 @@
     success: function(response)
     {
       currentUserToEdit = response.user;
-      showUserWorkspace(response.user);
+      showUserWorkspaces(response.user);
       showUserMediaResources(response.user);
     },
     error: function(error){ }
@@ -237,7 +236,6 @@
     {
       window.location.href=url+"workspace.html?workspaceId="+workspaceId+"&"+"userName="+userName;
     }
-    
     else
     {
       window.location.href=url+"workspace.html?workspaceId="+workspaceId; 
@@ -277,7 +275,6 @@
         var email = $("#email").val();
         addCheckEmailisValid(email);
       });
-      
     });
   }
   
@@ -444,7 +441,6 @@
   var addCheckEmailisValid = function(email) 
   {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
     if(re.test(email))
     {
       $("#email").css("border","1px solid green");
@@ -495,9 +491,9 @@
   var cancelUpload = function ()
   {
     for(var i=0;i<uploadRequests.length;i++)
-      {
-        uploadRequests[i].abort();
-      }
+    {
+      uploadRequests[i].abort();
+    }
   }
     
   $( document ).ready(function() 
