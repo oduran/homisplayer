@@ -252,7 +252,7 @@ var HomisWebServiceManager = function(router)
         res.json({message:Localization.noAccessTokenError});  
       }
       
-      if(operator == "admin")
+      if(operator.type == "admin")
       {
         dbManager.removeFromCollection("users",{name:name}, 
         function(){
