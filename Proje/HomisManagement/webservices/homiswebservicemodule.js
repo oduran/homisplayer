@@ -7,6 +7,7 @@ var HomisWebServiceManager = function(router)
   /* Variables */
   var router = router;
   var mediaResourceDir = __dirname + "/mediaresources/";
+  var Localization = require('../localization/tr').Localization;
   var HomisDbManager = require('../model/homisdbmodule').HomisDbManager;
   var PassManager = require('../util/passutil').PassManager;
   var HomisMediaUploadManager = require('./homismediauploadmodule').HomisMediaUploadManager;
@@ -58,7 +59,7 @@ var HomisWebServiceManager = function(router)
     {
       if(!user)
       {
-        res.json({message: "user doesn't exist"});
+        res.json({ message: Localization.userNotFoundError });
         return;
       }
 	  
@@ -87,7 +88,7 @@ var HomisWebServiceManager = function(router)
         }
         else
         {
-          res.json({message:"wrong password"});
+          res.json({message:Localization.wrongPasswordError});
         }
       });
     });
@@ -102,7 +103,7 @@ var HomisWebServiceManager = function(router)
     {
       if(!operator)
       {
-        res.json({message: "nopermission"});
+        res.json({message: Localization.noPermissionError});
         return;
       }
       
@@ -135,7 +136,7 @@ var HomisWebServiceManager = function(router)
       }
       else
       {
-        res.json({message: "nopermission"});
+        res.json({message: Localization.noPermissionError});
       }
     });
   };
@@ -145,32 +146,32 @@ var HomisWebServiceManager = function(router)
   {
     if(!user.password)
     {
-      return "New user must have a password";
+      return Localization.newUserPasswordRequiredError;
     }
     
 	  if(user.name.length <= 0)
 	  {
-		  return "Name cannot be empty.";
+		  return Localization.nameEmptyError;
 	  }
 	  
 	  if(user.password.length <= 0)
 	  {
-		  return "Password cannot be empty.";
+		  return Localization.passwordEmptyError;
 	  }
 	  
 	  if(user.password.length < 6)
 	  {
-      return "Password length should be at least 6 characters.";
+      return Localization.passwordLengthError;
 	  }
 	  
-	  return "valid";
+	  return Localization.valid;
   };
   
   // Inserts a new user. Used by saveUser method.
   var insertUser = function(user, res)
   {
     var validMessage = validateUser(user);
-    if(validMessage == "valid")
+    if(validMessage == Localization.valid)
     {
       passManager.cryptPassword(user.password,
         function(error, encryptedPassword)
@@ -185,7 +186,7 @@ var HomisWebServiceManager = function(router)
           dbManager.saveUser(user,
             function(success)
             {
-              res.json({message:"success"});
+              res.json({message: Localization.success});
             }
           );
         }
@@ -201,7 +202,7 @@ var HomisWebServiceManager = function(router)
   // Update's already existing user. Used by saveUser method.
   var updateUser = function(user, existingUser, res, returnObj)
   {
-    var returnObj = returnObj || {message:"success"};
+    var returnObj = returnObj || {message: Localization.success};
     user._id = existingUser._id;
     if(!user.accessToken && existingUser.accessToken)
     {
@@ -248,19 +249,19 @@ var HomisWebServiceManager = function(router)
     {
       if(!operator)
       {
-        res.json({message:"no access token"});  
+        res.json({message:Localization.noAccessTokenError});  
       }
       
       if(operator == "admin")
       {
         dbManager.removeFromCollection("users",{name:name}, 
         function(){
-          res.json({message:"success"});
+          res.json({message : Localization.success});
         });
       }
       else
       {
-        res.json({message:"nopermission"});
+        res.json({message: Localization.noPermissionError});
       }
     });
   };
@@ -274,7 +275,7 @@ var HomisWebServiceManager = function(router)
     {
       if(!operator)
       {
-        res.json({message: "nopermission"});
+        res.json({message: Localization.noPermissionError});
         return;
       }
       
@@ -326,8 +327,8 @@ var HomisWebServiceManager = function(router)
     {
       if(!user)
       {
-        console.log("user doesn't exist");
-        res.json({message: "user doesn't exist"});
+        console.log(Localization.userNotFoundError);
+        res.json({message: Localization.userNotFoundError});
         return;
       }
       
@@ -340,8 +341,8 @@ var HomisWebServiceManager = function(router)
            {
              if(!requiredUser)
              {
-               console.log("user doesn't exist");
-                res.json({message: "user doesn't exist"});
+               console.log(Localization.userNotFoundError);
+                res.json({message: Localization.userNotFoundError});
                 return;     
              }
              
@@ -372,14 +373,14 @@ var HomisWebServiceManager = function(router)
   {
     var accessToken = req.cookies.accessToken;
     var workspaceToSave = req.body.workspace;
-    var returnObj = {message: "success"};
+    var returnObj = {message: Localization.success};
     dbManager.getUserByAccessToken(accessToken, 
       function(user)
       {
         var workspaceExist = false;
         if(user === null)
         {
-          res.json({message: "nopermission"});
+          res.json({message: Localization.noPermissionError});
           return;
         }
         
@@ -427,12 +428,12 @@ var HomisWebServiceManager = function(router)
       {
         if(user === null)
         {
-          res.json({message: "nopermission"});
+          res.json({message: Localization.noPermissionError});
         }
         
         if(typeof user.workspaces === 'undefined')
         {
-          res.json({message: "There is no workspace created for this user yet."});
+          res.json({message: Localization.noWorkspaceError});
           return;
         }
         
@@ -445,7 +446,7 @@ var HomisWebServiceManager = function(router)
           }
         }
         
-        res.json({message: "No workspace with given id for this user."});
+        res.json({message: Localization.workspaceNotFoundError });
       }
     );
   };
@@ -459,7 +460,7 @@ var HomisWebServiceManager = function(router)
   // Just a web service test/
   var test = function(req, res) 
   {
-    res.json({ message: 'working'});
+    res.json({ message: Localization.working});
   };
   
   var self = this;
