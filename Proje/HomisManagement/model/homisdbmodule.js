@@ -102,6 +102,12 @@ var HomisDbManager = function(databaseName)
     dbManager.updateInCollection("users",user,callback);
   };
   
+  // Deletes user from database with given name.
+  this.removeUserByName = function(name, callback)
+  {
+    dbManager.removeFromCollection("users",{name:name}, callback);
+  }
+  
   // Gets all users from database
   this.getUsers = function(callback)
   {

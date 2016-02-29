@@ -243,7 +243,7 @@ var HomisWebServiceManager = function(router)
   var deleteUser = function(req, res)
   {
     var accessToken = req.cookies.accessToken;
-    var name = req.name;
+    var name = req.body.name;
     dbManager.getUserByAccessToken(accessToken, 
     function(operator)
     {
@@ -254,7 +254,8 @@ var HomisWebServiceManager = function(router)
       
       if(operator.type == "admin")
       {
-        dbManager.removeFromCollection("users",{name:name}, 
+        console.log(name);
+        dbManager.removeUserByName(name, 
         function(){
           res.json({message : Localization.success});
         });
@@ -341,7 +342,6 @@ var HomisWebServiceManager = function(router)
            {
              if(!requiredUser)
              {
-               console.log(Localization.userNotFoundError);
                 res.json({message: Localization.userNotFoundError});
                 return;     
              }
