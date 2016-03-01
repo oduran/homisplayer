@@ -68,20 +68,22 @@ function animateText(){
 
 }
 function removeAllItemClass(){
- 	
- 		$( ".drink" ).each(function( index ) {
-		$(this).attr("class","drink");		
+		$( ".menuitemheader" ).each(function( index ) {
+		$(this).attr("class","menuitemheader editabletext");		
+		});
+		$( ".drink" ).each(function( index ) {
+		$(this).attr("class","drink editabletext");		
 		});
 		$( ".item" ).each(function( index ) {
 			if($(this).hasClass("small")){
- 				$(this).attr("class","item small");			
+				$(this).attr("class","item small editabletext");			
 			}
 			if($(this).hasClass("large")){
-				$(this).attr("class","item large");			
+				$(this).attr("class","item large editabletext");			
 			}
 		
 		});
-	 	$("p").attr("class","");	
+	 	$("p").attr("class","editabletext");	
 }
 
 setTimeout(function(){

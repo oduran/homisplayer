@@ -39,30 +39,30 @@ function animateText(){
 function removeAllItemClass(){
  	 
 		$( ".drinkleft" ).each(function( index ) {
-		$(this).attr("class","drinkleft");		
+		$(this).attr("class","drinkleft editabletext");		
 		});
 		$( ".drinkright" ).each(function( index ) {
-		$(this).attr("class","drinkright");		
+		$(this).attr("class","drinkright editabletext");		
 		});
 		$( ".itemleft" ).each(function( index ) {
 			if($(this).hasClass("small")){
- 				$(this).attr("class","itemleft small");			
+ 				$(this).attr("class","itemleft small editabletext");			
 			}
 			if($(this).hasClass("large")){
-				$(this).attr("class","itemleft large");			
+				$(this).attr("class","itemleft large editabletext");			
 			}
 		
 		});
 		$( ".itemright" ).each(function( index ) {
 			if($(this).hasClass("small")){
- 				$(this).attr("class","itemright small");			
+ 				$(this).attr("class","itemright small editabletext");			
 			}
 			if($(this).hasClass("large")){
-				$(this).attr("class","itemright large");			
+				$(this).attr("class","itemright large editabletext");			
 			}
 		
 		});
-	 	$("p").attr("class","");	
+	 	$("p").attr("class","editabletext");	
 
 
 

@@ -35,6 +35,13 @@ display:none;
 
 background-color: white !important;
 }
+
+#usertype
+{
+  float:left;
+
+}
+
 #workspaceDiv
 {
 }

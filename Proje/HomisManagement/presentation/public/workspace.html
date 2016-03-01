@@ -30,7 +30,7 @@
 			<div class="col-sm-5 col-md-12 text-center workspacecontainer">
         <div class = "panel panel-primary workspacepanel">
            <div class = "panel-heading">
-              <h3 class = "panel-title">Çalışma Alanı</h3>
+              <h3 class = "panel-title" id="workspaceHeader"></h3>
               <button id="managerPageButton" class="btn btn-info">
                   <span class="glyphicon glyphicon-home"></span>Anasayfa
               </button>
@@ -131,6 +131,7 @@
            <div id="changeTimeScreenName" style="display:none"></div>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <label for="timerDropdown" class="modal-title">Yeni Duvarın Süresini Giriniz</label>
+          <p id="wallOldTime"></p>
 				</div>
         <div class="modal-body">
             <ul id="changeTimeTabs" class="nav nav-tabs">
@@ -268,7 +269,8 @@
                       <div id="tabContent" class="tab-content">
                         <div id="periodicTime" class="tab-pane fade in active">
                         <br><br>
-                           <input id="newwalltimer" class="form-control" placeholder="Süre Giriniz (dk)"></input>
+                           <input id="newwalltimer" type="number" class="form-control"  placeholder="Süre Giriniz (dk)"></input>
+                           
                         </div>
                         <div id="determinedTime" class="tab-pane fade">
                           <br>

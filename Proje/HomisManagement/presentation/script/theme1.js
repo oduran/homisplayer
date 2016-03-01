@@ -34,21 +34,21 @@ function animateText(){
 
 function removeAllItemClass(){
 		$( ".menuitemheader" ).each(function( index ) {
-		$(this).attr("class","menuitemheader");		
+		$(this).attr("class","menuitemheader editabletext");		
 		});
 		$( ".drink" ).each(function( index ) {
-		$(this).attr("class","drink");		
+		$(this).attr("class","drink editabletext");		
 		});
 		$( ".item" ).each(function( index ) {
 			if($(this).hasClass("small")){
-				$(this).attr("class","item small");			
+				$(this).attr("class","item small editabletext");			
 			}
 			if($(this).hasClass("large")){
-				$(this).attr("class","item large");			
+				$(this).attr("class","item large editabletext");			
 			}
 		
 		});
-	 	$("p").attr("class","");	
+	 	$("p").attr("class","editabletext");	
 }
 // Run our swapImages() function every 5secs
 setInterval('swapImages()', 60000);

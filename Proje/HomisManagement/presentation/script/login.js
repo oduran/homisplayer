@@ -22,7 +22,7 @@ var initializeLoginPage = function ()
       success: function(response){
         if(!response.accessToken)
         {
-          alert(response.message);
+          BootstrapDialog.alert(response.message);
           return;
         }
         

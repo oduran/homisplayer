@@ -5,7 +5,11 @@
   var files = [];
   var uploadRequests =[];
   var currentUserToEdit;
+  var createUserToEmailCheck = false;
   
+ /**
+ * Usera ait bütün bilgilerin getirilmesine yarayan fonksiyondur.
+ */
   var getUserDetails = function ()
   {
     $("#workspaceList").empty();
@@ -35,7 +39,9 @@
         }
 
         var username = response.user.name;
-        $("#username").text(username);
+        var usertype = response.user.type;
+        $("#username").text("Kullanıcı : "+username+"|");
+        $("#usertype").text("Yetki :" + usertype);
 
         if(response.user.type=="admin")
         {
@@ -49,51 +55,60 @@
       },
       error: function(error){ }
     });
-  }
+  };
   
+ /**
+ * parametreler : user objesi
+ * Usera ait workspaceleri getirilmesine yarayan fonsiyondur.
+ */
   var showUserWorkspaces = function(user)
   {
+    var userWorkspaceHeader = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+user.name+"</a>";
+    $('#workspaceList').append(userWorkspaceHeader);
+    
     if(!user.workspaces)
     {
       return;
     }
-    
-    var userWorkspaceHeader = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+user.name+"</a>";
-    $('#workspaceList').append(userWorkspaceHeader);
+
     for(var i = 0 ;i<user.workspaces.length; i++)
     {
-      var workspaceListItem = "<a class='list-group-item' href='#'>"
-      + user.workspaces[i].name+
-      "<button class='btn btn-info' id='"
-      +user.workspaces[i].workspaceId+
+      var workspaceListItem = "<a class='list-group-item' href='#'>"+ 
+      user.workspaces[i].name+
+      "<button class='btn btn-info' id='"+
+      user.workspaces[i].workspaceId+
       "' onclick=showWorkspaceByName('"+currentUserToEdit.workspaces[i].workspaceId+"','"+currentUserToEdit.name+"') style='float:right;margin-top:-7px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a>";
       $('#workspaceList').append(workspaceListItem);  
     }
-  }
+  };
   
+  /**
+ * parametreler : user objesi
+ * Usera ait media resourceların getirilmesine yarayan fonsiyondur.
+ */
   var showUserMediaResources = function(user)
   { 
+    var userMediaResourcesHeader = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+user.name+"</a>";
+    $('#userMediaResource').append(userMediaResourcesHeader);
+    
     if(!user.mediaResources)
     {
       return;
     }
-    
-    var userMediaResourcesHeader = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+user.name+"</a>";
-    $('#userMediaResource').append(userMediaResourcesHeader);
+ 
     if(user.mediaResources)
     {
       for(var i = 0 ;i<user.mediaResources.length; i++)
       {
-        var mediaResource = user.mediaResources[i]
+        var mediaResource = user.mediaResources[i];
         var mediaUrl = url + mediaResource.url;
         var thumbnailUrl = mediaResource.thumbnailUrl;
         if(mediaResource.fileType !== "image")
         {
           thumbnailUrl = url + "media/videothumb.png";
         }
-        var thumbnailElement = "<div><img src='"+thumbnailUrl+"'/></div>"
-        var mediaResourceListItem = "<a class='list-group-item' target='_blank' href='"+mediaUrl+"'>"
-        + thumbnailElement + user.mediaResources[i].fileName+"</a>";
+        var thumbnailElement = "<div><img src='"+thumbnailUrl+"'/></div>";
+        var mediaResourceListItem = "<a class='list-group-item' target='_blank' href='"+mediaUrl+"'>"+thumbnailElement + user.mediaResources[i].fileName+"</a>";
         $('#userMediaResource').append(mediaResourceListItem);  
       }
     }
@@ -101,8 +116,12 @@
     {
       return;
     }
-  }
+  };
   
+  /**
+  * parametreler : user objesi
+  * Usera ait media resourceların getirilmesine yarayan fonsiyondur.
+  */
   var getUserList = function()
   {
     $('#userList').empty();
@@ -118,13 +137,13 @@
         {
           var user = response[i];
           var userListItem = "<a class='list-group-item' href='#' id='"+user.name+
-          "ListItem'>"+ user.name+"<button class='btn btn-danger' onclick=deleteUser('"
-          +user.name+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-trash'></span></button><button class='btn btn-info accordion-toggle'  data-parent='#userList' data-toggle='collapse' href='#"+
+          "ListItem'>"+ user.name+"<button class='btn btn-danger' onclick=deleteUser('"+
+          user.name+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-trash'></span></button><button class='btn btn-info accordion-toggle'  data-parent='#userList' data-toggle='collapse' href='#"+
           user.name+"Form' onclick=getUserDetailsByUsername('"+user.name+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-edit'></span></button><div id='"+
           user.name+"Form' class='userForm collapse'><form class ='"+
           user.name+"'><fieldset><div class='form-group'><label>Kullanıcı Adı</label><input type='text' class='form-control formelement name' name='name' placeholder='Kullanıcı Adı' value="+
-          user.name+"><label>Soyadı</label><input type='text' class='form-control formelement surname' name='surname' placeholder='Soyadı' value="
-          +user.surname+"><label>Email</label><input type='text' class='form-control formelement email' name='email' placeholder='Email' value="+
+          user.name+"><label>Soyadı</label><input type='text' class='form-control formelement surname' name='surname' placeholder='Soyadı' value="+
+          user.surname+"><label>Email</label><input type='text' class='form-control formelement email' name='email' placeholder='Email' value="+
           user.email+">"+
           "<label>Kullanıcı Tipi</label><select class='usertype' name='userType'>"+createOptionStrings(user.type)+"</select><br><br>"+
           "<button class='btn btn-success' onclick=editUserByName('"+user.name+"',"+i+") style='float:right'><span style='float:right' class='glyphicon glyphicon-saved'></span></button></div></fieldset></form></div></a>";
@@ -133,11 +152,15 @@
       },
       error: function(error){ }
     });
-  }
+  };
  
-  function deleteUser(name)
+  /**
+  * parametreler : username
+  * User listesinden seçilen user'ı silme işlemini yapan fonsiyondur.
+  */
+  var  deleteUser = function(username)
   { 
-    var data = {name : name};
+    var data = {name : username};
     $.ajax({
     type: "POST",
     url: url+"service/deleteuser",
@@ -149,8 +172,12 @@
     },
     error: function(error){ }
     });  
-  }
+  };
   
+  /**
+  * @params : username
+  * User listesinden seçilen user'a ait kişisel bilgilerinin getirilmesine yarayan fonsiyondur.
+  */
   var getUserDetailsByUsername = function(name)
   {
     if($("#"+name+"Form").hasClass('in'))
@@ -186,8 +213,13 @@
     },
     error: function(error){ }
     });
-  }
+  };
   
+  /**
+  * @param {string} username - Kullanıcı adı.
+  * @param {int} index -  User listesinden seçilen user'ın indexi.
+  * User listesinden seçilen user'a ait editlenen kişisel bilgilerin kaydedilmesine yarayan fonsiyondur.
+  */
   var editUserByName = function(userName, index)
   {
     Util.loadingDialog.show();
@@ -235,8 +267,13 @@
       },
       error: function(error){ }
     });
-  }
+  };
   
+  /**
+  * @param {string} username - Kullanıcı adı.
+  * @param {int} workspaceId - Çalışma alanı listesinde seçilen çalışma alanının id'si.
+  * User listesinden seçilen user'a ait editlenen kişisel bilgilerin kaydedilmesine yarayan fonsiyondur.
+  */
   var showWorkspaceByName = function(workspaceId,userName)
   { 
     if(adminControl)
@@ -247,13 +284,16 @@
     {
       window.location.href=url+"workspace.html?workspaceId="+workspaceId; 
     }
-  }
+  };
   
+  /**
+  * User yeni çalışma alanı eklemesine yarayan fonsiyondur.
+  */
   var addNewWorkspace = function()
   {
     $("#addNewWorkspace").click(function()
     {
-      if(adminControl && $(".userForm.in").length != 0)
+      if(adminControl && $(".userForm.in").length !== 0)
       {
         var userName = $(".userForm.in form input.name").val();
         window.location.href=url+"workspace.html?userName="+userName;
@@ -263,8 +303,11 @@
         window.location.href=url+"workspace.html";  
       }
     });
-  }
+  };
   
+  /**
+  * Yeni user oluşturulan fonsiyondur.
+  */
   var addCreateNewUser = function ()
   {
     $("#createNewUser").click(function()
@@ -283,8 +326,11 @@
         addCheckEmailisValid(email);
       });
     });
-  }
+  };
   
+  /**
+  * Yeni user oluştururken kullanıcı adının kullanılıp kullanılmadığını kontrol eden fonksiyondur.
+  */
   var checkUser = function(name)
   { 
     var data = {name:name};
@@ -295,8 +341,11 @@
       success: function(response){ },
       error: function(error){ }
     });
-  }
+  };
   
+  /**
+  * Çıkış butonu.
+  */
   var addLogoutButtonOnClick = function()
   {
     $("#logoutButton").click(function()
@@ -304,53 +353,70 @@
       Util.deleteCookie("accessToken");
       window.location.href=url;
     });
-  }
+  };
   
+  /**
+  * Çıkış butonu.
+  */
   var addSaveUserButtonOnClick = function()
   {
     $(".createUser").click(function()
     {
-       var data = {user: {
-                         "name":$("#name").val(),
-                         "surname":$("#surname").val(),
-                         "email":$("#email").val(),
-                         "phone":$("#phone").val(),
-                         "password":$("#password").val(),
-                         "type": document.getElementById('userTypeDropdown').value,
-                         "workspaces":[],
-                         "players":[],
-                         "mediaResources":[]
-                         }};
-      $.ajax({
-        type: "POST",
-        url: url+"service/saveuser",
-        data: data,
-        success: function(response)
-        {
-          BootstrapDialog.alert(response.message);
-          getUserList();
-          $("#createUserModal").modal("hide");
-        },
-        error: function(error){ }
-      });
-    
-    })
-  }
-
+      if(createUserToEmailCheck===true)
+      {
+        var data = {user: {
+                           "name":$("#name").val(),
+                           "surname":$("#surname").val(),
+                           "email":$("#email").val(),
+                           "phone":$("#phone").val(),
+                           "password":$("#password").val(),
+                           "type": document.getElementById('userTypeDropdown').value,
+                           "workspaces":[],
+                           "players":[],
+                           "mediaResources":[]
+                           }};
+        $.ajax({
+          type: "POST",
+          url: url+"service/saveuser",
+          data: data,
+          success: function(response)
+          {
+            BootstrapDialog.alert(response.message);
+            getUserList();
+            $("#createUserModal").modal("hide");
+          },
+          error: function(error){ }
+        });
+      }
+      else
+      {
+        BootstrapDialog.alert("Email adresi geçerli değil");
+      }
+    });
+  };
+  
+  /**
+  * Yeni kaynak eklerken fileların tutulduğu fonksiyon.
+  */
   var addSelectFileMediaResources = function()
   {
     $(this).find('input[type="file"]').click();
     document.getElementById("uploadFile").addEventListener("change",function(event)
     {   
-      $.each(event.target.files, function(index, file) {
-      var fileIndex  ="<div class='mediaelement'><div >"+file.name+"</div><div class='progress'><div id='"+file.name+"' class='progress-bar progress-bar-info' role='progress-bar ' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='height:20px'>&nbsp;</div></div></div>"
-      files.push(file);
-      $("#uploadingFiles").append(fileIndex);
+      $.each(event.target.files, function(index, file) 
+      {
+        var fileIndex  ="<div class='mediaelement'><div >"+file.name+"</div><div class='progress'><div id='"+file.name+"' class='progress-bar progress-bar-info' role='progress-bar ' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='height:20px'>&nbsp;</div></div></div>";
+        files.push(file);
+        $("#uploadingFiles").append(fileIndex);
       });
     });
-  }
+  };
   
-  /* Media Upload*/
+  /**
+  *@param {file} file - Seçilen dosya.
+  *@param {string} filename - Seçilen dosyanın adı.
+  * Seçilen medya kaynakları upload eden fonksiyon.
+  */
   var upload = function (file,filename) 
   {
    
@@ -370,6 +436,11 @@
     uploadRequests.push(xhr);
   };
   
+  /**
+  *@param event - Dosyanın upload kısmındaki event.
+  *@param {string} filename - Seçilen dosyanın adı.
+  * Upload başarıyla tamamlandığında girdiği fonksyion.
+  */
   var updateProgress = function(evt, filename) 
   {
     if (evt.lengthComputable)
@@ -379,8 +450,13 @@
       document.getElementById(filename).style.width=percentage+"%"; 
       document.getElementById(filename).innerHTML=percentage+"%"; 
     }
-  }
-
+  };
+  
+  /**
+  *@param event - Dosyanın upload kısmındaki event.
+  *@param {string} filename - Seçilen dosyanın adı.
+  * Bütün dosyaların upload işlemi bittiğinde girdiği fonksiyon.
+  */
   var transferComplete = function(evt, filename) 
   {
     var file = document.getElementById(filename);
@@ -399,25 +475,37 @@
      files=[];
      $("#uploadingFiles").empty();
      document.getElementById("uploadFile").value = "";
-
      getUserDetails();
      $("#fileUploadModal").modal("hide");
      uploadRequests=[];
     }
-  }
+  };
 
+  /**
+  *@param event - Dosyanın upload kısmındaki event.
+  *@param {string} filename - Seçilen dosyanın adı.
+  * Dosya upload esnasında fail olursa girilen fonksiyon.
+  */
   var transferFailed = function(evt, filename) 
   {
     document.getElementById(filename).setAttribute("class","progress-bar-danger"); 
-  }
-
+  };
+  
+  /**
+  *@param event - Dosyanın upload kısmındaki event.
+  *@param {string} filename - Seçilen dosyanın adı.
+  * Dosya upload iptal edildiğinde girilen fonksiyon.
+  */
   var transferCanceled = function(evt, filename) 
   {
     $("#fileUploadModal").modal("hide");
     uploadRequests=[];
     getUserDetails();
-  }
-
+  };
+  
+  /**
+  * Dosyaları yükle butonu.
+  */
   var addUploadMediaResources = function()
   {
     $("#uploadMediaResources").click(function()
@@ -432,8 +520,11 @@
         upload(files[i],files[i].name);
       }
     });
-  }
+  };
   
+  /**
+  * Yeni kaynak ekle butonu.
+  */
   var addNewMediaResourceButton = function()
   {
     $("#addNewMediaResources").click(function()
@@ -443,40 +534,52 @@
       $("#uploadingFiles").empty();
       $("#uploadFile").val("");
     });
-  }   
-   
+  };  
+  
+  /**
+  * Yeni user kaydı oluşturulurken email check edilen fonksiyon.
+  */  
   var addCheckEmailisValid = function(email) 
   {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if(re.test(email))
     {
       $("#email").css("border","1px solid green");
+      createUserToEmailCheck=true;
     }
+    
     else
     {
       $("#email").css("border","1px solid red");
     }
-  }
+  };
   
-  // Creates options string for user edit combobox. Chooses the one which was given as userType.
+  /**
+  * User typeları combobox şeklinde çıkartılmasını sağlar.
+  */
   var createOptionStrings = function(userType)
   {
     var optionsString = "";
     var userTypes = ["admin","user"];
     for(var i=0;i<userTypes.length;i++)
     {   
-        var stringAddition = (userType === userTypes[i])? "selected":"";
-        optionsString += "<option value='"+userTypes[i]+"' "+stringAddition+">"+userTypes[i]+"</option>";
+      var stringAddition = (userType === userTypes[i])? "selected":"";
+      optionsString += "<option value='"+userTypes[i]+"' "+stringAddition+">"+userTypes[i]+"</option>";
     }
     
     return optionsString;
-  }
+  };
   
+  /**
+  * Dosya upload iptal etme butonu.
+  */
   var addCancelUploadButtonOnClick = function () 
   {
     $("#cancelUpload").click(function()
     {
-      BootstrapDialog.show({
+      if(files.length>0)
+      {
+        BootstrapDialog.show({
             title: 'Uyarı',
             message: 'Dosya yüklemesini iptal etmek istiyor musunuz?',
             buttons: [{
@@ -484,6 +587,7 @@
                 action: function(dialog) {
                     dialog.close();
                     cancelUpload();
+                    $("#fileUploadModal").modal("hide");
                 }
             }, {
                 label: 'Hayır',
@@ -492,16 +596,24 @@
                 }
             }]
         });
+      }
+      else
+      {
+        $("#fileUploadModal").modal("hide");
+      }
     });   
-  }
+  };
   
+  /**
+  * Yüklenmeyen bütün dosyaların iptalini gönderen fonksiyon.
+  */
   var cancelUpload = function ()
   {
     for(var i=0;i<uploadRequests.length;i++)
     {
       uploadRequests[i].abort();
     }
-  }
+  };
     
   $( document ).ready(function() 
   { 
