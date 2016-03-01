@@ -58,8 +58,9 @@
   };
   
  /**
- * parametreler : user objesi
  * Usera ait workspaceleri getirilmesine yarayan fonsiyondur.
+ * @params object user - Kullanıcı
+ * returns - Kullanıcıya ait çalışma alanları bulur ve bitirir.
  */
   var showUserWorkspaces = function(user)
   {
@@ -82,9 +83,10 @@
     }
   };
   
-  /**
- * parametreler : user objesi
+ /**
  * Usera ait media resourceların getirilmesine yarayan fonsiyondur.
+ * @params object user - Kullanıcı
+ * returns - Kullanıcıya ait medya kaynakları bulur ve bitirir.
  */
   var showUserMediaResources = function(user)
   { 
@@ -119,8 +121,8 @@
   };
   
   /**
-  * parametreler : user objesi
-  * Usera ait media resourceların getirilmesine yarayan fonsiyondur.
+  * Kayıtlı bütün kullanıcıları getirir bunu sadece admin görebilir.
+  * @params object user - Kullanıcı
   */
   var getUserList = function()
   {
@@ -155,8 +157,8 @@
   };
  
   /**
-  * parametreler : username
   * User listesinden seçilen user'ı silme işlemini yapan fonsiyondur.
+  * @params : username
   */
   var  deleteUser = function(username)
   { 
@@ -175,8 +177,8 @@
   };
   
   /**
-  * @params : username
   * User listesinden seçilen user'a ait kişisel bilgilerinin getirilmesine yarayan fonsiyondur.
+  * @params {string} username - Kullanıcı adı
   */
   var getUserDetailsByUsername = function(name)
   {
@@ -216,9 +218,9 @@
   };
   
   /**
+  * User listesinden seçilen user'a ait editlenen kişisel bilgilerin kaydedilmesine yarayan fonsiyondur.
   * @param {string} username - Kullanıcı adı.
   * @param {int} index -  User listesinden seçilen user'ın indexi.
-  * User listesinden seçilen user'a ait editlenen kişisel bilgilerin kaydedilmesine yarayan fonsiyondur.
   */
   var editUserByName = function(userName, index)
   {
@@ -270,9 +272,9 @@
   };
   
   /**
+  * User listesinden seçilen user'a ait editlenen kişisel bilgilerin kaydedilmesine yarayan fonsiyondur.
   * @param {string} username - Kullanıcı adı.
   * @param {int} workspaceId - Çalışma alanı listesinde seçilen çalışma alanının id'si.
-  * User listesinden seçilen user'a ait editlenen kişisel bilgilerin kaydedilmesine yarayan fonsiyondur.
   */
   var showWorkspaceByName = function(workspaceId,userName)
   { 
@@ -413,9 +415,9 @@
   };
   
   /**
+  * Seçilen medya kaynakları upload eden fonksiyon.
   *@param {file} file - Seçilen dosya.
   *@param {string} filename - Seçilen dosyanın adı.
-  * Seçilen medya kaynakları upload eden fonksiyon.
   */
   var upload = function (file,filename) 
   {
@@ -437,9 +439,9 @@
   };
   
   /**
+  * Upload başarıyla tamamlandığında girdiği fonksyion.
   *@param event - Dosyanın upload kısmındaki event.
   *@param {string} filename - Seçilen dosyanın adı.
-  * Upload başarıyla tamamlandığında girdiği fonksyion.
   */
   var updateProgress = function(evt, filename) 
   {
@@ -453,9 +455,9 @@
   };
   
   /**
+  * Bütün dosyaların upload işlemi bittiğinde girdiği fonksiyon.
   *@param event - Dosyanın upload kısmındaki event.
   *@param {string} filename - Seçilen dosyanın adı.
-  * Bütün dosyaların upload işlemi bittiğinde girdiği fonksiyon.
   */
   var transferComplete = function(evt, filename) 
   {
@@ -482,9 +484,9 @@
   };
 
   /**
+  * Dosya upload esnasında fail olursa girilen fonksiyon.
   *@param event - Dosyanın upload kısmındaki event.
   *@param {string} filename - Seçilen dosyanın adı.
-  * Dosya upload esnasında fail olursa girilen fonksiyon.
   */
   var transferFailed = function(evt, filename) 
   {
@@ -492,9 +494,9 @@
   };
   
   /**
+  * Dosya upload iptal edildiğinde girilen fonksiyon.
   *@param event - Dosyanın upload kısmındaki event.
   *@param {string} filename - Seçilen dosyanın adı.
-  * Dosya upload iptal edildiğinde girilen fonksiyon.
   */
   var transferCanceled = function(evt, filename) 
   {
@@ -535,9 +537,11 @@
       $("#uploadFile").val("");
     });
   };  
-  
+
   /**
   * Yeni user kaydı oluşturulurken email check edilen fonksiyon.
+  * @params {string} email - Kullanıcı email
+  * returns  - Kaydedilen kullanıcının emailini kontrol eder doğruysa border green yanlışsa red olarak döndürür.
   */  
   var addCheckEmailisValid = function(email) 
   {
@@ -556,6 +560,8 @@
   
   /**
   * User typeları combobox şeklinde çıkartılmasını sağlar.
+  * @params {string} userType - Kullanıcı tipi
+  * returns {string} optionString - Gelen kullanıcı tipi hangi tipteyse onu selected optiona koyup döndürür.
   */
   var createOptionStrings = function(userType)
   {
