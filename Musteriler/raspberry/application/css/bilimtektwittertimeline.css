@@ -1723,10 +1723,11 @@ html[xmlns] .clearfix {
 .tweet p {
   font-size: 9vh;
   margin-left: 3vw;
-  margin-top: 10vh;
+  margin-top: 15vh;
   width: 95vw;
   font-family: kafesfontswisslight;
   color: white;
+  word-break: break-all;
 }
 
 .container {
