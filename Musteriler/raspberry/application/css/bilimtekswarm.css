@@ -1,97 +1,98 @@
-
 html,body,#content
 {
-margin:0px;
-padding:0px;
-height:100%;
-width:100%;
-background-color:black;
+  margin:0px;
+  padding:0px;
+  height:100%;
+  width:100%;
+  background-color:black;
 }
 
 #content
 {
-position:absolute;
-left:0px;
-top:0px;
+  position:absolute;
+  left:0px;
+  top:0px;
 }
 
 #left{
-z-index:2;
-position:absolute;
-height:100%;
-left:0px;
-top:0px;
-width:62%;
-
-
+  z-index:2;
+  position:absolute;
+  height:100%;
+  left:0px;
+  top:0px;
+  width:62%;
 }
 
 #right{
-z-index:1;
-position:absolute;
-height:100%;
-right:0px;
-top:0px;
-width:38%;
+  z-index:1;
+  position:absolute;
+  height:100%;
+  right:0px;
+  top:0px;
+  width:38%;
 }
+
 #twitter{
 	background: url("../media/twitter-bg.png") no-repeat;
-    z-index: 1;
-    position: absolute;
-    background-size: 182%;
-    height: 35%;
-    right: 0px;
-    top: 0px;
-    width: 100%;
+  z-index: 1;
+  position: absolute;
+  background-size: 182%;
+  height: 35%;
+  right: 0px;
+  top: 0px;
+  width: 100%;
 }
-#foursquare {
-    background: url("../media/swarm2.png") no-repeat;
-    z-index: 1;
-    position: absolute;
-    height: 35%;
-    right: 0px;
-    top: 35%;
-    margin-top: 5px;
-    width: 100%;
-    background-size: 115%;
-    
+
+#foursquare 
+{
+  background: url("../media/swarm2.png") no-repeat;
+  z-index: 1;
+  position: absolute;
+  height: 35%;
+  right: 0px;
+  top: 35%;
+  margin-top: 5px;
+  width: 100%;
+  background-size: 115%;
 }
+
 #weather{
-z-index: 1;
-    position: absolute;
-    height: 35%;
-    right: 0px;
-    top: 70%;
-    width: 100%;
+  z-index: 1;
+  position: absolute;
+  height: 35%;
+  right: 0px;
+  top: 70%;
+  width: 100%;
 }
+
 @-webkit-keyframes spinnerRotate
 {
-    from{-webkit-transform:rotate(0deg);}
-    to{-webkit-transform:rotate(360deg);}
+  from{-webkit-transform:rotate(0deg);}
+  to{-webkit-transform:rotate(360deg);}
 }
 @-webkit-keyframes bottomThenTop {
-	 from{-webkit-transform:translateY(750px);}
-    to{-webkit-transform:translateY(0px);}
-  }
- @-webkit-keyframes leftThenRight {
-    from{-webkit-transform:translate(750px);}
-    to{-webkit-transform:translate(0px);}
- }
-  .marqueebottomThenTop{
-	   -webkit-animation-name: bottomThenTop;
-    -webkit-animation-duration: 1.5s;
-    -webkit-animation-timing-function: ease;
-    font-size: 4vh;
-    margin-left: 10%;
-    margin-top: 0%;
-    font-family: sans-serif;
-    line-height: 0.5vh;
-    color: #520000;
+  from{-webkit-transform:translateY(750px);}
+  to{-webkit-transform:translateY(0px);}
+}
+  
+@-webkit-keyframes leftThenRight {
+  from{-webkit-transform:translate(750px);}
+  to{-webkit-transform:translate(0px);}
+}
+.marqueebottomThenTop{
+  -webkit-animation-name: bottomThenTop;
+  -webkit-animation-duration: 1.5s;
+  -webkit-animation-timing-function: ease;
+  font-size: 4vh;
+  margin-top: 0%;
+  font-family: sans-serif;
+  line-height: 0.5vh;
+  color: #520000;
 }
 
 .marqueeleftThenRight {
-	  width: 35%;
-    height: 60%;
+	  width: 22vh;
+    height: 22vh;
     -webkit-animation-name: leftThenRight;
     -webkit-animation-duration: 1.5s;
     -webkit-animation-timing-function: ease;
@@ -143,7 +144,6 @@ p{
     -webkit-animation-duration: 1.5s;
     -webkit-animation-timing-function: ease;
     font-size: 27px;
-    margin-left: 25px;
     margin-top: -10px;
     font-family: sans-serif;
     line-height: 0.9;

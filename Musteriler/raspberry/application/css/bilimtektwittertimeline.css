@@ -172,12 +172,6 @@ ul li {
     color: black;
 }
 
-.tweet p {
-    width: 100%;
-    font-family: kafesfontswisslight;
-	color: white;
-}
-
 #bottomBar {
     width: 100%;
     position: absolute;
@@ -312,14 +306,6 @@ ul li {
         width: 100%;
     }
 
-    .topwrap .imgWrap{
-        float: left;
-        width: 310px;
-        height: 100%;
-        margin-top: 20px;
-        overflow: hidden;
-    }
-
     .topwrap .imgWrap img {
         /*max-width: 100%;
         max-height: 100%;*/
@@ -346,12 +332,6 @@ ul li {
     .userInfoWrap h4 {
         margin-top: 60px;
         font-size: 64px;
-    }
-
-    .tweet p {
-        margin-top: 70px;
-        font-size: 100px;
-        min-height: 400px;
     }
 
     #bottomBar {
@@ -382,14 +362,6 @@ ul li {
         width: 100%;
     }
 
-    .topwrap .imgWrap{
-        float: left;
-        width: 310px;
-        height: 100%;
-        margin-top: 20px;
-        overflow: hidden;
-    }
-
     .topwrap .imgWrap img {
         /*max-width: 100%;
         max-height: 100%;*/
@@ -418,12 +390,6 @@ ul li {
         font-size: 64px;
     }
 
-    .tweet p {
-        margin-top: 70px;
-        font-size: 100px;
-        min-height: 400px;
-    }
-
     #bottomBar {
         height: 100px;
         bottom: 40px;
@@ -447,14 +413,6 @@ ul li {
     .topwrap {
         height: 250px;
         width: 100%;
-    }
-
-    .topwrap .imgWrap{
-        float: left;
-        width: 240px;
-        height: 100%;
-        margin-top: 20px;
-        overflow: hidden;
     }
 
     .topwrap .imgWrap img {
@@ -485,12 +443,6 @@ ul li {
         font-size: 46px;
     }
 
-    .tweet p {
-        margin-top: 50px;
-        font-size: 58px;
-        min-height: 300px;
-    }
-
     #bottomBar {
         height: 75px;
         bottom: 40px;
@@ -514,14 +466,6 @@ ul li {
     .topwrap {
         height: 230px;
         width: 100%;
-    }
-
-    .topwrap .imgWrap{
-        float: left;
-        width: 230px;
-        height: 100%;
-        margin-top: 10px;
-        overflow: hidden;
     }
 
     .topwrap .imgWrap img {
@@ -552,12 +496,6 @@ ul li {
         font-size: 40px;
     }
 
-    .tweet p {
-        margin-top: 50px;
-        font-size: 54px;
-        min-height: 300px;
-    }
-
     #bottomBar {
         height: 70px;
         bottom: 30px;
@@ -581,14 +519,6 @@ ul li {
     .topwrap {
         height: 230px;
         width: 100%;
-    }
-
-    .topwrap .imgWrap{
-        float: left;
-        width: 230px;
-        height: 100%;
-        margin-top: 10px;
-        overflow: hidden;
     }
 
     .topwrap .imgWrap img {
@@ -619,12 +549,6 @@ ul li {
         font-size: 36px;
     }
 
-    .tweet p {
-        margin-top: 50px;
-        font-size: 50px;
-        min-height: 300px;
-    }
-
     #bottomBar {
         height: 70px;
         bottom: 30px;
@@ -648,16 +572,6 @@ ul li {
     .topwrap {
         height: 176px;
         width: 100%;
-    }
-
-    .topwrap .imgWrap{
-        float: left;
-        width: 172px;
-        height: 100%;
-       /* uygar
-       margin-top: 8px;
-       */
-        overflow: hidden;
     }
 
     .topwrap .imgWrap img {
@@ -686,12 +600,6 @@ ul li {
     .userInfoWrap h4 {
         font-size: 26px;
         margin-top: 19px;
-    }
-
-    .tweet p {
-        margin-top: 25px;
-        font-size: 60px;
-        min-height: 270px;
     }
 
     #bottomBar {
@@ -723,14 +631,6 @@ ul li {
         width: 100%;
     }
 
-    .topwrap .imgWrap{
-        float: left;
-        width: 172px;
-        height: 100%;
-        margin-top: 8px;
-        overflow: hidden;
-    }
-
     .topwrap .imgWrap img {
         /*max-width: 100%;
         max-height: 100%;*/
@@ -757,12 +657,6 @@ ul li {
     .userInfoWrap h4 {
         font-size: 26px;
         margin-top: 10px;
-    }
-
-    .tweet p {
-        margin-top: 25px;
-        font-size: 33px;
-        min-height: 270px;
     }
 
     #bottomBar {
@@ -795,15 +689,6 @@ ul li {
         width: 100%;
     }
 
-    .topwrap .imgWrap{
-        float: left;
-        width: 136px;
-        height: 100%;
-        margin-top: 10px;
-        overflow: visible;
-		border-radius : 50px;
-    }
-
     .topwrap .imgWrap img {
         /*max-width: 100%;
         max-height: 100%;*/
@@ -830,12 +715,6 @@ ul li {
     .userInfoWrap h4 {
         font-size: 20px;
         margin-top: 10px;
-    }
-
-    .tweet p {
-        margin-top: 25px;
-        font-size: 26px;
-        min-height: 300px;
     }
 
     #bottomBar {
@@ -867,14 +746,6 @@ ul li {
         width: 100%;
     }
 
-    .topwrap .imgWrap{
-        float: left;
-        width: 136px;
-        height: 100%;
-        margin-top: 10px;
-        overflow: hidden;
-    }
-
     .topwrap .imgWrap img {
         /*max-width: 100%;
         max-height: 100%;*/
@@ -901,12 +772,6 @@ ul li {
     .userInfoWrap h4 {
         font-size: 20px;
         margin-top: 10px;
-    }
-
-    .tweet p {
-        margin-top: 25px;
-        font-size: 26px;
-        min-height: 300px;
     }
 
     #bottomBar {
@@ -936,14 +801,6 @@ ul li {
       margin: 2%;
     }
 
-    .topwrap .imgWrap{
-        float: left;
-        width: 73px;
-        height: 100%;
-        margin-top: 0;
-        overflow: hidden;
-    }
-
     .topwrap .imgWrap img {
         /*max-width: 100%;
         max-height: 100%;*/
@@ -972,13 +829,6 @@ ul li {
         margin-top: 20px;
     }
 
-    .tweet p {
-        margin-top: 15px;
-        font-size: 8vh;
-        min-height: 80px;
-        margin-left:3%;
-    }
-
     #bottomBar {
         height: 20px;
         bottom: 10px;
@@ -990,11 +840,6 @@ ul li {
 }
 /*width:1280 height:800*/
 @media  screen  and (min-width: 1199px) and (max-width:1281px){
-.tweet p
-{
-font-size:12px;  
-}
-
 .container {
         width: 278px;
         /*height: 640px;*/
@@ -1002,27 +847,13 @@ font-size:12px;
         margin-top: 5%;
         margin-bottom: 5%;
     }
-    .topwrap .imgWrap{
-        float: left;
-        width: 50px;
-        height: 70%;
-        margin-top: 0;
-        overflow: hidden;
-    }
-
 }
 /*between starting at 400x300 */
 @media all and (min-width: 400px) and (max-width:799px) and (max-height:449px) and (min-height:300px) {
     #nostyles {
         display: none;
     }
-    .animateOut {
-    -webkit-transform: translateY(-100%);
-    -moz-transform: translateY(-100%);
-    -ms-transform: translateY(-100%);
-    -o-transform: translateY(-100%);
-    transform: translateY(40%);
-}
+
 .animateIn {
     -webkit-transform: translateY(-100%);
     -moz-transform: translateY(-100%);
@@ -1040,15 +871,6 @@ font-size:12px;
 
     .topwrap {
         width: 100%;
-    }
-
-    .topwrap .imgWrap{
-            float: left;
-    width: 25%;
-    height: 40vh;
-    margin-top: 0;
-    overflow: hidden;
-    margin-left: 5px;
     }
 
     .topwrap .imgWrap img {
@@ -1078,12 +900,7 @@ font-size:12px;
         margin-top: 20px;
     }
 
-    .tweet p {
-        margin-top: 15px;
-        font-size: 9vh;
-        margin-left : 5px;
-        min-height: 80px;
-    }
+
 
     #bottomBar {
         height: 20px;
@@ -1114,14 +931,6 @@ font-size:12px;
         width: 100%;
     }
 
-    .topwrap .imgWrap{
-        float: left;
-        width: 37px;
-        height: 100%;
-        margin-top: 0;
-        overflow: hidden;
-    }
-
     .topwrap .imgWrap img {
         /*max-width: 100%;
         max-height: 100%;*/
@@ -1148,12 +957,6 @@ font-size:12px;
     .userInfoWrap h4 {
         font-size: 8px;
         margin-top: 10px;
-    }
-
-    .tweet p {
-        margin-top: 10px;
-        font-size: 9px;
-        min-height: 60px;
     }
 
     #bottomBar {
@@ -1192,14 +995,6 @@ font-size:12px;
         width: 100%;
     }
 
-    .topwrap .imgWrap{
-        float: left;
-        width: 37px;
-        height: 100%;
-        margin-top: 0;
-        overflow: hidden;
-    }
-
     .topwrap .imgWrap img {
         /*max-width: 100%;
         max-height: 100%;*/
@@ -1226,12 +1021,6 @@ font-size:12px;
     .userInfoWrap h4 {
         font-size: 10px;
         margin-top: 10px;
-    }
-
-    .tweet p {
-        margin-top: 10px;
-        font-size: 12px;
-        min-height: 60px;
     }
 
     #bottomBar {
@@ -1272,14 +1061,6 @@ font-size:12px;
         width: 100%;
     }
 
-    .topwrap .imgWrap{
-        float: left;
-        width: 115px;
-        height: 100%;
-        margin-top: 0;
-        overflow: hidden;
-    }
-
     .topwrap .imgWrap img {
         /*max-width: 100%;
         max-height: 100%;*/
@@ -1306,13 +1087,6 @@ font-size:12px;
     .userInfoWrap h4 {
         font-size: 14px;
         margin-top: 20px;
-    }
-
-    .tweet p {
-        margin-top: 20px;
-        font-size: 30px;
-        min-height: 600px;
-        line-height: 38px;
     }
 
     #bottomBar {
@@ -1349,14 +1123,6 @@ font-size:12px;
         width: 100%;
     }
 
-    .topwrap .imgWrap{
-        float: left;
-        width: 171px;
-        height: 100%;
-        margin-top: 0;
-        overflow: hidden;
-    }
-
     .topwrap .imgWrap img {
         /*max-width: 100%;
         max-height: 100%;*/
@@ -1383,13 +1149,6 @@ font-size:12px;
     .userInfoWrap h4 {
         font-size: 24px;
         margin-top: 40px;
-    }
-
-    .tweet p {
-        margin-top: 20px;
-        font-size: 40px;
-        min-height: 600px;
-        line-height: 50px;
     }
 
     #bottomBar {
@@ -1425,14 +1184,6 @@ font-size:12px;
         width: 100%;
     }
 
-    .topwrap .imgWrap{
-        float: left;
-        width: 171px;
-        height: 100%;
-        margin-top: 0;
-        overflow: hidden;
-    }
-
     .topwrap .imgWrap img {
         /*max-width: 100%;
         max-height: 100%;*/
@@ -1459,13 +1210,6 @@ font-size:12px;
     .userInfoWrap h4 {
         font-size: 24px;
         margin-top: 40px;
-    }
-
-    .tweet p {
-        margin-top: 20px;
-        font-size: 40px;
-        min-height: 600px;
-        line-height: 50px;
     }
 
     #bottomBar {
@@ -1501,14 +1245,6 @@ font-size:12px;
         width: 100%;
     }
 
-    .topwrap .imgWrap{
-        float: left;
-        width: 231px;
-        height: 100%;
-        margin-top: 0;
-        overflow: hidden;
-    }
-
     .topwrap .imgWrap img {
         /*max-width: 100%;
         max-height: 100%;*/
@@ -1535,13 +1271,6 @@ font-size:12px;
     .userInfoWrap h4 {
         font-size: 38px;
         margin-top: 70px;
-    }
-
-    .tweet p {
-        margin-top: 60px;
-        font-size: 54px;
-        min-height: 800px;
-        line-height: 64px;
     }
 
     #bottomBar {
@@ -1578,14 +1307,6 @@ font-size:12px;
         width: 100%;
     }
 
-    .topwrap .imgWrap{
-        float: left;
-        width: 311px;
-        height: 100%;
-        margin-top: 0;
-        overflow: hidden;
-    }
-
     .topwrap .imgWrap img {
         /*max-width: 100%;
         max-height: 100%;*/
@@ -1612,13 +1333,6 @@ font-size:12px;
     .userInfoWrap h4 {
         font-size: 58px;
         margin-top: 70px;
-    }
-
-    .tweet p {
-        margin-top: 60px;
-        font-size: 74px;
-        min-height: 1000px;
-        line-height: 84px;
     }
 
     #bottomBar {
@@ -1665,14 +1379,6 @@ font-size:12px;
         float: left;
     }
 
-    .topwrap .imgWrap{
-        float: left;
-        width: 100px;
-        height: 100%;
-        margin-top: 0;
-        overflow: hidden;
-    }
-
     .topwrap .imgWrap img {
         /*max-width: 100%;
         max-height: 100%;*/
@@ -1699,12 +1405,6 @@ font-size:12px;
     .userInfoWrap h4 {
         font-size: 24px;
         margin-top: 10px;
-    }
-
-    .tweet p {
-        margin-top: 10px;
-        font-size: 30px;
-        min-height: 300px;
     }
 
     #bottomBar {
@@ -1737,26 +1437,12 @@ font-size:12px;
         vertical-align: middle;
     }
 
-    .container {
-        width: 1151px;
-        /*height: 640px;*/
-        margin: auto;
-        margin-top: 2%;
-        margin-bottom: 5%;
-    }
+
 
     .topwrap {
         height: 380px;
         width: 600px;
         float: left;
-    }
-
-    .topwrap .imgWrap{
-        float: left;
-        width: 140px;
-        height: 100%;
-        margin-top: 0;
-        overflow: hidden;
     }
 
     .topwrap .imgWrap img {
@@ -1785,12 +1471,6 @@ font-size:12px;
     .userInfoWrap h4 {
         font-size: 24px;
         margin-top: 10px;
-    }
-
-    .tweet p {
-        margin-top: 12px;
-        font-size: 34px;
-        min-height: 300px;
     }
 
     #bottomBar {
@@ -2018,26 +1698,53 @@ html[xmlns] .clearfix {
     }
 }
 
-.imgWrap
-{
-	
-	width: 15.92vh;
-    height: 15.92vh;
-	z-index: 9999;
-	border-radius: 10px !important;
+.topwrap .imgWrap{
+    float: left;
+    width: 28vh;
+    height: 28vh;
+    margin-top: 2vh;
+    margin-left: 2vh;
+    overflow: hidden;
+    z-index: 9999;
 }
 
 .imgWrap img
 {
-	
 	width: 100%;
 	height: 100%;
 	z-index: 9999;
 	border-radius: 10px !important;
 }
+.tweet
+{
+  height:100%;
+}
+
+.tweet p {
+  font-size: 9vh;
+  margin-left: 3vw;
+  margin-top: 5vh;
+  width: 97vw;
+  font-family: kafesfontswisslight;
+  color: white;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.animateOut {
+  -webkit-transform: translateY(-120%);
+  -moz-transform: translateY(-120%);
+  -ms-transform: translateY(-120%);
+  -o-transform: translateY(-120%);
+  transform: translateY(40%);
+}
 
 a {
-     color: black;
+  color: black;
 	text-decoration: none;
 }
 

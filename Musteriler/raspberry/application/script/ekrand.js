@@ -14,33 +14,38 @@
 		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
 	
-	var loadBilimtekWeather = function(divId, forecastHour)
-	{
-				var apiKeys = ['8e82ec315100332c9f3aa2c76045a','a272014963b21c3dc5cb5998048ba','d41ce4dfe469c427dcbf48713ea77'];
-	            $('#'+divId).bilimtekWeather({
-				forecastHour: forecastHour,
-                WWOAPIKey: '6a3905b54ba672fdbfdce034dafc2ac9',
-                premiumAPIKey: true,
-                WWOAPIVersion:1, // free api key'de 2 olacak
-                imgPath: '../media/weatherimages/',
-                timeFormat: 24,
-                refreshInterval: 600000,
-                alwaysShowForecast:false,
-                enableSearchField:false,
-                enableForecast:false,
-                reduction:'auto', //0-1 arasi veya auto
-                showHum:false,
-                showPrec:false,
-                showVis:false,
-                showPress:false,
-                showHigh:false,
-                showLow:false,
-                showWind:false,
-                lang : 'tr',
-                units : 'metric',
-				divId : divId
-            });
-	}
+var loadBilimtekWeather = function(divId, forecastHour)
+{
+  var apiKeys = ['8e82ec315100332c9f3aa2c76045a','a272014963b21c3dc5cb5998048ba','d41ce4dfe469c427dcbf48713ea77'];
+  $('#'+divId).bilimtekWeather({
+    forecastHour: forecastHour,
+    WWOAPIKey: '6a3905b54ba672fdbfdce034dafc2ac9',
+    premiumAPIKey: true,
+    WWOAPIVersion:1, // free api key'de 2 olacak
+    imgPath: '../media/weatherimages/',
+    timeFormat: 24,
+    refreshInterval: 600000,
+    alwaysShowForecast:false,
+    enableSearchField:false,
+    enableForecast:false,
+    reduction:'auto', //0-1 arasi veya auto
+    showHum:false,
+    showPrec:false,
+    showVis:false,
+    showPress:false,
+    showHigh:false,
+    showLow:false,
+    showWind:false,
+    lang : 'tr',
+    units : 'metric',
+    divId : divId
+    CSSanimations		: false,
+    JSanimations		: false,
+    snow				: false,
+    rain				: false,
+    wind				: false
+  });
+}
 	
 	var checkContainer = function(divId) {
 		var xdivId = '#'+divId;
