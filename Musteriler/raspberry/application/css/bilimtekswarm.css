@@ -78,39 +78,41 @@ z-index: 1;
     to{-webkit-transform:translate(0px);}
  }
   .marqueebottomThenTop{
-	-webkit-animation-name: bottomThenTop;
+	   -webkit-animation-name: bottomThenTop;
     -webkit-animation-duration: 1.5s;
     -webkit-animation-timing-function: ease;
-    font-size: 35px;
-    margin-left: 100px;
-    margin-top: -79px;
+    font-size: 4vh;
+    margin-left: 10%;
+    margin-top: 0%;
     font-family: sans-serif;
-    line-height: 2.9;
+    line-height: 0.5vh;
     color: #520000;
 }
 
 .marqueeleftThenRight {
-	width: 250px;
-    height: 250px;
+	  width: 35%;
+    height: 60%;
     -webkit-animation-name: leftThenRight;
     -webkit-animation-duration: 1.5s;
     -webkit-animation-timing-function: ease;
-    margin-left: 450px;
-    margin-top: 45px;
+    margin-left: 60%;
+    margin-top: 4%;
     border-radius: 20px;
 } 
 
 .marqueeZeroCount {
-    width: 330px;
-    height: 250px;
+    width: 50%;
+    height: 50%;
     -webkit-animation-name: leftThenRight;
     -webkit-animation-duration: 1.5s;
     -webkit-animation-timing-function: ease;
-    margin-left: 360px;
-    margin-top: 45px;
+    margin-left: 45%;
+    margin-top: 5%;
     border-radius: 20px;
-    font-size: 35px;
-	color: #520000;
+    font-size: 4vh;
+    color: #520000;
+    font-weight: 600;
+
 }
 p{
  font-size: 35px;
@@ -135,18 +137,7 @@ p{
     background-position-x: 0px;
     background-position-y: 0px;
 }
-.marqueeZeroCount {
-    width: 170px;
-    height: 250px;
-    -webkit-animation-name: leftThenRight;
-    -webkit-animation-duration: 1.5s;
-    -webkit-animation-timing-function: ease;
-    margin-left: 200px;
-    margin-top: 45px;
-    border-radius: 20px;
-	font-size: 20px;
-    color: #520000;
-}
+
 .marqueebottomThenTop {
     -webkit-animation-name: bottomThenTop;
     -webkit-animation-duration: 1.5s;

@@ -14,6 +14,8 @@
   {
     $("#workspaceList").empty();
     $("#userMediaResource").empty();
+    $("#userNameInResource").empty();
+    $("#userNameInWorkspace").empty();
     Util.loadingDialog.show();
     if(!accessToken)
     {
@@ -65,7 +67,7 @@
   var showUserWorkspaces = function(user)
   {
     var userWorkspaceHeader = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+user.name+"</a>";
-    $('#workspaceList').append(userWorkspaceHeader);
+    $('#userNameInWorkspace').append(userWorkspaceHeader);
     
     if(!user.workspaces)
     {
@@ -91,7 +93,7 @@
   var showUserMediaResources = function(user)
   { 
     var userMediaResourcesHeader = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+user.name+"</a>";
-    $('#userMediaResource').append(userMediaResourcesHeader);
+    $('#userNameInResource').append(userMediaResourcesHeader);
     
     if(!user.mediaResources)
     {
@@ -157,11 +159,35 @@
   };
  
   /**
-  * User listesinden seçilen user'ı silme işlemini yapan fonsiyondur.
+  * User listesinden seçilen user'ı silme işlemini yapmadan önce çıkan alert.
   * @params : username
   */
   var  deleteUser = function(username)
   { 
+    BootstrapDialog.show({
+            title: 'Uyarı',
+            message: username+' adlı kullanıcıyı silmek istiyor musunuz?',
+            buttons: [{
+                label: 'Evet',
+                action: function(dialog) {
+                    dialog.close();
+                    deleteUserWithName(username);
+                }
+            }, {
+                label: 'Hayır',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            }]
+        });
+  };
+  
+  /**
+  * User listesinden seçilen user'ı silme işlemini yapan fonsiyondur.
+  * @params : username
+  */
+  var deleteUserWithName = function (username)
+  {
     var data = {name : username};
     $.ajax({
     type: "POST",
@@ -173,8 +199,8 @@
       getUserList();      
     },
     error: function(error){ }
-    });  
-  };
+    });
+  }
   
   /**
   * User listesinden seçilen user'a ait kişisel bilgilerinin getirilmesine yarayan fonsiyondur.
@@ -198,7 +224,8 @@
         $(this).addClass('collapse');   
       }
     });
-    
+    $("#userNameInResource").empty();
+    $("#userNameInWorkspace").empty();
     $("#workspaceList").empty();
     $("#userMediaResource").empty();
 

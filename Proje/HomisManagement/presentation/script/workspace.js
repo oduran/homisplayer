@@ -1335,11 +1335,12 @@ var WallManager = function () {
 
      });
   };
-  
+
   /** Sayfada bulunan elementlerin onclick, validate gibi olaylarının set edilmesini sağlar.
   */
   var setHtmlElementEvents = function()
   {
+   
     addIsNumberCheck();
     addPageValidationControls();
     addSaveWorkspaceOnClick();

@@ -2,7 +2,12 @@ var Util =
 {
   getWindowUrl: function()
   {
-   return window.location.href.substring(0,window.location.href.lastIndexOf('/') +1);
+    if (!window.location.origin) 
+    {
+      window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
+    }
+    console.log(window.location.origin)
+    return window.location.origin+"/";
   },
   
   getCookieValue : function (name) 

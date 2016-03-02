@@ -21,10 +21,26 @@
 }
 
 .bx-wrapper img {
-	max-width: 100%;
-	display: block;
-}
+   margin-left: -6%;
+    max-width: 101%;
+    display: block;
+    width: 101%;
+    height: 102vh;
+    margin-top: -2%;
 
+}
+@media all and (max-height:1080px) and (min-height:801px) 
+{
+  .bx-wrapper img {
+   margin-left: -4%;
+    max-width: 101%;
+    display: block;
+    width: 101%;
+    height: 102vh;
+    margin-top: -2%;
+
+}
+}
 /** THEME
 ===================================*/
 
@@ -34,7 +50,7 @@
     border: 1px solid #000;
     /* left: -5px; */
     background: #fff;
-    height: 100% !important;
+    height: 101% !important;
     -webkit-transform: translatez(0);
     -moz-transform: translatez(0);
     -ms-transform: translatez(0);

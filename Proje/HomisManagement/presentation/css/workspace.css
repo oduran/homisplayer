@@ -116,6 +116,13 @@ body{
   margin-left:5% !important;
   width:90% !important;
 }
+#textConfigModal
+{
+  width: 50%;
+  height: 50%;
+  left: 25%;
+  overflow: hidden
+}
 #screenConfigDiv
 {
   overflow : auto;

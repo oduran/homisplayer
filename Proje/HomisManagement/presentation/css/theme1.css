@@ -24,6 +24,16 @@ p{
     font-family: Swiss721BT-Medium, Arial, Helvetica, sans-serif;
 	
 }
+.imagelist
+{
+  width: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+#images
+{
+  display : flex;
+}
 .header{
 	
 	 
