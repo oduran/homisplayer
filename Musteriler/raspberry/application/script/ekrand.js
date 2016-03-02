@@ -38,7 +38,7 @@ var loadBilimtekWeather = function(divId, forecastHour)
     showWind:false,
     lang : 'tr',
     units : 'metric',
-    divId : divId
+    divId : divId,
     CSSanimations		: false,
     JSanimations		: false,
     snow				: false,
