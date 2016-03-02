@@ -1,27 +1,33 @@
-
-
+  var user;
+  var userMediaresources ="";
+  var iframeMediaresources = "";
+  var selectedMenu=0;
+  var url = Util.getWindowUrl();
   var addSaveImages = function ()
   {
     $("#saveImages").click(function()
     { 
-      $("#right").empty();
+       $("#templateUrl").contents().find("#right").empty();
        var images =[];
-      $("#images .right-image").each(function(e)
+               debugger;
+
+       $("#onIframeMediaResources").find("option").each(function(e)
       { 
-        images.push($("#images .right-image")[e]);
-         if(e==0)
+        var mediaUrl = $("#onIframeMediaResources").find("option")[e].text
+
+        if(e==0)
         {
-          images[e].setAttribute("class","right-image active");
+          var element = "<img class='right-image active' src = '"+url+"media/"+mediaUrl+"'></img>"
         }
         else
         {
-          images[e].setAttribute("class","right-image");
+          var element = "<img src = '"+url+"media/"+mediaUrl+"'></img>"
         }
-        images[e].removeAttribute("style");
+                  images.push(element);
+
       });
        $("#imagesConfigModal").modal("hide");
-       $("#right").append(images);
-
+       $("#templateUrl").contents().find("#right").append(images);
     });
   }
 
@@ -63,25 +69,29 @@
     //Resim Animasyonu Değiştirme
     $("#templateUrl").contents().find(".editablemultipleimages").on('dblclick' ,function () {
     $("#imagesConfigModal").modal("show");   
-    
-
+ 
       var images =[];
       $("#images").empty();
-      
+          
       $("#templateUrl").contents().find("#right .right-image").each(function(e,el)
       {
-        debugger;
-        var elements = "<option value='option3' selected='selected'>'"+el.src+"'</option>"
-        $("#dual-list-box .demo2").append(elements);
+        var url = el.src;
+        var resourceName = url.substr(url.lastIndexOf('/') + 1);
+        var iframeMediaResource = "<option id='"+resourceName+"_iframe'>"+resourceName+"</option>"
+        $("#onIframeMediaResources").append(iframeMediaResource);
+       
+        
       });
-      
+       var userName = Util.getParameterByName('userName');
+        
+       user = getUser(userName)
+       
     });
      
     
     //Dialogta Açılan Resimleri Değiştirme
     $("#templateUrl").contents().find(".editableimage").on('dblclick', function (e,el)
     {
-      debugger;
       if(e.target.tagName==="VIDEO")
       {
         $("<input id='file' type='file' accept='video/*'>").insertAfter(e.currentTarget.firstChild).focus();
@@ -118,6 +128,53 @@
       
     });
   }
+  
+  var getUser = function(userName)
+  {
+    if(!userName)
+    {
+      
+      return;
+    }
+    
+     var data = {};
+    $.ajax({
+    type: "POST",
+    url: url+"service/getuser",
+    data: data,
+    success: function(response)
+    {
+      return getUserMediaResources(response.user);
+
+    },
+    error: function(error){ }
+    });
+  };
+  
+  var getUserMediaResources = function(user)
+    { 
+     
+      if(!user.mediaResources)
+      {
+        return;
+      }
+       
+      if(user.mediaResources)
+      {
+        for(var i = 0 ;i<user.mediaResources.length; i++)
+        {
+          debugger;
+          var mediaUrl = url + user.mediaResources[i].url;
+          var resourceName = mediaUrl.substr(mediaUrl.lastIndexOf('/') + 1);
+          var mediaResourceName = "<option id='"+resourceName+"_userMedia' >"+resourceName+"</option>";
+          $("#onUserMediaResources").append(mediaResourceName); 
+        }
+      }
+      else
+      {
+        return;
+      }
+    }
 
   var createguid = function()
   {
@@ -129,20 +186,61 @@
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
       s4() + '-' + s4() + s4() + s4();
   }
-
+  
+  var addMoveLeftButtonClick = function()
+  {
+    $("#moveLeft").click(function()
+    {
+      if(selectedMenu===1)
+      {
+        for(var i =0 ; i<userMediaresources.length;i++)
+        {
+          var option = "<option id='"+userMediaresources[i]+"_iframe'>"+userMediaresources[i]+"</option>";
+          $("#onUserMediaResources option[id='"+userMediaresources[i]+"_userMedia']").remove();
+          $("#onIframeMediaResources").append(option);
+        }
+       }
+    });
+  }
+  
+  var addMoveRightButtonClick = function()
+  {
+    $("#moveRight").click(function()
+    {
+      if(selectedMenu===2)
+      {
+         for(var i =0 ; i<iframeMediaresources.length;i++)
+        {
+          var option = "<option id='"+iframeMediaresources[i]+"_userMedia'>"+iframeMediaresources[i]+"</option>";
+          $("#onIframeMediaResources option[id='"+iframeMediaresources[i]+"_iframe']").remove();
+          $("#onUserMediaResources").append(option);
+        }
+       }
+    });
+  }
+  
+  var addOptionOnChange = function () 
+  {
+  $('#onUserMediaResources').on('change',function()
+    { 
+      selectedMenu=1;
+      userMediaresources=$(this).val();
+     }); 
+  $('#onIframeMediaResources').on('change',function()
+    { 
+      selectedMenu=2;
+      iframeMediaresources=$(this).val();
+     });    
+  }
 
 $( document ).ready(function() 
 {	 
    $("#templateUrl").load(function(){
       doubleClickFunctions();
     });
-    var demo2 = $('.demo2').bootstrapDualListbox({
-      nonSelectedListLabel: 'Non-selected',
-      selectedListLabel: 'Selected',
-      preserveSelectionOnMove: 'moved',
-      moveOnSelect: false,
-      nonSelectedFilter: 'ion ([7-9]|[1][0-2])'
-    });
+    addMoveLeftButtonClick();
+    addMoveRightButtonClick();
+    addOptionOnChange();
     addSaveTextValue();
     addSaveImages();
 });

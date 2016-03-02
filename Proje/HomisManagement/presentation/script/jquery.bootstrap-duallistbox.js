@@ -1,23 +1,3 @@
-/**
- * jQuery DualListBox plugin with Bootstrap styling v1.0
- * http://www.geodan.nl
- *
- * Copyright (c) 2014 Geodan B.V.
- * Created by: Alex van den Hoogen
- *
- * Usage:
- *   Create a <select> and apply this script to that select via jQuery like so:
- *   $('select').DualListBox(); - the DualListBox will than be created for you.
- *
- *   Options and parameters can be provided through html5 data-* attributes or
- *   via a provided JavaScript object. Optionally already selected items can
- *   also be provided and this script can download the JSON to fill the
- *   DualListBox when a valid URI is provided.
- *
- *   See the default parameters (below) for a complete list of options.
- */
-//plugin source
-//====================================
 ;(function ($, window, document, undefined) {
   // Create the defaults once
   var pluginName = 'bootstrapDualListbox',
@@ -41,7 +21,8 @@
       infoText: 'Showing all {0}',                                                        // text when all options are visible / false for no info text
       infoTextFiltered: '<span class="label label-warning">Filtered</span> {0} from {1}', // when not all of the options are visible due to the filter
       infoTextEmpty: 'Empty list',                                                        // when there are no options present in the list
-      filterOnValues: false                                                               // filter by selector's values, boolean
+      filterOnValues: false,                                                              // filter by selector's values, boolean
+      sortByInputOrder: false
     },
     // Selections are invisible on android if the containing select is styled with CSS
     // http://code.google.com/p/android/issues/detail?id=16922
@@ -65,7 +46,7 @@
   }
 
   function updateSelectionStates(dualListbox) {
-    dualListbox.element.find('option').each(function(index, item) {
+    dualListbox.elements.form.find('option').each(function(index, item) {
       var $item = $(item);
       if (typeof($item.data('original-index')) === 'undefined') {
         $item.data('original-index', dualListbox.elementCount++);
@@ -77,10 +58,16 @@
   }
 
   function changeSelectionState(dualListbox, original_index, selected) {
-    dualListbox.element.find('option').each(function(index, item) {
+    dualListbox.elements.form.find('option').each(function(index, item) {
       var $item = $(item);
       if ($item.data('original-index') === original_index) {
         $item.prop('selected', selected);
+        if(selected){
+          $item.attr('data-sortindex', dualListbox.sortIndex);
+          dualListbox.sortIndex++;
+        } else {
+          $item.removeAttr('data-sortindex');
+        }
       }
     });
   }
@@ -98,7 +85,7 @@
 
     var visible1 = dualListbox.elements.select1.find('option').length,
       visible2 = dualListbox.elements.select2.find('option').length,
-      all1 = dualListbox.element.find('option').length - dualListbox.selectedElements,
+      all1 = dualListbox.elements.form.find('option').length - dualListbox.selectedElements,
       all2 = dualListbox.selectedElements,
       content = '';
 
@@ -131,7 +118,7 @@
     dualListbox.elements.select1.empty();
     dualListbox.elements.select2.empty();
 
-    dualListbox.element.find('option').each(function(index, item) {
+    dualListbox.elements.form.find('option').each(function(index, item) {
       var $item = $(item);
       if ($item.prop('selected')) {
         dualListbox.selectedElements++;
@@ -157,7 +144,7 @@
 
     dualListbox.elements['select'+selectIndex].empty().scrollTop(0);
     var regex = new RegExp($.trim(dualListbox.elements['filterInput'+selectIndex].val()), 'gi'),
-      allOptions = dualListbox.element.find('option'),
+      allOptions = dualListbox.elements.form.find('option'),
       options = dualListbox.element;
 
     if (selectIndex === 1) {
@@ -180,11 +167,30 @@
   }
 
   function saveSelections(dualListbox, selectIndex) {
-    var options = dualListbox.element.find('option');
+    var options = dualListbox.elements.form.find('option');
     dualListbox.elements['select'+selectIndex].find('option').each(function(index, item) {
       var $item = $(item);
       options.eq($item.data('original-index')).data('_selected', $item.prop('selected'));
     });
+  }
+
+  function sortOptionsByInputOrder(select){
+    var selectopt = select.children('option');
+
+    selectopt.sort(function(a,b){
+      var an = parseInt(a.getAttribute('data-sortindex')),
+          bn = parseInt(b.getAttribute('data-sortindex'));
+
+          if(an > bn) {
+             return 1;
+          }
+          if(an < bn) {
+            return -1;
+          }
+          return 0;
+    });
+
+    selectopt.detach().appendTo(select);
   }
 
   function sortOptions(select) {
@@ -195,7 +201,7 @@
 
   function clearSelections(dualListbox) {
     dualListbox.elements.select1.find('option').each(function() {
-      dualListbox.element.find('option').data('_selected', false);
+      dualListbox.elements.form.find('option').data('_selected', false);
     });
   }
 
@@ -216,7 +222,11 @@
 
     refreshSelects(dualListbox);
     triggerChangeEvent(dualListbox);
-    sortOptions(dualListbox.elements.select2);
+    if(dualListbox.settings.sortByInputOrder){
+        sortOptionsByInputOrder(dualListbox.elements.select2);
+    } else {
+        sortOptions(dualListbox.elements.select2);
+    }
   }
 
   function remove(dualListbox) {
@@ -247,10 +257,12 @@
       saveSelections(dualListbox, 1);
     }
 
-    dualListbox.element.find('option').each(function(index, item) {
+    dualListbox.elements.form.find('option').each(function(index, item) {
       var $item = $(item);
       if (!$item.data('filtered1')) {
         $item.prop('selected', true);
+        $item.attr('data-sortindex', dualListbox.sortIndex);
+        dualListbox.sortIndex++;
       }
     });
 
@@ -266,10 +278,11 @@
       saveSelections(dualListbox, 2);
     }
 
-    dualListbox.element.find('option').each(function(index, item) {
+    dualListbox.elements.form.find('option').each(function(index, item) {
       var $item = $(item);
       if (!$item.data('filtered2')) {
         $item.prop('selected', false);
+        $item.removeAttr('data-sortindex');
       }
     });
 
@@ -402,6 +415,7 @@
 
       // Apply all settings
       this.selectedElements = 0;
+      this.sortIndex = 0;
       this.elementCount = 0;
       this.setBootstrap2Compatible(this.settings.bootstrap2Compatible);
       this.setFilterTextClear(this.settings.filterTextClear);
@@ -426,6 +440,7 @@
       this.setInfoTextFiltered(this.settings.infoTextFiltered);
       this.setInfoTextEmpty(this.settings.infoTextEmpty);
       this.setFilterOnValues(this.settings.filterOnValues);
+      this.setSortByInputOrder(this.settings.sortByInputOrder);
 
       // Hide the original select
       this.element.hide();
@@ -660,6 +675,13 @@
       }
       return this.element;
     },
+    setSortByInputOrder: function(value, refresh){
+        this.settings.sortByInputOrder = value;
+        if (refresh) {
+          refreshSelects(this);
+        }
+        return this.element;
+    },
     getContainer: function() {
       return this.container;
     },
@@ -729,26 +751,3 @@
   };
 
 })(jQuery, window, document);
-
-
-//init
-//====================================
-var demo2 = $('.demo2').bootstrapDualListbox({
-          nonSelectedListLabel: 'Non-selected',
-          selectedListLabel: 'Selected',
-          preserveSelectionOnMove: 'moved',
-          moveOnSelect: false,
-          nonSelectedFilter: ''
-})
-
-//solution
-//====================================
-
-
-  $("#demo2").each(function () {
-        $(this).bootstrapDualListbox({
-            nonselectedlistlabel: 'Available',
-            selectedlistlabel: 'Selected',
-            moveonselect: false
-        });
-    });

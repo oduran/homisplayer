@@ -116,12 +116,26 @@ body{
   margin-left:5% !important;
   width:90% !important;
 }
+.imagedialogModal
+{
+  width:100%;
+}
 #textConfigModal
 {
   width: 50%;
   height: 50%;
   left: 25%;
   overflow: hidden
+}
+#onUserMediaResources
+{
+  width:100%;
+  height:100%
+}
+#onIframeMediaResources
+{
+  width:100%;
+  height:100%
 }
 #screenConfigDiv
 {
