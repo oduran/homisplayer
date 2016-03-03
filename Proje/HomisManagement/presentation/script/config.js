@@ -9,21 +9,38 @@
     { 
        $("#templateUrl").contents().find("#right").empty();
        var images =[];
-               debugger;
-
+ 
        $("#onIframeMediaResources").find("option").each(function(e)
       { 
-        var mediaUrl = $("#onIframeMediaResources").find("option")[e].text
-
+        var mediaUrl = $("#onIframeMediaResources").find("option")[e].value;
+        
         if(e==0)
-        {
-          var element = "<img class='right-image active' src = '"+url+"media/"+mediaUrl+"'></img>"
+        { 
+          if(mediaUrl.indexOf(".webm")>0||mediaUrl.indexOf(".mp4")>0||mediaUrl.indexOf(".ogg")>0)
+          {
+            var element = "<video autoplay class='active' src = '"+mediaUrl+"'></video>"
+          }
+          
+          else
+          {
+            var element = "<img class='right-image active' src = '"+mediaUrl+"'></img>";
+          }
         }
+        
         else
         {
-          var element = "<img src = '"+url+"media/"+mediaUrl+"'></img>"
+          if(mediaUrl.indexOf(".webm")>0||mediaUrl.indexOf(".mp4")>0||mediaUrl.indexOf(".ogg")>0)
+          {
+            var element = "<video src = '"+mediaUrl+"'></video>";
+          }
+          
+          else
+          {
+            var element = "<img src = '"+mediaUrl+"'></img>";
+          }
         }
-                  images.push(element);
+        
+        images.push(element);
 
       });
        $("#imagesConfigModal").modal("hide");
@@ -54,8 +71,38 @@
     })
   }
 
+  var twitterIdChangeFunction = function()
+  {
+    $("#templateUrl").contents().find("#twitter iframe").contents().on('click', function () 
+     {
+       BootstrapDialog.show({
+            title: 'Twitter Id',
+            message: $('<input id="twitterIdInput" class="form-control" placeholder="TwitterId Giriniz"></input><br><input id="twitterNameInput" class="form-control" placeholder="Twitter İsmini Giriniz"></input>'),
+            buttons: [{
+                label: 'Kaydet',
+                cssClass: 'btn-primary',
+                hotkey: 13, // Enter.
+                action: function(dialog) {
+                  var twitterId = $("#twitterIdInput").val();
+                  var twitterName = $("#twitterNameInput").val();
+                  $("#templateUrl").contents().find("#bilimtektwittertimeline").attr('src',url +"themes/bilimtektwittertimeline.html?twitterId="+twitterId+"&twitterName="+twitterName);
+                  dialog.$modal.modal('hide');
+                  setTimeout(twitterIdChangeFunction, 200);
+                  setTimeout(function(){
+                    $("#templateUrl").contents().find("#bilimtektwittertimeline").contents().find(".twitterelement p").text(twitterName);                    
+                  }, 2000);
+
+                 }
+            }]
+        });      
+     });
+  }
+  
   var doubleClickFunctions = function()
   {
+     setTimeout(twitterIdChangeFunction, 200);
+
+  
     //Menu Itemleri Düzenleme İşlemi
     
      $("#templateUrl").contents().find(".editabletext").on('dblclick', function () {
@@ -77,7 +124,7 @@
       {
         var url = el.src;
         var resourceName = url.substr(url.lastIndexOf('/') + 1);
-        var iframeMediaResource = "<option id='"+resourceName+"_iframe'>"+resourceName+"</option>"
+        var iframeMediaResource = "<option value='"+url+"' id='"+resourceName+"_iframe'>"+resourceName+"</option>"
         $("#onIframeMediaResources").append(iframeMediaResource);
        
         
@@ -163,10 +210,9 @@
       {
         for(var i = 0 ;i<user.mediaResources.length; i++)
         {
-          debugger;
           var mediaUrl = url + user.mediaResources[i].url;
           var resourceName = mediaUrl.substr(mediaUrl.lastIndexOf('/') + 1);
-          var mediaResourceName = "<option id='"+resourceName+"_userMedia' >"+resourceName+"</option>";
+          var mediaResourceName = "<option value='"+mediaUrl+"' id='"+resourceName+"_userMedia' >"+resourceName+"</option>";
           $("#onUserMediaResources").append(mediaResourceName); 
         }
       }
@@ -195,8 +241,9 @@
       {
         for(var i =0 ; i<userMediaresources.length;i++)
         {
-          var option = "<option id='"+userMediaresources[i]+"_iframe'>"+userMediaresources[i]+"</option>";
-          $("#onUserMediaResources option[id='"+userMediaresources[i]+"_userMedia']").remove();
+          var resourceName = userMediaresources[i].substr(userMediaresources[i].lastIndexOf('/') + 1);
+          var option = "<option value='"+userMediaresources[i]+"' id='"+resourceName+"_iframe'>"+resourceName+"</option>";
+          $("#onUserMediaResources option[id='"+resourceName+"_userMedia']").remove();
           $("#onIframeMediaResources").append(option);
         }
        }
@@ -209,10 +256,12 @@
     {
       if(selectedMenu===2)
       {
+        debugger;
          for(var i =0 ; i<iframeMediaresources.length;i++)
         {
-          var option = "<option id='"+iframeMediaresources[i]+"_userMedia'>"+iframeMediaresources[i]+"</option>";
-          $("#onIframeMediaResources option[id='"+iframeMediaresources[i]+"_iframe']").remove();
+          var resourceName = iframeMediaresources[i].substr(iframeMediaresources[i].lastIndexOf('/') + 1);
+          var option = "<option value='"+iframeMediaresources[i]+"'  id='"+resourceName+"_userMedia'>"+resourceName+"</option>";
+          $("#onIframeMediaResources option[id='"+resourceName+"_iframe']").remove();
           $("#onUserMediaResources").append(option);
         }
        }

@@ -739,8 +739,9 @@ var WallManager = function () {
       var wallScreenId = $("#wallScreenId").val();
       $("#"+wallScreenId).empty();
       var iframe = document.getElementById('templateUrl').contentWindow.document.getElementsByTagName("html")[0];
+     
       var iframeHtml = iframe.outerHTML;
-
+      
       html2canvas(iframe, {
         onrendered: function(canvas) 
         {
@@ -781,7 +782,7 @@ var WallManager = function () {
           }
           
           Util.loadingDialog.hide();
-          $('#templateUrl').attr('src', '');
+          $('#templateUrl').empty();
           $('#screenConfigModal').modal('hide');
         }
       });
@@ -867,6 +868,7 @@ var WallManager = function () {
   {
     $("#closeWallScreen").click(function()
     {  
+      $('#templateUrl').empty();
       $('#screenConfigModal').modal('hide');
     });
   };
