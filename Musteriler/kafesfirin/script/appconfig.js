@@ -1,6 +1,6 @@
 ﻿var appConfig = 
 {
-	twitterId:"666636527968088064",
+	twitterId:"705666502712811520",
 	twitterName:"kafesfirin",
 	sliderMedia:"twitter",
   swarmVenueId:"4c61187213791b8de11851af",
