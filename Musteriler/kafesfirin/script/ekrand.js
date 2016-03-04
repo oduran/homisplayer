@@ -68,6 +68,9 @@
 		twitterId = (twitterId==="")?"666636527968088064" : twitterId; // default kafes firin
 		var twitterName = getQueryParameterByName("twitterName");
 		twitterName = (twitterName == "")? "@kafesfirin" : twitterName;
+    $("#bilimtektwittertimeline").load(function(){
+      $("#bilimtektwittertimeline").contents().find(".twitterelement p").text(""+twitterName);
+    });
 		var sliderMedia = getQueryParameterByName("sliderMedia");
 		sliderMedia = (sliderMedia==='')? "twitter" : sliderMedia; // default twitter
 		function startTime(divId, forecastHour) {

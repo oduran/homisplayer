@@ -56,8 +56,6 @@
   
 	jQuery(document).ready(function ($) {
 		var twitterId = getQueryParameterByName("twitterId");
-    var twitterName = getQueryParameterByName("twitterName");
-    $(".twitterelement p").text(twitterName);
 		var config8 = {
 			"id": twitterId,//'666636527968088064', -> kafesfirin
 			"dataOnly": true,
