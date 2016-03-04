@@ -1,0 +1,188 @@
+html,body,#content
+{
+  margin:0px;
+  padding:0px;
+  height:100%;
+  width:100%;
+  background-color:black;
+}
+
+#content
+{
+  position:absolute;
+  left:0px;
+  top:0px;
+}
+
+#left{
+  z-index:2;
+  position:absolute;
+  height:100%;
+  left:0px;
+  top:0px;
+  width:62%;
+}
+
+#right{
+  z-index:1;
+  position:absolute;
+  height:100%;
+  right:0px;
+  top:0px;
+  width:38%;
+}
+
+#twitter{
+	background: url("../media/twitter-bg.png") no-repeat;
+  z-index: 1;
+  position: absolute;
+  background-size: 182%;
+  height: 35%;
+  right: 0px;
+  top: 0px;
+  width: 100%;
+}
+
+#foursquare 
+{
+  background: url("../media/swarm2.png") no-repeat;
+  z-index: 1;
+  position: absolute;
+  height: 35%;
+  right: 0px;
+  top: 35%;
+  margin-top: 5px;
+  width: 100%;
+  background-size: 115%;
+}
+
+#weather{
+  z-index: 1;
+  position: absolute;
+  height: 35%;
+  right: 0px;
+  top: 70%;
+  width: 100%;
+}
+
+@-webkit-keyframes spinnerRotate
+{
+  from{-webkit-transform:rotate(0deg);}
+  to{-webkit-transform:rotate(360deg);}
+}
+@-webkit-keyframes bottomThenTop {
+  from{-webkit-transform:translateY(750px);}
+  to{-webkit-transform:translateY(0px);}
+}
+  
+@-webkit-keyframes leftThenRight {
+  from{-webkit-transform:translate(750px);}
+  to{-webkit-transform:translate(0px);}
+}
+.marqueebottomThenTop{
+  -webkit-animation-name: bottomThenTop;
+  -webkit-animation-duration: 1.5s;
+  -webkit-animation-timing-function: ease;
+  font-size: 4vh;
+  margin-top: 0%;
+  font-family: sans-serif;
+  line-height: 0.5vh;
+  color: #520000;
+}
+
+.marqueeleftThenRight {
+	  width: 22vh;
+    height: 22vh;
+    -webkit-animation-name: leftThenRight;
+    -webkit-animation-duration: 1.5s;
+    -webkit-animation-timing-function: ease;
+    margin-left: 60%;
+    margin-top: 4%;
+    border-radius: 20px;
+} 
+
+.marqueeZeroCount {
+    width: 50%;
+    height: 50%;
+    -webkit-animation-name: leftThenRight;
+    -webkit-animation-duration: 1.5s;
+    -webkit-animation-timing-function: ease;
+    margin-left: 45%;
+    margin-top: 5%;
+    border-radius: 20px;
+    font-size: 4vh;
+    color: #520000;
+    font-weight: 600;
+
+}
+p{
+ font-size: 35px;
+     margin-top: -50px;
+
+	font-family: sans-serif;
+	color:white;
+	margin-left:20px;
+}
+@media only screen and (width: 1024px)  {
+    
+#foursquare {
+    background: url("../media/swarm2.png") no-repeat;
+    z-index: 1;
+    position: absolute;
+    height: 35%;
+    right: 0px;
+    top: 35%;
+    margin-top: 5px;
+    width: 100%;
+    background-size: initial;
+    background-position-x: 0px;
+    background-position-y: 0px;
+}
+
+.marqueebottomThenTop {
+    -webkit-animation-name: bottomThenTop;
+    -webkit-animation-duration: 1.5s;
+    -webkit-animation-timing-function: ease;
+    font-size: 27px;
+    margin-top: -10px;
+    font-family: sans-serif;
+    line-height: 0.9;
+    color: #520000;
+    font-style: normal;
+    font-variant: normal;
+}
+.marqueeleftThenRight {
+    width: 160px;
+    height: 160px;
+    -webkit-animation-name: leftThenRight;
+    -webkit-animation-duration: 1.5s;
+    -webkit-animation-timing-function: ease;
+    margin-left: 200px;
+    margin-top: 14px;
+    border-radius: 20px;
+}
+ #bilimtekweather1 {
+    box-sizing: border-box;
+    height: 30vh !important;
+    top: 70%;
+    left: -8px;
+    width: 100% !important;
+    margin-top: 10px!important;
+    border-radius: 10px !important;
+    border: 1px solid !important;
+}
+#twitter {
+    background: url("../media/twitter-bg.png") no-repeat;
+    z-index: 1;
+    position: absolute;
+    background-size: cover;
+    height: 35%;
+    right: 0px;
+    top: 0px;
+    width: 100%;
+    background-position-y: 0px;
+    background-position-x: -60px;
+}
+
+}
+

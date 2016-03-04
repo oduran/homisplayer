@@ -738,10 +738,13 @@ var WallManager = function () {
       Util.loadingDialog.show();
       var wallScreenId = $("#wallScreenId").val();
       $("#"+wallScreenId).empty();
+      var checkScreenMedia = document.getElementById('templateUrl').src;
       var iframe = document.getElementById('templateUrl').contentWindow.document.getElementsByTagName("html")[0];
-     
       var iframeHtml = iframe.outerHTML;
-      
+      if(checkScreenMedia.indexOf("twitter")>-1)
+      {
+        iframeHtml = checkScreenMedia;
+      }
       html2canvas(iframe, {
         onrendered: function(canvas) 
         {
@@ -782,7 +785,8 @@ var WallManager = function () {
           }
           
           Util.loadingDialog.hide();
-          $('#templateUrl').empty();
+          $('#templateUrl').attr('src','');
+          $('#templateUrl').attr('srcdoc','');
           $('#screenConfigModal').modal('hide');
         }
       });
@@ -868,7 +872,8 @@ var WallManager = function () {
   {
     $("#closeWallScreen").click(function()
     {  
-      $('#templateUrl').empty();
+      $('#templateUrl').attr('srcdoc','');
+      $('#templateUrl').attr('src','');
       $('#screenConfigModal').modal('hide');
     });
   };
@@ -879,7 +884,7 @@ var WallManager = function () {
   var getAllTemplatesImages = function (id) 
   {
     $('#templatesDiv').empty();
-    for(var i = 1 ; i<5; i++)
+    for(var i = 1 ; i<6; i++)
     {  
       var img = " <label for='"+url+"media/template"+i+".jpg'><input id='"+url+"media/template"+i+".jpg' type='radio' name='type' value='theme"+i+".html'/><img src='"+url+"media/template"+i+".jpg' class='screeniframe' style='margin-top:10px;width:100%'/></label>";
       $('#templatesDiv').append(img);
@@ -897,6 +902,12 @@ var WallManager = function () {
        $("#templateUrl").css("transform-origin","0 0");
        $("#templateUrl").css("-webkit-transform","scale("+$("#screenConfigDiv").width()/$("#screenWidth").val()+")");
        $("#templateUrl").attr("class","");
+       if($(this).val()==="theme5.html")
+       {
+         $("#templateUrl").attr("src","");
+         setSocialMediaProperties(templateUrl);
+         return;
+       }
        $("#templateUrl").attr("src",url+"themes/"+templateUrl);
     });
     
@@ -904,6 +915,57 @@ var WallManager = function () {
     {
       getSelectedScreenHtml(wallIndex,id);
     }
+  };
+  
+  /** Sosyal medya(raspberry) için kullanılan ekranın twitter swarm ayarlarının yapıldığı fonksiyon
+  * @params {string} templateUrl - Kullanıcı dialogta çıkan bilgileri girdikten sonra templateUrl e gitmesi için gönderilir.
+  */
+  var setSocialMediaProperties = function(templateUrl)
+  {
+     BootstrapDialog.show({
+            title: 'Medya Ayarları',
+            message: $('<input id="twitterIdInput" class="form-control" placeholder="TwitterId Giriniz" value=689785930517970944></input><br>'+
+                       '<input id="twitterNameInput" class="form-control" placeholder="Twitter İsmini Giriniz" value=deliganspub></input><br>'+
+                       '<input id="swarmVenueId" class="form-control" placeholder="Swarm Venue Id" value = 56a8999b498e6d9f0d8add0c></input><br>'+
+                       '<input id="swarmOauthToken" class="form-control" placeholder="Swarm OAuthToken" value=A5P5WIBWXDOX5PJRMWL3NDI2LVQX2HVJQBAC0CZHMS2RIM15></input><br>'+
+                       '<label>Kullanılacak Sosyal Medya Kaynağı</label><select class="mediatype" name="mediaType">'+createOptionStrings("instagram")+'</select><br>'),
+            buttons: [{
+                label: 'Kaydet',
+                cssClass: 'btn-primary',
+                hotkey: 13, // Enter.
+                action: function(dialog) {
+                  appConfig.twitterId = $("#twitterIdInput").val();
+                  appConfig.twitterName = $("#twitterNameInput").val();
+                  appConfig.sliderMedia = $(".mediatype").val();
+                  console.log($(".mediatype").val());
+                  appConfig.swarmVenueId = $("#swarmVenueId").val();
+                  appConfig.swarmOauthToken = $("#swarmOauthToken").val();
+                  dialog.$modal.modal('hide');
+                 
+                  $("#templateUrl").attr("src","themes/"+templateUrl+"?twitterId="+appConfig.twitterId+
+                                                            "&twitterName="+appConfig.twitterName+
+                                                            "&sliderMedia="+appConfig.sliderMedia+
+                                                            "&swarmVenueId="+appConfig.swarmVenueId+
+                                                            "&swarmOauthToken="+appConfig.swarmOauthToken);
+                
+                  }
+            }]
+        });
+  }
+  
+  /** Sosyal medya(raspberry) için kullanılan ekranın kullanılacak sosyal medya kaynağının seçimi yapılması için combobox oluşturur.
+  */
+  var createOptionStrings = function(socialMedia)
+  {
+    var optionsString = "";
+    var mediaTypes = ["instagram","twitter"];
+    for(var i=0;i<mediaTypes.length;i++)
+    {   
+      var stringAddition = (mediaTypes === mediaTypes[i])? "selected":"";
+      optionsString += "<option value='"+mediaTypes[i]+"' "+stringAddition+">"+mediaTypes[i]+"</option>";
+    }
+    
+    return optionsString;
   };
   
   /** Şablon Dialogunda editlenen theme'i kaydettiğimizde ordaki ekranın görüntüsünü alıp ekrandaki duvara kaydeden fonksiyon. 
@@ -939,11 +1001,18 @@ var WallManager = function () {
     {
       if(screens[i].id===id)
       {
+        debugger;
        $("#templateUrl").css("width",$("#screenWidth").val()+"px");
        $("#templateUrl").css("height",$("#screenHeight").val()+"px");
        $("#templateUrl").css("transform-origin","0 0");
        $("#templateUrl").css("-webkit-transform","scale("+$("#screenConfigDiv").width()/$("#screenWidth").val()+")");
        $("#templateUrl").attr("class","");
+       if(screens[i].html.indexOf("http")===0)
+       {
+         $("#templateUrl").attr("src",screens[i].html);
+                return true;
+
+       }
        $("#templateUrl").attr("srcdoc",screens[i].html);
        return true;
       }

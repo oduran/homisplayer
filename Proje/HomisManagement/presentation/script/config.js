@@ -73,7 +73,7 @@
 
   var twitterIdChangeFunction = function()
   {
-    $("#templateUrl").contents().find("#twitter iframe").contents().on('click', function () 
+    $("#templateUrl").contents().find("#twitter iframe").contents().on('dblclick', function () 
      {
        BootstrapDialog.show({
             title: 'Twitter Id',
@@ -82,17 +82,17 @@
                 label: 'Kaydet',
                 cssClass: 'btn-primary',
                 hotkey: 13, // Enter.
-                action: function(dialog) {
+                action: function(dialog) 
+                {
                   var twitterId = $("#twitterIdInput").val();
                   var twitterName = $("#twitterNameInput").val();
                   $("#templateUrl").contents().find("#bilimtektwittertimeline").attr('src',url +"themes/bilimtektwittertimeline.html?twitterId="+twitterId+"&twitterName="+twitterName);
                   dialog.$modal.modal('hide');
-                  setTimeout(twitterIdChangeFunction, 200);
-                  setTimeout(function(){
-                    $("#templateUrl").contents().find("#bilimtektwittertimeline").contents().find(".twitterelement p").text(twitterName);                    
-                  }, 2000);
-
-                 }
+                  $("#templateUrl").contents().find("#bilimtektwittertimeline").load(function(){
+                    twitterIdChangeFunction();
+                    $("#templateUrl").contents().find("#bilimtektwittertimeline").contents().find(".twitterelement p").text("@"+twitterName);       
+                  });          
+                }
             }]
         });      
      });

@@ -740,7 +740,6 @@
 					 	27.11.2015
 					 	Open Weather Map API'sine gore duzenlendi
 					  */
-					debugger;
 					var data = s;
 					if( typeof data !== 'undefined' && typeof data.error !== 'undefined' && typeof data.error[0] !== 'undefined' && typeof data.error[0].msg !== 'undefined'  ){
 						if( typeof console !== 'undefined' ){

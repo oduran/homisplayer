@@ -21,7 +21,7 @@ height:100%;
 left:0px;
 top:0px;
 width:38%;
-	background: url(../../../mediaresources/leftbackground.png);
+	background: url(/media/leftbackground.png);
 
 }
 .imagedialog
@@ -67,7 +67,7 @@ video{
 }
 @font-face {
     font-family: headerFont;
-	src: url( ../../../mediaresources/font/SWZ921N.woff);
+	src: url( /media/font/SWZ921N.woff);
 
  }
 
@@ -180,7 +180,7 @@ li {
 	left: 20px;
 	width: 96px;
 	height: 33px;
-		background: url(../../../mediaresources/vector_smart_object_1.png);
+		background: url(/media/vector_smart_object_1.png);
 
  	background-repeat:no-repeat;
 	}
