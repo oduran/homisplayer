@@ -9,6 +9,7 @@
  <script src="../script/bilimtektwittertimelineloader.js" type="text/javascript"></script>
  <script>
 	var tweetarr =[];
+	
 	function getQueryParameterByName(name) {
 		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
 		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -62,7 +63,7 @@
 		return (json) ? JSON.stringify(treeObject) : treeObject;
 	}
 
-
+  
 	jQuery(document).ready(function ($) {
 		var twitterId = getQueryParameterByName("twitterId");
 		var config8 = {
@@ -74,7 +75,6 @@
 			"enableLinks":false,
 			"showImages":false,
 			"maxTweets":20
-
 		};
 
 		function momentDateFormatter(date, dateString) {
@@ -83,21 +83,25 @@
 		twitterFetcher.fetch(config8);
 
 		function populateTpl(tweets) {
-
 			for (var i = 0, lgth = tweets.length; i < lgth; i++) {
 			try{
 				var tweetObject = tweets[i];
 				var author = JSON.parse( mapDOM(tweetObject.author,true));
-				var userAvatar = author.content[2].attributes;
+				var userAvatar = author.content[2].content[1].content[1].attributes;
 				var tw = tweetObject.tweet;
 				var ind = tw.search('pic.twitter.com');
-				var username  = author.content[2].content[3].content[1].content[0];
+        var userString = author.content[2].attributes["aria-label"];
+        var userNameRegex = /.*\(ekran adı: (.*)\)/
+        var realNameRegex = /(.*) \(ekran adı:.*/
+        var userName = userNameRegex.exec(userString)[1];
+        var realName = realNameRegex.exec(userString)[1];
+				//var username  = author.content[2].content[3].content[1].content[0];
 				tw = tw.replace(/\b(a href="https:\/\/t\.co.*" rel="nofollow" dir="ltr" data-expanded-url="https:\/\/www.swarmapp.*" .*a)\b/g,"br/");
 				tweetarr.push({
 					Contents : (ind===-1? tw : tw.replace(tw.substring(ind,ind+26),'') ), //  tweetObject.tweet'teki pic.twitter.com linklerinden arindirma,
-					RealName : author.content[2].content[1].content[1].content[0],
-					UserImageUrl:(username==="kafesfirin"?'../media/kafeslogo.png': userAvatar["data-src-2x"].replace("_bigger",'')),
-					Username: author.content[2].content[3].content[1].content[0],
+					RealName : realName,
+					UserImageUrl:(userName==="kafesfirin"?'../media/kafeslogo.png': userAvatar["data-src-2x"].replace("_bigger",'')),
+					Username: userName,
 					DisplayTime: (tweetObject.time.indexOf('sa')>0?tweetObject.time+". önce":tweetObject.time)
 
 				});
@@ -166,13 +170,6 @@
 							' </div>' +
 							' </li>');
 				});
-				
-				$( "img" ).each(function( index ) {
-					if($(this).hasClass("Emoji"))
-					{
-						$(this).css("width","15px");            
-					}
-				});
 			}
 		}
 	})
@@ -186,7 +183,11 @@
 			Unsupported format.  Email us at destek@bilimtek.com and tell us the size of the zone you are trying to put it in.
 		</div>
 	</div>
-	<div id="bottomBar" class="clearfix">
+	<div id="bottomBar" >
+    <div class="twitterelement">
+      <p>@kafesfirin</p>
+      <img src="../media/twitter-icon.png" class="twitterelement"/>
+    </div>
 	</div>
 	<div id="example8">
 	</div>

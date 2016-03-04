@@ -1,5 +1,5 @@
 /*********************************************************************
-*  #### Twitter Post Fetcher v13.0 ####
+*  #### Twitter Post Fetcher v15.0 ####
 *  Coded by Jason Mayes 2015. A present to all the developers out there.
 *  www.jasonmayes.com
 *  Please keep this disclaimer with my code if you use it. Thanks. :-)
@@ -61,7 +61,7 @@
 
   function strip(data) {
     return data.replace(/<b[^>]*>(.*?)<\/b>/gi, function(a,s){return s;})
-        .replace(/class=".*?"|data-query-source=".*?"|dir=".*?"|rel=".*?"/gi,
+        .replace(/class="(?!(tco-hidden|tco-display|tco-ellipsis))+.*?"|data-query-source=".*?"|dir=".*?"|rel=".*?"/gi,
         '');
   }
 
@@ -85,8 +85,9 @@
   }
 
   function extractImageUrl(image_data) {
-    if (image_data !== undefined) {
-      var data_src = image_data.innerHTML.match(/data-srcset="([A-z0-9%_\.-]+)/i)[0];
+ if (image_data !== undefined && image_data.innerHTML.indexOf('data-srcset') >= 0) {
+      var data_src = image_data.innerHTML
+          .match(/data-srcset="([A-z0-9%_\.-]+)/i)[0];
       return decodeURIComponent(data_src).split('"')[1];
     }
   }
@@ -169,6 +170,12 @@
          supportsClassName = false;
       }
 
+      function swapDataSrc(element) {
+        var avatarImg = element.getElementsByTagName('img')[0];
+        avatarImg.src = avatarImg.getAttribute('data-src-2x');
+        return element;
+      };
+      
       var tweets = [];
       var authors = [];
       var times = [];
@@ -179,21 +186,23 @@
       var x = 0;
 
       if (supportsClassName) {
-        var tmp = div.getElementsByClassName('tweet');
+        var tmp = div.getElementsByClassName('timeline-Tweet');
         while (x < tmp.length) {
-          if (tmp[x].getElementsByClassName('retweet-credit').length > 0) {
+          if (tmp[x].getElementsByClassName('timeline-Tweet-retweetCredit').length > 0) {
             rts.push(true);
           } else {
             rts.push(false);
           }
           if (!rts[x] || rts[x] && showRts) {
-            tweets.push(tmp[x].getElementsByClassName('e-entry-title')[0]);
+            tweets.push(tmp[x].getElementsByClassName('timeline-Tweet-text')[0]);
             tids.push(tmp[x].getAttribute('data-tweet-id'));
-            authors.push(tmp[x].getElementsByClassName('p-author')[0]);
+            authors.push(swapDataSrc(tmp[x]
+                .getElementsByClassName('timeline-Tweet-author')[0]));
             times.push(tmp[x].getElementsByClassName('dt-updated')[0]);
-            permalinksURL.push(tmp[x].getElementsByClassName('permalink')[0]);
-            if (tmp[x].getElementsByClassName('inline-media')[0] !== undefined) {
-              images.push(tmp[x].getElementsByClassName('inline-media')[0]);
+            permalinksURL.push(tmp[x].getElementsByClassName('timeline-Tweet-timestamp')[0]);
+            if (tmp[x].getElementsByClassName('timeline-Tweet-media')[0] !==
+                undefined) {
+              images.push(tmp[x].getElementsByClassName('timeline-Tweet-media')[0]);
             } else {
               images.push(undefined);
             }
@@ -201,23 +210,31 @@
           x++;
         }
       } else {
-        var tmp = getElementsByClassName(div, 'tweet');
+        var tmp = getElementsByClassName(div, 'timeline-Tweet');
         while (x < tmp.length) {
-          tweets.push(getElementsByClassName(tmp[x], 'e-entry-title')[0]);
-          tids.push(tmp[x].getAttribute('data-tweet-id'));
-          authors.push(getElementsByClassName(tmp[x], 'p-author')[0]);
-          times.push(getElementsByClassName(tmp[x], 'dt-updated')[0]);
-          permalinksURL.push(getElementsByClassName(tmp[x], 'permalink')[0]);
-          if (getElementsByClassName(tmp[x], 'inline-media')[0] !== undefined) {
-            images.push(getElementsByClassName(tmp[x], 'inline-media')[0]);
+          if (getElementsByClassName(tmp[x], 'timeline-Tweet-retweetCredit').length > 0) {
+            rts.push(true);
           } else {
-            images.push(undefined);
+            rts.push(false);
           }
 
           if (getElementsByClassName(tmp[x], 'retweet-credit').length > 0) {
             rts.push(true);
           } else {
             rts.push(false);
+          }
+          if (!rts[x] || rts[x] && showRts) {
+            tweets.push(getElementsByClassName(tmp[x], 'timeline-Tweet-text')[0]);
+            tids.push(tmp[x].getAttribute('data-tweet-id'));
+            authors.push(swapDataSrc(getElementsByClassName(tmp[x],
+                'timeline-Tweet-author')[0]));
+            times.push(getElementsByClassName(tmp[x], 'dt-updated')[0]);
+            permalinksURL.push(getElementsByClassName(tmp[x], 'timeline-Tweet-timestamp')[0]);
+            if (getElementsByClassName(tmp[x], 'timeline-Tweet-media')[0] !== undefined) {
+              images.push(getElementsByClassName(tmp[x], 'timeline-Tweet-media')[0]);
+            } else {
+              images.push(undefined);
+            }
           }
           x++;
         }
@@ -244,7 +261,8 @@
             image: extractImageUrl(images[n]),
             rt: rts[n],
             tid: tids[n],
-            permalinkURL: permalinksURL[n].href
+            permalinkURL: (permalinksURL[n] === undefined) ?
+                '' : permalinksURL[n].href 
           });
           n++;
         }
@@ -316,10 +334,11 @@
           }
           if (showInteractionLinks) {
             op += '<p class="interact"><a href="https://twitter.com/intent/' +
-                'tweet?in_reply_to=' + tids[n] + '" class="twitter_reply_icon"' +
+                'tweet?in_reply_to=' + tids[n] +
+                '" class="twitter_reply_icon"' +
                 (targetBlank ? ' target="_blank">' : '>') +
-                'Reply</a><a href="https://twitter.com/intent/retweet?tweet_id=' +
-                tids[n] + '" class="twitter_retweet_icon"' +
+                'Reply</a><a href="https://twitter.com/intent/retweet?' +
+                'tweet_id=' + tids[n] + '" class="twitter_retweet_icon"' +
                 (targetBlank ? ' target="_blank">' : '>') + 'Retweet</a>' +
                 '<a href="https://twitter.com/intent/favorite?tweet_id=' +
                 tids[n] + '" class="twitter_fav_icon"' +
@@ -336,6 +355,8 @@
           n++;
         }
       }
+
+      
       handleTweets(arrayTweets);
       inProgress = false;
 
@@ -348,6 +369,5 @@
 
   // It must be a global variable because it will be called by JSONP.
   window.twitterFetcher = twitterFetcher;
-
   return twitterFetcher;
 }));
