@@ -65,23 +65,36 @@
 
 	jQuery(document).ready(function ($) {
     $(".ws-iinner").empty();
-    var url= $("#bilimtektwittertimeline").attr('src');
-		var twitterId = getQueryParameterByName("twitterId",url);
+    var url= window.location.href;
+		
+    var twitterId = getQueryParameterByName("twitterId",url);
     twitterId = (twitterId==="")?"666636527968088064":twitterId ; // default kafes firin
-		var twitterName = getQueryParameterByName("twitterName",url);
-		twitterName = (twitterName == "")? "@kafesfirin" : twitterName;
-    
-		var sliderMedia = getQueryParameterByName("sliderMedia",url);
+		
+    var twitterName = getQueryParameterByName("twitterName",url);
+		twitterName = (twitterName == "")? "@kafesfirin" : "@"+twitterName;
+		
+    var sliderMedia = getQueryParameterByName("sliderMedia",url);
 		sliderMedia = (sliderMedia==='')? "twitter" : sliderMedia; // default twitter
-		loadBilimtekWeather('bilimtekweather1',0);
+    
+    var swarmVenueId = getQueryParameterByName("swarmVenueId",url);
+		swarmVenueId = (swarmVenueId == "")? "4c61187213791b8de11851af" : swarmVenueId;
+    
+    var swarmOauthToken = getQueryParameterByName("swarmOauthToken",url);
+		swarmOauthToken = (swarmOauthToken == "")? "4WSU3HOHH540AJVLQIB21IGPZXXDNCMQ0LBDEDNT4IALQJXC" : swarmOauthToken;
+		
+    loadBilimtekWeather('bilimtekweather1',0);
 		startWeatherTimer('bilimtekweather1',0);
-		updatePics(twitterName,sliderMedia);
 		document.getElementById("bilimtektwittertimeline").src = "/themes/bilimtektwittertimeline.html?twitterId="+twitterId+"&twitterName="+twitterName;
+    $("#bilimtektwittertimeline").load(function()
+    {
+       $("#bilimtektwittertimeline").contents().find(".twitterelement p").text(twitterName);
+       $('.socialmediapicturecontainer').empty();
+          updatePics(twitterName,sliderMedia);
+    });
 		var qrCodeUrl = 'url("https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=www.'+sliderMedia+'.com/'+twitterName+'")';
 		$("#qrcode").css('background-image', qrCodeUrl);
-		var token="4WSU3HOHH540AJVLQIB21IGPZXXDNCMQ0LBDEDNT4IALQJXC";
-		var venueId="4c61187213791b8de11851af";
-		var fs = new BilimtekSwarm(token, venueId);
+ 
+		var fs = new BilimtekSwarm(swarmOauthToken, swarmVenueId);
 		fs.run();
 	});
   

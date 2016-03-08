@@ -1,5 +1,5 @@
 // Duvar ekleme çıkarma timeline fonksiyonlarını içeren yönetici sınıf.
-var WallManager = function () {
+var Workspace = function () {
   
   google.load('visualization', '1', {packages: ['timeline']});
   this.temp=0;
@@ -20,6 +20,9 @@ var WallManager = function () {
   var walls=[];
   var wallscreens= [];
   var user;
+  var selectedMenu=0;
+  var userVideoresources="";
+  var videoresources = "";
   
   if(!accessToken)
   {
@@ -360,8 +363,19 @@ var WallManager = function () {
       {
         if(walls[i].id == screenName)
         {
-          $("#wallOldTime").text("Duvarın şuan ki süresi : "+walls[i].showTime);
-        }
+          if(walls[i].showTime.indexOf("-")>0)
+          {
+           $('.nav-tabs a[href="#changeDeterminedTime"]').tab('show');
+           $("#changeDeterminedTimepicker1 input").val(walls[i].showTime.split("-")[0]); 
+           $("#changeDeterminedTimepicker2 input").val(walls[i].showTime.split("-")[1]);
+          }
+          
+          else
+          {
+           $('.nav-tabs a[href="#changePeriodicTime"]').tab('show');
+           $("#changeNewWalltimer").val(walls[i].showTime);
+          }
+         }
       }
     });
   };
@@ -437,8 +451,15 @@ var WallManager = function () {
         {
           user = userFromService;
         }
-
-        $("#workspaceHeader").text("Çalışma Alanı");
+        if(typeof user==="undefined")
+        {
+         $("#workspaceHeader").text("Çalışma Alanı");
+        }
+        else
+        {
+         $("#workspaceHeader").text(user.name.toUpperCase()+"'in Çalışma Alanı"); 
+        }
+        
         showNewWorkspaceForm();
       });
     }
@@ -592,7 +613,7 @@ var WallManager = function () {
     var screenName = wall.id.replace("wall","Ekran");
     var workspaceDiv = checkHorizontalOrVerticalScreen(screenName,wall);    
     document.getElementById('workspaceForm').innerHTML+=workspaceDiv;
-    var playerScreenDiv = "<li id='"+wall.id+"_screen' class='wall_screen media' style='width:"+$("#pageWidth").val()+"px;height:"+$("#pageHeight").val()+"px;'> <input id='"+wall.id+"_screen_file' type='file' class='file' name='image' style='display:none'/></li>";
+    var playerScreenDiv = "<li id='"+wall.id+"_screen' class='wall_screen "+wall.type+"' style='width:"+$("#pageWidth").val()+"px;height:"+$("#pageHeight").val()+"px;'></li>";
     document.getElementById(wall.id).innerHTML+=playerScreenDiv ;
     document.getElementById(wall.id).innerHTML+="<br><br>";
   };
@@ -703,15 +724,18 @@ var WallManager = function () {
     {
       var id = this.id;
   
-      if(e.target.className == "wall_screen media")
+      if(e.target.className == "wall_screen videowall")
       {
-        $(this).find('input[type="file"]').click();
-        document.getElementById(id+"_file").addEventListener("change",function(e)
-        {
-            var mediaName = e.target.files[0].name;
-            var video = '<video src="'+url+'"/"'+mediaName+'"></video>';
-            $("#"+this.id).append(video);
-        });
+        $("#videoModal").modal("show");
+        $("#media").val(e.target.id);
+        getUserVideoResource(user,"video");
+      }
+      
+      if(e.target.className == "wall_screen imagewall")
+      {
+        $("#videoModal").modal("show");
+        $("#media").val(e.target.id);
+        getUserVideoResource(user,"image");
       }
       
       if(e.target.className == "wall_screen")
@@ -728,6 +752,86 @@ var WallManager = function () {
     });
   };
   
+  /** Usera ait medya objelerini ekrana bastırılmasına yarayan fonksiyon.
+  *@params object user - Usera ait media kaynaklarını çekmek için kullanılır.
+  *@params {string} mediaType - Usera ait media kaynaklarını çekmek için kullanılır.
+  */
+  var getUserVideoResource = function (user,mediaType)
+  {
+    if(!user.mediaResources)
+    {
+      return;
+    }
+    for(var i = 0 ;i<user.mediaResources.length; i++)
+    {
+      var videoFileCheck = (user.mediaResources[i].fileType === mediaType) ? true : false;
+      if(videoFileCheck)
+      {
+        var mediaUrl = url + user.mediaResources[i].url;
+        var resourceName = mediaUrl.substr(mediaUrl.lastIndexOf('/') + 1);
+        var mediaResourceName = "<option value='"+mediaUrl+"' id='"+resourceName+"_userMedia' >"+resourceName+"</option>";
+        $("#onUserVideoResources").append(mediaResourceName); 
+      }
+    }
+  };
+  
+  /**
+  * Resim değiştirme dialogunda sol tarafa atılmak istenen resimleri atayan button.
+  */
+  var addMoveLeftButtonClick = function()
+    {
+      $("#moveLeftMedia").click(function()
+      {
+        if(selectedMenu===1)
+        {
+          for(var i =0 ; i<userVideoresources.length;i++)
+          {
+            var resourceName = userVideoresources[i].substr(userVideoresources[i].lastIndexOf('/') + 1);
+            var option = "<option value='"+userVideoresources[i]+"' id='"+resourceName+"_iframe'>"+resourceName+"</option>";
+            $("#onUserVideoResources option[id='"+resourceName+"_userMedia']").remove();
+            $("#videoResources").append(option);
+          }
+         }
+      });
+    }
+  
+  /**
+  * Resim değiştirme dialogunda sağ tarafa atılmak istenen resimleri atayan button.
+  */
+  var addMoveRightButtonClick = function()
+  {
+    $("#moveRightMedia").click(function()
+    {
+      if(selectedMenu===2)
+      {
+        for(var i =0 ; i<videoresources.length;i++)
+        {
+          var resourceName = videoresources[i].substr(videoresources[i].lastIndexOf('/') + 1);
+          var option = "<option value='"+videoresources[i]+"'  id='"+resourceName+"_userMedia'>"+resourceName+"</option>";
+          $("#videoResources option[id='"+resourceName+"_iframe']").remove();
+          $("#onUserVideoResources").append(option);
+        }
+       }
+    });
+  }
+  
+  /**
+  * Resim değiştirme dialogunda seçilen resimlerin bilgilierini tutan fonksiyon.
+  */
+  var addOptionOnChange = function () 
+  {
+  $('#onUserVideoResources').on('change',function()
+    { 
+      selectedMenu=1;
+      userVideoresources=$(this).val();
+     }); 
+  $('#videoResources').on('change',function()
+    { 
+      selectedMenu=2;
+      videoresources=$(this).val();
+     });    
+  }
+    
   /**
   * Şablon Dialogundaki Iframe i seçilen wall_screen e set eder.
   */
@@ -762,27 +866,7 @@ var WallManager = function () {
             html : iframeHtml
           };
           
-          var screenIndex = -1;
-        
-          if(!walls[wallIndex].screens)
-          {
-            walls[wallIndex].screens =[];
-          }
-          
-          else
-          {
-            screenIndex = findScreenInWall(walls[wallIndex].screens,screen);
-          }
-          
-          if(screenIndex===-1)
-          {
-            walls[wallIndex].screens.push(screen);  
-          }
-          
-          else
-          {
-            walls[wallIndex].screens[screenIndex] = screen;
-          }
+          saveScreenToWall(screen,wallIndex);
           
           Util.loadingDialog.hide();
           $('#templateUrl').attr('src','');
@@ -902,7 +986,7 @@ var WallManager = function () {
        $("#templateUrl").css("transform-origin","0 0");
        $("#templateUrl").css("-webkit-transform","scale("+$("#screenConfigDiv").width()/$("#screenWidth").val()+")");
        $("#templateUrl").attr("class","");
-       if($(this).val()==="theme5.html")
+       if($(this).val()==="theme5.html"||$(this).val()==="theme4.html")
        {
          $("#templateUrl").attr("src","");
          setSocialMediaProperties(templateUrl);
@@ -1379,7 +1463,7 @@ var WallManager = function () {
     if($("#pageWidth").val()>$("#pageHeight").val())
     {
       return "<br><div class='newScreen'><h2>"+screenName+"</h2>"+removeScreenButton+changeTimeButton+
-      "<ul id='"+wall.id+"' class='list-inline wall' style='width:100%;zoom:13%;'></ul>";      
+      "<ul id='"+wall.id+"' class='list-inline wall' style='width:100%;zoom:10%;'></ul>";      
     }
     
     else
@@ -1407,11 +1491,90 @@ var WallManager = function () {
      });
   };
 
+  /** İlk açılışta çıkan dialogdaki anasayfaya dönme butonu.
+  */
+  var addBackToMainPage = function ()
+  {
+    $("#backToMainPage").click(function()
+    {
+      window.location.href = url+"manager.html";
+    });
+  }
+  
+  /** İlk açılışta çıkan dialogdaki anasayfaya dönme butonu.
+  */
+  var addSaveMedia = function ()
+  {
+    $("#saveMedia").click(function()
+    {
+       if($("#videoResources").find("option").length>1)
+       {
+        BootstrapDialog.alert("Medya duvarına en fazla bir tane kaynak ekleyebilirsiniz");
+        return;
+       }
+       $("#videoResources").find("option").each(function(e)
+        { 
+          var mediaUrl = $("#videoResources").find("option")[e].value;
+         
+          if(mediaUrl.indexOf(".webm")>0||mediaUrl.indexOf(".mp4")>0||mediaUrl.indexOf(".ogg")>0)
+          {
+            var element = "<video src = '"+mediaUrl+"'></video>";
+          }
+          
+          else
+          {
+            var element = "<img src = '"+mediaUrl+"'></img>";
+          }
+          
+          var mediaWallId = $("#media").val();
+          $("#"+mediaWallId).empty();  
+          $("#"+mediaWallId).append(element);
+          var mediaHtml = mediaUrl;
+          var wallIndex = getWallIndex(mediaWallId);
+          var screen = {
+            id : mediaWallId,
+            thumbnail : "",
+            html : mediaHtml
+          };
+          
+          saveScreenToWall(screen,wallIndex);
+          $("#videoModal").modal("hide");
+          $("#videoResources").empty();
+        });
+    });
+  }
+  
+  /** Screeni wall'a kaydetme işlemini yapar.
+  */
+  var saveScreenToWall = function(screen,wallIndex)
+  {
+    var screenIndex = -1;
+  
+    if(!walls[wallIndex].screens)
+    {
+      walls[wallIndex].screens =[];
+    }
+    
+    else
+    {
+      screenIndex = findScreenInWall(walls[wallIndex].screens,screen);
+    }
+    
+    if(screenIndex===-1)
+    {
+      walls[wallIndex].screens.push(screen);  
+    }
+    
+    else
+    {
+      walls[wallIndex].screens[screenIndex] = screen;
+    }
+  }
+  
   /** Sayfada bulunan elementlerin onclick, validate gibi olaylarının set edilmesini sağlar.
   */
   var setHtmlElementEvents = function()
   {
-   
     addIsNumberCheck();
     addPageValidationControls();
     addSaveWorkspaceOnClick();
@@ -1431,6 +1594,11 @@ var WallManager = function () {
     addSaveWorkSpaceWithName();
     addSaveWallScreen();
     addCloseWallScreen();
+    addBackToMainPage();
+    addMoveRightButtonClick();
+    addMoveLeftButtonClick();
+    addSaveMedia();
+    addOptionOnChange();
   };
   
  	var self=this;
@@ -1438,6 +1606,6 @@ var WallManager = function () {
 
 $( document ).ready(function() 
 {	 
-  var wallManager = new WallManager();
-  wallManager.initialize();
+  var workspace = new Workspace();
+  workspace.initialize();
 });

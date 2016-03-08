@@ -208,6 +208,7 @@
   */
   var getUserDetailsByUsername = function(name)
   {
+    Util.loadingDialog.show();
     if($("#"+name+"Form").hasClass('in'))
     { 
       $("#"+name).removeClass('in');
@@ -239,6 +240,7 @@
       currentUserToEdit = response.user;
       showUserWorkspaces(response.user);
       showUserMediaResources(response.user);
+      Util.loadingDialog.hide();  
     },
     error: function(error){ }
     });
@@ -647,7 +649,7 @@
       uploadRequests[i].abort();
     }
   };
-    
+
   $( document ).ready(function() 
   { 
     addCancelUploadButtonOnClick();

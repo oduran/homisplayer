@@ -68,6 +68,11 @@
 		twitterId = (twitterId==="")?"666636527968088064" : twitterId; // default kafes firin
 		var twitterName = getQueryParameterByName("twitterName");
 		twitterName = (twitterName == "")? "@kafesfirin" : "@"+twitterName;
+   
+    var swarmVenueId = getQueryParameterByName("swarmVenueId");
+		swarmVenueId = (swarmVenueId == "")? "4c61187213791b8de11851af" : swarmVenueId;
+    var swarmOauthToken = getQueryParameterByName("swarmOauthToken");
+		swarmOauthToken = (swarmOauthToken == "")? "4WSU3HOHH540AJVLQIB21IGPZXXDNCMQ0LBDEDNT4IALQJXC" : swarmOauthToken;
     $("#bilimtektwittertimeline").load(function(){
       $("#bilimtektwittertimeline").contents().find(".twitterelement p").text(""+twitterName);
     });
@@ -105,8 +110,7 @@
 		document.getElementById("bilimtektwittertimeline").src = "../public/bilimtektwittertimeline.html?twitterId="+twitterId;
 		var qrCodeUrl = 'url("https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=www.'+sliderMedia+'.com/'+twitterName+'")';
 		$("#qrcode").css('background-image', qrCodeUrl);
-		var token="4WSU3HOHH540AJVLQIB21IGPZXXDNCMQ0LBDEDNT4IALQJXC";
-		var venueId="4c61187213791b8de11851af";
-		var fs = new BilimtekSwarm(token, venueId);
+	
+		var fs = new BilimtekSwarm(swarmOauthToken, swarmVenueId);
 		fs.run();
 	});
