@@ -8,21 +8,20 @@
   <link href='https://fonts.googleapis.com/css?family=Hind:400,500,600,700' rel='stylesheet' type='text/css'>
 	<script src="../script/bootstrap3.min.js" type="text/javascript"></script>
  	<script src="../script/util.js" type="text/javascript"></script>
- 	<script src="../script/login.js" type="text/javascript"></script>
+ 	<script src="../script/register.js" type="text/javascript"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
 </head>
 <body>
   <div class="container">
     	<div class="row">
 			<div class="col-md-6 col-md-offset-3 text-center">
-				<div class="panel panel-login">
+				<div class="panel panel-register">
 					<div class="panel-heading">
 						<div class="row">
 							<div class="col-xs-12" >
-              <div class="active bilimteklogo"  onclick="window.open('http://www.bilimtek.com','new_window');" style="cursor:pointer">
-              </div>
-              <p class="logotext"> HOMIS MANAGEMENT</p>
-								
+              
+              <p class="logotext">Oynatıcı Kaydı</p>
+ 
 							</div>
 						</div>
 						<hr>
@@ -30,21 +29,15 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-lg-12">
-								<form id="login-form"  method="post" role="form" style="display: block;">
+								<form id="register-form"  method="post" role="form" style="display: block;">
 									<div class="form-group">
-										<input type="text" name="name" id="name" tabindex="1" class="form-control" placeholder="Kullanıcı Adı" value="">
+									<input type="text" name="name" id="playerName" tabindex="1" class="form-control" placeholder="Oynatıcı Adı" value="">
 									</div>
-									<div class="form-group">
-										<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Şifre">
-									</div>
-									<div class="form-group text-center">
-										<input type="checkbox" tabindex="3" class="" name="remember" id="remember">
-										<label for="remember">Beni Hatırla</label>
-									</div>
+									
 									<div class="form-group">
 										<div class="row">
 											<div class="col-sm-6 col-sm-offset-3">
-												<input type="button" name="login-submit" id="login" tabindex="4" class="form-control btn btn-login" value="Oturum Aç">
+												<input type="button" name="register-submit" id="savePlayer" tabindex="4" class="form-control btn btn-login" value="Kaydet">
 											</div>
 										</div>
 									</div>

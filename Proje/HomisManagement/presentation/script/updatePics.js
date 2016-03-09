@@ -32,8 +32,8 @@ var sliderOptions = {
     }
 }
 
-var updatePics = function(twitterId,socialMedia) {
-  debugger;
+var updatePics = function(twitterId,socialMedia) 
+{
     if(twitterId!==""){
         var initialQuery =  twitterId;
         var queryTags = initialQuery.split(",");

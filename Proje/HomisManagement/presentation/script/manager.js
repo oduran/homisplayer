@@ -5,6 +5,7 @@
   var files = [];
   var uploadRequests =[];
   var currentUserToEdit;
+  var userPlayerlist;
   var createUserToEmailCheck = false;
   
  /**
@@ -12,10 +13,7 @@
  */
   var getUserDetails = function ()
   {
-    $("#workspaceList").empty();
-    $("#userMediaResource").empty();
-    $("#userNameInResource").empty();
-    $("#userNameInWorkspace").empty();
+    clearAllList();
     Util.loadingDialog.show();
     if(!accessToken)
     {
@@ -49,15 +47,30 @@
         {
          adminControl=true;
          $("#adminPanel").css("display","block");
-         getUserList();
+         $("#sendPlayerToUser").css("display","block");
+         $('#userList').empty();
+         getUserList(function(userListItem){
+           $('#userList').append(userListItem);
+           });
         }
 
         showUserWorkspaces(response.user);
         showUserMediaResources(response.user);
+        showUserPlayers(response.user);
       },
       error: function(error){ }
     });
   };
+  
+  var clearAllList = function()
+  {
+    $("#workspaceList").empty();
+    $("#userMediaResource").empty();
+    $("#playerList").empty();
+    $("#userNameInResource").empty();
+    $("#userNameInWorkspace").empty(); 
+    $("#userNameInPlayer").empty();
+  }
   
  /**
  * Usera ait workspaceleri getirilmesine yarayan fonsiyondur.
@@ -122,13 +135,49 @@
     }
   };
   
+  var showUserPlayers = function(user)
+  { 
+    var userPlayer = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+user.name+"</a>";
+    $('#userNameInPlayer').append(userPlayer);
+    
+    if(!user.players)
+    {
+      return;
+    }
+ 
+    if(user.players)
+    {
+      for(var i = 0 ;i<user.players.length; i++)
+      {
+        var player = user.players[i];
+        
+        var playerItem = "<option id='"+user.players[i].playerId+"' class='playeroption'>"+user.players[i].playerName+"</option>";
+        $('#playerList').append(playerItem);  
+      }
+    }
+    else
+    {
+      return;
+    }
+  };
+  
+  /**
+  * Player listesinde seçilen playerların bilgilierini tutan fonksiyon.
+  */
+  var addOptionOnChange = function () 
+  {
+  $('#playerList').on('change',function()
+    { 
+      userPlayerlist=$(this).val();
+    });    
+  };
+  
   /**
   * Kayıtlı bütün kullanıcıları getirir bunu sadece admin görebilir.
   * @params object user - Kullanıcı
   */
-  var getUserList = function()
+  var getUserList = function(callback)
   {
-    $('#userList').empty();
     var data = null;
     $.ajax({
       type: "POST",
@@ -137,10 +186,11 @@
       success: function(response)
       {       
         users = response;      
+        var userListItem="";
         for(var i = 0 ;i<response.length; i++)
         {
           var user = response[i];
-          var userListItem = "<a class='list-group-item' href='#' id='"+user.name+
+          userListItem += "<a class='list-group-item' href='#' id='"+user.name+
           "ListItem'>"+ user.name+"<button class='btn btn-danger' onclick=deleteUser('"+
           user.name+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-trash'></span></button><button class='btn btn-info accordion-toggle'  data-parent='#userList' data-toggle='collapse' href='#"+
           user.name+"Form' onclick=getUserDetailsByUsername('"+user.name+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-edit'></span></button><div id='"+
@@ -151,8 +201,8 @@
           user.email+">"+
           "<label>Kullanıcı Tipi</label><select class='usertype' name='userType'>"+createOptionStrings(user.type)+"</select><br><br>"+
           "<button class='btn btn-success' onclick=editUserByName('"+user.name+"',"+i+") style='float:right'><span style='float:right' class='glyphicon glyphicon-saved'></span></button></div></fieldset></form></div></a>";
-          $('#userList').append(userListItem);  
         }
+        callback(userListItem);
       },
       error: function(error){ }
     });
@@ -196,7 +246,10 @@
     success: function(response)
     {
       $('#userList').empty();
-      getUserList();      
+      getUserList(function(userListItem){
+        $('#userList').append(userListItem);
+        });
+   
     },
     error: function(error){ }
     });
@@ -225,10 +278,7 @@
         $(this).addClass('collapse');   
       }
     });
-    $("#userNameInResource").empty();
-    $("#userNameInWorkspace").empty();
-    $("#workspaceList").empty();
-    $("#userMediaResource").empty();
+    clearAllList();
 
     var data = {name:name};
     $.ajax({
@@ -240,6 +290,7 @@
       currentUserToEdit = response.user;
       showUserWorkspaces(response.user);
       showUserMediaResources(response.user);
+      showUserPlayers(response.user);
       Util.loadingDialog.hide();  
     },
     error: function(error){ }
@@ -413,7 +464,10 @@
           success: function(response)
           {
             BootstrapDialog.alert(response.message);
-            getUserList();
+            $('#userList').empty();
+            getUserList(function(userListItem){
+              $('#userList').append(userListItem);
+              });
             $("#createUserModal").modal("hide");
           },
           error: function(error){ }
@@ -568,6 +622,18 @@
   };  
 
   /**
+  * Seçilen oynatıcıları usera gönder de açılan dialog.
+  */
+  var addSendPlayerToUser = function()
+  {
+    $("#sendPlayerToUser").click(function()
+    {
+      $("#playerListModal").modal("show");
+      
+    });
+  }; 
+  
+  /**
   * Yeni user kaydı oluşturulurken email check edilen fonksiyon.
   * @params {string} email - Kullanıcı email
   * returns  - Kaydedilen kullanıcının emailini kontrol eder doğruysa border green yanlışsa red olarak döndürür.
@@ -652,6 +718,8 @@
 
   $( document ).ready(function() 
   { 
+    addSendPlayerToUser();
+
     addCancelUploadButtonOnClick();
     addCheckEmailisValid();
     addNewMediaResourceButton();

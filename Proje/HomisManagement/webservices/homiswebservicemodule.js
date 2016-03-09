@@ -357,9 +357,13 @@ var HomisWebServiceManager = function(router)
         }
         else
         {
-          user.password = "";
-          user.accessToken = "";
-          res.json({user:user});
+          dbManager.getUserlessPlayers(function(players)
+          {
+            user.password = "";
+            user.accessToken = "";
+            user.players = players
+            res.json({user:user});
+          });
         }
       }
       else
@@ -454,14 +458,14 @@ var HomisWebServiceManager = function(router)
     );
   };
   
-  var registerPlayer = function(req, rest, next)
+  var registerPlayer = function(req, res, next)
   {
     var playerName = req.body.playerName;
-    var playerHwId = req.body.hwId;
+    var playerHardwareId = req.body.playerHardwareId;
     var playerId = dbManager.createUniqueId();
     var player = {
       playerName: playerName,
-      playerHardwareId: playerHwId,
+      playerHardwareId: playerHardwareId,
       playerId: playerId
     }
     

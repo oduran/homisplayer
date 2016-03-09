@@ -487,13 +487,12 @@ var Workspace = function () {
   */
   var getUser = function(userName,callback)
   {
+    var data = {name: userName};
     if(!userName)
     {
-      callback();
-      return;
+      data = {};
     }
     
-    var data = {name: userName};
     var targetUrl = serviceUrl+"getUser";
     $.ajax({
       type: "POST",
@@ -664,7 +663,7 @@ var Workspace = function () {
       workspaceObj=Util.mergeObjects(workspaceObj,newWorkspaceObj);
       var data = { workspace: workspaceObj};
       
-      if(user)
+      if(user&&user.type==="admin")
       {
         targetUrl = serviceUrl+"saveuser";
         user = upsertWorkspaceToUser(workspaceObj, user);
@@ -681,7 +680,7 @@ var Workspace = function () {
           {
             workspaceObj.workspaceId = response.workspaceId;
       
-            if(user)
+            if(user && user.workspaces)
             {
               for(var i=0;i<user.workspaces.length;i++)
               {
@@ -694,7 +693,7 @@ var Workspace = function () {
           }
           
           Util.loadingDialog.hide();
-          BootstrapDialog.alert("Çalışma Alanı Başarıyla Kaydedildi.");
+          BootstrapDialog.alert(response.message);
         },
         error: function(error){
           BootstrapDialog.alert("Hata: "+error.toString());
@@ -1085,7 +1084,6 @@ var Workspace = function () {
     {
       if(screens[i].id===id)
       {
-        debugger;
        $("#templateUrl").css("width",$("#screenWidth").val()+"px");
        $("#templateUrl").css("height",$("#screenHeight").val()+"px");
        $("#templateUrl").css("transform-origin","0 0");

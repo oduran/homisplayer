@@ -18,6 +18,11 @@
   border-radius: 2px;
   overflow:auto;
 }
+.playeroption
+{
+  border: 1px solid #E5E5E5;
+  font-size: initial;
+}
 .containerclass
 {
   background-color: rgb(229, 229, 229) !important;
@@ -28,7 +33,15 @@
 {
   height:85% !important;
 }
-
+#playerList {
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    height: 40vh;
+    overflow: auto;
+    border: 0;
+}
 #adminPanel
 {
 display:none;

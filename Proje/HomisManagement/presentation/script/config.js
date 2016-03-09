@@ -5,6 +5,7 @@
     var iframeMediaresources = "";
     var selectedMenu=0;
     var url = Util.getWindowUrl();
+    var serviceUrl = url +"service/";
     
     /**
     * Kullanıcı menuboard üzerinde dönen resim animasyonlarındaki resimleri değiştirmek için kullanılan fonksiyon.
@@ -111,48 +112,60 @@
     */
     var changeImage = function () 
     {
+      
       $("#templateUrl").contents().find(".editablemultipleimages").on('dblclick' ,function () 
       {
-        $("#imagesConfigModal").modal("show");   
+        $("#imagesConfigModal").modal("show");
+            
         var images =[];
         $("#images").empty();
+        
 
         $("#templateUrl").contents().find("#right .right-image").each(function(e,el)
         {
           var url = el.src;
           var resourceName = url.substr(url.lastIndexOf('/') + 1);
-          var iframeMediaResource = "<option value='"+url+"' id='"+resourceName+"_iframe'>"+resourceName+"</option>"
+          var iframeMediaResource = "<option value='"+url+"' id='"+resourceName+"_iframe'>"+resourceName+"</option>";
           $("#onIframeMediaResources").append(iframeMediaResource);
         });
 
         var userName = Util.getParameterByName('userName');
-        user = getUser(userName)
+        getUser(userName,function(user){
+        getUserMediaResources(user)
+          });
       });
     }
     
     /**
-    * Şablon sayfaları resimlerini değiştirmek için kullanıcıyı bulup ona ait resimleri getiren fonksiyon.
-    * @returns getUserMediaResources(response.user)- Kullanıcı bulduktan sonra getUserMediaResources fonksiyonuna userı döndürür.
+    * Kullanıcı isme göre çağrıan fonksiyon.
+    * @params {string} userName - Kullanıcı adı.
+    * @params function callback 
+    * @returns {user} - response dan gelen user objesini döndürür. 
     */
-    var getUser = function(userName)
+    var getUser = function(userName,callback)
     {
+      var data = {name: userName};
       if(!userName)
       {
-        
-        return;
+        data = {};
       }
       
-       var data = {};
+      var targetUrl = serviceUrl+"getUser";
       $.ajax({
-      type: "POST",
-      url: url+"service/getuser",
-      data: data,
-      success: function(response)
-      {
-        return getUserMediaResources(response.user);
-
-      },
-      error: function(error){ }
+        type: "POST",
+        url:  targetUrl,
+        data: data,
+        success: function(response)
+        {
+          
+          if(response.message)
+          {
+            BootstrapDialog.alert(response.message);
+            return;
+          }
+          
+          callback(response.user);
+        }
       });
     };
     
@@ -213,6 +226,7 @@
             var option = "<option value='"+userMediaresources[i]+"' id='"+resourceName+"_iframe'>"+resourceName+"</option>";
             $("#onUserMediaResources option[id='"+resourceName+"_userMedia']").remove();
             $("#onIframeMediaResources").append(option);
+            selectedMenu=0;
           }
          }
       });
@@ -233,6 +247,7 @@
             var option = "<option value='"+iframeMediaresources[i]+"'  id='"+resourceName+"_userMedia'>"+resourceName+"</option>";
             $("#onIframeMediaResources option[id='"+resourceName+"_iframe']").remove();
             $("#onUserMediaResources").append(option);
+            selectedMenu=0;
           }
          }
       });

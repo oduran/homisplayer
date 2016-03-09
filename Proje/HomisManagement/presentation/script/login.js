@@ -28,7 +28,7 @@ var initializeLoginPage = function ()
         
         window.location.href = url+"manager.html";
       },
-      error: function(error){debugger;}
+      error: function(error){}
     });
   });
   

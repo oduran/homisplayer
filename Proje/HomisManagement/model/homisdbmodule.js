@@ -120,6 +120,11 @@ var HomisDbManager = function(databaseName)
     dbManager.updateInCollection("players",player,callback);
   };
   
+  this.getUserlessPlayers = function(callback)
+  {
+    dbManager.getCollection("players",callback);
+  };
+  
   // Creates unique access token with using mongodb's ObjectID.
   this.createUniqueId = function()
   {

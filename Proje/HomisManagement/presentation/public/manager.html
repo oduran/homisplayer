@@ -51,7 +51,17 @@
                <div class = "panel-heading">
                   <h3 class = "panel-title">Oynatıcılar</h3>
                </div>
+               <div class = "panel-body">
+              <button class="btn btn-success" style="opacity:0;">
+                  <span class="glyphicon glyphicon-plus"></span> Yeni Çalışma Alanı Ekle
+              </button>
             </div>
+            </div>
+            <div id="userNameInPlayer" class="list-group"></div>
+            <select id="playerList" class="list-group" multiple="multiple"></select>
+            <button id="sendPlayerToUser" class="btn btn-success" style="display:none">
+                  <span class="glyphicon glyphicon-user"></span>Kullanıcılara Ata
+              </button>
         </div>
       </div>
       <div id="mediaResources" class="col-md-3 text-center column4">
@@ -87,10 +97,11 @@
           </div>
       </div>  
     </div>
-    <hr>
+    <div>
     <footer>
         <p>© 2016 - Homis Management</p>
     </footer>
+    </div>
   </div>
   <div class="modal modaldesign" id="createUserModal" role="dialog">
       <div class="modal-dialog">
@@ -189,6 +200,27 @@
       </div>
        
     </div>
-  </div>    
+  </div> 
+
+  <div class="modal modaldesign" id="playerListModal" role="dialog"> 
+    <div class="modal-dialog">
+
+	  <!-- Modal content-->
+        <div class="modal-content" >
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <label class="modal-title">Oynatıcıları Atama Yapacağınız Kullanıcıları Seçiniz</label>
+          </div>
+          <div class="modal-body text-center">      
+             <div id="playerUserList">      </div>
+            
+          </div> 
+          <div class="modal-footer">
+            <button type="button" id="sendUsers"  class="btn btn-success" >Gönder</button>
+          </div>
+      </div>
+       
+    </div>
+  </div>   
 </body>
 </html>
