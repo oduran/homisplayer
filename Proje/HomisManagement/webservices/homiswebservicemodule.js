@@ -46,10 +46,13 @@ var HomisWebServiceManager = function(router)
     // save mediaresources for user with given access token or admin with given userid
     router.post('/savemediaresource', mediaUploadManager.saveMediaResource);
     
+    // Register player for the first time.
+    router.post('/registerplayer', registerPlayer);
+    
   };
   
   /* Private Methods */
-   // Creates a user.
+  // Logs user in.
   var login = function (req, res, next)
   {
     var name = req.body.name;
@@ -450,6 +453,23 @@ var HomisWebServiceManager = function(router)
       }
     );
   };
+  
+  var registerPlayer = function(req, rest, next)
+  {
+    var playerName = req.body.playerName;
+    var playerHwId = req.body.hwId;
+    var playerId = dbManager.createUniqueId();
+    var player = {
+      playerName: playerName,
+      playerHardwareId: playerHwId,
+      playerId: playerId
+    }
+    
+    dbManager.savePlayer(player,
+      function(){
+        res.json({playerId:playerId});
+      });
+  }
   
   // Converts string true false to bool true false. other values returned as false.
   var stringToBool = function(boolString)

@@ -88,6 +88,21 @@ $.ajax({
   error: function(error){debugger;}
 });
 
+/* Register Player*/
+actors: player user (anybody)
+--
+playerName: Given player name by the user.
+playerHardwareId: player's unique hardware Id.
+--
+var data = { playerName:"Kafes Söğütözü", playerHardwareId:"aa-bb-cc:dd"};
+$.ajax({
+  type: "POST",
+  url: "http://www.homisida.com:8080/service/registerplayer",
+  data: data,
+  success: function(data){console.log(data.playerId)},
+  error: function(error){debugger;}
+});
+
 /* Save Media Resource */
     var fd = new FormData();    
     var count=0;

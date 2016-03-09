@@ -114,6 +114,12 @@ var HomisDbManager = function(databaseName)
     dbManager.getCollection("users",callback);
   };
   
+  // Adds a user to database.
+  this.savePlayer = function(player,callback)
+  {
+    dbManager.updateInCollection("players",player,callback);
+  };
+  
   // Creates unique access token with using mongodb's ObjectID.
   this.createUniqueId = function()
   {
