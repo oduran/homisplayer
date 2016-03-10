@@ -94,13 +94,52 @@
     {
       var workspaceListItem = "<a class='list-group-item' href='#'>"+ 
       user.workspaces[i].name+
-      "<button class='btn btn-info' id='"+
-      user.workspaces[i].workspaceId+
-      "' onclick=showWorkspaceByName('"+currentUserToEdit.workspaces[i].workspaceId+"','"+currentUserToEdit.name+"') style='float:right;margin-top:-7px'>Düzenle&nbsp;<span style='float:right' class='glyphicon glyphicon-edit'></span></button></a>";
+      "<button class='btn btn-sm btn-info' id='"+user.workspaces[i].workspaceId+"' onclick=showWorkspaceByName('"+currentUserToEdit.workspaces[i].workspaceId+"','"+currentUserToEdit.name+"') style='float:right'><span style='float:right' class='glyphicon glyphicon-edit'></span></button>"+
+      "<button class='btn btn-sm btn-success' onclick=showPlayerList('"+i+"') style='float:right'><span style='float:right' class='glyphicon glyphicon-play'></span></button></a>";
       $('#workspaceList').append(workspaceListItem);  
     }
   };
   
+ var showPlayerList = function(i)
+ {
+   BootstrapDialog.show({
+            title: 'Çalışma alanını göndermek istediğiniz oynatıcıları seçiniz.',
+            message: "<select id='sendWorkspaceToPlayerList' multiple>"+$("#playerList").html()+"</select>",
+            buttons: [{
+                label: 'Gönder',
+                action: function(dialog) {
+                    $("#sendWorkspaceToPlayerList option:selected").each(function(index)
+                    {
+                      currentUserToEdit.players[index].workspace = currentUserToEdit.workspaces[i];
+                      var data = {user: currentUserToEdit };
+                      $.ajax({
+                        type: "POST",
+                        url: url+"service/saveuser",
+                        data: data,
+                        success: function(response)
+                        { 
+                          Util.loadingDialog.hide();
+                        },
+                        error: handleAjaxError
+                      });
+                    });
+                    dialog.close();
+                    BootstrapDialog.alert(response.message);
+                }
+            }, {
+                label: 'Kapat',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            }]
+        });
+ }
+ 
+ var getUserPlayerList = function ()
+ {
+    
+ }
+ 
  /**
  * Usera ait media resourceların getirilmesine yarayan fonsiyondur.
  * @params object user - Kullanıcı
@@ -200,9 +239,9 @@
           {
             var user = response[i];
             userListItem += "<a class='list-group-item' href='#' id='"+user.name+
-            "ListItem'>"+ user.name+"<button class='btn btn-danger' onclick=deleteUser('"+
-            user.name+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-trash'></span></button><button class='btn btn-info accordion-toggle'  data-parent='#userList' data-toggle='collapse' href='#"+
-            user.name+"Form' onclick=getUserDetailsByUsername('"+user.name+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-edit'></span></button><div id='"+
+            "ListItem'>"+ user.name+"<button class='btn btn-sm btn-danger' onclick=deleteUser('"+
+            user.name+"') style='float:right;'><span style='float:right' class='glyphicon glyphicon-trash'></span></button><button class='btn btn-sm btn-info accordion-toggle'  data-parent='#userList' data-toggle='collapse' href='#"+
+            user.name+"Form' onclick=getUserDetailsByUsername('"+user.name+"') style='float:right;'><span style='float:right' class='glyphicon glyphicon-edit'></span></button><div id='"+
             user.name+"Form' class='userForm collapse'><form class ='"+
             user.name+"'><fieldset><div class='form-group'><label>Kullanıcı Adı</label><input type='text' class='form-control formelement name' name='name' placeholder='Kullanıcı Adı' value="+
             user.name+"><label>Soyadı</label><input type='text' class='form-control formelement surname' name='surname' placeholder='Soyadı' value="+
