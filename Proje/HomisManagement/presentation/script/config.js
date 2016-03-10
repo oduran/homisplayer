@@ -5,6 +5,7 @@
     var iframeMediaresources = "";
     var selectedMenu=0;
     var url = Util.getWindowUrl();
+    var userMediaResourceName="";
     var serviceUrl = url +"service/";
     
     /**
@@ -51,6 +52,8 @@
 
         });
          $("#imagesConfigModal").modal("hide");
+         $("#onIframeMediaResources").empty();
+         $("#onUserMediaResources").empty();
          $("#templateUrl").contents().find("#right").append(images);
       });
     }
@@ -115,13 +118,18 @@
       
       $("#templateUrl").contents().find(".editablemultipleimages").on('dblclick' ,function () 
       {
+        $("#imagesConfigModal").modal(
+        {
+          backdrop: 'static',
+          keyboard: false 
+        });
         $("#imagesConfigModal").modal("show");
             
-        var images =[];
         $("#images").empty();
+        debugger;
         
 
-        $("#templateUrl").contents().find("#right .right-image").each(function(e,el)
+        $("#templateUrl").contents().find("#right img,video").each(function(e,el)
         {
           var url = el.src;
           var resourceName = url.substr(url.lastIndexOf('/') + 1);
@@ -130,9 +138,16 @@
         });
 
         var userName = Util.getParameterByName('userName');
-        getUser(userName,function(user){
-        getUserMediaResources(user)
-          });
+        if(userMediaResourceName==="")
+        {
+          getUser(userName,function(user){
+          getUserMediaResources(user)
+            });
+        }
+        else
+        {
+          $("#onUserMediaResources").html(userMediaResourceName);
+        }
       });
     }
     
@@ -187,9 +202,10 @@
         {
           var mediaUrl = url + user.mediaResources[i].url;
           var resourceName = mediaUrl.substr(mediaUrl.lastIndexOf('/') + 1);
-          var mediaResourceName = "<option value='"+mediaUrl+"' id='"+resourceName+"_userMedia' >"+resourceName+"</option>";
-          $("#onUserMediaResources").append(mediaResourceName); 
+          userMediaResourceName += "<option value='"+mediaUrl+"' id='"+resourceName+"_userMedia' >"+resourceName+"</option>";
         }
+       $("#onUserMediaResources").html(userMediaResourceName); 
+
       }
       else
       {
@@ -228,6 +244,11 @@
             $("#onIframeMediaResources").append(option);
             selectedMenu=0;
           }
+          userMediaResourceName ="";
+          for(var i=0 ;i<$("#onUserMediaResources").find("option").length;i++)
+          {
+            userMediaResourceName += $("#onUserMediaResources").find("option")[i].outerHTML;
+          }
          }
       });
     }
@@ -247,6 +268,7 @@
             var option = "<option value='"+iframeMediaresources[i]+"'  id='"+resourceName+"_userMedia'>"+resourceName+"</option>";
             $("#onIframeMediaResources option[id='"+resourceName+"_iframe']").remove();
             $("#onUserMediaResources").append(option);
+            userMediaResourceName+=option;
             selectedMenu=0;
           }
          }
@@ -269,7 +291,16 @@
         iframeMediaresources=$(this).val();
        });    
     }
-    
+    var addCloseImageModal = function ()
+    {
+      $("#closeImageModal").click(function()
+      {
+        $("#onIframeMediaResources").empty();
+        $("#onUserMediaResources").empty();
+        
+        $("#imagesConfigModal").modal("hide");
+      });
+    }
     /**
     * Config js yüklenme kısmında yüklenmesi gereken fonksiyonlar.
     */
@@ -285,6 +316,7 @@
       addOptionOnChange();
       addSaveTextValue();
       addSaveImages();
+      addCloseImageModal();
     }
   }
 $( document ).ready(function() 
