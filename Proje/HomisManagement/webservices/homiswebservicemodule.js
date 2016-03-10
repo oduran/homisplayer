@@ -7,7 +7,7 @@ var HomisWebServiceManager = function(router)
   /* Variables */
   var router = router;
   var mediaResourceDir = __dirname + "/mediaresources/";
-  var Localization = require('../localization/tr').Localization;
+  var DefaultLocalization = require('../localization/tr').Localization;
   var HomisDbManager = require('../model/homisdbmodule').HomisDbManager;
   var PassManager = require('../util/passutil').PassManager;
   var HomisMediaUploadManager = require('./homismediauploadmodule').HomisMediaUploadManager;
@@ -53,7 +53,7 @@ var HomisWebServiceManager = function(router)
   
   /* Private Methods */
   // Logs user in.
-  var login = function (req, res, next)
+  var login = function (req, res, next, Localization)
   {
     var name = req.body.name;
     var password = req.body.password;
@@ -98,7 +98,7 @@ var HomisWebServiceManager = function(router)
   };
   
   // Saves a user. If it doesn't exist inserts new record. If it does exist updates current user.
-  var saveUser = function (req, res, next)
+  var saveUser = function (req, res, next, Localization)
   {
     var returnObj = {message:"success"};
     var accessToken = req.cookies.accessToken;
@@ -129,7 +129,7 @@ var HomisWebServiceManager = function(router)
 
           dbManager.getUserById(newUser._id,function(existingUser)
           {
-            updateUser(newUser, existingUser, res, returnObj);
+            updateUser(newUser, existingUser, res, returnObj, Localization);
           });
         }
         else
@@ -145,7 +145,7 @@ var HomisWebServiceManager = function(router)
   };
   
   // Validate user's attributes with application criterias.
-  var validateUser = function(user)
+  var validateUser = function(user, Localization)
   {
     if(!user.password)
     {
@@ -171,9 +171,9 @@ var HomisWebServiceManager = function(router)
   };
   
   // Inserts a new user. Used by saveUser method.
-  var insertUser = function(user, res)
+  var insertUser = function(user, res, Localization)
   {
-    var validMessage = validateUser(user);
+    var validMessage = validateUser(user, Localization);
     if(validMessage == Localization.valid)
     {
       passManager.cryptPassword(user.password,
@@ -203,7 +203,7 @@ var HomisWebServiceManager = function(router)
   };
   
   // Update's already existing user. Used by saveUser method.
-  var updateUser = function(user, existingUser, res, returnObj)
+  var updateUser = function(user, existingUser, res, returnObj, Localization)
   {
     var returnObj = returnObj || {message: Localization.success};
     user._id = existingUser._id;
@@ -243,7 +243,7 @@ var HomisWebServiceManager = function(router)
   };
   
   // Deletes user.
-  var deleteUser = function(req, res)
+  var deleteUser = function(req, res, next, Localization)
   {
     var accessToken = req.cookies.accessToken;
     var name = req.body.name;
@@ -271,7 +271,7 @@ var HomisWebServiceManager = function(router)
   };
   
   // Brings all the users to the client
-  var getUsers = function(req, res) 
+  var getUsers = function(req, res, next, Localization) 
   {
     var accessToken = req.cookies.accessToken;
     dbManager.getUserByAccessToken(accessToken, 
@@ -323,7 +323,7 @@ var HomisWebServiceManager = function(router)
   };
   
   // Brings user when access token is given.
-  var getUser = function(req, res) 
+  var getUser = function(req, res, next, Localization) 
   {
     var accessToken = req.cookies.accessToken;
     var requiredName = req.body.name;
@@ -376,7 +376,7 @@ var HomisWebServiceManager = function(router)
   };
   
   // Creates a workspace with given access token of the user and workspace object.
-  var saveWorkspace = function (req, res, next)
+  var saveWorkspace = function (req, res, next, Localization)
   {
     var accessToken = req.cookies.accessToken;
     var workspaceToSave = req.body.workspace;
@@ -426,7 +426,7 @@ var HomisWebServiceManager = function(router)
   };
   
   // Gets a workspace with given access token of the user and workspace id.
-  var getWorkspace = function (req, res, next)
+  var getWorkspace = function (req, res, next, Localization)
   {
     var accessToken = req.cookies.accessToken;
     var workspaceId = req.body.workspaceId;
@@ -459,7 +459,7 @@ var HomisWebServiceManager = function(router)
   };
   
   // Registers player to the system.
-  var registerPlayer = function(req, res, next)
+  var registerPlayer = function(req, res, next, Localization)
   {
     var playerName = req.body.playerName;
     var playerHardwareId = req.body.playerHardwareId;
@@ -486,7 +486,9 @@ var HomisWebServiceManager = function(router)
     });
   }
   
-  var setService = function(serviceType,serviceRoute,serviceFunction)
+  // Sets the service with given service type, route and function. 
+  // Adds localization with using request language header.
+  var setService = function(serviceType, serviceRoute, serviceFunction)
   {
     if(serviceType === 'get')
     {
@@ -497,9 +499,13 @@ var HomisWebServiceManager = function(router)
       router.post(serviceRoute, function(req,res,next)
       {
         var acceptedLanguage = req.headers["accept-language"];
-        console.log("accepted language:" + acceptedLanguage);
+        var Localization = DefaultLocalization;
+        if(acceptedLanguage.length === 2)
+        {
+          Localization = require('../localization/'+acceptedLanguage).Localization;
+        }
         //TODO: set localization give it to function.
-        serviceFunction(req,res,next);
+        serviceFunction(req,res,next,Localization);
       });
     }
   }
@@ -512,7 +518,7 @@ var HomisWebServiceManager = function(router)
   };
   
   // Just a web service test/
-  var test = function(req, res) 
+  var test = function(req, res, next, Localization) 
   {
     res.json({ message: Localization.working});
   };

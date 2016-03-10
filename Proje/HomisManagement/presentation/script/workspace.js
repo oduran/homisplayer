@@ -1604,6 +1604,24 @@ var Workspace = function () {
 
 $( document ).ready(function() 
 {	 
+  setLanguage();
   var workspace = new Workspace();
   workspace.initialize();
 });
+
+var setLanguage = function()
+{
+  /** @const */ 
+  DEFAULT_VALUE = 'tr';
+  /** @const */ 
+  PREFERRED_LANGUAGE = navigator.language || 
+    navigator.userLanguage || 
+    navigator.browserLanguage || 
+    navigator.systemLanguage || DEFAULT_VALUE;
+  $.ajaxSetup({
+    beforeSend: function (xhr)
+    {
+       xhr.setRequestHeader("Accept-Language", PREFERRED_LANGUAGE);
+    }
+  });
+}
