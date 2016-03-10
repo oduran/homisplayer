@@ -8,8 +8,7 @@
   var userPlayerList="";
   var playerList="";
   var selectedPlayers=[];
-
-  
+  var createUserToUserNameCheck = false;
   var createUserToEmailCheck = false;
   
  /**
@@ -424,11 +423,13 @@
               if(exist)
               {
                 $("#name").removeClass("validFormElement").addClass("invalidFormElement");
+                createUserToUserNameCheck=false;
               }
               
               else
               {
                 $("#name").removeClass("invalidFormElement").addClass("validFormElement");
+                createUserToUserNameCheck=true;
               }
             
           });
@@ -473,13 +474,13 @@
   };
   
   /**
-  * Çıkış butonu.
+  * Yeni kullanıcı ekle butonu.
   */
   var addSaveUserButtonOnClick = function()
   {
     $(".createUser").click(function()
     {
-      if(createUserToEmailCheck===true)
+      if(createUserToEmailCheck===true && createUserToUserNameCheck===true)
       {
         var data = {user: {
                            "name":$("#name").val(),
@@ -660,7 +661,7 @@
   {
     selectedPlayers=[];
     $( "#playerList option:selected" ).each(function( index ) 
-    {debugger;
+    {
       var playerIndex = this.value;
       var player = currentUserToEdit.players[playerIndex];
       selectedPlayers.push(player);
@@ -691,7 +692,7 @@
     $("#sendUsers").click(function()
     {
      $("#playerUserList option:selected").each(function(index)
-      { debugger;
+      {
         Util.loadingDialog.show();
         var name = $(this).text();
         var data = {name:name};
@@ -736,6 +737,7 @@
   var addCheckEmailisValid = function(email) 
   {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    
     if(re.test(email))
     {
       $("#email").removeClass("invalidFormElement").addClass("validFormElement");
@@ -745,6 +747,10 @@
     else
     {
       $("#email").removeClass("validFormElement").addClass("invalidFormElement");
+    }
+    if(typeof email ==="undefined")
+    {
+      $("#email").removeClass("invalidFormElement");
     }
   };
   

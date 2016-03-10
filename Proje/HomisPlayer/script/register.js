@@ -25,7 +25,14 @@ var RegisterPlayer = function()
       data: data,
       success: function(response)
       {
+        var playerId = response.playerId;
+        if(playerId)
+        {
+          //savePlayerIdToHarddisk(playerId);
+          return;
+        }
         
+        BootstrapDialog.alert(response.message);
       },
       error: function(error){debugger;}
     });
