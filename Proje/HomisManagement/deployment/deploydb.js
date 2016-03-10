@@ -15,7 +15,7 @@ var DeploymentManager = function()
   this.deployDb = function()
   {
     console.log("db deployment started");
-    var collectionsToBeCleared = ["users","themes","playerlogs"];
+    var collectionsToBeCleared = ["users","themes","playerlogs","players"];
     var usersToBeInserted = [
       {name:"superuser", password:"superuser", type:"admin"},
       {name:"admin", password:"admin", type:"admin"},
@@ -28,6 +28,7 @@ var DeploymentManager = function()
       addUsersToDb(usersToBeInserted);
     });
   }
+  
   var clearCollections = function(collections,callback)
   {
     var clearedCollectionCount = 0;
