@@ -120,12 +120,14 @@ var HomisDbManager = function(databaseName)
     dbManager.updateInCollection("players",player,callback);
   };
   
+  // Gets players who have no user.
   this.getUserlessPlayers = function(callback)
   {
     dbManager.getCollection("players",callback, {owners:{$size:0}});
   };
   
-  this.getPlayer = function(playerName, callback)
+  // Gets player with given name.
+  this.getPlayerByName = function(playerName, callback)
   {
     dbManager.executeDbQuery(
       function(db)

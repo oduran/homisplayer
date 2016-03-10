@@ -470,7 +470,7 @@ var HomisWebServiceManager = function(router)
       playerId: playerId,
       owners: []
     }
-    dbManager.getPlayer(playerName, function(existPlayer)
+    dbManager.getPlayerByName(playerName, function(existPlayer)
     {
       if(existPlayer)
       {
