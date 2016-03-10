@@ -5,7 +5,11 @@
   var files = [];
   var uploadRequests =[];
   var currentUserToEdit;
-  var userPlayerlist;
+  var userPlayerList="";
+  var playerList="";
+  var selectedPlayers=[];
+
+  
   var createUserToEmailCheck = false;
   
  /**
@@ -51,14 +55,14 @@
          $('#userList').empty();
          getUserList(function(userListItem){
            $('#userList').append(userListItem);
-           });
+           },"adminPanel");
         }
 
         showUserWorkspaces(response.user);
         showUserMediaResources(response.user);
         showUserPlayers(response.user);
       },
-      error: function(error){ }
+      error: handleAjaxError
     });
   };
   
@@ -151,7 +155,7 @@
       {
         var player = user.players[i];
         
-        var playerItem = "<option id='"+user.players[i].playerId+"' class='playeroption'>"+user.players[i].playerName+"</option>";
+        var playerItem = "<option id='"+user.players[i].playerId+"' value='"+i+"' class='playeroption'>"+user.players[i].playerName+"</option>";
         $('#playerList').append(playerItem);  
       }
     }
@@ -168,15 +172,19 @@
   {
   $('#playerList').on('change',function()
     { 
-      userPlayerlist=$(this).val();
-    });    
+      
+    }); 
+  $('#userPlayerlist').on('change',function()
+    { 
+      userPlayerList=$(this).val();
+    });     
   };
   
   /**
   * Kayıtlı bütün kullanıcıları getirir bunu sadece admin görebilir.
   * @params object user - Kullanıcı
   */
-  var getUserList = function(callback)
+  var getUserList = function(callback,type)
   {
     var data = null;
     $.ajax({
@@ -187,24 +195,36 @@
       {       
         users = response;      
         var userListItem="";
-        for(var i = 0 ;i<response.length; i++)
+        if(type==="adminPanel")
         {
-          var user = response[i];
-          userListItem += "<a class='list-group-item' href='#' id='"+user.name+
-          "ListItem'>"+ user.name+"<button class='btn btn-danger' onclick=deleteUser('"+
-          user.name+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-trash'></span></button><button class='btn btn-info accordion-toggle'  data-parent='#userList' data-toggle='collapse' href='#"+
-          user.name+"Form' onclick=getUserDetailsByUsername('"+user.name+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-edit'></span></button><div id='"+
-          user.name+"Form' class='userForm collapse'><form class ='"+
-          user.name+"'><fieldset><div class='form-group'><label>Kullanıcı Adı</label><input type='text' class='form-control formelement name' name='name' placeholder='Kullanıcı Adı' value="+
-          user.name+"><label>Soyadı</label><input type='text' class='form-control formelement surname' name='surname' placeholder='Soyadı' value="+
-          user.surname+"><label>Email</label><input type='text' class='form-control formelement email' name='email' placeholder='Email' value="+
-          user.email+">"+
-          "<label>Kullanıcı Tipi</label><select class='usertype' name='userType'>"+createOptionStrings(user.type)+"</select><br><br>"+
-          "<button class='btn btn-success' onclick=editUserByName('"+user.name+"',"+i+") style='float:right'><span style='float:right' class='glyphicon glyphicon-saved'></span></button></div></fieldset></form></div></a>";
+          for(var i = 0 ;i<response.length; i++)
+          {
+            var user = response[i];
+            userListItem += "<a class='list-group-item' href='#' id='"+user.name+
+            "ListItem'>"+ user.name+"<button class='btn btn-danger' onclick=deleteUser('"+
+            user.name+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-trash'></span></button><button class='btn btn-info accordion-toggle'  data-parent='#userList' data-toggle='collapse' href='#"+
+            user.name+"Form' onclick=getUserDetailsByUsername('"+user.name+"') style='float:right;margin-top:-7px'><span style='float:right' class='glyphicon glyphicon-edit'></span></button><div id='"+
+            user.name+"Form' class='userForm collapse'><form class ='"+
+            user.name+"'><fieldset><div class='form-group'><label>Kullanıcı Adı</label><input type='text' class='form-control formelement name' name='name' placeholder='Kullanıcı Adı' value="+
+            user.name+"><label>Soyadı</label><input type='text' class='form-control formelement surname' name='surname' placeholder='Soyadı' value="+
+            user.surname+"><label>Email</label><input type='text' class='form-control formelement email' name='email' placeholder='Email' value="+
+            user.email+">"+
+            "<label>Kullanıcı Tipi</label><select class='usertype' name='userType'>"+createOptionStrings(user.type)+"</select><br><br>"+
+            "<button class='btn btn-success' onclick=editUserByName('"+user.name+"',"+i+") style='float:right'><span style='float:right' class='glyphicon glyphicon-saved'></span></button></div></fieldset></form></div></a>";
+          }
+        }
+        if(type==="player")
+        {
+          for(var i = 0 ;i<response.length; i++)
+          {
+            var user = response[i];
+            userListItem += "<option class='list-group-item' href='#' id='"+user.name+
+            "playerListItem'>"+ user.name+"</option>";
+          }
         }
         callback(userListItem);
       },
-      error: function(error){ }
+      error: handleAjaxError
     });
   };
  
@@ -248,10 +268,10 @@
       $('#userList').empty();
       getUserList(function(userListItem){
         $('#userList').append(userListItem);
-        });
+        },"adminPanel");
    
     },
-    error: function(error){ }
+    error: handleAjaxError
     });
   }
   
@@ -293,7 +313,7 @@
       showUserPlayers(response.user);
       Util.loadingDialog.hide();  
     },
-    error: function(error){ }
+    error: handleAjaxError
     });
   };
   
@@ -347,7 +367,7 @@
         Util.loadingDialog.hide();
         BootstrapDialog.alert(response.message);
       },
-      error: function(error){ }
+      error: handleAjaxError
     });
   };
   
@@ -399,7 +419,19 @@
         function (event) 
         {
           var name = $("#name").val();
-          checkUser(name);
+          checkUserExist(name,function(exist)
+          {
+              if(exist)
+              {
+                $("#name").removeClass("validFormElement").addClass("invalidFormElement");
+              }
+              
+              else
+              {
+                $("#name").removeClass("invalidFormElement").addClass("validFormElement");
+              }
+            
+          });
         });
       $("#email").focusout(
       function (event) 
@@ -413,15 +445,18 @@
   /**
   * Yeni user oluştururken kullanıcı adının kullanılıp kullanılmadığını kontrol eden fonksiyondur.
   */
-  var checkUser = function(name)
+  var checkUserExist = function(name,callback)
   { 
     var data = {name:name};
     $.ajax({
       type: "POST",
       url: url+"service/getuser",
       data: data,
-      success: function(response){ },
-      error: function(error){ }
+      success: function(response)
+      {
+        callback(response.user);
+      },
+      error: handleAjaxError
     });
   };
   
@@ -467,10 +502,10 @@
             $('#userList').empty();
             getUserList(function(userListItem){
               $('#userList').append(userListItem);
-              });
+              },"adminPanel");
             $("#createUserModal").modal("hide");
           },
-          error: function(error){ }
+          error: handleAjaxError
         });
       }
       else
@@ -621,6 +656,17 @@
     });
   };  
 
+  var getSelectedPlayerList = function ()
+  {
+    selectedPlayers=[];
+    $( "#playerList option:selected" ).each(function( index ) 
+    {debugger;
+      var playerIndex = this.value;
+      var player = currentUserToEdit.players[playerIndex];
+      selectedPlayers.push(player);
+    });
+    
+  }
   /**
   * Seçilen oynatıcıları usera gönder de açılan dialog.
   */
@@ -628,10 +674,59 @@
   {
     $("#sendPlayerToUser").click(function()
     {
+      getSelectedPlayerList();
+
       $("#playerListModal").modal("show");
-      
+      getUserList(function(userListItem){
+           $('#playerUserList').html(userListItem);
+           },"player");
     });
-  }; 
+  };      
+ 
+  /**
+  * Seçilen kullanıcılara seçilen playerları gönder butonu.
+  */
+  var sendPlayerToSelectedUser = function()
+  {
+    $("#sendUsers").click(function()
+    {
+     $("#playerUserList option:selected").each(function(index)
+      { debugger;
+        Util.loadingDialog.show();
+        var name = $(this).text();
+        var data = {name:name};
+        $.ajax({
+          type: "POST",
+          url: url+"service/getuser",
+          data: data,
+          success: function(response)
+          {
+            currentUserToEdit = response.user;
+            if(!currentUserToEdit.players)
+            {
+              currentUserToEdit.players=[];
+            }
+            currentUserToEdit.players = currentUserToEdit.players.concat(selectedPlayers);
+            var data = {user:currentUserToEdit};
+            $.ajax({
+              type: "POST",
+              url: url+"service/saveuser",
+              data: data,
+              success: function(response)
+              {
+                Util.loadingDialog.hide();
+                $("#playerListModal").modal("hide");
+                BootstrapDialog.alert(response.message);
+              },
+              error: handleAjaxError
+            });
+          },
+          error: handleAjaxError
+        });
+        
+      })
+    });
+  };
   
   /**
   * Yeni user kaydı oluşturulurken email check edilen fonksiyon.
@@ -643,13 +738,13 @@
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if(re.test(email))
     {
-      $("#email").css("border","1px solid green");
+      $("#email").removeClass("invalidFormElement").addClass("validFormElement");
       createUserToEmailCheck=true;
     }
     
     else
     {
-      $("#email").css("border","1px solid red");
+      $("#email").removeClass("validFormElement").addClass("invalidFormElement");
     }
   };
   
@@ -715,11 +810,16 @@
       uploadRequests[i].abort();
     }
   };
-
+  
+  var handleAjaxError = function(error)
+  {
+      BootstrapDialog.alert(error.message);
+  };
+  
   $( document ).ready(function() 
   { 
     addSendPlayerToUser();
-
+    addOptionOnChange();
     addCancelUploadButtonOnClick();
     addCheckEmailisValid();
     addNewMediaResourceButton();
@@ -730,5 +830,6 @@
     addSaveUserButtonOnClick();
     addLogoutButtonOnClick();
     addUploadMediaResources();
+    sendPlayerToSelectedUser();
   });
  

@@ -42,6 +42,12 @@
     overflow: auto;
     border: 0;
 }
+#playerUserList
+{
+  width: 100%;
+  overflow: auto;
+  height: 60vh;
+}
 #adminPanel
 {
 display:none;
@@ -150,4 +156,13 @@ float:left;
 .panel
 {
   border-radius:0px;
+}
+.invalidFormElement
+{
+  border : 1px solid red;
+}
+
+.validFormElement
+{
+  border : 1px solid green;
 }
