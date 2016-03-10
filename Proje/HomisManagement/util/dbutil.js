@@ -85,13 +85,22 @@ var DbManager = function(databaseName)
   }
   
   // Gets collection by given name
-  this.getCollection = function(collectionName,callback)
+  this.getCollection = function(collectionName,callback,query)
   {
     this.executeDbQuery(
       function(db)
       {
         var collectionArray = [];
-        var cursor =db.collection(collectionName).find();
+        var cursor;
+        if(query)
+        {
+         cursor = db.collection(collectionName).find(query);
+        }
+        else
+        {
+          cursor = db.collection(collectionName).find();
+        }
+        
         var i = 0;
         cursor.each(function(err, doc) {
           if(err)

@@ -10,12 +10,17 @@
   noWorkspaceError : "Bu kullanıcı için herhangi bir çalışma alanı oluşturulmamış.",
   noAccessTokenError : "Erişim hakkınız yok.",
   workspaceNotFoundError : "Bu kullanıcı için verilen id ile çalışma alanı mevcut değil.",
+  playerAlreadyExistError: "Oynatıcı ismi zaten kayıtlı",
   valid : "geçerli",
-  success : "başarılı",
-  working : "çalışıyor"
+  success : "İşlem başarıyla gerçekleştirildi.",
+  working : "Çalışıyor."
 }
 
-module.exports = 
+if(module)
 {
-  Localization : Localization
-};
+  module.exports = 
+  {
+    Localization : Localization
+  };  
+}
+

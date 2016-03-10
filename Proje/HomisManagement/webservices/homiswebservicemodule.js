@@ -19,35 +19,35 @@ var HomisWebServiceManager = function(router)
   // starts web services defined inside
   this.start = function()
   {
-    // test route to make sure everything is working (accessed at GET http://localhost:8080/service)
-    router.get('/test', test);
+    // test route to make sure everything is working (accessed at GET http://localhost:8080/service),
+    setService('get','/test',test);
    
     // login to website. name, pass input, output is access token (could be as cookie in the future)
-    router.post('/login', login);
+    setService('post','/login', login);router.post('/login', login);
    
     // creates user.
-    router.post('/saveuser', saveUser);
+    setService('post', '/saveuser', saveUser);
     
     // deletes user.
-    router.post('/deleteuser', deleteUser);
+    setService('post', '/deleteuser', deleteUser);
     
     // get all users, passwords and access tokens are removed.
-    router.post('/getusers', getUsers);
+    setService('post', '/getusers', getUsers);
 	
     // get a user which access token was given.
-    router.post('/getuser', getUser);
+    setService('post', '/getuser', getUser);
     
     // creates workspace for user with given access token and workspace object.
-    router.post('/saveworkspace', saveWorkspace);
+    setService('post', '/saveworkspace', saveWorkspace);
     
     // creates workspace for user with given access token and workspace object.
-    router.post('/getworkspace', getWorkspace);
+    setService('post', '/getworkspace', getWorkspace);
     
     // save mediaresources for user with given access token or admin with given userid
-    router.post('/savemediaresource', mediaUploadManager.saveMediaResource);
+    setService('post', '/savemediaresource', mediaUploadManager.saveMediaResource);
     
     // Register player for the first time.
-    router.post('/registerplayer', registerPlayer);
+    setService('post', '/registerplayer', registerPlayer);
     
   };
   
@@ -458,6 +458,7 @@ var HomisWebServiceManager = function(router)
     );
   };
   
+  // Registers player to the system.
   var registerPlayer = function(req, res, next)
   {
     var playerName = req.body.playerName;
@@ -466,14 +467,40 @@ var HomisWebServiceManager = function(router)
     var player = {
       playerName: playerName,
       playerHardwareId: playerHardwareId,
-      playerId: playerId
+      playerId: playerId,
+      owners: []
     }
-    
-    dbManager.savePlayer(player,
-      function(){
-        res.json({playerId:playerId});
-      });
+    dbManager.getPlayer(playerName, function(existPlayer)
+    { if(existPlayer)
+      {
+        res.json({message:Localization.playerAlreadyExistError});
+      }
+      
+      dbManager.savePlayer(player,
+        function(){
+          res.json({playerId:playerId});
+        });
+    });
   }
+  
+  var setService = function(serviceType,serviceRoute,serviceFunction)
+  {
+    if(serviceType === 'get')
+    {
+      router.get(serviceRoute, serviceFunction);
+    }
+    else if(serviceType === 'post')
+    {
+      router.post(serviceRoute, function(req,res,next)
+      {
+        var acceptedLanguage = req.headers["accept-language"];
+        console.log("accepted language:" + acceptedLanguage);
+        //TODO: set localization give it to function.
+        serviceFunction(req,res,next);
+      });
+    }
+  }
+  
   
   // Converts string true false to bool true false. other values returned as false.
   var stringToBool = function(boolString)
