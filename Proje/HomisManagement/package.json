@@ -10,6 +10,7 @@
       "connect-busboy": "~0.0.2",
       "bcryptjs": "~2.3.0",
       "jimp": "^0.2.21",
-      "fluent-ffmpeg": "^2.0.1"
+      "fluent-ffmpeg": "^2.0.1",
+      "jsdoc":"~3.4.0"
     }
 }
