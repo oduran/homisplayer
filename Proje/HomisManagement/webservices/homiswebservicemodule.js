@@ -471,9 +471,12 @@ var HomisWebServiceManager = function(router)
       owners: []
     }
     dbManager.getPlayer(playerName, function(existPlayer)
-    { if(existPlayer)
+    {
+      if(existPlayer)
       {
+        console.log(existPlayer);
         res.json({message:Localization.playerAlreadyExistError});
+        return;
       }
       
       dbManager.savePlayer(player,

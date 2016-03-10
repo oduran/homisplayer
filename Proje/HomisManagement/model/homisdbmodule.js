@@ -125,6 +125,22 @@ var HomisDbManager = function(databaseName)
     dbManager.getCollection("players",callback, {owners:{$size:0}});
   };
   
+  this.getPlayer = function(playerName, callback)
+  {
+    dbManager.executeDbQuery(
+      function(db)
+      {
+        var player = db.collection("players").findOne({ "playerName": playerName },function(err,doc)
+        {
+          if(err)
+          {
+            throw err;
+          }
+          callback(doc);
+        });
+      });
+  };
+  
   // Creates unique access token with using mongodb's ObjectID.
   this.createUniqueId = function()
   {
