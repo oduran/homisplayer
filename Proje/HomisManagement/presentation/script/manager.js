@@ -94,8 +94,8 @@
     {
       var workspaceListItem = "<a class='list-group-item' href='#'>"+ 
       user.workspaces[i].name+
-      "<button class='btn btn-sm btn-info' id='"+user.workspaces[i].workspaceId+"' onclick=showWorkspaceByName('"+currentUserToEdit.workspaces[i].workspaceId+"','"+currentUserToEdit.name+"') style='float:right'><span style='float:right' class='glyphicon glyphicon-edit'></span></button>"+
-      "<button class='btn btn-sm btn-success' onclick=showPlayerList('"+i+"') style='float:right'><span style='float:right' class='glyphicon glyphicon-play'></span></button></a>";
+      "<button class='btn btn-sm btn-info' id='"+user.workspaces[i].workspaceId+"' onclick=showWorkspaceByName('"+currentUserToEdit.workspaces[i].workspaceId+"','"+currentUserToEdit.name+"') style='float:right'><span class='glyphicon glyphicon-edit'></span></button>"+
+      "<button class='btn btn-sm btn-success' onclick=showPlayerList('"+i+"') style='float:right'><span class='glyphicon glyphicon-play'></span></button></a>";
       $('#workspaceList').append(workspaceListItem);  
     }
   };
@@ -104,11 +104,11 @@
  {
    BootstrapDialog.show({
             title: 'Çalışma alanını göndermek istediğiniz oynatıcıları seçiniz.',
-            message: "<select id='sendWorkspaceToPlayerList' multiple>"+$("#playerList").html()+"</select>",
+            message: "<div id='sendWorkspaceToPlayerList'>"+$("#playerList").html()+"</div>",
             buttons: [{
                 label: 'Gönder',
                 action: function(dialog) {
-                    $("#sendWorkspaceToPlayerList option:selected").each(function(index)
+                    $("#sendWorkspaceToPlayerList input:checked").each(function(index)
                     {
                       currentUserToEdit.players[index].workspace = currentUserToEdit.workspaces[i];
                       var data = {user: currentUserToEdit };
@@ -119,12 +119,14 @@
                         success: function(response)
                         { 
                           Util.loadingDialog.hide();
+                          BootstrapDialog.alert(response.message);
+                          $("#playerList").empty();
+                          showUserPlayers(currentUserToEdit);
                         },
                         error: handleAjaxError
                       });
                     });
                     dialog.close();
-                    BootstrapDialog.alert(response.message);
                 }
             }, {
                 label: 'Kapat',
@@ -177,11 +179,14 @@
     }
   };
   
+  /**
+  * Kullanıcıya ait oynatıcıları gösterir.
+  */
   var showUserPlayers = function(user)
   { 
     var userPlayer = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+user.name+"</a>";
-    $('#userNameInPlayer').append(userPlayer);
-    
+    $('#userNameInPlayer').html(userPlayer);
+    var playerItem;
     if(!user.players)
     {
       return;
@@ -192,10 +197,17 @@
       for(var i = 0 ;i<user.players.length; i++)
       {
         var player = user.players[i];
-        
-        var playerItem = "<option id='"+user.players[i].playerId+"' value='"+i+"' class='playeroption'>"+user.players[i].playerName+"</option>";
-        $('#playerList').append(playerItem);  
+        var workspaceName='';
+        if(user.players[i].workspace)
+        {
+          workspaceName = user.players[i].workspace.name;
+        }
+        debugger;
+        playerItem += "<div class='checkbox'>"+
+        "<label><input id='"+user.players[i].playerId+"' type='checkbox' value='"+i+"' class='playeroption'>"+user.players[i].playerName+
+        "<p>"+workspaceName+"</p></label></div>";
       }
+      $('#playerList').html(playerItem);  
     }
     else
     {
@@ -240,15 +252,15 @@
             var user = response[i];
             userListItem += "<a class='list-group-item' href='#' id='"+user.name+
             "ListItem'>"+ user.name+"<button class='btn btn-sm btn-danger' onclick=deleteUser('"+
-            user.name+"') style='float:right;'><span style='float:right' class='glyphicon glyphicon-trash'></span></button><button class='btn btn-sm btn-info accordion-toggle'  data-parent='#userList' data-toggle='collapse' href='#"+
-            user.name+"Form' onclick=getUserDetailsByUsername('"+user.name+"') style='float:right;'><span style='float:right' class='glyphicon glyphicon-edit'></span></button><div id='"+
+            user.name+"') style='float:right;'><span class='glyphicon glyphicon-trash'></span></button><button class='btn btn-sm btn-info accordion-toggle'  data-parent='#userList' data-toggle='collapse' href='#"+
+            user.name+"Form' onclick=getUserDetailsByUsername('"+user.name+"') style='float:right;'><span class='glyphicon glyphicon-edit'></span></button><div id='"+
             user.name+"Form' class='userForm collapse'><form class ='"+
             user.name+"'><fieldset><div class='form-group'><label>Kullanıcı Adı</label><input type='text' class='form-control formelement name' name='name' placeholder='Kullanıcı Adı' value="+
             user.name+"><label>Soyadı</label><input type='text' class='form-control formelement surname' name='surname' placeholder='Soyadı' value="+
             user.surname+"><label>Email</label><input type='text' class='form-control formelement email' name='email' placeholder='Email' value="+
             user.email+">"+
             "<label>Kullanıcı Tipi</label><select class='usertype' name='userType'>"+createOptionStrings(user.type)+"</select><br><br>"+
-            "<button class='btn btn-success' onclick=editUserByName('"+user.name+"',"+i+") style='float:right'><span style='float:right' class='glyphicon glyphicon-saved'></span></button></div></fieldset></form></div></a>";
+            "<button class='btn btn-success' onclick=editUserByName('"+user.name+"',"+i+") style='float:right'><span  class='glyphicon glyphicon-saved'></span></button></div></fieldset></form></div></a>";
           }
         }
         if(type==="player")
@@ -519,8 +531,7 @@
   {
     $(".createUser").click(function()
     {
-      if(createUserToEmailCheck===true && createUserToUserNameCheck===true)
-      {
+      
         var data = {user: {
                            "name":$("#name").val(),
                            "surname":$("#surname").val(),
@@ -547,11 +558,7 @@
           },
           error: handleAjaxError
         });
-      }
-      else
-      {
-        BootstrapDialog.alert("Email adresi geçerli değil");
-      }
+      
     });
   };
   

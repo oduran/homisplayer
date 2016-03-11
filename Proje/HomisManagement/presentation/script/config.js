@@ -5,7 +5,6 @@
     var iframeMediaresources = "";
     var selectedMenu=0;
     var url = Util.getWindowUrl();
-    var userMediaResourceName="";
     var serviceUrl = url +"service/";
     
     /**
@@ -138,16 +137,11 @@
         });
 
         var userName = Util.getParameterByName('userName');
-        if(userMediaResourceName==="")
-        {
+        
           getUser(userName,function(user){
           getUserMediaResources(user)
             });
-        }
-        else
-        {
-          $("#onUserMediaResources").html(userMediaResourceName);
-        }
+        
       });
     }
     
@@ -190,7 +184,8 @@
     */
     var getUserMediaResources = function(user)
     { 
-     
+     var userMediaResourceName="";
+
       if(!user.mediaResources)
       {
         return;
@@ -240,15 +235,10 @@
           {
             var resourceName = userMediaresources[i].substr(userMediaresources[i].lastIndexOf('/') + 1);
             var option = "<option value='"+userMediaresources[i]+"' id='"+resourceName+"_iframe'>"+resourceName+"</option>";
-            $("#onUserMediaResources option[id='"+resourceName+"_userMedia']").remove();
             $("#onIframeMediaResources").append(option);
             selectedMenu=0;
           }
-          userMediaResourceName ="";
-          for(var i=0 ;i<$("#onUserMediaResources").find("option").length;i++)
-          {
-            userMediaResourceName += $("#onUserMediaResources").find("option")[i].outerHTML;
-          }
+          
          }
       });
     }
@@ -268,8 +258,7 @@
             var option = "<option value='"+iframeMediaresources[i]+"'  id='"+resourceName+"_userMedia'>"+resourceName+"</option>";
             $("#onIframeMediaResources option[id='"+resourceName+"_iframe']").remove();
             $("#onUserMediaResources").append(option);
-            userMediaResourceName+=option;
-            selectedMenu=0;
+             selectedMenu=0;
           }
          }
       });
