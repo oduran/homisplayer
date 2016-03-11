@@ -126,10 +126,30 @@ var HomisWebServiceManager = function(router)
               }
             }
           }
-
+          
           dbManager.getUserById(newUser._id,function(existingUser)
           {
-            updateUser(newUser, existingUser, res, returnObj, Localization);
+            dbManager.getPlayers(function(players)
+            {
+              var playersToBeUpdated = [];
+              for(var i = 0; i< players.length; i++)
+              {
+                var playerFromDb = players[i];
+                for(var j = 0; j< newUser.players.length; j++)
+                {
+                  var playerFromUser = newUser.players[j];
+                  if(playerFromDb.playerId === playerFromUser.playerId)
+                  {
+                    playersToBeUpdated.push(playerFromUser);
+                  }
+                }
+              }
+              
+              dbManager.savePlayers(playersToBeUpdated, function(numberOfUpdates)
+              {
+                updateUser(newUser, existingUser, res, returnObj, Localization);
+              });
+            });
           });
         }
         else
@@ -357,7 +377,7 @@ var HomisWebServiceManager = function(router)
         }
         else
         {
-          dbManager.getUserlessPlayers(function(players)
+          dbManager.getPlayers(function(players)
           {
             user.password = "";
             user.accessToken = "";

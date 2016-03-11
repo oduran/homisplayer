@@ -114,16 +114,34 @@ var HomisDbManager = function(databaseName)
     dbManager.getCollection("users",callback);
   };
   
-  // Adds a user to database.
+  // Updates or inserts a player array to the database.
+  this.savePlayers = function(players,callback)
+  {
+    var completedSaves = 0;
+    for(var i = 0; i< players.length; i++)
+    {
+      var player = players[i];
+      dbManager.savePlayer("players",player,function()
+      {
+        completedSaves++;
+        if(completedSaves == players.length)
+        {
+          callback(completedSaves);
+        }
+      });
+    }
+  };
+  
+  // Updates or inserts a player to the database.
   this.savePlayer = function(player,callback)
   {
     dbManager.updateInCollection("players",player,callback);
   };
   
   // Gets players who have no user.
-  this.getUserlessPlayers = function(callback)
+  this.getPlayers = function(callback)
   {
-    dbManager.getCollection("players",callback, {owners:{$size:0}});
+    dbManager.getCollection("players",callback);
   };
   
   // Gets player with given name.
