@@ -17,11 +17,11 @@ var DeploymentManager = function()
     console.log("db deployment started");
     var collectionsToBeCleared = ["users","themes","playerlogs","players"];
     var usersToBeInserted = [
-      {name:"superuser", password:"superuser", type:"admin"},
-      {name:"admin", password:"admin", type:"admin"},
-      {name:"user", password:"user", type:"user"},
-      {name:"oguz", password:"qwe123", type:"admin"},
-      {name:"onder", password:"qwe123", type:"admin"}
+      {name:"superuser", password:"superuser", type:"admin",workspaces:[],players:[],mediaResources:[]},
+      {name:"admin", password:"admin", type:"admin",workspaces:[],players:[],mediaResources:[]},
+      {name:"user", password:"user", type:"user",workspaces:[],players:[],mediaResources:[]},
+      {name:"oguz", password:"qwe123", type:"admin",workspaces:[],players:[],mediaResources:[]},
+      {name:"onder", password:"qwe123", type:"admin",workspaces:[],players:[],mediaResources:[]}
     ]
     clearCollections(collectionsToBeCleared, function()
     {

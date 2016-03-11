@@ -154,6 +154,9 @@ var HomisWebServiceManager = function(router)
         }
         else
         {
+          newUser.workspaces = [];
+          newUser.players = [];
+          newUser.mediaResources = [];
           insertUser(newUser,res, Localization);
         }
       }

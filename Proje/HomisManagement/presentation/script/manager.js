@@ -105,12 +105,14 @@
    BootstrapDialog.show({
             title: 'Çalışma alanını göndermek istediğiniz oynatıcıları seçiniz.',
             message: "<div id='sendWorkspaceToPlayerList'>"+$("#playerList").html()+"</div>",
-            buttons: [{
+            buttons: 
+            [{
                 label: 'Gönder',
                 action: function(dialog) {
                     $("#sendWorkspaceToPlayerList input:checked").each(function(index)
                     {
                       currentUserToEdit.players[index].workspace = currentUserToEdit.workspaces[i];
+                    });
                       var data = {user: currentUserToEdit };
                       $.ajax({
                         type: "POST",
@@ -122,13 +124,13 @@
                           BootstrapDialog.alert(response.message);
                           $("#playerList").empty();
                           showUserPlayers(currentUserToEdit);
+                          dialog.close();
                         },
                         error: handleAjaxError
                       });
-                    });
-                    dialog.close();
                 }
-            }, {
+            }, 
+            {
                 label: 'Kapat',
                 action: function(dialog) {
                     dialog.close();
@@ -186,7 +188,7 @@
   { 
     var userPlayer = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+user.name+"</a>";
     $('#userNameInPlayer').html(userPlayer);
-    var playerItem;
+    var playerItem="";
     if(!user.players)
     {
       return;

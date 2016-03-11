@@ -121,7 +121,7 @@ var HomisDbManager = function(databaseName)
     for(var i = 0; i< players.length; i++)
     {
       var player = players[i];
-      dbManager.savePlayer("players",player,function()
+      this.savePlayer("players",player,function()
       {
         completedSaves++;
         if(completedSaves == players.length)
