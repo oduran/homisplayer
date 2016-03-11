@@ -144,7 +144,7 @@ var HomisWebServiceManager = function(router)
                   }
                 }
               }
-              
+             
               dbManager.savePlayers(playersToBeUpdated, function(numberOfUpdates)
               {
                 updateUser(newUser, existingUser, res, returnObj, Localization);
@@ -280,7 +280,6 @@ var HomisWebServiceManager = function(router)
       
       if(operator.type == "admin")
       {
-        console.log(name);
         dbManager.removeUserByName(name, 
         function(){
           res.json({message : Localization.success});
