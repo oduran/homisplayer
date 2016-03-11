@@ -100,7 +100,7 @@ var HomisWebServiceManager = function(router)
   // Saves a user. If it doesn't exist inserts new record. If it does exist updates current user.
   var saveUser = function (req, res, next, Localization)
   {
-    var returnObj = {message:"success"};
+    var returnObj = {message:Localization.success};
     var accessToken = req.cookies.accessToken;
     dbManager.getUserByAccessToken(accessToken, function(operator)
     {
@@ -134,7 +134,7 @@ var HomisWebServiceManager = function(router)
         }
         else
         {
-          insertUser(newUser,res);
+          insertUser(newUser,res, Localization);
         }
       }
       else

@@ -19,7 +19,7 @@ var Workspace = function () {
   var workspaceObj={};
   var walls=[];
   var wallscreens= [];
-  var user;
+  var currentUserToEdit;
   var selectedMenu=0;
   var userVideoresources="";
   var videoresources = "";
@@ -247,7 +247,7 @@ var Workspace = function () {
         }
         
         workspaceObj = userName? findUserWorkspace(workspaceId,response.user.workspaces) : response;
-        user = userName? response.user : user;
+        currentUserToEdit = userName? response.user : currentUserToEdit;
         $( "#pageHeight" ).val(workspaceObj.height);
         $( "#pageWidth" ).val(workspaceObj.width);
         $("#datetimepicker1").find("input").val(workspaceObj.starttime);
@@ -444,20 +444,26 @@ var Workspace = function () {
     }
     else
     {
+      if(!userName)
+      {
+        showNewWorkspaceForm();
+        return;
+      }
+      
       getUser(userName,function(userFromService)
       {
         var username = "";
         if(userFromService)
         {
-          user = userFromService;
+          currentUserToEdit = userFromService;
         }
-        if(typeof user==="undefined")
+        if(!currentUserToEdit)
         {
          $("#workspaceHeader").text("Çalışma Alanı");
         }
         else
         {
-         $("#workspaceHeader").text(user.name.toUpperCase()+"'in Çalışma Alanı"); 
+         $("#workspaceHeader").text(currentUserToEdit.name.toUpperCase()+"'in Çalışma Alanı"); 
         }
         
         showNewWorkspaceForm();
@@ -663,11 +669,11 @@ var Workspace = function () {
       workspaceObj=Util.mergeObjects(workspaceObj,newWorkspaceObj);
       var data = { workspace: workspaceObj};
       
-      if(user&&user.type==="admin")
+      if(currentUserToEdit)
       {
         targetUrl = serviceUrl+"saveuser";
-        user = upsertWorkspaceToUser(workspaceObj, user);
-        data = {  user:user };
+        currentUserToEdit = upsertWorkspaceToUser(workspaceObj, currentUserToEdit);
+        data = { user:currentUserToEdit };
       }
       
       $.ajax({
@@ -675,18 +681,16 @@ var Workspace = function () {
         url: targetUrl,
         data: data,
         success: function(response){
-          
           if(response.workspaceId)
           {
             workspaceObj.workspaceId = response.workspaceId;
-      
-            if(user && user.workspaces)
+            if(currentUserToEdit && currentUserToEdit.workspaces)
             {
-              for(var i=0;i<user.workspaces.length;i++)
+              for(var i=0;i<currentUserToEdit.workspaces.length;i++)
               {
-                if(!user.workspaces[i].workspaceId)
+                if(!currentUserToEdit.workspaces[i].workspaceId)
                 {
-                  user.workspaces[i].workspaceId = response.workspaceId;
+                  currentUserToEdit.workspaces[i].workspaceId = response.workspaceId;
                 }
               }
             }
