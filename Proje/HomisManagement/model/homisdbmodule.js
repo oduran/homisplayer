@@ -140,9 +140,9 @@ var HomisDbManager = function(databaseName)
   };
   
   // Gets players who have no user.
-  this.getPlayers = function(callback)
+  this.getPlayers = function(callback,query)
   {
-    dbManager.getCollection("players",callback);
+    dbManager.getCollection("players",callback,query);
   };
   
   // Gets player with given name.

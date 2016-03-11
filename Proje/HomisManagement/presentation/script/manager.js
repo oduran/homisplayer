@@ -3,10 +3,9 @@
   var users = [];
   var adminControl=false;
   var files = [];
+  var allPlayers = [];
   var uploadRequests =[];
   var currentUserToEdit;
-  var userPlayerList="";
-  var playerList="";
   var selectedPlayers=[];
   var createUserToUserNameCheck = false;
   var createUserToEmailCheck = false;
@@ -30,7 +29,7 @@
       url: url+"service/getuser",
       data: data,
       success: function(response)
-      {  
+      { 
         currentUserToEdit = response.user;
         Util.loadingDialog.hide();
         
@@ -59,7 +58,7 @@
 
         showUserWorkspaces(response.user);
         showUserMediaResources(response.user);
-        showUserPlayers(response.user);
+        getPlayers();
       },
       error: handleAjaxError
     });
@@ -111,23 +110,40 @@
                 action: function(dialog) {
                     $("#sendWorkspaceToPlayerList input:checked").each(function(index)
                     {
-                      currentUserToEdit.players[index].workspace = currentUserToEdit.workspaces[i];
+                      var player = allPlayers[index];
+                      player.owner = currentUserToEdit.name;
+                      player.workspace = currentUserToEdit.workspaces[i];
+                      var playerFound = false;
+                      for(var i = 0; i < currentUserToEdit.players.length; i++)
+                      {
+                        if(currentUserToEdit.players[i].playerId === player.playerId)
+                        {
+                          currentUserToEdit.players[i] = player;
+                          playerFound = true;
+                        }
+                      }
+                      
+                      if(!playerFound)
+                      {
+                        currentUserToEdit.players.push(player);
+                      }
                     });
-                      var data = {user: currentUserToEdit };
-                      $.ajax({
-                        type: "POST",
-                        url: url+"service/saveuser",
-                        data: data,
-                        success: function(response)
-                        { 
-                          Util.loadingDialog.hide();
-                          BootstrapDialog.alert(response.message);
-                          $("#playerList").empty();
-                          showUserPlayers(currentUserToEdit);
-                          dialog.close();
-                        },
-                        error: handleAjaxError
-                      });
+                    
+                    var data = {user: currentUserToEdit };
+                    $.ajax({
+                      type: "POST",
+                      url: url+"service/saveuser",
+                      data: data,
+                      success: function(response)
+                      { 
+                        Util.loadingDialog.hide();
+                        BootstrapDialog.alert(response.message);
+                        $("#playerList").empty();
+                        getPlayers();
+                        dialog.close();
+                      },
+                      error: handleAjaxError
+                    });
                 }
             }, 
             {
@@ -175,47 +191,61 @@
         $('#userMediaResource').append(mediaResourceListItem);  
       }
     }
-    else
-    {
-      return;
-    }
   };
   
   /**
   * Kullanıcıya ait oynatıcıları gösterir.
   */
-  var showUserPlayers = function(user)
+  var getPlayers = function(user)
   { 
-    var userPlayer = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+user.name+"</a>";
+   
+    if(user)
+    {
+      showPlayers(user.players);
+      return;
+    }
+    
+    $.ajax({
+      type: "POST",
+      url: url + "service/getplayers",
+      success: function(response){
+        showPlayers(response.players);
+      },
+      error: handleAjaxError
+    });
+  };
+  
+  var showPlayers = function(players)
+  {
+    var userPlayer = "<a class='list-group-item text-center' href='#' style='background: beige;'>"+currentUserToEdit.name+"</a>";
     $('#userNameInPlayer').html(userPlayer);
     var playerItem="";
-    if(!user.players)
+    allPlayers = players;
+    if(!allPlayers)
     {
       return;
     }
- 
-    if(user.players)
+
+    for(var i = 0 ;i<allPlayers.length; i++)
     {
-      for(var i = 0 ;i<user.players.length; i++)
+      var player = allPlayers[i];
+      var workspaceName='';
+      var ownerName='';
+      if(allPlayers[i].workspace)
       {
-        var player = user.players[i];
-        var workspaceName='';
-        if(user.players[i].workspace)
-        {
-          workspaceName = user.players[i].workspace.name;
-        }
-        debugger;
-        playerItem += "<div class='checkbox'>"+
-        "<label><input id='"+user.players[i].playerId+"' type='checkbox' value='"+i+"' class='playeroption'>"+user.players[i].playerName+
-        "<p>"+workspaceName+"</p></label></div>";
+        workspaceName = allPlayers[i].workspace.name;
       }
-      $('#playerList').html(playerItem);  
+      if(allPlayers[i].owner)
+      {
+        ownerName = allPlayers[i].owner;
+      }
+
+      playerItem += "<div class='checkbox'>"+
+      "<label><input id='"+allPlayers[i].playerId+"' type='checkbox' value='"+i+"' class='playeroption'>"+allPlayers[i].playerName+
+      "<p>W :"+workspaceName+" K:"+ownerName+"</p></label></div>";
     }
-    else
-    {
-      return;
-    }
-  };
+    $('#playerList').html(playerItem);  
+  }
   
   /**
   * Player listesinde seçilen playerların bilgilierini tutan fonksiyon.
@@ -362,7 +392,7 @@
       currentUserToEdit = response.user;
       showUserWorkspaces(response.user);
       showUserMediaResources(response.user);
-      showUserPlayers(response.user);
+      getPlayers(response.user);
       Util.loadingDialog.hide();  
     },
     error: handleAjaxError
@@ -708,13 +738,12 @@
   var getSelectedPlayerList = function ()
   {
     selectedPlayers=[];
-    $( "#playerList option:selected" ).each(function( index ) 
+    $( "#playerList input:checked" ).each(function( index ) 
     {
       var playerIndex = this.value;
-      var player = currentUserToEdit.players[playerIndex];
+      var player = allPlayers[playerIndex];
       selectedPlayers.push(player);
     });
-    
   }
   /**
   * Seçilen oynatıcıları usera gönder de açılan dialog.
@@ -741,6 +770,7 @@
     {
      $("#playerUserList option:selected").each(function(index)
       {
+        debugger;
         Util.loadingDialog.show();
         var name = $(this).text();
         var data = {name:name};
@@ -750,13 +780,13 @@
           data: data,
           success: function(response)
           {
-            currentUserToEdit = response.user;
-            if(!currentUserToEdit.players)
+            for(var i = 0;i<selectedPlayers.length;i++)
             {
-              currentUserToEdit.players=[];
+              selectedPlayers[i].owner = response.user.name;
             }
-            currentUserToEdit.players = currentUserToEdit.players.concat(selectedPlayers);
-            var data = {user:currentUserToEdit};
+            
+            response.user.players = response.user.players.concat(selectedPlayers);
+            var data = {user:response.user};
             $.ajax({
               type: "POST",
               url: url+"service/saveuser",

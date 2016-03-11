@@ -49,6 +49,9 @@ var HomisWebServiceManager = function(router)
     // Register player for the first time.
     setService('post', '/registerplayer', registerPlayer);
     
+    // Get players with using user authority.
+    setService('post', '/getplayers', getPlayers);
+    
   };
   
   /* Private Methods */
@@ -379,13 +382,9 @@ var HomisWebServiceManager = function(router)
         }
         else
         {
-          dbManager.getPlayers(function(players)
-          {
             user.password = "";
             user.accessToken = "";
-            user.players = players
             res.json({user:user});
-          });
         }
       }
       else
@@ -490,7 +489,6 @@ var HomisWebServiceManager = function(router)
       playerName: playerName,
       playerHardwareId: playerHardwareId,
       playerId: playerId,
-      owners: []
     }
     dbManager.getPlayerByName(playerName, function(existPlayer)
     {
@@ -506,6 +504,24 @@ var HomisWebServiceManager = function(router)
           res.json({playerId:playerId});
         });
     });
+  }
+  
+  var getPlayers = function(req,res,next,Localization)
+  {
+      var accessToken = req.cookies.accessToken;
+      dbManager.getUserByAccessToken(accessToken,function(user)
+      {
+        var query;
+        if(user.type==="user")
+        {
+          query={owner:user.name};
+        }
+        
+        dbManager.getPlayers(function(players)
+        {
+          res.json({players:players});
+        },query);
+      });
   }
   
   // Sets the service with given service type, route and function. 
