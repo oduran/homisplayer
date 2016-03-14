@@ -1,5 +1,6 @@
 var RegisterPlayer = function()
 {
+  var playerId="";
   var playerHardwareId = "";
   var url = Util.getWindowUrl();
   this.initializeRegisterPage = function ()
@@ -10,9 +11,19 @@ var RegisterPlayer = function()
       playerHardwareId = macAddress;
       Util.loadingDialog.hide();
     });
+
+    var fs = require('fs');
+    if (fs.existsSync("my_file.txt"))
+    {
+     window.location = "player.html";
+      return;
+    }
+
     savePlayer();
   }
 
+ 
+  
   var savePlayer = function ()
   {
   $("#savePlayer").click(function()
@@ -25,10 +36,10 @@ var RegisterPlayer = function()
       data: data,
       success: function(response)
       {
-        var playerId = response.playerId;
+        playerId = response.playerId;
         if(playerId)
         {
-          //savePlayerIdToHarddisk(playerId);
+          savePlayerIdToHarddisk(playerId);
           return;
         }
         
@@ -38,6 +49,21 @@ var RegisterPlayer = function()
     });
   });
   };
+  
+ 
+  
+  var savePlayerIdToHarddisk = function (playerId)
+  {
+   var fs = require('fs');
+   var stream = fs.createWriteStream("my_file.txt");
+   stream.once('open', function(fd)
+    {
+      stream.write(playerId);
+      stream.end();
+    }); 
+  };
+  
+  
   var self =this;
 }
 

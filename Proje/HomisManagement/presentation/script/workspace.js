@@ -1503,7 +1503,7 @@ var Workspace = function () {
     });
   }
   
-  /** İlk açılışta çıkan dialogdaki anasayfaya dönme butonu.
+  /** Mediaları dialog kısmında yüklendiği yer.
   */
   var addSaveMedia = function ()
   {

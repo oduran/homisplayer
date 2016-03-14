@@ -99,8 +99,11 @@
     }
   };
   
- var showPlayerList = function(i)
+ var showPlayerList = function(a)
  {
+   var workspaceindexnum = a;
+                         debugger;
+
    BootstrapDialog.show({
             title: 'Çalışma alanını göndermek istediğiniz oynatıcıları seçiniz.',
             message: "<div id='sendWorkspaceToPlayerList'>"+$("#playerList").html()+"</div>",
@@ -110,9 +113,11 @@
                 action: function(dialog) {
                     $("#sendWorkspaceToPlayerList input:checked").each(function(index)
                     {
+                                            debugger;
+
                       var player = allPlayers[index];
                       player.owner = currentUserToEdit.name;
-                      player.workspace = currentUserToEdit.workspaces[i];
+                      player.workspace = currentUserToEdit.workspaces[workspaceindexnum];
                       var playerFound = false;
                       for(var i = 0; i < currentUserToEdit.players.length; i++)
                       {

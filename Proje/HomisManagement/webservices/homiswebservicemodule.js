@@ -52,6 +52,9 @@ var HomisWebServiceManager = function(router)
     // Get players with using user authority.
     setService('post', '/getplayers', getPlayers);
     
+    // Get players with using user authority.
+    setService('post', '/getplayer', getPlayer);
+    
   };
   
   /* Private Methods */
@@ -534,7 +537,18 @@ var HomisWebServiceManager = function(router)
         },query);
       });
   }
-  
+ 
+  var getPlayer = function (req,res,next,Localization)
+  {
+    var playerId = req.body.playerId;
+    dbManager.getPlayerById(playerId, function(player)
+    {
+      if(player)
+      {
+        res.json({player:player});
+      }
+    });
+  }
   // Sets the service with given service type, route and function. 
   // Adds localization with using request language header.
   var setService = function(serviceType, serviceRoute, serviceFunction)

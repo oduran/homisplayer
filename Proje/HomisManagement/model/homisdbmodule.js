@@ -162,6 +162,23 @@ var HomisDbManager = function(databaseName)
       });
   };
   
+  // Gets player with given name.
+  this.getPlayerById = function(playerId, callback)
+  {
+    dbManager.executeDbQuery(
+      function(db)
+      {
+        var player = db.collection("players").findOne({ "playerId": playerId },function(err,doc)
+        {
+          if(err)
+          {
+            throw err;
+          }
+          callback(doc);
+        });
+      });
+  };
+  
   // Creates unique access token with using mongodb's ObjectID.
   this.createUniqueId = function()
   {
