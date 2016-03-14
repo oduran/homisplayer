@@ -150,11 +150,17 @@ var HomisWebServiceManager = function(router)
                   }
                 }
               }
-             
-              dbManager.savePlayers(playersToBeUpdated, function(numberOfUpdates)
+              if(playersToBeUpdated.length)
+              {
+                dbManager.savePlayers(playersToBeUpdated, function(numberOfUpdates)
+                {
+                  updateUser(newUser, existingUser, res, returnObj, Localization);
+                });
+              }
+              else
               {
                 updateUser(newUser, existingUser, res, returnObj, Localization);
-              });
+              }
             });
           });
         }
