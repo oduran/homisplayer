@@ -120,6 +120,7 @@ var HomisWebServiceManager = function(router)
         {
           if(newUser.workspaces)
           {
+            newUser.workspaces = (newUser.workspaces)? newUser.workspaces : [];
             for(var i = 0; i< newUser.workspaces.length; i++)
             {
               if(!newUser.workspaces[i].workspaceId)
@@ -135,9 +136,11 @@ var HomisWebServiceManager = function(router)
             dbManager.getPlayers(function(players)
             {
               var playersToBeUpdated = [];
+              players = players ? players : [];
               for(var i = 0; i< players.length; i++)
               {
                 var playerFromDb = players[i];
+                newUser.players = (newUser.players)? newUser.players:[];
                 for(var j = 0; j< newUser.players.length; j++)
                 {
                   var playerFromUser = newUser.players[j];
@@ -418,6 +421,7 @@ var HomisWebServiceManager = function(router)
         }
         else
         {
+          user.workspaces = (user.workspaces)? user.workspaces: [];
           for(var i = 0;i < user.workspaces.length; i++)
           {
             if(user.workspaces[i].workspaceId == workspaceToSave.workspaceId)
@@ -465,6 +469,7 @@ var HomisWebServiceManager = function(router)
           return;
         }
         
+        user.workspaces = (user.workspaces)? user.workspaces: [];
         for(var i = 0; i<user.workspaces.length; i++)
         {
           if(user.workspaces[i].workspaceId == workspaceId)
