@@ -223,6 +223,8 @@ var FileManager = function()
   
 }
 
+var module = module || {};
 module.exports = {
   FileManager: FileManager
 };
+
