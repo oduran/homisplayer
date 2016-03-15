@@ -124,7 +124,6 @@ var HomisDbManager = function(databaseName)
       this.savePlayer(player,function()
       {
         completedSaves++;
-        console.log("save edildi i:"+i+" players length:"+players.length+" completed saves:"+completedSaves);
         if(completedSaves == players.length)
         {
           callback(completedSaves);

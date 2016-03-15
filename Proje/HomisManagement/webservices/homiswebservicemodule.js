@@ -1,7 +1,11 @@
-/*
-Önder ALTINTAŞ 03.02.2016
-Manages web services.
-*/
+/**
+ * Creates an instance of HomisWebServiceManager.
+ * @class
+ * @classdesc Manages web services.
+ * Önder ALTINTAŞ 03.02.2016
+ * @param {DbManager} dbManager - Database manager object to handle database operations.
+ * @param {string} rootDir - Root directory to save the media files.
+ */
 var HomisWebServiceManager = function(router)
 {
   /* Variables */
@@ -15,8 +19,10 @@ var HomisWebServiceManager = function(router)
   var mediaUploadManager = new HomisMediaUploadManager(dbManager, mediaResourceDir);
   var passManager = new PassManager();
   
-  /* Public Methods */
-  // starts web services defined inside
+  /**
+   * Starts web services defined inside.
+   * See webservices.txt file for usage of services on clientside.
+   */
   this.start = function()
   {
     // test route to make sure everything is working (accessed at GET http://localhost:8080/service),
@@ -58,7 +64,14 @@ var HomisWebServiceManager = function(router)
   };
   
   /* Private Methods */
-  // Logs user in.
+  /**
+  * Logs user in. 
+  * Creates access token cookie for the user for season or for 1 month.
+  * @param {Request} req - Node request object.
+  * @param {Response} res - Node response object.
+  * @param {Next} next - Node next object. Not being used right now, just for convention atm.
+  * @param {Localization} Localization - Localization object that holds localized message strings.
+  */
   var login = function (req, res, next, Localization)
   {
     var name = req.body.name;
@@ -103,7 +116,13 @@ var HomisWebServiceManager = function(router)
     });
   };
   
-  // Saves a user. If it doesn't exist inserts new record. If it does exist updates current user.
+  /**
+  * Saves a user. If it doesn't exist inserts new record. If it does exist updates current user.
+  * @param {Request} req - Node request object.
+  * @param {Response} res - Node response object.
+  * @param {Next} next - Node next object. Not being used right now, just for convention atm.
+  * @param {Localization} Localization - Localization object that holds localized message strings.
+  */
   var saveUser = function (req, res, next, Localization)
   {
     var returnObj = {message:Localization.success};
@@ -182,7 +201,11 @@ var HomisWebServiceManager = function(router)
     });
   };
   
-  // Validate user's attributes with application criterias.
+  /**
+  * Validate user's attributes with application criterias.
+  * @param {User} user - User object to be validated.
+  * @param {Localization} Localization - Localization object that holds localized message strings.
+  */
   var validateUser = function(user, Localization)
   {
     if(!user.password)
@@ -208,7 +231,12 @@ var HomisWebServiceManager = function(router)
 	  return Localization.valid;
   };
   
-  // Inserts a new user. Used by saveUser method.
+  /**
+  * Inserts a new user. Used by saveUser method.
+  * @param {User} user - User object to be validated.
+  * @param {Response} res - Node response object.
+  * @param {Localization} Localization - Localization object that holds localized message strings.
+  */
   var insertUser = function(user, res, Localization)
   {
     var validMessage = validateUser(user, Localization);
@@ -240,7 +268,13 @@ var HomisWebServiceManager = function(router)
     }
   };
   
-  // Update's already existing user. Used by saveUser method.
+  /**
+  * Update's already existing user. Used by saveUser method.
+  * @param {User} user - User object to be validated.
+  * @param {User} existingUser - The user which is already exist at db.
+  * @param {ReturnObject} returnObj - An object which will be returned to the client. Holds "message" property and value inside.
+  * @param {Localization} Localization - Localization object that holds localized message strings.
+  */
   var updateUser = function(user, existingUser, res, returnObj, Localization)
   {
     var returnObj = returnObj || {message: Localization.success};
@@ -280,7 +314,13 @@ var HomisWebServiceManager = function(router)
     }
   };
   
-  // Deletes user.
+  /**
+  * Deletes user.
+  * @param {Request} req - Node request object.
+  * @param {Response} res - Node response object.
+  * @param {Next} next - Node next object. Not being used right now, just for convention atm.
+  * @param {Localization} Localization - Localization object that holds localized message strings.
+  */
   var deleteUser = function(req, res, next, Localization)
   {
     var accessToken = req.cookies.accessToken;
@@ -307,7 +347,13 @@ var HomisWebServiceManager = function(router)
     });
   };
   
-  // Brings all the users to the client
+  /**
+  * Brings all the users to the client.
+  * @param {Request} req - Node request object.
+  * @param {Response} res - Node response object.
+  * @param {Next} next - Node next object. Not being used right now, just for convention atm.
+  * @param {Localization} Localization - Localization object that holds localized message strings.
+  */
   var getUsers = function(req, res, next, Localization) 
   {
     var accessToken = req.cookies.accessToken;
@@ -333,7 +379,11 @@ var HomisWebServiceManager = function(router)
     });
   };
   
-  // For using with getusers service. Removes password, accessToken, workspaces, mediaresources properties from user object.
+  /**
+  * For using with getusers service. Removes password, accessToken, workspaces, mediaresources properties from user object.
+  * @param {User} user - A user object to be summarized.
+  * @returns Summarized user.
+  */
   var summarizeUser = function(user)
   {
     if(user.password)
@@ -359,7 +409,13 @@ var HomisWebServiceManager = function(router)
     return user;
   };
   
-  // Brings user when access token is given.
+  /**
+  * Brings user when access token is given.
+  * @param {Request} req - Node request object.
+  * @param {Response} res - Node response object.
+  * @param {Next} next - Node next object. Not being used right now, just for convention atm.
+  * @param {Localization} Localization - Localization object that holds localized message strings.
+  */
   var getUser = function(req, res, next, Localization) 
   {
     var accessToken = req.cookies.accessToken;
@@ -408,7 +464,13 @@ var HomisWebServiceManager = function(router)
     });     
   };
   
-  // Creates a workspace with given access token of the user and workspace object.
+  /**
+  * Creates a workspace with given access token of the user and workspace object.
+  * @param {Request} req - Node request object.
+  * @param {Response} res - Node response object.
+  * @param {Next} next - Node next object. Not being used right now, just for convention atm.
+  * @param {Localization} Localization - Localization object that holds localized message strings.
+  */
   var saveWorkspace = function (req, res, next, Localization)
   {
     var accessToken = req.cookies.accessToken;
@@ -459,7 +521,13 @@ var HomisWebServiceManager = function(router)
     );
   };
   
-  // Gets a workspace with given access token of the user and workspace id.
+  /**
+  * Gets a workspace with given access token of the user and workspace id.
+  * @param {Request} req - Node request object.
+  * @param {Response} res - Node response object.
+  * @param {Next} next - Node next object. Not being used right now, just for convention atm.
+  * @param {Localization} Localization - Localization object that holds localized message strings.
+  */
   var getWorkspace = function (req, res, next, Localization)
   {
     var accessToken = req.cookies.accessToken;
@@ -493,7 +561,13 @@ var HomisWebServiceManager = function(router)
     );
   };
   
-  // Registers player to the system.
+  /**
+  * Registers player to the system.
+  * @param {Request} req - Node request object.
+  * @param {Response} res - Node response object.
+  * @param {Next} next - Node next object. Not being used right now, just for convention atm.
+  * @param {Localization} Localization - Localization object that holds localized message strings.
+  */
   var registerPlayer = function(req, res, next, Localization)
   {
     var playerName = req.body.playerName;
@@ -519,7 +593,15 @@ var HomisWebServiceManager = function(router)
         });
     });
   }
-  
+
+  /**
+  * Serves all the players with given access token. 
+  * If the user is admin, then userless players will also be returned.
+  * @param {Request} req - Node request object.
+  * @param {Response} res - Node response object.
+  * @param {Next} next - Node next object. Not being used right now, just for convention atm.
+  * @param {Localization} Localization - Localization object that holds localized message strings.
+  */
   var getPlayers = function(req,res,next,Localization)
   {
       var accessToken = req.cookies.accessToken;
@@ -537,7 +619,15 @@ var HomisWebServiceManager = function(router)
         },query);
       });
   }
- 
+  
+  /**
+  * Serves player with given playerId. 
+  * If the user is admin, then userless players will also be returned.
+  * @param {Request} req - Node request object.
+  * @param {Response} res - Node response object.
+  * @param {Next} next - Node next object. Not being used right now, just for convention atm.
+  * @param {Localization} Localization - Localization object that holds localized message strings.
+  */
   var getPlayer = function (req,res,next,Localization)
   {
     var playerId = req.body.playerId;
@@ -549,8 +639,15 @@ var HomisWebServiceManager = function(router)
       }
     });
   }
-  // Sets the service with given service type, route and function. 
-  // Adds localization with using request language header.
+  
+
+  /**
+  * Sets the service with given service type, route and function. 
+  * Adds localization with using request language header.
+  * @param {string} serviceType - Type of the service. get,post,put,delete are valid values.
+  * @param {string} serviceRoute - Route string for web service name. E.g. "/save".
+  * @param {Function} serviceFunction - Function to be executed when service is called by the client
+  */
   var setService = function(serviceType, serviceRoute, serviceFunction)
   {
     if(serviceType === 'get')
@@ -574,13 +671,23 @@ var HomisWebServiceManager = function(router)
   }
   
   
-  // Converts string true false to bool true false. other values returned as false.
+  /**
+  * Converts string true false to bool true false. other values returned as false.
+  * @param {string} boolString - String to be converted.
+  * @returns {bool} Converted result value.
+  */
   var stringToBool = function(boolString)
   {
     return (boolString === "true")? true : false;
   };
   
-  // Just a web service test/
+  /**
+  * Just a web service test.
+  * @param {Request} req - Node request object.
+  * @param {Response} res - Node response object.
+  * @param {Next} next - Node next object. Not being used right now, just for convention atm.
+  * @param {Localization} Localization - Localization object that holds localized message strings.
+  */
   var test = function(req, res, next, Localization) 
   {
     res.json({ message: Localization.working});

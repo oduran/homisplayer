@@ -775,7 +775,6 @@
     {
      $("#playerUserList option:selected").each(function(index)
       {
-        debugger;
         Util.loadingDialog.show();
         var name = $(this).text();
         var data = {name:name};

@@ -1,8 +1,12 @@
-/*
-Önder ALTINTAÞ 27.02.2016
-Manages media upload service
-*/
-
+/**
+ * Creates an instance of HomisMediaUploadManager.
+ * @class
+ * @classdesc Manages media upload service operations.
+ * Ã–nder ALTINTAÅž 27.02.2016
+ * @constructor
+ * @param {DbManager} dbManager - Database manager object to handle database operations.
+ * @param {string} rootDir - Root directory to save the media files.
+ */
 var HomisMediaUploadManager = function(dbManager, rootDir)
 {
   var dbManager = dbManager;
@@ -13,8 +17,13 @@ var HomisMediaUploadManager = function(dbManager, rootDir)
   var fileManager = new FileManager();
   var mediaManager = new MediaManager();
   var mediaUploaders = [];
+  fileManager.ensureDirectoryExists(rootDir,function(){});
   
-  // Gets a workspace with given access token of the user and workspace id.
+  /**
+   * Gets a workspace with given access token of the user and workspace id.
+   * @param {Request} req - Node request object.
+   * @param {Response} res - Node response object.
+   */
   this.saveMediaResource = function (req, res)
   {
     var accessToken = req.cookies.accessToken;
@@ -57,6 +66,16 @@ var HomisMediaUploadManager = function(dbManager, rootDir)
     });
   };
   
+  /**
+   * Sets media source's properties. Adds url, thumbnailUrl, uploadCompleted and other file Object properties. 
+   * See FileManager.getFileObject
+   * @param {User} user - MongoDb Homis User type object.
+   * @param {File} file - Node file.
+   * @param {string} filename - Filename to save file.
+   * @param {string} totalNumberOfFiles - Total number of files to be handled. Should be parsed with parseInt method.
+   * @param {Request} req - Node request object.
+   * @param {Response} res - Node response object.
+   */
   var handleMediaResource = function(user, file, filename, totalNumberOfFiles, req, res)
   {
     var fstream;
@@ -169,7 +188,11 @@ var HomisMediaUploadManager = function(dbManager, rootDir)
     });
   }
   
-  // Removes unnecessary attributes added while file uploading.
+  /**
+  * Removes unnecessary attributes added while file uploading.
+  * @param {MediaUploader} mediaUploader - The media uploader user.
+  * @returns {MediaUploader} Cleaned media uploader.
+  */
   var cleanDirtyMediaUploader = function(mediaUploader)
   {
     console.log("cleaning dirty media uploader "+mediaUploader.name);
@@ -200,6 +223,8 @@ var HomisMediaUploadManager = function(dbManager, rootDir)
     delete mediaUploader.newMediaResources;
     return mediaUploader;
   };
+  
+  var self = this;
 };
 
 module.exports = {
