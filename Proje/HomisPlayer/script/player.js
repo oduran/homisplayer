@@ -1,21 +1,46 @@
  
  var Player = function()
  {
+  var fs = require('fs');
+  var FileManager = require('fileutil').FileManager;
+  var fileManager = new FileManager();
+  var directories =
+  {
+    presentation : "presentation",
+    css : "presentation/css",
+    script : "presentation/script",
+    media : "presentation/media",
+    public : "presentation/public"
+  };
+   
   this.initializePlayerPage = function()
   {
-    var fs = require('fs');
-    if (fs.existsSync("my_file.txt"))
+
+    if (fs.existsSync("playerId.txt"))
     {
+      createDirectories();
       var playerId = readPlayerIdFromFile();
       getPlayer(playerId);
       return;
     }
   }
   
+  var createDirectories = function()
+  {
+    for (key in directories){
+      fileUtil.ensureDirectoryExists(directories[key], 7777, function(err) {
+        if (err) 
+        {
+          console.log("alarm alarm: "+ err.message);
+        }
+      });
+    }
+  }
+
   var readPlayerIdFromFile = function ()
   { 
     var fs = require("fs");
-    var fileContent = fs.readFileSync('my_file.txt');
+    var fileContent = fs.readFileSync('playerId.txt');
     console.log(fileContent.toString());
     return fileContent.toString();
   }
@@ -36,7 +61,7 @@
           playerDiv.style.width = workspace.width+"px";
           playerDiv.style.height = workspace.height+"px";
           for(var i = 0; i<workspace.walls.length;i++)
-          {debugger;
+          {
             for (var j = 0 ; j<workspace.walls[i].screens.length;j++ )
             {
               var iframe = document.createElement("iframe");
@@ -44,18 +69,15 @@
               iframe.style.height =workspace.height/ workspace.walls[i].screens.length+"px";
               iframe.srcdoc = workspace.walls[i].screens[j].html;
               playerDiv.appendChild(iframe);
+              checkContentFunction(iframe.srcdoc);
+
             }
           }
           container[0].appendChild(playerDiv);
         }
-        
-        for(var k = 0 ; k<$(".container div iframe").length;k++)
-        {
-            checkContentFunction($(".container div iframe")[i].srcdoc);
-        }
-        
+
       },
-      error: function(error){debugger;}
+      error: function(error){}
     });
   };
  
@@ -70,10 +92,13 @@
   {
     var str = playerDiv; 
     //css regex
-    var res = str.match(/\"([a-z1-9\/.]+)css"/g);
-    for(var i = 0; i<res.length;i++)
+    var res = str.match(/href=\"(.+)css"/g);
+    if(res)
     {
-      getFileFromUrl(res[i].slice(1,-1));
+      for(var i = 0; i<res.length;i++)
+      {
+        getFileFromUrl(res[i].slice(6,-1));
+      }
     }
   }
   
@@ -82,36 +107,79 @@
     var str = playerDiv; 
     //script regex
     var res = str.match(/\"([a-z1-9\/.]+)js"/g);
-    for(var i = 0; i<res.length;i++)
+    if(res)
     {
-      getFileFromUrl(res[i].slice(1,-1));
+      for(var i = 0; i<res.length;i++)
+      {
+        getFileFromUrl(res[i].slice(1,-1));
+      }
     }
   }
   
   var checkMedia = function(playerDiv)
   {
+    debugger;
     var str = playerDiv; 
     //media regex
-    var res = str.match(/\"([a-z1-9\/.]+(png|jpeg|mp4|jpg|webm))"/g);
-    for(var i = 0; i<res.length;i++)
+    var res = str.match(/src=\"(.+)jpg"/g);
+    if(res)
     {
-      getFileFromUrl(res[i].slice(1,-1));
+      for(var i = 0; i<res.length;i++)
+      {
+        getFileFromUrl(res[i].slice(5,-1));
+      }
     }
   }
   
   var getFileFromUrl = function(res)
-  {
-    var cssurl = "http://localhost:8080/"+res;
-    
+  { 
+    var splitRes = res.split("/")[2];
+    var fs = require('fs');
+    var path = "";
+    if(splitRes)
+    {
+     if(splitRes.indexOf("css")>0)
+     {
+       path="presentation/css/"+splitRes;
+     }
+     
+     if(splitRes.indexOf("js")>0)
+     {
+       path="presentation/script/"+splitRes;
+     }
+     
+     if(splitRes.indexOf("webm")>0||splitRes.indexOf("jpg")>0)
+     {
+       path="presentation/media/"+splitRes;
+       
+        var http = require('http');
+        var fs = require('fs');
+
+        var file = fs.createWriteStream(path);
+        var request = http.get("http://localhost:8080"+res, function(response) {
+          response.pipe(file);
+        });
+        return;
+     }
+    }
+    if (fs.existsSync(path))
+    {
+      return;
+    }
+    var cssurl = "http://localhost:8080"+res;
     var jsonFile = new XMLHttpRequest();
         jsonFile.open("GET",cssurl,true);
         jsonFile.send();
-
         jsonFile.onreadystatechange = function()
         {
           if (jsonFile.readyState== 4 && jsonFile.status == 200)
           {
-            console.log(jsonFile.responseText);
+           var stream = fs.createWriteStream(path);
+           stream.once('open', function(fd)
+           {
+             stream.write(jsonFile.responseText);
+             stream.end();
+           }); 
           }
         }
   }

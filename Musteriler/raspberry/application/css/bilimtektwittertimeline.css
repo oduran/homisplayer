@@ -74,7 +74,12 @@ table {
 .container{
     -webkit-border-radius : 10px !important;
 }
-
+.twitternameelement
+{
+  float: right;
+  color: white;
+  font-family: sans-serif;
+}
 
 
       /*Bold*/

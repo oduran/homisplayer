@@ -222,7 +222,8 @@ if (typeof Object.create !== 'function') {
                 api: 'http://api.tweecool.com/',
 
                 getData: function(account) {
-
+                    $("#slider1").css("display","none");
+                    
                     var cb = new Codebird();
                     cb.setConsumerKey(options.twitter.consumer_key, options.twitter.consumer_secret);
                     
