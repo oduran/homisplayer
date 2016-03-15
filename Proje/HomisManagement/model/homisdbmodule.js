@@ -136,6 +136,15 @@ var HomisDbManager = function(databaseName)
   // Updates or inserts a player to the database.
   this.savePlayer = function(player,callback)
   {
+    // Make sure _id of player's type is ObjectId
+    if(player._id)
+    {
+      if(player._id.toString().indexOf("ObjectId") === -1)
+      {
+        player._id = dbManager.createObjectId(player._id);
+      }
+    }
+    
     dbManager.updateInCollection("players",player,callback);
   };
   
