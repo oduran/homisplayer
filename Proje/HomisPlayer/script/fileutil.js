@@ -134,7 +134,7 @@ var FileManager = function()
     }); 
   }
 
-  this.loadFileToJson = function(path, callback)
+  this.loadFileToJson = function(path)
   {
     var exists = fs.existsSync(path); 
     if (exists) 
@@ -142,16 +142,12 @@ var FileManager = function()
       var fileContent = fs.readFileSync(path).toString();
       var jsonResult = JSON.parse(fileContent);
       console.log("local file length:"+jsonResult.length);
-      callback(jsonResult);
-      console.log(path+" file is exist.");
-      return true;
+      return jsonResult;
     } 
     else
     {
-      console.log(path+" file doesn't exist");
-      return false;
+      return {};
     }
-    return false;
   }
 
   this.getFilesListChronological = function(path, extension)

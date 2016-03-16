@@ -114,6 +114,40 @@ var Util =
 		}
 	};
 
-  })(jQuery)
+  })(jQuery),
+  
+  handleAjaxError : function(error)
+  {    var message="";
+      if(error.message)
+      {
+        message=error.message;
+      }
+      
+      else
+      {
+        message = error;
+      }
+      BootstrapDialog.show({
+            title: 'Hata',
+            message: message
+        });
+  }
+  handleAjaxSuccess : function(response)
+  {
+      var message="";
+      if(response.message)
+      {
+        message=response.message;
+      }
+      
+      else
+      {
+        message = response;
+      }
+      BootstrapDialog.show({
+            title: 'İşlem Başarılı',
+            message: message
+        });
+  }
 } 
  

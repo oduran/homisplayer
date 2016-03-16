@@ -14,7 +14,7 @@ var RegisterPlayer = function()
 
     var fs = require('fs');
     if (fs.existsSync("playerId.txt"))
-    {debugger;
+    {
      window.location = "player.html";
       return;
     }

@@ -277,9 +277,7 @@ var Workspace = function () {
        
           
       },
-      error: function(error){
-        BootstrapDialog.alert("hata:"+error.toString());
-      }
+      error: Util.handleAjaxError
     });
   }; 
   
@@ -335,7 +333,7 @@ var Workspace = function () {
         
         if(newMinutes===false)
         {
-          BootstrapDialog.alert("Girdiğiniz zaman aralığı kullanılmaktadır.");
+          Util.handleAjaxError("Girdiğiniz zaman aralığı kullanılmaktadır.");
           return false;
         }
         
@@ -509,12 +507,13 @@ var Workspace = function () {
         
         if(response.message)
         {
-          BootstrapDialog.alert(response.message);
+          Util.handleAjaxSuccess(response.message);
           return;
         }
         
         callback(response.user);
-      }
+      },
+      error:Util.handleAjaxError
     });
   };
  
@@ -649,7 +648,7 @@ var Workspace = function () {
     {
       if($("#workspaceName").val().length===0)
       {
-        BootstrapDialog.alert("Çalışma Alanının adı boş girilmemelidir!");
+        Util.handleAjaxError("Çalışma Alanının adı boş girilmemelidir!");
         return;
       }
       $("#workspaceNameDialog").modal("hide");
@@ -697,11 +696,9 @@ var Workspace = function () {
           }
           
           Util.loadingDialog.hide();
-          BootstrapDialog.alert(response.message);
+          Util.handleAjaxSuccess(response.message);
         },
-        error: function(error){
-          BootstrapDialog.alert("Hata: "+error.toString());
-        }
+        error: Util.handleAjaxError
       });
     });
   };
@@ -1208,13 +1205,13 @@ var Workspace = function () {
  
     if(newWallTime===false)
     {
-      BootstrapDialog.alert('Başlangıç zamanı bitiş zamanından büyük ve eşit olamaz');
+      Util.handleAjaxError('Başlangıç zamanı bitiş zamanından büyük ve eşit olamaz');
        return;
     }
 
     if(newWallTime.length===0||newWallTime==="-")
     {
-      BootstrapDialog.alert("Lütfen Ekranın Zamanını Giriniz");
+      Util.handleAjaxError("Lütfen Ekranın Zamanını Giriniz");
       return;
     }
 
@@ -1298,7 +1295,7 @@ var Workspace = function () {
       
       else
       { 
-        BootstrapDialog.alert("Eksik veya Yanlış Bilgi Giriniz");
+        Util.handleAjaxError("Eksik veya Yanlış Bilgi Giriniz");
       }
     });
   };
@@ -1511,7 +1508,7 @@ var Workspace = function () {
     {
        if($("#videoResources").find("option").length>1)
        {
-        BootstrapDialog.alert("Medya duvarına en fazla bir tane kaynak ekleyebilirsiniz");
+        Util.handleAjaxError("Medya duvarına en fazla bir tane kaynak ekleyebilirsiniz");
         return;
        }
        $("#videoResources").find("option").each(function(e)

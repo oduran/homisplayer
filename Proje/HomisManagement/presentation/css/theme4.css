@@ -72,7 +72,7 @@ width:100%;
 height:70%
  }
 #foursquare {
-    background: url(../media/swarm2.png) no-repeat;
+    background: url("../media/swarm2.png") no-repeat;
     z-index: 1;
 	width:50%;
 	height:100%;
@@ -94,7 +94,7 @@ z-index: 1;
 @media only screen and (width: 1024px)  {
     
 #foursquare {
-    background: url(../media/swarm2.png) no-repeat;
+    background: url("../media/swarm2.png") no-repeat;
     z-index: 1;
      height: 35%;
     right: 0px;
@@ -235,7 +235,7 @@ z-index: 1;
     box-sizing: border-box;
 	display: -webkit-inline-box; 
 	width: 100%;
-	background:url(../media/bg.jpg)
+	background:url("../media/bg.jpg")
 }
 
 #row1{

@@ -60,7 +60,7 @@
         showUserMediaResources(response.user);
         getPlayers();
       },
-      error: handleAjaxError
+      error: Util.handleAjaxError
     });
   };
   
@@ -142,12 +142,12 @@
                       success: function(response)
                       { 
                         Util.loadingDialog.hide();
-                        BootstrapDialog.alert(response.message);
+                        Util.handleAjaxSuccess(response.message);
                         $("#playerList").empty();
                         getPlayers();
                         dialog.close();
                       },
-                      error: handleAjaxError
+                      error: Util.handleAjaxError
                     });
                 }
             }, 
@@ -216,7 +216,7 @@
       success: function(response){
         showPlayers(response.players);
       },
-      error: handleAjaxError
+      error: Util.handleAjaxError
     });
   };
   
@@ -311,7 +311,7 @@
         }
         callback(userListItem);
       },
-      error: handleAjaxError
+      error: Util.handleAjaxError
     });
   };
  
@@ -358,7 +358,7 @@
         },"adminPanel");
    
     },
-    error: handleAjaxError
+    error: Util.handleAjaxError
     });
   }
   
@@ -400,7 +400,7 @@
       getPlayers(response.user);
       Util.loadingDialog.hide();  
     },
-    error: handleAjaxError
+    error: Util.handleAjaxError
     });
   };
   
@@ -452,9 +452,9 @@
       success: function(response)
       { 
         Util.loadingDialog.hide();
-        BootstrapDialog.alert(response.message);
+        Util.handleAjaxSuccess(response.message);
       },
-      error: handleAjaxError
+      error: Util.handleAjaxError
     });
   };
   
@@ -545,7 +545,7 @@
       {
         callback(response.user);
       },
-      error: handleAjaxError
+      error: Util.handleAjaxError
     });
   };
   
@@ -586,14 +586,14 @@
           data: data,
           success: function(response)
           {
-            BootstrapDialog.alert(response.message);
+            Util.handleAjaxSuccess(response.message);
             $('#userList').empty();
             getUserList(function(userListItem){
               $('#userList').append(userListItem);
               },"adminPanel");
             $("#createUserModal").modal("hide");
           },
-          error: handleAjaxError
+          error: Util.handleAjaxError
         });
       
     });
@@ -675,7 +675,7 @@
 
     if(files.length===0)
     {
-     BootstrapDialog.alert("Dosya Yüklemesi Başarıyla Tamamlandı");
+     Util.handleAjaxSuccess("Dosya Yüklemesi Başarıyla Tamamlandı");
      files=[];
      $("#uploadingFiles").empty();
      document.getElementById("uploadFile").value = "";
@@ -716,7 +716,7 @@
     {
       if(files.length===0)
       {
-        BootstrapDialog.alert("Dosya seçilmedi!!");
+        Util.handleAjaxError("Dosya seçilmedi!!");
       }
       
       for(var i=0;i<files.length;i++)
@@ -799,12 +799,12 @@
               {
                 Util.loadingDialog.hide();
                 $("#playerListModal").modal("hide");
-                BootstrapDialog.alert(response.message);
+                Util.handleAjaxSuccess(response.message);
               },
-              error: handleAjaxError
+              error: Util.handleAjaxError
             });
           },
-          error: handleAjaxError
+          error: Util.handleAjaxError
         });
         
       })
@@ -897,11 +897,6 @@
     {
       uploadRequests[i].abort();
     }
-  };
-  
-  var handleAjaxError = function(error)
-  {
-      BootstrapDialog.alert(error.message);
   };
   
   $( document ).ready(function() 
