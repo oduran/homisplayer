@@ -140,9 +140,11 @@ var HomisWebServiceManager = function(router)
         var newUser = req.body.user;
         if(newUser._id)
         {
+          newUser.workspaces = (newUser.workspaces)? newUser.workspaces : [];
+          newUser.players = (newUser.players)? newUser.players : [];
+          newUser.mediaResources = (newUser.mediaResources)? newUser.mediaResources : [];
           if(newUser.workspaces)
           {
-            newUser.workspaces = (newUser.workspaces)? newUser.workspaces : [];
             for(var i = 0; i< newUser.workspaces.length; i++)
             {
               if(!newUser.workspaces[i].workspaceId)
@@ -162,7 +164,6 @@ var HomisWebServiceManager = function(router)
               for(var i = 0; i< players.length; i++)
               {
                 var playerFromDb = players[i];
-                newUser.players = (newUser.players)? newUser.players:[];
                 for(var j = 0; j< newUser.players.length; j++)
                 {
                   var playerFromUser = newUser.players[j];
@@ -486,20 +487,51 @@ var HomisWebServiceManager = function(router)
           return;
         }
         
-        if(!user.workspaces)
+        user.workspaces = (user.workspaces)? user.workspaces: [];
+        user.players = (user.players)? user.players: [];
+        for(var i = 0;i < user.workspaces.length; i++)
         {
-          user.workspaces = [];
-        }
-        else
-        {
-          user.workspaces = (user.workspaces)? user.workspaces: [];
-          for(var i = 0;i < user.workspaces.length; i++)
+          if(user.workspaces[i].workspaceId === workspaceToSave.workspaceId)
           {
-            if(user.workspaces[i].workspaceId == workspaceToSave.workspaceId)
+            user.workspaces[i] = workspaceToSave;
+            // Check if workspace is already assigned to players of user. If yes then update workspace of players.
+            for(var j = 0; j < user.players.length; j++)
             {
-              user.workspaces[i] = req.body.workspace;
-              workspaceExist = true;
+              if(user.players[j].workspace)
+              {
+                if(user.players[j].workspace.workspaceId === workspaceToSave.workspaceId)
+                {
+                  workspaceToSave.downloaded = false;
+                  user.players[j].workspace = workspaceToSave;
+                }
+              }
             }
+            
+            // If user type is admin, workspace could be at other users' players as well, check em.
+            if(user.type === "admin")
+            {
+              dbManager.getUsers(
+              function(users)
+              {
+                var usersToUpdate = [];
+                for(var i = 0; i< users.length; i++)
+                {
+                  var otherUser = users[i];
+                  otherUser.players = (otherUser.players)? otherUser.players: [];
+                  for(var j = 0; j < otherUser.players.length; j++)
+                  {
+                    if(otherUser.players[j].workspace.workspaceId === workspaceToSave.workspaceId)
+                    {
+                      workspaceToSave.downloaded = false;
+                      otherUser.players[j].workspace = workspaceToSave;
+                      dbManager.saveUser(otherUser,function(){});
+                    }
+                  }
+                }
+              }); 
+            }
+            
+            workspaceExist = true;
           }
         }
         

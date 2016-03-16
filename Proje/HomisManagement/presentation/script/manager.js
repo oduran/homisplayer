@@ -113,9 +113,9 @@
                 action: function(dialog) {
                     $("#sendWorkspaceToPlayerList input:checked").each(function(index)
                     {
-                                            debugger;
+                      var indexNumber = this.value;
 
-                      var player = allPlayers[index];
+                      var player = allPlayers[indexNumber];
                       player.owner = currentUserToEdit.name;
                       player.workspace = currentUserToEdit.workspaces[workspaceindexnum];
                       var playerFound = false;
