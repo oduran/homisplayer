@@ -1,7 +1,8 @@
  
  var Player = function()
  {
-  var regexArr = ['/href=\"(.+)css"/g','/src=\"(.*)\.js"/g','/src=\"(.*)(\.jpg|\.webm)"/g']
+   
+  var regexType = ["css","script","media"];
   var fs = require('fs');
   var fileManager = new FileManager();
   var directories =
@@ -69,7 +70,11 @@
               iframe.style.height =workspace.height;
               iframe.srcdoc = workspace.walls[i].screens[j].html;
               playerDiv.appendChild(iframe);
-              checkContentFunction(iframe.srcdoc);
+              for(var k = 0; k<regexType.length;k++)
+              {
+                checkContentFunction(iframe.srcdoc,regexType[k]);  
+              }
+              
               iframe.srcdoc = changeCss(iframe.srcdoc);
               iframe.srcdoc = changeScript(iframe.srcdoc);
               iframe.srcdoc = changeMedia(iframe.srcdoc);
@@ -110,59 +115,35 @@
     return result;
   }
   
-  var checkContentFunction = function(playerDiv)
+  var checkContentFunction = function(playerDiv,regexType)
   {
-    checkCssFolder(playerDiv);
-    checkScriptFolder(playerDiv);
-    checkMedia(playerDiv);
+     var str = playerDiv; 
+    var regex;
+    var regexSliceNumber;
+    if(regexType==="css")
+    {
+       regex = str.match(/href=\"(.+)css"/g);
+       regexSliceNumber=6;
+    }
+    if(regexType==="script")
+    {
+       regex = str.match(/src=\"(.*)\.js"/g);
+       regexSliceNumber=5;
+    }
+    if(regexType==="media")
+    {
+       regex = str.match(/src=\"(.*)(\.jpg|\.webm)"/g);
+       regexSliceNumber=5;
+    }
+    if(regex)
+    {
+      for(var i = 0; i<regex.length;i++)
+      {
+        getFileFromUrl(regex[i].slice(regexSliceNumber,-1));
+      }
+    }
   };
-  
-  var checkCssFolder = function(playerDiv)
-  {
-    var str = playerDiv; 
-    //css regex
-    var res = str.match(/href=\"(.+)css"/g);
-    if(res)
-    {
-      for(var i = 0; i<res.length;i++)
-      {
-        getFileFromUrl(res[i].slice(6,-1));
-      }
-    }
-  }
-  
-  var checkScriptFolder = function(playerDiv)
-  {
-    var str = playerDiv; 
-  
-    //script regex
-    var res = str.match(/src=\"(.*)\.js"/g);
-    if(res)
-    {
-      for(var i = 0; i<res.length;i++)
-      {
-        console.log(res[i]);
-        getFileFromUrl(res[i].slice(5,-1));
-      }
-    }
-  }
-  
-  var checkMedia = function(playerDiv)
-  {
-     
-    var str = playerDiv; 
-    //media regex
-    var res = str.match(/src=\"(.*)(\.jpg|\.webm)"/g);
-    if(res)
-    {
-      
-      for(var i = 0; i<res.length;i++)
-      {
-        getFileFromUrl(res[i].slice(5,-1));
-      }
-    }
-  }
-  
+ 
   var getFileFromUrl = function(res)
   { 
     var splitRes = res.split("/")[2];

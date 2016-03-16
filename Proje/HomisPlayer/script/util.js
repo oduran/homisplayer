@@ -104,13 +104,13 @@ var Util =
 				});
 			}
 			// Opening dialog
-			$dialog.modal();
+			$dialog.show();
 		},
 		/**
 		 * Closes dialog
 		 */
 		hide: function () {
-			$dialog.modal('hide');
+			$dialog.hide();
 		}
 	};
 
