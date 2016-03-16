@@ -13,8 +13,8 @@ var RegisterPlayer = function()
     });
 
     var fs = require('fs');
-    if (fs.existsSync("my_file.txt"))
-    {
+    if (fs.existsSync("playerId.txt"))
+    {debugger;
      window.location = "player.html";
       return;
     }
@@ -55,7 +55,7 @@ var RegisterPlayer = function()
   var savePlayerIdToHarddisk = function (playerId)
   {
    var fs = require('fs');
-   var stream = fs.createWriteStream("my_file.txt");
+   var stream = fs.createWriteStream("playerId.txt");
    stream.once('open', function(fd)
     {
       stream.write(playerId);
