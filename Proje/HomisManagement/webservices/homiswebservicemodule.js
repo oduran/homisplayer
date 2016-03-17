@@ -496,6 +496,7 @@ var HomisWebServiceManager = function(router)
           res.json({message: Localization.noPermissionError});
           return;
         }
+        
         dbManager.getUserByName(workspaceOwnerName,function(workspaceOwner)
         {
           saveWorkspaceToUser(workspaceToSave,workspaceOwner,res,Localization);
@@ -558,10 +559,22 @@ var HomisWebServiceManager = function(router)
               {
                 if(otherUser.players[j].workspace.workspaceId === workspaceToSave.workspaceId)
                 {
+                  if(otherUser.name === user.name)
+                  {
+                    otherUser = user;
+                  }
+                  
                   workspaceToSave.downloaded = false;
                   otherUser.players[j].workspace = workspaceToSave;
                   dbManager.savePlayer(otherUser.players[j],function(){});
-                  dbManager.saveUser(otherUser,function(){});
+                  if(otherUser.name === user.name)
+                  {
+                    user = otherUser
+                  }
+                  else
+                  {
+                    dbManager.saveUser(otherUser,function(){});
+                  }
                 }
               }
             }
@@ -578,7 +591,7 @@ var HomisWebServiceManager = function(router)
       returnObj = {workspaceId : workspaceToSave.workspaceId};
       user.workspaces.push(workspaceToSave);
     }
-    
+
     dbManager.saveUser(user,
       function()
       {
