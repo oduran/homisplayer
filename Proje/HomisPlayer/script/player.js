@@ -85,13 +85,13 @@
               var iframe = document.createElement("iframe");
               iframe.style.width = workspace.width/workspace.walls[i].screens.length+"px";
               iframe.style.height = workspace.height+"px";
+              iframe.style.border = "0px";
               var htmlDoc = workspace.walls[i].screens[j].html;
               
               if(htmlDoc.indexOf("http")===0)
               {
                 iframe.src = htmlDoc;
                 playerDiv.appendChild(iframe);
-
               }
               
               else
