@@ -131,7 +131,7 @@ var Util =
             title: 'Hata',
             message: message
         });
-  }
+  },
   handleAjaxSuccess : function(response)
   {
       var message="";

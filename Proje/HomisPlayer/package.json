@@ -4,9 +4,9 @@
   "window": {
 	"icon": "media/btlogotransparent.png",
     "title": "Register",
-    "toolbar": false,
-    "frame": false,
-    "kiosk":true
+    "toolbar": true,
+    "frame": true,
+    "kiosk":false
   },
   "webkit": {
     "plugin": true

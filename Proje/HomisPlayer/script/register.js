@@ -3,6 +3,9 @@ var RegisterPlayer = function()
   var playerId="";
   var playerHardwareId = "";
   var url = Util.getWindowUrl();
+  
+  /** Sayfa açıldığında eğer player kaydı olmuşşsa playerı gösterir, olmadıysa pc nin mac adresini alır ve playerı kaydeder.
+  */
   this.initializeRegisterPage = function ()
   {
     Util.loadingDialog.show();
@@ -20,38 +23,40 @@ var RegisterPlayer = function()
     }
 
     savePlayer();
-  }
+    window.location = "player.html";
+  };
 
- 
-  
+  /** Playerın sisteme kaydolmasını sağlayan fonksiyon.
+  */
   var savePlayer = function ()
   {
-  $("#savePlayer").click(function()
-  {
-    var playerName = $("#playerName").val();
-    var data = { playerName:playerName, playerHardwareId:playerHardwareId};
-    $.ajax({
-      type: "POST",
-      url: "http://localhost:8080/service/registerplayer",
-      data: data,
-      success: function(response)
-      {
-        playerId = response.playerId;
-        if(playerId)
+    $("#savePlayer").click(function()
+    {
+      var playerName = $("#playerName").val();
+      var data = { playerName:playerName, playerHardwareId:playerHardwareId};
+      $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/service/registerplayer",
+        data: data,
+        success: function(response)
         {
-          savePlayerIdToHarddisk(playerId);
-          return;
-        }
-        
-        BootstrapDialog.alert(response.message);
-      },
-      error: function(error){debugger;}
+          playerId = response.playerId;
+          if(playerId)
+          {
+            savePlayerIdToHarddisk(playerId);
+            return;
+          }
+          
+          BootstrapDialog.alert(response.message);
+        },
+        error: function(error){debugger;}
+      });
     });
-  });
   };
-  
- 
-  
+
+  /** Player id nin hardiske yazıldığı fonksiyon.
+  *{param} {string} playerId - Oynatılacak playerın id sini tutar.
+  */
   var savePlayerIdToHarddisk = function (playerId)
   {
    var fs = require('fs');
@@ -62,7 +67,6 @@ var RegisterPlayer = function()
       stream.end();
     }); 
   };
-  
   
   var self =this;
 }
