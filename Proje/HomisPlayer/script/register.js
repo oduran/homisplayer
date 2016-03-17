@@ -1,6 +1,5 @@
 var RegisterPlayer = function()
 {
-  var playerId="";
   var playerHardwareId = "";
   var url = Util.getWindowUrl();
   
@@ -22,13 +21,12 @@ var RegisterPlayer = function()
       return;
     }
 
-    savePlayer();
-    window.location = "player.html";
+    registerSavePlayerOnClick();
   };
 
   /** Playerın sisteme kaydolmasını sağlayan fonksiyon.
   */
-  var savePlayer = function ()
+  var registerSavePlayerOnClick = function ()
   {
     $("#savePlayer").click(function()
     {
@@ -40,14 +38,19 @@ var RegisterPlayer = function()
         data: data,
         success: function(response)
         {
-          playerId = response.playerId;
-          if(playerId)
+          if(response.message)
           {
-            savePlayerIdToHarddisk(playerId);
+            BootstrapDialog.alert(response.message);
             return;
           }
           
-          BootstrapDialog.alert(response.message);
+          var playerId = response.playerId;
+          if(playerId)
+          {
+            savePlayerIdToHarddisk(playerId);
+          }
+          
+          window.location = "player.html";
         },
         error: function(error){debugger;}
       });
