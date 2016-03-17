@@ -1,8 +1,6 @@
  
  var Player = function()
  {
-  var walls=[];
-  var wall={};
   var startTime ;
   var endTime ;
   this.date = new Date();
@@ -32,7 +30,7 @@
         var playerFromService = response.player;
         var containerContent = $(".bilimtekcontainer").html().replace(/\s/g, '').replace(/\n/g,'');
         if(!deepEquals(playerFromFile,playerFromService) || containerContent === "")
-        {
+        {  
           showWorkspace(playerFromService);
           fileManager.deleteFile("player.txt");
           savePlayerToFile(playerFromService);
@@ -75,6 +73,11 @@
   
   var showWorkspace = function(player)
   {
+    debugger;
+    if($(".bilimtekcontainer").html()!=="")
+    {
+      $(".bilimtekcontainer").empty();
+    }
     var workspace = player.workspace;
     if(workspace)
     {
@@ -89,11 +92,12 @@
       var totalSpentTime = 0;
               
       var i=0;
+      var wall = workspace.walls[i];
       var showTime;
-      
       var setScreenTimeoutWalls = function()
       {
-         var wall = workspace.walls[i];
+         i++;
+         wall = workspace.walls[i];
          showTime = wall.showTime;
          console.log(showTime);
          var checkDeterminedTimeInterval = setInterval(function()
@@ -112,23 +116,20 @@
                       self.date.getSeconds()-dateOfScreen.getSeconds()<2)
                     {
                      var counter = calculateTimeDifference(start,end); 
-                      
                      playerDiv = setPlayerWalls(workspace,walls[i],playerDiv);
                      container[0].innerHTML = "";
                      container[0].appendChild(playerDiv);
-                     clearInterval(interval);
-                     interval = setInterval(setScreenTimeoutWalls, counter[0]*100*60);
+                     setTimeout(setScreenTimeoutWalls, counter[0]*100*60);
                     }
                 }
             }
-           
           }, 1000);
-
+         
          totalSpentTime += parseInt(wall.showTime);
          playerDiv = setPlayerWalls(workspace,wall,playerDiv);
          container[0].innerHTML = "";
          container[0].appendChild(playerDiv);
-         i++;
+         
 
          if(workspace.walls.length===i)
          {
@@ -140,11 +141,10 @@
           totalSpentTime=0;
          }
          
-         clearInterval(interval);
-         interval = setInterval(setScreenTimeoutWalls, wall.showTime*100*60);
+         setTimeout(setScreenTimeoutWalls, wall.showTime*100*60);
      }
      
-     var interval = setInterval(setScreenTimeoutWalls,wall.showTime*100*60);
+      setTimeout(setScreenTimeoutWalls,100);
     }
   };
   
@@ -181,7 +181,6 @@
   
   var setPlayerWalls = function (workspace,wall,playerDiv)
   {
-   
     for (var j = 0 ; j<wall.screens.length;j++ )
     {
       var iframe = document.createElement("iframe");
@@ -199,12 +198,12 @@
       else
       {
        iframe.srcdoc = wall.screens[j].html; 
-       playerDiv.appendChild(iframe);
        for(var k = 0; k<regexType.length;k++)
         {
           checkContentFunction(iframe.srcdoc,regexType[k]);  
           iframe.srcdoc = changeElementsUrl(iframe.srcdoc,regexType[k]);
         }
+        playerDiv.appendChild(iframe);
       }
     }
     return playerDiv;
