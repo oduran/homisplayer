@@ -797,6 +797,7 @@
               data: data,
               success: function(response)
               {
+                getUserDetails();
                 Util.loadingDialog.hide();
                 $("#playerListModal").modal("hide");
                 Util.handleAjaxSuccess(response.message);
