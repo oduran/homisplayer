@@ -118,6 +118,7 @@ var HomisWebServiceManager = function(router)
   
   /**
   * Saves a user. If it doesn't exist inserts new record. If it does exist updates current user.
+  * TO DO: Divide this function to atomic pieces plx. --önder
   * @param {Request} req - Node request object.
   * @param {Response} res - Node response object.
   * @param {Next} next - Node next object. Not being used right now, just for convention atm.
@@ -173,6 +174,7 @@ var HomisWebServiceManager = function(router)
                   }
                 }
               }
+              
               if(playersToBeUpdated.length)
               {
                 dbManager.savePlayers(playersToBeUpdated, function(numberOfUpdates)
@@ -476,82 +478,115 @@ var HomisWebServiceManager = function(router)
   {
     var accessToken = req.cookies.accessToken;
     var workspaceToSave = req.body.workspace;
-    var returnObj = {message: Localization.success};
+    var workspaceOwnerName = req.body.name;
+
     dbManager.getUserByAccessToken(accessToken, 
-      function(user)
+    function(user)
+    {
+      if(user === null)
       {
-        var workspaceExist = false;
-        if(user === null)
+        res.json({message: Localization.noPermissionError});
+        return;
+      }
+      
+      if(req.body.name)
+      {
+        if(user.type !== "admin")
         {
           res.json({message: Localization.noPermissionError});
           return;
         }
-        
-        user.workspaces = (user.workspaces)? user.workspaces: [];
-        user.players = (user.players)? user.players: [];
-        for(var i = 0;i < user.workspaces.length; i++)
+        dbManager.getUserByName(workspaceOwnerName,function(workspaceOwner)
         {
-          if(user.workspaces[i].workspaceId === workspaceToSave.workspaceId)
+          saveWorkspaceToUser(workspaceToSave,workspaceOwner,res,Localization);
+        });
+        
+        return;
+      }
+      
+      saveWorkspaceToUser(workspaceToSave,user,res,Localization)
+    });
+  };
+  
+  /**
+  * Saves workspace to user
+  * @param {Workspace} workspaceToSave - Workspace to be saved.
+  * @param {User} user - Owner of workspace.
+  * @param {Response} res - Node response object.
+  * @param {Localization} Localization - Localization object that holds localized message strings.
+  */
+  var saveWorkspaceToUser = function(workspaceToSave, user, res, Localization)
+  {
+    var returnObj = {message: Localization.success};
+    var workspaceExist = false;
+    user.workspaces = (user.workspaces)? user.workspaces: [];
+    user.players = (user.players)? user.players: [];
+    for(var i = 0;i < user.workspaces.length; i++)
+    {
+      if(user.workspaces[i].workspaceId === workspaceToSave.workspaceId)
+      {
+        user.workspaces[i] = workspaceToSave;
+        // Check if workspace is already assigned to players of user. If yes then update workspace of players.
+        for(var j = 0; j < user.players.length; j++)
+        {
+          if(user.players[j].workspace)
           {
-            user.workspaces[i] = workspaceToSave;
-            // Check if workspace is already assigned to players of user. If yes then update workspace of players.
-            for(var j = 0; j < user.players.length; j++)
+            if(user.players[j].workspace.workspaceId === workspaceToSave.workspaceId)
             {
-              if(user.players[j].workspace)
+              console.log("değiştirilecek olan workspace ile playerda bulunan workspace aynı");
+              workspaceToSave.downloaded = false;
+              user.players[j].workspace = workspaceToSave;
+              dbManager.savePlayer(user.players[j],function(){
+                console.log("Player workspace update edildi.");
+              });
+            }
+          }
+        }
+        
+        // If user type is admin, workspace could be at other users' players as well, check em.
+        if(user.type === "admin")
+        {
+          dbManager.getUsers(
+          function(users)
+          {
+            var usersToUpdate = [];
+            for(var i = 0; i< users.length; i++)
+            {
+              var otherUser = users[i];
+              otherUser.players = (otherUser.players)? otherUser.players: [];
+              for(var j = 0; j < otherUser.players.length; j++)
               {
-                if(user.players[j].workspace.workspaceId === workspaceToSave.workspaceId)
+                if(otherUser.players[j].workspace.workspaceId === workspaceToSave.workspaceId)
                 {
                   workspaceToSave.downloaded = false;
-                  user.players[j].workspace = workspaceToSave;
+                  otherUser.players[j].workspace = workspaceToSave;
+                  dbManager.savePlayer(otherUser.players[j],function(){});
+                  dbManager.saveUser(otherUser,function(){});
                 }
               }
             }
-            
-            // If user type is admin, workspace could be at other users' players as well, check em.
-            if(user.type === "admin")
-            {
-              dbManager.getUsers(
-              function(users)
-              {
-                var usersToUpdate = [];
-                for(var i = 0; i< users.length; i++)
-                {
-                  var otherUser = users[i];
-                  otherUser.players = (otherUser.players)? otherUser.players: [];
-                  for(var j = 0; j < otherUser.players.length; j++)
-                  {
-                    if(otherUser.players[j].workspace.workspaceId === workspaceToSave.workspaceId)
-                    {
-                      workspaceToSave.downloaded = false;
-                      otherUser.players[j].workspace = workspaceToSave;
-                      dbManager.saveUser(otherUser,function(){});
-                    }
-                  }
-                }
-              }); 
-            }
-            
-            workspaceExist = true;
-          }
+          }); 
         }
         
-        if(!workspaceExist)
-        {
-          workspaceToSave.workspaceId = dbManager.createUniqueId();
-          returnObj = {workspaceId : workspaceToSave.workspaceId};
-          user.workspaces.push(req.body.workspace);
-        }
+        workspaceExist = true;
+      }
+    }
         
-        dbManager.saveUser(user,
-          function()
-          {
-            res.json(returnObj);
-            return;
-          }
-        );
+    if(!workspaceExist)
+    {
+      workspaceToSave.workspaceId = dbManager.createUniqueId();
+      returnObj = {workspaceId : workspaceToSave.workspaceId};
+      user.workspaces.push(workspaceToSave);
+    }
+    
+    dbManager.saveUser(user,
+      function()
+      {
+        res.json(returnObj);
+        return;
       }
     );
-  };
+  }
   
   /**
   * Gets a workspace with given access token of the user and workspace id.

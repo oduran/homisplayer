@@ -670,9 +670,7 @@ var Workspace = function () {
       
       if(currentUserToEdit)
       {
-        targetUrl = serviceUrl+"saveuser";
-        currentUserToEdit = upsertWorkspaceToUser(workspaceObj, currentUserToEdit);
-        data = { user:currentUserToEdit };
+        data.name = currentUserToEdit.name;
       }
       
       $.ajax({
