@@ -96,8 +96,9 @@
       var showTime;
       var setScreenTimeoutWalls = function()
       {
-         i++;
+         
          wall = workspace.walls[i];
+         i++;
          showTime = wall.showTime;
          console.log(showTime);
          var checkDeterminedTimeInterval = setInterval(function()
