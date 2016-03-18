@@ -612,6 +612,7 @@ var HomisWebServiceManager = function(router)
   {
     var accessToken = req.cookies.accessToken;
     var workspaceId = req.body.workspaceId;
+    var name = req.body.name;
     dbManager.getUserByAccessToken(accessToken, 
       function(user)
       {
@@ -620,26 +621,48 @@ var HomisWebServiceManager = function(router)
           res.json({message: Localization.noPermissionError});
         }
         
-        if(typeof user.workspaces === 'undefined')
+        if(user.type === "admin" && name)
         {
-          res.json({message: Localization.noWorkspaceError});
+          dbManager.getUserByName(name,function(anotherUser)
+          {
+            var result = getWorkspaceFromUser(anotherUser,workspaceId);
+            res.json(result);
+            return;
+          });
+          
           return;
         }
         
-        user.workspaces = (user.workspaces)? user.workspaces: [];
-        for(var i = 0; i<user.workspaces.length; i++)
-        {
-          if(user.workspaces[i].workspaceId == workspaceId)
-          {
-            res.json(user.workspaces[i]);
-            return;
-          }
-        }
-        
-        res.json({message: Localization.workspaceNotFoundError });
+        var result = getWorkspaceFromUser(user,workspaceId)
+        res.json(result);
       }
     );
   };
+  
+  /**
+  * Gets a workspace from user object with using workspace Id.
+  * @param {User} user - User object to search.
+  * @param {string} workspaceId - Id of the workspace.
+  * @returns {object} Json object to return as result to client.
+  */
+  var getWorkspaceFromUser = function(user,workspaceId)
+  {
+    if(typeof user.workspaces === 'undefined')
+    {
+      return {message: Localization.noWorkspaceError};
+    }
+    
+    user.workspaces = (user.workspaces)? user.workspaces: [];
+    for(var i = 0; i<user.workspaces.length; i++)
+    {
+      if(user.workspaces[i].workspaceId == workspaceId)
+      {
+        return user.workspaces[i];
+      }
+    }
+    
+    return {message: Localization.workspaceNotFoundError };
+  }
   
   /**
   * Registers player to the system.
