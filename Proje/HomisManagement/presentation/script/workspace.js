@@ -665,10 +665,10 @@ var Workspace = function () {
       var targetUrl = serviceUrl+"saveworkspace";
       workspaceObj=Util.mergeObjects(workspaceObj,newWorkspaceObj);
       var data = { workspace: workspaceObj};
-      
-      if(currentUserToEdit)
+      var userName = Util.getParameterByName('userName');
+      if(userName)
       {
-        data.name = currentUserToEdit.name;
+        data.name = userName;
       }
       
       $.ajax({
