@@ -23,44 +23,36 @@
       return;
     }
     
-    var data = {};
-    $.ajax({
-      type: "POST",
-      url: url+"service/getuser",
-      data: data,
-      success: function(response)
-      { 
-        currentUserToEdit = response.user;
-        Util.loadingDialog.hide();
-        
-        if(response.message)
-        {
-          Util.deleteCookie("accessToken");
-          window.location.href = url+"login.html";
-          return;
-        }
+    getUser("",function(user, message){
+      currentUserToEdit = user;
+      Util.loadingDialog.hide();
+      
+      if(message)
+      {
+        Util.deleteCookie("accessToken");
+        window.location.href = url+"login.html";
+        return;
+      }
 
-        var username = response.user.name;
-        var usertype = response.user.type;
-        $("#username").text("Kullanıcı : "+username+"|");
-        $("#usertype").text("Yetki :" + usertype);
+      var username = user.name;
+      var usertype = user.type;
+      $("#username").text("Kullanıcı : "+username+"|");
+      $("#usertype").text("Yetki :" + usertype);
 
-        if(response.user.type=="admin")
-        {
-         adminControl=true;
-         $("#adminPanel").css("display","block");
-         $("#sendPlayerToUser").css("display","block");
-         $('#userList').empty();
-         getUserList(function(userListItem){
-           $('#userList').append(userListItem);
-           },"adminPanel");
-        }
+      if(user.type=="admin")
+      {
+       adminControl=true;
+       $("#adminPanel").css("display","block");
+       $("#sendPlayerToUser").css("display","block");
+       $('#userList').empty();
+       getUserList(function(userListItem){
+         $('#userList').append(userListItem);
+         },"adminPanel");
+      }
 
-        showUserWorkspaces(response.user);
-        showUserMediaResources(response.user);
-        getPlayers();
-      },
-      error: Util.handleAjaxError
+      showUserWorkspaces(user);
+      showUserMediaResources(user);
+      getPlayers();
     });
   };
   
@@ -134,20 +126,13 @@
                       }
                     });
                     
-                    var data = {user: currentUserToEdit };
-                    $.ajax({
-                      type: "POST",
-                      url: url+"service/saveuser",
-                      data: data,
-                      success: function(response)
-                      { 
-                        Util.loadingDialog.hide();
-                        Util.handleAjaxSuccess(response.message);
-                        $("#playerList").empty();
-                        getPlayers();
-                        dialog.close();
-                      },
-                      error: Util.handleAjaxError
+                    saveUser(currentUserToEdit, function(response)
+                    { 
+                      Util.loadingDialog.hide();
+                      Util.handleAjaxSuccess(response.message);
+                      $("#playerList").empty();
+                      getPlayers();
+                      dialog.close();
                     });
                 }
             }, 
@@ -387,20 +372,12 @@
     });
     clearAllList();
 
-    var data = {name:name};
-    $.ajax({
-    type: "POST",
-    url: url+"service/getuser",
-    data: data,
-    success: function(response)
-    {
-      currentUserToEdit = response.user;
-      showUserWorkspaces(response.user);
-      showUserMediaResources(response.user);
-      getPlayers(response.user);
+    getUser(name,function(user){
+      currentUserToEdit = user;
+      showUserWorkspaces(currentUserToEdit);
+      showUserMediaResources(currentUserToEdit);
+      getPlayers(currentUserToEdit);
       Util.loadingDialog.hide();  
-    },
-    error: Util.handleAjaxError
     });
   };
   
@@ -445,16 +422,9 @@
     userToSave.type = userType;
     userToSave.email = email;
     var data = {user: userToSave };
-    $.ajax({
-      type: "POST",
-      url: url+"service/saveuser",
-      data: data,
-      success: function(response)
-      { 
-        Util.loadingDialog.hide();
-        Util.handleAjaxSuccess(response.message);
-      },
-      error: Util.handleAjaxError
+    saveUser(userToSave,function(response){
+      Util.loadingDialog.hide();
+      Util.handleAjaxSuccess(response.message);
     });
   };
   
@@ -536,17 +506,7 @@
   */
   var checkUserExist = function(name,callback)
   { 
-    var data = {name:name};
-    $.ajax({
-      type: "POST",
-      url: url+"service/getuser",
-      data: data,
-      success: function(response)
-      {
-        callback(response.user);
-      },
-      error: Util.handleAjaxError
-    });
+    getUser(name,callback); 
   };
   
   /**
@@ -568,34 +528,26 @@
   {
     $(".createUser").click(function()
     {
-      
-        var data = {user: {
-                           "name":$("#name").val(),
-                           "surname":$("#surname").val(),
-                           "email":$("#email").val(),
-                           "phone":$("#phone").val(),
-                           "password":$("#password").val(),
-                           "type": document.getElementById('userTypeDropdown').value,
-                           "workspaces":[],
-                           "players":[],
-                           "mediaResources":[]
-                           }};
-        $.ajax({
-          type: "POST",
-          url: url+"service/saveuser",
-          data: data,
-          success: function(response)
-          {
-            Util.handleAjaxSuccess(response.message);
-            $('#userList').empty();
-            getUserList(function(userListItem){
-              $('#userList').append(userListItem);
-              },"adminPanel");
-            $("#createUserModal").modal("hide");
-          },
-          error: Util.handleAjaxError
-        });
-      
+      var userToSave = {
+                       "name":$("#name").val(),
+                       "surname":$("#surname").val(),
+                       "email":$("#email").val(),
+                       "phone":$("#phone").val(),
+                       "password":$("#password").val(),
+                       "type": document.getElementById('userTypeDropdown').value,
+                       "workspaces":[],
+                       "players":[],
+                       "mediaResources":[]
+                       };
+      saveUser(userToSave, function(response)
+      {
+        Util.handleAjaxSuccess(response.message);
+        $('#userList').empty();
+        getUserList(function(userListItem){
+          $('#userList').append(userListItem);
+          },"adminPanel");
+        $("#createUserModal").modal("hide");
+      });
     });
   };
   
@@ -777,37 +729,39 @@
       {
         Util.loadingDialog.show();
         var name = $(this).text();
-        var data = {name:name};
-        $.ajax({
-          type: "POST",
-          url: url+"service/getuser",
-          data: data,
-          success: function(response)
+        getUser(name,function(user)
+        {
+          for(var i = 0;i<selectedPlayers.length;i++)
           {
-            for(var i = 0;i<selectedPlayers.length;i++)
+            if(selectedPlayers[i].owner)
             {
-              selectedPlayers[i].owner = response.user.name;
+              getUser(selectedPlayers[i].owner,function(exPlayerOwner)
+              {
+                for(var j = 0; j<exPlayerOwner.players.length;j++)
+                {
+                  if(exPlayerOwner.players[j].playerId === selectedPlayers[i].playerId)
+                  {
+                    exPlayerOwner.players.splice(j,1);
+                    saveUser(exPlayerOwner,function(response){});
+                    break;
+                  }
+                }
+              });
             }
             
-            response.user.players = response.user.players.concat(selectedPlayers);
-            var data = {user:response.user};
-            $.ajax({
-              type: "POST",
-              url: url+"service/saveuser",
-              data: data,
-              success: function(response)
-              {
-                getUserDetails();
-                Util.loadingDialog.hide();
-                $("#playerListModal").modal("hide");
-                Util.handleAjaxSuccess(response.message);
-              },
-              error: Util.handleAjaxError
-            });
-          },
-          error: Util.handleAjaxError
+            selectedPlayers[i].owner = user.name;
+          }
+          
+          user.players = (user.players)? user.players : [];
+          user.players = user.players.concat(selectedPlayers);
+          saveUser(user,function(response)
+          {
+            getUserDetails();
+            Util.loadingDialog.hide();
+            $("#playerListModal").modal("hide");
+            Util.handleAjaxSuccess(response.message);
+          });
         });
-        
       })
     });
   };
@@ -899,6 +853,51 @@
       uploadRequests[i].abort();
     }
   };
+  
+  /**
+  * Kullanıcıyı web servise kaydedilmesi için gönderir.
+  * @param {User} user - Kaydedilecek kullanıcı.
+  * @param {Function} callback - İşlem tamamlandıktan sonra çalıştırılacak callback fonksiyonu.
+  */
+  var saveUser = function(user,callback)
+  {
+    var data = {user:response.user};
+    $.ajax({
+      type: "POST",
+      url: url+"service/saveuser",
+      data: data,
+      success: function(response)
+      {
+        callback(response);
+      },
+      error: Util.handleAjaxError
+    });
+  }
+  
+  /**
+  * Kullanıcıyı web servisten getirir. Eğer isim boş, undefined, null gelirse o zaman accesstoken' a göre kullanıcı gelir.
+  * @param {String} name - Kullanıcı ismi.
+  * @param {Function} callback - İşlem tamamlandıktan sonra çalıştırılacak callback fonksiyonu.
+  */
+  var getUser = function(name,callback)
+  {
+    
+    var data = {};
+    if(name)
+    {
+      data.name = name;
+    }
+    $.ajax({
+    type: "POST",
+    url: url+"service/getuser",
+    data: data,
+    success: function(response)
+    {
+      callback(response.user,response.message);  
+    },
+    error: Util.handleAjaxError
+    });
+  }
   
   $( document ).ready(function() 
   { 
