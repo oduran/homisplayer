@@ -2,7 +2,7 @@ var RegisterPlayer = function()
 {
   var playerHardwareId = "";
   var url = Util.getWindowUrl();
-  
+  url = "http://localhost:8080";
   /** Sayfa açıldığında eğer player kaydı olmuşşsa playerı gösterir, olmadıysa pc nin mac adresini alır ve playerı kaydeder.
   */
   this.initializeRegisterPage = function ()
@@ -34,7 +34,7 @@ var RegisterPlayer = function()
       var data = { playerName:playerName, playerHardwareId:playerHardwareId};
       $.ajax({
         type: "POST",
-        url: "http://localhost:8080/service/registerplayer",
+        url: url+"/service/registerplayer",
         data: data,
         success: function(response)
         {

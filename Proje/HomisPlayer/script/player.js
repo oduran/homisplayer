@@ -3,6 +3,7 @@
  {
   var startTime ;
   var endTime ;
+  var downloadComplete=false;
   this.date = new Date();
   var regexType = ["css","script","media"];
   var fs = require('fs');
@@ -32,10 +33,13 @@
         if(!deepEquals(playerFromFile,playerFromService) || containerContent === "")
         {  
           showWorkspace(playerFromService);
-          fileManager.deleteFile("player.txt");
+          if(fs.existsSync("player.txt"))
+          {
+            fileManager.deleteFile("player.txt");
+          }
+          
           savePlayerToFile(playerFromService);
         }
-        
       });
     }
   }
@@ -72,80 +76,77 @@
   };
   
   var showWorkspace = function(player)
-  {
-    debugger;
-    if($(".bilimtekcontainer").html()!=="")
-    {
-      $(".bilimtekcontainer").empty();
-    }
+  { 
     var workspace = player.workspace;
     if(workspace)
-    {
+    { 
+      var containerContent = $(".bilimtekcontainer").html().replace(/\s/g, '').replace(/\n/g,'');
+      if(containerContent!=="")
+      {
+        location.reload();
+      }
+      
       var walls = workspace.walls;
       var startTime = workspace.starttime;
       var endTime = workspace.endtime;
-      var container = document.getElementsByClassName('bilimtekcontainer');
-      var playerDiv = document.createElement("div");
-      playerDiv.style.width = workspace.width+"px";
-      playerDiv.style.height = workspace.height+"px";
       var timeDifference = calculateTimeDifference(startTime,endTime);
       var totalSpentTime = 0;
-              
       var i=0;
-      var wall = workspace.walls[i];
       var showTime;
       var setScreenTimeoutWalls = function()
       {
-         
-         wall = workspace.walls[i];
-         i++;
-         showTime = wall.showTime;
-         console.log(showTime);
-         var checkDeterminedTimeInterval = setInterval(function()
+        var container = document.getElementsByClassName('bilimtekcontainer');
+        var playerDiv = document.createElement("div");
+        playerDiv.style.width = workspace.width+"px";
+        playerDiv.style.height = workspace.height+"px";
+        var newWall = walls[i];
+        showTime = newWall.showTime;
+        console.log(showTime);
+        var checkDeterminedTimeInterval = setInterval(function()
+        {
+          for(var i = 0 ;i<walls.length;i++)
           {
-            for(var i = 0 ;i<walls.length;i++)
-            {
-                if(walls[i].showTime.indexOf("-")>0)
-                { 
-                   self.date = new Date();
-                   var start=walls[i].showTime.split("-")[0];
-                   var end=walls[i].showTime.split("-")[1];
-                   var dateOfScreen = stringToDate(start);
-                   
-                    if(self.date.getHours()===dateOfScreen.getHours()&&
-                      self.date.getMinutes()===dateOfScreen.getMinutes()&&
-                      self.date.getSeconds()-dateOfScreen.getSeconds()<2)
-                    {
-                     var counter = calculateTimeDifference(start,end); 
-                     playerDiv = setPlayerWalls(workspace,walls[i],playerDiv);
-                     container[0].innerHTML = "";
-                     container[0].appendChild(playerDiv);
-                     setTimeout(setScreenTimeoutWalls, counter[0]*100*60);
-                    }
+              if(walls[i].showTime.indexOf("-")>0)
+              { 
+                self.date = new Date();
+                var start=walls[i].showTime.split("-")[0];
+                var end=walls[i].showTime.split("-")[1];
+                var dateOfScreen = stringToDate(start);
+                 
+                if(self.date.getHours()===dateOfScreen.getHours()&&
+                  self.date.getMinutes()===dateOfScreen.getMinutes()&&
+                  self.date.getSeconds()-dateOfScreen.getSeconds()<2)
+                {
+                 var counter = calculateTimeDifference(start,end); 
+                 playerDiv = setPlayerWalls(workspace,walls[i],playerDiv);
+                 container[0].innerHTML = "";
+                 container[0].appendChild(playerDiv);
+                 setTimeout(setScreenTimeoutWalls, counter[0]*1000*60);
                 }
-            }
-          }, 1000);
-         
-         totalSpentTime += parseInt(wall.showTime);
-         playerDiv = setPlayerWalls(workspace,wall,playerDiv);
-         container[0].innerHTML = "";
-         container[0].appendChild(playerDiv);
-         
+              }
+          }
+        }, 1000);
+        
+        totalSpentTime += parseInt(newWall.showTime);
+        playerDiv = setPlayerWalls(workspace,newWall,playerDiv);
+        container[0].innerHTML = "";
+        container[0].appendChild(playerDiv);
+        i++;
 
-         if(workspace.walls.length===i)
-         {
-           i=0;
-         }
+        if(workspace.walls.length===i)
+        {
+          i=0;
+        }
 
-         if(timeDifference[0]<=totalSpentTime)
-         {
+        if(timeDifference[0]<=totalSpentTime)
+        {
           totalSpentTime=0;
-         }
-         
-         setTimeout(setScreenTimeoutWalls, wall.showTime*100*60);
-     }
+        }
+
+        setTimeout(setScreenTimeoutWalls, newWall.showTime*1000*60);
+       }
      
-      setTimeout(setScreenTimeoutWalls,100);
+       settimeoutscreen = setTimeout(setScreenTimeoutWalls,100);
     }
   };
   
@@ -198,13 +199,24 @@
       
       else
       {
-       iframe.srcdoc = wall.screens[j].html; 
-       for(var k = 0; k<regexType.length;k++)
+        iframe.srcdoc = htmlDoc; 
+        var completedFileTypes =0;
+        for(var k = 0; k<regexType.length;k++)
         {
-          checkContentFunction(iframe.srcdoc,regexType[k]);  
-          iframe.srcdoc = changeElementsUrl(iframe.srcdoc,regexType[k]);
+          checkContentFunction(iframe.srcdoc,regexType[k],function(){
+            completedFileTypes++;
+            
+            if(completedFileTypes===regexType.length)
+            {
+              for(var l = 0 ; l< regexType.length;l++)
+              {
+                iframe.srcdoc = changeElementsUrl(iframe.srcdoc,regexType[l]);
+              }
+              
+              playerDiv.appendChild(iframe);
+            }
+          });  
         }
-        playerDiv.appendChild(iframe);
       }
     }
     return playerDiv;
@@ -234,9 +246,9 @@
     return result;
   }
    
-  var checkContentFunction = function(playerDiv,regexType)
+  var checkContentFunction = function(playerDiv,regexType,callback)
   {
-     var str = playerDiv; 
+    var str = playerDiv; 
     var regex;
     var regexSliceNumber;
     if(regexType==="css")
@@ -258,23 +270,24 @@
     {
       for(var i = 0; i<regex.length;i++)
       {
-        getFileFromUrl(regex[i].slice(regexSliceNumber,-1));
+        var fileUrl = regex[i].slice(regexSliceNumber,-1);
+        getFileFromUrl(fileUrl,callback);
       }
     }
   };
  
-  var downloadHtmlMediaElements = function(path,source)
+  var downloadHtmlMediaElements = function(path,source,callback)
   {
     var http = require('http');
     var fs = require('fs');
     var file = fs.createWriteStream(path);
     var request = http.get("http://localhost:8080"+source, function(response) {
-      console.log(response.statusCode+"  "+source);
       response.pipe(file);
+      callback(response);
     });
   }
   
-  var writeTextToHeadLinks = function (path,source)
+  var writeTextToHeadLinks = function (path,source,callback)
   {
     var sourceUrl = "http://localhost:8080"+source;
     var xhr = new XMLHttpRequest();
@@ -294,13 +307,16 @@
                 var regex = /(?:([\w&./\-]+)media\/)/gm;
                 var replaceString = '../media/';
                 result = str.replace(regex, replaceString);
-                downloadCssElements(result,function(result){
-                 stream.write(result);
-                 stream.end();
+                downloadCssElements(result,function(){
+                  stream.write(result);
+                  stream.end();
                 });
              }
-             stream.write(result);
-             stream.end();
+             else
+             {
+               stream.write(result);
+               stream.end();
+             }
            }); 
           }
         }
@@ -308,21 +324,28 @@
   
   var downloadCssElements = function (cssText,callback)
   {
-     var str = cssText ;
-     var regex = str.match(/(?:([\/\-]+)media.*")/gm);
+     var regex = cssText.match(/(?:([\/\-]+)media.*")/gm);
      if(regex)
-    {
-      for(var i = 0; i<regex.length;i++)
       {
-        var source = regex[i].slice(0,-1);
-        var path = "presentation"+source;
-        downloadHtmlMediaElements(path,source);
-      }
-      callback;
+        var completedDownloads = 0;
+        var numberOfCssMediaFiles = regex.length;
+        for(var i = 0; i<numberOfCssMediaFiles;i++)
+        {
+          var source = regex[i].slice(0,-1);
+          var path = "presentation"+source;
+          downloadHtmlMediaElements(path,source,function(response)
+          {
+            completedDownloads++;
+            if(numberOfCssMediaFiles===completedDownloads)
+            {
+              callback();
+            }
+          });
+        }
     }
   }
   
-  var getFileFromUrl = function(source)
+  var getFileFromUrl = function(source,callback)
   { 
     var splitSource = source.split("/")[2];
     var fs = require('fs');
@@ -346,7 +369,7 @@
         splitSource.indexOf("woff")>0)
      {
         path="presentation/media/"+splitSource;
-        downloadHtmlMediaElements(path,source);
+        downloadHtmlMediaElements(path,source,callback);
         return;
      }
     }

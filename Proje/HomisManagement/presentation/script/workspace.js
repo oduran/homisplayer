@@ -229,9 +229,8 @@ var Workspace = function () {
     
     if(userName)
     {
-      data = { name: userName};
       $("#workspaceHeader").text( userName.toUpperCase()+ "'in Çalışma Alanı");
-      targetUrl = serviceUrl+"getUser";
+      data.name = userName;
     }
 
     $.ajax({
@@ -726,14 +725,14 @@ var Workspace = function () {
       {
         $("#videoModal").modal("show");
         $("#media").val(e.target.id);
-        getUserVideoResource(currentUserToEdit,"video");
+        getUserResources("video");
       }
       
       if(e.target.className == "wall_screen imagewall")
       {
         $("#videoModal").modal("show");
         $("#media").val(e.target.id);
-        getUserVideoResource(currentUserToEdit,"image");
+        getUserResources("image");
       }
       
       if(e.target.className == "wall_screen")
@@ -754,23 +753,27 @@ var Workspace = function () {
   *@params object user - Usera ait media kaynaklarını çekmek için kullanılır.
   *@params {string} mediaType - Usera ait media kaynaklarını çekmek için kullanılır.
   */
-  var getUserVideoResource = function (user,mediaType)
+  var getUserResources = function (mediaType)
   {
-    if(!user.mediaResources)
-    {
-      return;
-    }
-    for(var i = 0 ;i<user.mediaResources.length; i++)
-    {
-      var videoFileCheck = (user.mediaResources[i].fileType === mediaType) ? true : false;
-      if(videoFileCheck)
+    var userName = Util.getParameterByName('userName');
+    getUser(userName,function(user){
+      if(!user.mediaResources)
       {
-        var mediaUrl = url + user.mediaResources[i].url;
-        var resourceName = mediaUrl.substr(mediaUrl.lastIndexOf('/') + 1);
-        var mediaResourceName = "<option value='"+mediaUrl+"' id='"+resourceName+"_userMedia' >"+resourceName+"</option>";
-        $("#onUserVideoResources").append(mediaResourceName); 
+        return;
       }
-    }
+      for(var i = 0 ;i<user.mediaResources.length; i++)
+      {
+        var videoFileCheck = (user.mediaResources[i].fileType === mediaType) ? true : false;
+        if(videoFileCheck)
+        {
+          var mediaUrl = url + user.mediaResources[i].url;
+          var resourceName = mediaUrl.substr(mediaUrl.lastIndexOf('/') + 1);
+          var mediaResourceName = "<option value='"+mediaUrl+"' id='"+resourceName+"_userMedia' >"+resourceName+"</option>";
+          $("#onUserVideoResources").append(mediaResourceName); 
+        }
+      }
+    });
+    
   };
   
   /**
