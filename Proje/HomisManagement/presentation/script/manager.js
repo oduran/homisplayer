@@ -733,13 +733,14 @@
         {
           for(var i = 0;i<selectedPlayers.length;i++)
           {
-            if(selectedPlayers[i].owner)
+            var selectedPlayer = selectedPlayers[i];
+            if(selectedPlayer.owner)
             {
-              getUser(selectedPlayers[i].owner,function(exPlayerOwner)
+              getUser(selectedPlayer.owner,function(exPlayerOwner)
               {
                 for(var j = 0; j<exPlayerOwner.players.length;j++)
                 {
-                  if(exPlayerOwner.players[j].playerId === selectedPlayers[i].playerId)
+                  if(exPlayerOwner.players[j].playerId === selectedPlayer.playerId)
                   {
                     exPlayerOwner.players.splice(j,1);
                     saveUser(exPlayerOwner,function(response){});
