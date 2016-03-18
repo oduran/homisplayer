@@ -245,8 +245,7 @@ var Workspace = function () {
           return;
         }
         
-        workspaceObj = userName? findUserWorkspace(workspaceId,response.user.workspaces) : response;
-        currentUserToEdit = userName? response.user : currentUserToEdit;
+        workspaceObj = response;
         $( "#pageHeight" ).val(workspaceObj.height);
         $( "#pageWidth" ).val(workspaceObj.width);
         $("#datetimepicker1").find("input").val(workspaceObj.starttime);
