@@ -861,7 +861,7 @@
   */
   var saveUser = function(user,callback)
   {
-    var data = {user:response.user};
+    var data = {user:user};
     $.ajax({
       type: "POST",
       url: url+"service/saveuser",
