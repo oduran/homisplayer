@@ -726,14 +726,14 @@ var Workspace = function () {
       {
         $("#videoModal").modal("show");
         $("#media").val(e.target.id);
-        getUserVideoResource(user,"video");
+        getUserVideoResource(currentUserToEdit,"video");
       }
       
       if(e.target.className == "wall_screen imagewall")
       {
         $("#videoModal").modal("show");
         $("#media").val(e.target.id);
-        getUserVideoResource(user,"image");
+        getUserVideoResource(currentUserToEdit,"image");
       }
       
       if(e.target.className == "wall_screen")
