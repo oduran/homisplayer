@@ -21,7 +21,7 @@ var DeploymentManager = function()
       {name:"admin", password:"admin", type:"admin",workspaces:[],players:[],mediaResources:[]},
       {name:"user", password:"user", type:"user",workspaces:[],players:[],mediaResources:[]},
       {name:"oguz", password:"qwe123", type:"admin",workspaces:[],players:[],mediaResources:[]},
-      {name:"onder", password:"qwe123", type:"admin",workspaces:[],players:[],mediaResources:[]}
+      {name:"onder", password:"qwe123", type:"admin",workspaces:[],players:[],mediaResources:[]},
       {name:"kafes", password:"kafes@1", type:"user",workspaces:[],players:[],mediaResources:[]}
     ]
     clearCollections(collectionsToBeCleared, function()
