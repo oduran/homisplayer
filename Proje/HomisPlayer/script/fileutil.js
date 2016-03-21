@@ -37,11 +37,11 @@ var FileManager = function()
   /*
    Writes data to file with given filename, if user requires, gzips the file the same folder.
   */
-  this.writeToFile = function(path,data,gzipAfter)
+  this.writeToFile = function(path,data,gzipAfter,forceOverride)
   {
     var gzipIt = (typeof gzipAfter ==="undefined")? false : gzipAfter;
     fs.exists(path, function(exists) { 
-        if (exists) { 
+        if (exists&&!forceOverride) { 
         fs.appendFile(path, data, "utf8", function(err) {
           if(err) {
             console.log(err.message);
@@ -134,7 +134,7 @@ var FileManager = function()
     }); 
   }
 
-  this.loadFileToJson = function(path)
+  this.loadFileToJSON = function(path)
   {
     var exists = fs.existsSync(path); 
     if (exists) 
@@ -207,13 +207,21 @@ var FileManager = function()
     }
   }
   
-  this.deleteFile = function(filePath)
+  this.deleteFile = function(filePath,callback)
   {
     console.log("Deleting file:" + filePath);
     fs.unlink(filePath, function(err){
       if (err) throw err;
       console.log("Deleted file:" + filePath);
+      callback();
     });
+  }
+  
+  this.getFile = function (path)
+  { 
+    var fs = require("fs");
+    var fileContent = fs.readFileSync(path);
+    return fileContent.toString();
   }
   
 }
