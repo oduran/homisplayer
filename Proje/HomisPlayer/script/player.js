@@ -3,9 +3,10 @@
  {
   var startTime ;
   var endTime ;
+  var downloading = false ;
+  var noInternet = false ;
   var downloadComplete=false;
   this.date = new Date();
-  var regexType = ["css","script","media"];
   var fs = require('fs');
   var url = "http://www.bilimtek.com:8080";
   var fileManager = new FileManager();
@@ -33,6 +34,7 @@
         var containerContent = $(".bilimtekcontainer").html().replace(/\s/g, '').replace(/\n/g,'');
         if(!deepEquals(playerFromFile,playerFromService) || containerContent === "")
         {  
+          Util.loadingDialog.show();
           showWorkspace(playerFromService);
           if(fs.existsSync("player.txt"))
           {
@@ -63,8 +65,14 @@
     var fileContent = fs.readFileSync('playerId.txt');
     return fileContent.toString();
   }
+  
   var getPlayer = function (playerId,callback)
   {
+    if(downloading||noInternet)
+    {
+      return;
+    }
+    
     var data = { playerId:playerId };
     $.ajax({
       type: "POST",
@@ -182,8 +190,10 @@
   
   var setPlayerWalls = function (workspace,wall,playerDiv)
   {
+    var completedScreens=0;
     for (var j = 0 ; j<wall.screens.length;j++ )
     { 
+      debugger;
       var iframe = document.createElement("iframe");
       iframe.style.width = workspace.width/wall.screens.length+"px";
       iframe.style.height = workspace.height+"px";
@@ -195,86 +205,56 @@
         iframe.src = htmlDoc;
         playerDiv.appendChild(iframe);
       }
-
       else
       {
-        var completedFileTypes =0;
 
-        for(var k = 0; k<regexType.length;k++)
+        downloading=true;
+        checkContentFunction(htmlDoc,function(response)
         {
-          checkContentFunction(htmlDoc,regexType[k],function()
+          completedScreens++;
+          var contentString = htmlDoc;
+          contentString = changeElementsUrl(contentString);
+          fileManager.writeToFile("player.html","<!DOCTYPE HTML>"+contentString);
+          iframe.srcdoc = "<!DOCTYPE HTML>"+contentString;
+          playerDiv.appendChild(iframe);
+          if(completedScreens===wall.screens.length)
           {
-            completedFileTypes++;
-            if(completedFileTypes===regexType.length)
-            {
-              var contentString = htmlDoc;
-              for(var l = 0 ; l< regexType.length;l++)
-              {
-                contentString = changeElementsUrl(contentString,regexType[l]);
-              }
-              fileManager.writeToFile("player.html","<!DOCTYPE HTML>"+contentString);
-              iframe.srcdoc = "<!DOCTYPE HTML>"+contentString;
-              playerDiv.appendChild(iframe);
-            }
-          });  
-
-        }
- 
+            downloading=false;          
+          }
+        });  
       }
     }
     return playerDiv;
   }
   
-  var changeElementsUrl = function(playerDiv,regexType)
+  var changeElementsUrl = function(playerDiv)
   {
     var str = playerDiv; 
-    var regex;
-    if(regexType==="script")
-    {
-      regex = /(?=([\w&./\-]+)script\/)/gm;
-    }
-    
-    if(regexType==="css")
-    {
-      regex = /(?=([\w&./\-]+)css\/)/gm;
-    }
-    
-    if(regexType==="media")
-    {
-      regex = /(?=([\w&./\-]+)media\/)/gm;
-    }
-    
+    var regex = (/(?=([\w&./\-]+)script\/)/gm)|(/(?=([\w&./\-]+)css\/)/gm)|(/(?=([\w&./\-]+)media\/)/gm);
     var replaceString = '../presentation';
     var result = str.replace(regex, replaceString);
     return result;
   }
    
-  var checkContentFunction = function(playerDiv,regexType,callback)
+  var checkContentFunction = function(playerDiv,callback)
   {
     var str = playerDiv; 
-    var regex;
     var regexSliceNumber;
-    if(regexType==="css")
-    {
-       regex = str.match(/href=\"(.+)css"/g);
-       regexSliceNumber=6;
-    }
-    if(regexType==="script")
-    {
-       regex = str.match(/src=\"(.*)\.js"/g);
-       regexSliceNumber=5;
-    }
-    if(regexType==="media")
-    {
-       regex = str.match(/src=\"(.*)(\.jpg|\.png|\.webm)"/g);
-       regexSliceNumber=5;
-    }
+    var test = /href=\"(.+)css"/g|/src=\"(.*)\.js"/g|/src=\"(.*)(\.jpg|\.png|\.webm)"/g;
+    var regex = str.match(test);
+    var completedFiles =0;
     if(regex)
     {
       for(var i = 0; i<regex.length;i++)
       {
-        var fileUrl = regex[i].slice(regexSliceNumber,-1);
-        getFileFromUrl(fileUrl,callback);
+        var fileUrl = regex[i].replace("href=","").replace("src=","");
+        getFileFromUrl(fileUrl,function(response){
+          completedFiles++;
+          if(completedFiles===regex.length)
+          {
+            callback(response);
+          }
+        });
       }
     }
   };
@@ -283,20 +263,28 @@
   {
     var response;
     var http = require('http');
-   
+    debugger;
     var fs = require('fs');
-    var file = fs.createWriteStream(path);
-    var request = http.get(url+source, function(response) {
-      file.on("finish", function()
-      {
-        file.close();
-        callback(response);
+    if(fs.existsSync(path))
+    {
+      callback();
+    }
+    else
+    {
+      var file = fs.createWriteStream(path);
+     
+      var request = http.get(url+source, function(response) {
+        file.on("finish", function()
+        {
+          file.close();
+          callback(response);
+        });
+        file.on('error', function(err) {
+            console.log(err.message);
+        });
+        response.pipe(file);
       });
-      file.on('error', function(err) {
-          console.log(err.message);
-      });
-      response.pipe(file);
-    });
+    }
    
     
   }
@@ -417,6 +405,6 @@
 $( document ).ready(function() 
 {
   var player = new Player();
-	var playerRequestInterval=setInterval(function(){player.initializePlayerPage();},9000);
+	var playerRequestInterval=setInterval(function(){player.initializePlayerPage();},30000);
   player.initializePlayerPage();
 });
