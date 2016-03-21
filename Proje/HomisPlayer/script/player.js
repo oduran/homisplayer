@@ -34,7 +34,6 @@
         var containerContent = $(".bilimtekcontainer").html().replace(/\s/g, '').replace(/\n/g,'');
         if(!deepEquals(playerFromFile,playerFromService) || containerContent === "")
         {  
-          Util.loadingDialog.show();
           showWorkspace(playerFromService);
           if(fs.existsSync("player.txt"))
           {
@@ -189,11 +188,11 @@
   };
   
   var setPlayerWalls = function (workspace,wall,playerDiv)
-  {
+  {debugger;
     var completedScreens=0;
+    downloading=true;
     for (var j = 0 ; j<wall.screens.length;j++ )
     { 
-      debugger;
       var iframe = document.createElement("iframe");
       iframe.style.width = workspace.width/wall.screens.length+"px";
       iframe.style.height = workspace.height+"px";
@@ -207,10 +206,9 @@
       }
       else
       {
-
-        downloading=true;
         checkContentFunction(htmlDoc,function(response)
         {
+          debugger;
           completedScreens++;
           var contentString = htmlDoc;
           contentString = changeElementsUrl(contentString);
@@ -230,28 +228,30 @@
   var changeElementsUrl = function(playerDiv)
   {
     var str = playerDiv; 
-    var regex = (/(?=([\w&./\-]+)script\/)/gm)|(/(?=([\w&./\-]+)css\/)/gm)|(/(?=([\w&./\-]+)media\/)/gm);
+    var regex = (/(?=([\w&./\-]+)(script|css|media)\/)/gm);
     var replaceString = '../presentation';
     var result = str.replace(regex, replaceString);
     return result;
   }
    
   var checkContentFunction = function(playerDiv,callback)
-  {
+  {    
+
     var str = playerDiv; 
     var regexSliceNumber;
-    var test = /href=\"(.+)css"/g|/src=\"(.*)\.js"/g|/src=\"(.*)(\.jpg|\.png|\.webm)"/g;
+    var test = /(href=|src=)\"(.*)(\.css|\.js|\.webm|\.jpeg|\.jpg|\.png)"/g;
     var regex = str.match(test);
     var completedFiles =0;
     if(regex)
     {
       for(var i = 0; i<regex.length;i++)
       {
-        var fileUrl = regex[i].replace("href=","").replace("src=","");
+        var fileUrl = regex[i].replace("href=","").replace("src=","").replace(/\"/g,"");
         getFileFromUrl(fileUrl,function(response){
           completedFiles++;
           if(completedFiles===regex.length)
           {
+             
             callback(response);
           }
         });
@@ -263,11 +263,11 @@
   {
     var response;
     var http = require('http');
-    debugger;
+     
     var fs = require('fs');
     if(fs.existsSync(path))
     {
-      callback();
+      callback("asd");
     }
     else
     {
