@@ -141,7 +141,6 @@ var FileManager = function()
     { 
       var fileContent = fs.readFileSync(path).toString();
       var jsonResult = JSON.parse(fileContent);
-      console.log("local file length:"+jsonResult.length);
       return jsonResult;
     } 
     else

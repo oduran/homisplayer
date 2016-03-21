@@ -7,6 +7,7 @@
   this.date = new Date();
   var regexType = ["css","script","media"];
   var fs = require('fs');
+  var url = "http://192.168.2.5:8080";
   var fileManager = new FileManager();
   var directories =
   {
@@ -47,7 +48,7 @@
   var createDirectories = function()
   {
     for (key in directories){
-      fileManager.ensureDirectoryExists(directories[key], 7777, function(err) {
+      fileManager.ensureDirectoryExists(directories[key], 777, function(err) {
         if (err) 
         {
           console.log("alarm alarm: "+ err.message);
@@ -60,7 +61,6 @@
   { 
     var fs = require("fs");
     var fileContent = fs.readFileSync('playerId.txt');
-    console.log(fileContent.toString());
     return fileContent.toString();
   }
   var getPlayer = function (playerId,callback)
@@ -68,7 +68,7 @@
     var data = { playerId:playerId };
     $.ajax({
       type: "POST",
-      url: "http://localhost:8080/service/getplayer",
+      url: url+"/service/getplayer",
       data: data,
       success: callback,
       error: function(error){}
@@ -85,7 +85,10 @@
       {
         location.reload();
       }
-      
+      var container = document.getElementsByClassName('bilimtekcontainer');
+      var playerDiv = document.createElement("div");
+      playerDiv.style.width = workspace.width+"px";
+      playerDiv.style.height = workspace.height+"px";
       var walls = workspace.walls;
       var startTime = workspace.starttime;
       var endTime = workspace.endtime;
@@ -95,13 +98,9 @@
       var showTime;
       var setScreenTimeoutWalls = function()
       {
-        var container = document.getElementsByClassName('bilimtekcontainer');
-        var playerDiv = document.createElement("div");
-        playerDiv.style.width = workspace.width+"px";
-        playerDiv.style.height = workspace.height+"px";
+       
         var newWall = walls[i];
         showTime = newWall.showTime;
-        console.log(showTime);
         var checkDeterminedTimeInterval = setInterval(function()
         {
           for(var i = 0 ;i<walls.length;i++)
@@ -146,7 +145,7 @@
         setTimeout(setScreenTimeoutWalls, newWall.showTime*1000*60);
        }
      
-       settimeoutscreen = setTimeout(setScreenTimeoutWalls,100);
+       setTimeout(setScreenTimeoutWalls,2000);
     }
   };
   
@@ -184,26 +183,27 @@
   var setPlayerWalls = function (workspace,wall,playerDiv)
   {
     for (var j = 0 ; j<wall.screens.length;j++ )
-    {
+    { 
       var iframe = document.createElement("iframe");
       iframe.style.width = workspace.width/wall.screens.length+"px";
       iframe.style.height = workspace.height+"px";
       iframe.style.border = "0px";
       var htmlDoc = wall.screens[j].html;
-      playerDiv.innerHTML ="";
+      
       if(htmlDoc.indexOf("http")===0)
       {
         iframe.src = htmlDoc;
         playerDiv.appendChild(iframe);
       }
-      
+
       else
       {
         iframe.srcdoc = htmlDoc; 
         var completedFileTypes =0;
+
         for(var k = 0; k<regexType.length;k++)
         {
-          checkContentFunction(iframe.srcdoc,regexType[k],function(){
+         checkContentFunction(iframe.srcdoc,regexType[k],function(){
             completedFileTypes++;
             
             if(completedFileTypes===regexType.length)
@@ -216,7 +216,9 @@
               playerDiv.appendChild(iframe);
             }
           });  
+
         }
+ 
       }
     }
     return playerDiv;
@@ -278,18 +280,25 @@
  
   var downloadHtmlMediaElements = function(path,source,callback)
   {
+    var response;
     var http = require('http');
+   
     var fs = require('fs');
     var file = fs.createWriteStream(path);
-    var request = http.get("http://localhost:8080"+source, function(response) {
+     var request = http.get(url+source, function(response) {
       response.pipe(file);
-      callback(response);
+      response.on("end",function()
+      {
+        callback(response);
+      })
     });
+   
+    
   }
   
   var writeTextToHeadLinks = function (path,source,callback)
   {
-    var sourceUrl = "http://localhost:8080"+source;
+    var sourceUrl = url+source;
     var xhr = new XMLHttpRequest();
         xhr.open("GET",sourceUrl,true);
         xhr.send();
