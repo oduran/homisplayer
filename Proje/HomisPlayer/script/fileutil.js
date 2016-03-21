@@ -26,7 +26,7 @@ var FileManager = function()
           mask = 7777;
       }
       
-      fs.mkdir(path, mask, function(err) {
+      fs.mkdir(path, function(err) {
           if (err) {
               if (err.code == 'EEXIST') callback(null); // ignore the error if the folder already exists
               else callback(err); // something else went wrong

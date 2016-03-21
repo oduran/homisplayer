@@ -7,7 +7,7 @@
   this.date = new Date();
   var regexType = ["css","script","media"];
   var fs = require('fs');
-  var url = "http://192.168.2.5:8080";
+  var url = "http://www.bilimtek.com:8080";
   var fileManager = new FileManager();
   var directories =
   {
@@ -285,12 +285,16 @@
    
     var fs = require('fs');
     var file = fs.createWriteStream(path);
-     var request = http.get(url+source, function(response) {
-      response.pipe(file);
-      response.on("end",function()
+    var request = http.get(url+source, function(response) {
+      file.on("finish", function()
       {
+        file.close();
         callback(response);
-      })
+      });
+      file.on('error', function(err) {
+          console.log(err.message);
+      });
+      response.pipe(file);
     });
    
     
@@ -407,7 +411,6 @@
   }
   
   var self =this;
-  
 }
 
 $( document ).ready(function() 
