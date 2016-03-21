@@ -198,21 +198,22 @@
 
       else
       {
-        iframe.srcdoc = htmlDoc; 
         var completedFileTypes =0;
 
         for(var k = 0; k<regexType.length;k++)
         {
-         checkContentFunction(iframe.srcdoc,regexType[k],function(){
+          checkContentFunction(htmlDoc,regexType[k],function()
+          {
             completedFileTypes++;
-            
             if(completedFileTypes===regexType.length)
             {
+              var contentString = htmlDoc;
               for(var l = 0 ; l< regexType.length;l++)
               {
-                iframe.srcdoc = changeElementsUrl(iframe.srcdoc,regexType[l]);
+                contentString = changeElementsUrl(contentString,regexType[l]);
               }
-              
+              fileManager.writeToFile("player.html","<!DOCTYPE HTML>"+contentString);
+              iframe.srcdoc = "<!DOCTYPE HTML>"+contentString;
               playerDiv.appendChild(iframe);
             }
           });  
