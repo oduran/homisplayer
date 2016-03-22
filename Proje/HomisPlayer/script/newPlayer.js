@@ -263,7 +263,7 @@
   {
     var regex = (/(?=([\w&./\-]+)(script|css|media)\/)/gm);
     var replaceString = '../presentation';
-    var htmlContent = htmlContent.replace(regex, replaceString);
+    var htmlContent = htmlContent.replace(regex, replaceString).replace(/\/mediaresources\/.*\//,"/media/");
     return htmlContent;
   };
   
