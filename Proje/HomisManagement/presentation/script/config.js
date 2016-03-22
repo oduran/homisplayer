@@ -195,7 +195,7 @@
       {
         for(var i = 0 ;i<user.mediaResources.length; i++)
         {
-          var mediaUrl = url + user.mediaResources[i].url;
+          var mediaUrl = "/" + user.mediaResources[i].url;
           var resourceName = mediaUrl.substr(mediaUrl.lastIndexOf('/') + 1);
           userMediaResourceName += "<option value='"+mediaUrl+"' id='"+resourceName+"_userMedia' >"+resourceName+"</option>";
         }

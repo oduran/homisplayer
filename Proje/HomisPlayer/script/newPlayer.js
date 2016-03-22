@@ -2,7 +2,9 @@
  var Player = function()
  {
   var url = "http://www.bilimtek.com:8080";
+  url = "http://192.168.2.5:8080";
   var fileManager = new FileManager();
+  var downloading = false;
   var directories =
   {
     presentation : "presentation",
@@ -16,6 +18,11 @@
   
   this.initializePlayerPage = function()
   {
+    if(downloading)
+    {
+      return;
+    }
+    
     var playerId = getPlayerId();
     if(!playerId)
     {
@@ -137,6 +144,7 @@
     var previousPlayerFile = getPlayerFromFile();
     if(!deepEquals(previousPlayerFile,player))
     {
+      downloading = true;
       savePlayerToFile(player);
       var fileUrls = [];
       for(var i=0;i<player.workspace.walls.length;i++)
@@ -176,6 +184,7 @@
           downloadedCssFiles++;
           if(downloadedCssFiles===cssFiles.length)
           {
+            downloading = false;
             showWorkspace(player);  
           }
         });
@@ -279,7 +288,12 @@
       file.on('error', function(err) {
           console.log(err.message);
       });
+      
       response.pipe(file);
+    });
+    
+    request.on('error', function(e) {
+      console.log('problem with request: ' + e.message);
     });
   };
   
@@ -373,5 +387,9 @@
 $( document ).ready(function() 
 {
   var player = new Player();
+  var playerInterval = setInterval(function(){
+    player.initializePlayerPage();
+  },60000);
+  
   player.initializePlayerPage();
 });
