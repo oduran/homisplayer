@@ -1,5 +1,7 @@
  var PlayerUI = function()
  {
+  var timeouts = [];
+  var intervals = []; 
    
   this.showWorkspace = function(player)
   { 

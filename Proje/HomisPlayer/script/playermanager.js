@@ -5,8 +5,6 @@
   var fileManager = new FileManager();
   var playerUI = new PlayerUI();
   var downloading = false;
-  var timeouts = [];
-  var intervals = [];
   var directories =
   {
     presentation : "presentation",
