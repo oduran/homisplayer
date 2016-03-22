@@ -1,5 +1,6 @@
- var PlayerUI = function()
+ var PlayerUI = function(serviceUrl)
  {
+  var serviceUrl = serviceUrl;
   var timeouts = [];
   var intervals = []; 
    
@@ -18,9 +19,9 @@
       var endTime = workspace.endtime;
       var timeDifference = calculateTimeDifference(startTime,endTime);
       var totalSpentTime = 0;
-      var i=0;
+      var wallIndex=0;
       var showTime;
-      var setScreenTimeoutWalls = function()
+      var setScreenTimeoutWalls = function(i)
       {
         var newWall = walls[i];
         showTime = newWall.showTime;
@@ -81,7 +82,7 @@
       }
       
       timeouts = [];
-      var timeoutId = setTimeout(setScreenTimeoutWalls,2000);
+      var timeoutId = setTimeout(setScreenTimeoutWalls(wallIndex),2000);
       timeouts.push(timeoutId);
     }
   }; 
@@ -98,7 +99,7 @@
       
       if(htmlDoc.indexOf("http")===0)
       {
-        iframe.src = htmlDoc;
+        iframe.src = htmlDoc.replace(/\http:\/\/localhost:8080/,serviceUrl);
         playerDiv.appendChild(iframe);
       }
       else
