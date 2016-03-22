@@ -3,7 +3,7 @@
   var url = "http://www.bilimtek.com:8080";
   url = "http://192.168.2.8:8080";
   var fileManager = new FileManager();
-  var playerUI = new PlayerUI();
+  var playerUI = new PlayerUI(url);
   var downloading = false;
   var directories =
   {
