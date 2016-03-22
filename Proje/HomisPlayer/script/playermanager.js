@@ -49,6 +49,11 @@
   var getPlayerSuccess = function(response)
   {
     var player = response.player;
+    if(!player.workspace)
+    {
+      return;
+    }
+    
     var previousPlayerFile = getPlayerFromFile();
     if(!deepEquals(previousPlayerFile,player))
     {
@@ -189,7 +194,7 @@
   {
     var regex = (/(?=([\w&./\-]+)(script|css|media)\/)/gm);
     var replaceString = '../presentation';
-    var htmlContent = htmlContent.replace(regex, replaceString).replace(/\/mediaresources\/.*?\//,"../presentation/media/");
+    var htmlContent = htmlContent.replace(regex, replaceString).replace(/\/mediaresources\/.*?\//g,"../presentation/media/");
     return htmlContent;
   };
   
