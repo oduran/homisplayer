@@ -105,7 +105,9 @@
         playerDiv.appendChild(iframe);
       }
     }
-  }
+  
+    return playerDiv;
+  };
   
   var calculateTimeDifference = function(startTime,endTime)
   {
@@ -128,7 +130,4 @@
     hours += mins;
     return [hours*60,startHour,startMin,endHour,endMin];
   };
-    
-    return playerDiv;
-  }
  }
