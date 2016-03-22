@@ -8,12 +8,12 @@
   var directories =
   {
     presentation : "presentation",
+    media : "presentation/media",
     css : "presentation/css",
     script : "presentation/script",
-    media : "presentation/media",
+    public : "presentation/public",
     font : "presentation/media/font",
-    weather : "presentation/media/weatherimages",
-    public : "presentation/public"
+    weather : "presentation/media/weatherimages"
   };
   
   this.initializePlayer = function()
@@ -158,7 +158,7 @@
   var getFileUrls = function(htmlContent)
   {
     var fileUrls=[];
-    var regex = /(href=|src=)\"(.*)(\.css|\.js|\.webm|\.jpeg|\.jpg|\.png)"/g;
+    var regex = /(href=|src=)\"(.*?)(\.css|\.js|\.webm|\.jpeg|\.jpg|\.png)"/g;
     var result = htmlContent.match(regex);
     if(!result)
     {
@@ -275,7 +275,9 @@
         if (err) 
         {
           console.log("alarm alarm: "+ err.message);
+          return;
         }
+        
         numOfCreatedDirs++;
         if(numOfCreatedDirs === Object.keys(directories).length)
         {
