@@ -220,8 +220,21 @@ var FileManager = function()
   this.getFile = function (path)
   { 
     var fs = require("fs");
-    var fileContent = fs.readFileSync(path);
-    return fileContent.toString();
+    try
+    {
+      var fileContent = fs.readFileSync(path);
+      if(fileContent)
+      {
+        return fileContent.toString();
+      }
+    }
+    catch(exception)
+    {
+      console.log("Requested file doesn't exist:"+path);
+      return "";
+    }
+    
+    return "";
   }
   
 }

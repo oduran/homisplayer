@@ -2,7 +2,7 @@
  var Player = function()
  {
   var url = "http://www.bilimtek.com:8080";
-  url = "http://192.168.2.5:8080";
+  url = "http://192.168.2.8:8080";
   var fileManager = new FileManager();
   var downloading = false;
   var directories =
@@ -134,7 +134,8 @@
   
   var getPlayerId = function()
   {
-    var fileContent = fileManager.getFile("playerId.txt");
+    var fileContent = "";
+    fileContent = fileManager.getFile("playerId.txt");
     return fileContent;
   };
   
@@ -180,7 +181,7 @@
         saveCssToFile(cssContent,cssFiles[i]);
         downloadCssMedia(cssContent,function()
         { 
-          debugger;
+          
           downloadedCssFiles++;
           if(downloadedCssFiles===cssFiles.length)
           {
@@ -263,13 +264,13 @@
   {
     var regex = (/(?=([\w&./\-]+)(script|css|media)\/)/gm);
     var replaceString = '../presentation';
-    var htmlContent = htmlContent.replace(regex, replaceString).replace(/\/mediaresources\/.*\//,"/media/");
+    var htmlContent = htmlContent.replace(regex, replaceString).replace(/\/mediaresources\/.*?\//,"../presentation/media/");
     return htmlContent;
   };
   
   var getFile = function(fileUrl,callback)
   {
-    var filePath = "presentation"+fileUrl;
+    var filePath = "presentation" + fileUrl.replace(/\/mediaresources\/.*?\//,"/media/");
     var http = require('http');
     var fs = require('fs');
     if(fs.existsSync(filePath))
@@ -346,7 +347,7 @@
           console.log("alarm alarm: "+ err.message);
         }
         numOfCreatedDirs++;
-        if(numOfCreatedDirs === directories.length)
+        if(numOfCreatedDirs === Object.keys(directories).length)
         {
           callback();
         }
