@@ -25,8 +25,10 @@
     var connectionExist = checkConnection();
     if(connectionExist)
     {
-      createDirectories();  
-      getPlayer(playerId,getPlayerSuccess);
+      createDirectories(function()
+      {
+        getPlayer(playerId,getPlayerSuccess);  
+      });  
     }
   };
   
@@ -152,15 +154,31 @@
   
   var getFilesSuccess = function(files,player)
   {
+    var cssFiles = [];
+    
     for(var i = 0 ; i<files.length ; i++)
     {
       if(files[i].indexOf("css")>0)
       {     
-        var cssContent = getCssFile(files[i]);
-        cssContent = changeCssUrls(cssContent);
-        saveCssToFile(cssContent,files[i]);
-        downloadCssMedia(cssContent,player,showWorkspace);
+        cssFiles.push(files[i]);
       }
+    }
+    
+    var downloadedCssFiles=0;
+    for(var i = 0 ; i<cssFiles.length ; i++)
+    {
+        var cssContent = getCssFile(cssFiles[i]);
+        cssContent = changeCssUrls(cssContent);
+        saveCssToFile(cssContent,cssFiles[i]);
+        downloadCssMedia(cssContent,function()
+        { 
+          debugger;
+          downloadedCssFiles++;
+          if(downloadedCssFiles===cssFiles.length)
+          {
+            showWorkspace(player);  
+          }
+        });
     }
   };
   
@@ -273,7 +291,7 @@
     return cssContent;
   };
   
-  var downloadCssMedia = function (cssContent,player,callback)
+  var downloadCssMedia = function (cssContent,callback)
   {
     var regex = cssContent.match(/(?:([\/\-]+)media.*")/gm);
     if(regex)
@@ -288,10 +306,14 @@
           completedDownloads++;
           if(numberOfCssMediaFiles===completedDownloads)
           {
-            callback(player);
+            callback();
           }
         });
       }
+    }
+    else
+    {
+      callback();
     }
   };
   
@@ -300,7 +322,7 @@
     var result = fileManager.writeToFile("presentation"+filePath,cssContent,false,true);      
   };
   
-  var createDirectories = function()
+  var createDirectories = function(callback)
   {
     for (key in directories){
       fileManager.ensureDirectoryExists(directories[key], 777, function(err) {
@@ -308,8 +330,9 @@
         {
           console.log("alarm alarm: "+ err.message);
         }
-      });
+       });
     }
+    callback();
   };
   
   var calculateTimeDifference = function(startTime,endTime)

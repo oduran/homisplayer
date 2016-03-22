@@ -1,12 +1,12 @@
 {
   "main": "public/register.html",
-  "name": "Register",
+  "name": "HomisPlayer",
   "window": {
-	"icon": "media/btlogotransparent.png",
-    "title": "Register",
-    "toolbar": true,
-    "frame": true,
-    "kiosk":false
+    "icon": "media/btlogotransparent.png",
+    "title": "HomisPlayer",
+    "toolbar": false,
+    "frame": false,
+    "kiosk":true
   },
   "webkit": {
     "plugin": true
@@ -15,5 +15,5 @@
     "nw" :"~0.12.3",
     "getmac":"~1.0.7"
   },
-  "chromium-args": "--child-clean-exit --enable-webgl --ignore-gpu-blacklist --disable-pinch"
+  "chromium-args": ""
 }
