@@ -338,15 +338,20 @@
   
   var createDirectories = function(callback)
   {
+    var numOfCreatedDirs = 0;
     for (key in directories){
       fileManager.ensureDirectoryExists(directories[key], 777, function(err) {
         if (err) 
         {
           console.log("alarm alarm: "+ err.message);
         }
-       });
+        numOfCreatedDirs++;
+        if(numOfCreatedDirs === directories.length)
+        {
+          callback();
+        }
+      });
     }
-    callback();
   };
   
   var calculateTimeDifference = function(startTime,endTime)
