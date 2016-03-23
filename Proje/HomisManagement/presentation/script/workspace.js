@@ -22,6 +22,7 @@ var Workspace = function () {
   var currentUserToEdit;
   var selectedMenu=0;
   var userVideoresources="";
+  var userClasses="";
   var videoresources = "";
   
   if(!accessToken)
@@ -766,8 +767,9 @@ var Workspace = function () {
         if(videoFileCheck)
         {
           var mediaUrl = url + user.mediaResources[i].url;
+          var mediaThumbnail = user.mediaResources[i].thumbnailUrl;
           var resourceName = mediaUrl.substr(mediaUrl.lastIndexOf('/') + 1);
-          var mediaResourceName = "<option value='"+mediaUrl+"' id='"+resourceName+"_userMedia' >"+resourceName+"</option>";
+          var mediaResourceName = "<option value='"+mediaUrl+"' class='"+mediaThumbnail+"' id='"+resourceName+"_userMedia' >"+resourceName+"</option>";
           $("#onUserVideoResources").append(mediaResourceName); 
         }
       }
@@ -787,7 +789,7 @@ var Workspace = function () {
           for(var i =0 ; i<userVideoresources.length;i++)
           {
             var resourceName = userVideoresources[i].substr(userVideoresources[i].lastIndexOf('/') + 1);
-            var option = "<option value='"+userVideoresources[i]+"' id='"+resourceName+"_iframe'>"+resourceName+"</option>";
+            var option = "<option value='"+userVideoresources[i]+"' class='"+userVideoClasses+"' id='"+resourceName+"_iframe'>"+resourceName+"</option>";
             $("#onUserVideoResources option[id='"+resourceName+"_userMedia']").remove();
             $("#videoResources").append(option);
           }
@@ -807,7 +809,7 @@ var Workspace = function () {
         for(var i =0 ; i<videoresources.length;i++)
         {
           var resourceName = videoresources[i].substr(videoresources[i].lastIndexOf('/') + 1);
-          var option = "<option value='"+videoresources[i]+"'  id='"+resourceName+"_userMedia'>"+resourceName+"</option>";
+          var option = "<option value='"+videoresources[i]+"' class='"+userVideoClasses+"' id='"+resourceName+"_userMedia'>"+resourceName+"</option>";
           $("#videoResources option[id='"+resourceName+"_iframe']").remove();
           $("#onUserVideoResources").append(option);
         }
@@ -824,6 +826,8 @@ var Workspace = function () {
     { 
       selectedMenu=1;
       userVideoresources=$(this).val();
+      userVideoClasses=$(this).find("option").attr('class');
+      debugger;
      }); 
   $('#videoResources').on('change',function()
     { 
@@ -1514,28 +1518,27 @@ var Workspace = function () {
        $("#videoResources").find("option").each(function(e)
         { 
           var mediaUrl = $("#videoResources").find("option")[e].value;
-         
+          var thumbnail = $("#videoResources").find("option")[e].className;
+          var element="";
           if(mediaUrl.indexOf(".webm")>0||mediaUrl.indexOf(".mp4")>0||mediaUrl.indexOf(".ogg")>0)
           {
-            var element = "<video src = '"+mediaUrl+"'></video>";
+            element = "<video autoplay src='"+mediaUrl+"' style='width:"+$('#pageWidth').val()+"px; height:"+$('#pageHeight').val()+"px'></video>";
           }
           
           else
           {
-            var element = "<img src = '"+mediaUrl+"'></img>";
+            element = "<img src='"+mediaUrl+"' style='width:"+$('#pageWidth').val()+"px; height:"+$('#pageHeight').val()+"px'></img>";
           }
-          
           var mediaWallId = $("#media").val();
-          $("#"+mediaWallId).empty();  
-          $("#"+mediaWallId).append(element);
-          var mediaHtml = mediaUrl;
+          $("#"+mediaWallId).empty(); 
+          $("#"+mediaWallId).css('background-image','url("'+thumbnail+'")');
+          var mediaHtml = "<html>"+element+"</html>";
           var wallIndex = getWallIndex(mediaWallId);
           var screen = {
             id : mediaWallId,
-            thumbnail : "",
+            thumbnail : thumbnail ,
             html : mediaHtml
           };
-          
           saveScreenToWall(screen,wallIndex);
           $("#videoModal").modal("hide");
           $("#videoResources").empty();

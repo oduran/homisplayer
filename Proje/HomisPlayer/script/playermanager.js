@@ -3,7 +3,7 @@
   var url = "http://www.bilimtek.com:8080";
   var fileManager = new FileManager();
   var playerUI = new PlayerUI(url);
-  var downloading = false;
+  var downloading = false; 
   var directories =
   {
     presentation : "presentation",
@@ -54,7 +54,7 @@
     }
     
     var previousPlayerFile = getPlayerFromFile();
-    if(!Util.deepEquals(previousPlayerFile,player))
+    if(!Util.deepEquals(previousPlayerFile,player)&&player)
     {
       downloading = true;
       savePlayerToFile(player);
@@ -152,7 +152,7 @@
   var getFileUrls = function(htmlContent)
   {
     var fileUrls=[];
-    var regex = /(href=|src=)\"(.*?)(\.css|\.js|\.webm|\.jpeg|\.jpg|\.png)"/g;
+    var regex = /(href=|src=)\"(.*?)(\.css|\.js|\.webm|\.jpeg|\.jpg|\.png)"|(href=|src=)\'(.*?)(\.css|\.js|\.webm|\.jpeg|\.jpg|\.png)'/g;
     var result = htmlContent.match(regex);
     if(!result)
     {
@@ -188,13 +188,14 @@
   {
     var regex = (/(?=([\w&./\-]+)(script|css|media)\/)/gm);
     var replaceString = '../presentation';
-    var htmlContent = htmlContent.replace(regex, replaceString).replace(/\/mediaresources\/.*?\//g,"../presentation/media/");
+    var htmlContent = htmlContent.replace(regex, replaceString).replace(/\/mediaresources\/.*?\//g,"../presentation/media/").replace(/\http:\/\/localhost:8080/,"");
     return htmlContent;
   };
   
   var getFile = function(fileUrl,callback)
   {
-    var filePath = "presentation" + fileUrl.replace(/\/mediaresources\/.*?\//,"/media/");
+    var fileUrl = fileUrl.replace(/'|"/g,"").replace(/\http:\/\/localhost:8080/,"");
+    var filePath = "presentation" + fileUrl.replace(/\/mediaresources\/.*?\//,"/media/").replace(/\http:\/\/localhost:8080/,"");
     var http = require('http');
     var fs = require('fs');
     if(fs.existsSync(filePath))

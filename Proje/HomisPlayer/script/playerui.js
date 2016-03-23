@@ -6,7 +6,7 @@
   var currentWallIndex = 0; 
   var currentPlayer = "";
   this.showWorkspace = function(player)
-  { 
+  {
     if(Util.deepEquals(currentPlayer,player))
     {
       return;
@@ -40,12 +40,6 @@
         var newWall = walls[currentWallIndex];
         var checkDeterminedTimeInterval = setInterval(function()
         {
-          for(var i = 0; i< intervals.length; i++)
-          {
-            clearInterval(intervals[i]);
-          }
-          
-          intervals = [];
           intervals.push(checkDeterminedTimeInterval);
           for(var i = 0 ;i<walls.length;i++)
           {
@@ -60,16 +54,20 @@
                   self.date.getMinutes()===dateOfScreen.getMinutes()&&
                   self.date.getSeconds()-dateOfScreen.getSeconds()<2)
                 {
-                 var counter = calculateTimeDifference(start,end); 
-                 playerDiv = setPlayerWalls(workspace,walls[i],playerDiv);
-               
-                 if(playerDiv.outerHTML !== container[0].innerHTML)
-                 {
-                  container[0].innerHTML = "";
-                  container[0].appendChild(playerDiv);  
-                 }
                  
-                 setTimeout(setScreenTimeoutWalls, counter[0]*1000*60);
+                 for(var j = 0; j< intervals.length; j++)
+                 {
+                   clearInterval(intervals[j]);
+                 }
+
+                 intervals = []; 
+                 var counter = calculateTimeDifference(start,end); 
+                 debugger;
+                 playerDiv = setPlayerWalls(workspace,walls[i],playerDiv);
+                 container[0].innerHTML = "";
+                 container[0].appendChild(playerDiv);  
+                 var timeoutId = setTimeout(setScreenTimeoutWalls, counter[0]*1000*60);
+                 timeouts.push(timeoutId);
                 }
               }
           }
@@ -124,6 +122,15 @@
     }
   
     return playerDiv;
+  };
+  
+  var stringToDate = function(dateString)
+  {
+    var splittedTime = dateString.split(":");
+    var hour = splittedTime[0];
+    var minute = splittedTime[1];
+    var time = new Date(self.date.getFullYear(), self.date.getMonth(),self.date.getDate(),hour,minute,0);
+    return time;
   };
   
   var calculateTimeDifference = function(startTime,endTime)
