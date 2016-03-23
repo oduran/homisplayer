@@ -1522,7 +1522,7 @@ var Workspace = function () {
           var element="";
           if(mediaUrl.indexOf(".webm")>0||mediaUrl.indexOf(".mp4")>0||mediaUrl.indexOf(".ogg")>0)
           {
-            element = "<video autoplay src='"+mediaUrl+"' style='width:"+(parseInt($('#pageWidth').val())+160)+"px; height:"+$('#pageHeight').val()+"px;overflow:hidden;margin:0px;'></video>";
+            element = "<video autoplay loop src='"+mediaUrl+"' style='width:103%; height:auto;overflow:hidden;'></video>";
           }
           else
           {
@@ -1531,7 +1531,7 @@ var Workspace = function () {
           var mediaWallId = $("#media").val();
           $("#"+mediaWallId).empty(); 
           $("#"+mediaWallId).css('background-image','url("'+thumbnail+'")');
-          var mediaHtml = "<html style='margin:0px;overflow:hidden;'><body style='margin:0px;overflow:hidden;'>"+element+"</body></html>";
+          var mediaHtml = "<html style='margin:0px;overflow:hidden;background-color: #000000;width:100%'><body style='margin:0px;overflow:hidden;width:100%'>"+element+"</body></html>";
           var wallIndex = getWallIndex(mediaWallId);
           var screen = {
             id : mediaWallId,
