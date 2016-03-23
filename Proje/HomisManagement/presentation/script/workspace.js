@@ -1522,17 +1522,17 @@ var Workspace = function () {
           var element="";
           if(mediaUrl.indexOf(".webm")>0||mediaUrl.indexOf(".mp4")>0||mediaUrl.indexOf(".ogg")>0)
           {
-            element = "<video autoplay src='"+mediaUrl+"' style='width:"+$('#pageWidth').val()+"px; height:"+$('#pageHeight').val()+"px;overflow:hidden;'></video>";
+            element = "<video autoplay src='"+mediaUrl+"' style='width:"+$('#pageWidth').val()+"px; height:"+$('#pageHeight').val()+"px;overflow:hidden;margin:0px;'></video>";
           }
-          
+           
           else
           {
-            element = "<img src='"+mediaUrl+"' style='width:"+$('#pageWidth').val()+"px; height:"+$('#pageHeight').val()+"px;overflow:hidden;'></img>";
+            element = "<img src='"+mediaUrl+"' style='width:"+$('#pageWidth').val()+"px; height:"+$('#pageHeight').val()+"px;overflow:hidden;margin:0px;'></img>";
           }
           var mediaWallId = $("#media").val();
           $("#"+mediaWallId).empty(); 
           $("#"+mediaWallId).css('background-image','url("'+thumbnail+'")');
-          var mediaHtml = "<html style='overflow:hidden;'>"+element+"</html>";
+          var mediaHtml = "<html style='margin:0px;overflow:hidden;'><body style='margin:0px;overflow:hidden;'>"+element+"</body></html>";
           var wallIndex = getWallIndex(mediaWallId);
           var screen = {
             id : mediaWallId,
