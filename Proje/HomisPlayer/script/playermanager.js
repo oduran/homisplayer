@@ -188,14 +188,14 @@
   {
     var regex = (/(?=([\w&./\-]+)(script|css|media)\/)/gm);
     var replaceString = '../presentation';
-    var htmlContent = htmlContent.replace(regex, replaceString).replace(/\/mediaresources\/.*?\//g,"../presentation/media/").replace(/\http:\/\/.*?:8080/,"");
+    var htmlContent = htmlContent.replace(regex, replaceString).replace(/\/mediaresources\/.*?\//g,"../presentation/media/").replace(/\http:\/\/.*?:8080/,"").replace(/\/themes\//,"http://www.bilimtek.com:8080/themes/");
     return htmlContent;
   };
   
   var getFile = function(fileUrl,callback)
   {
-    var fileUrl = fileUrl.replace(/'|"/g,"").replace(/\http:\/\/.*?:8080/,"");
-    var filePath = "presentation" + fileUrl.replace(/\/mediaresources\/.*?\//,"/media/").replace(/\http:\/\/.*?:8080/,"");
+    var fileUrl = fileUrl.replace(/'|"/g,"").replace(/\http:\/\/.*?:8080/,"").replace(/\/themes\//,"http://www.bilimtek.com:8080/themes/");
+    var filePath = "presentation" + fileUrl.replace(/\/mediaresources\/.*?\//,"/media/").replace(/\http:\/\/.*?:8080/,"").replace(/\/themes\//,"http://www.bilimtek.com:8080/themes/");
     var http = require('http');
     var fs = require('fs');
     if(fs.existsSync(filePath))
