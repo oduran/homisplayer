@@ -135,10 +135,9 @@ var HomisWebServiceManager = function(router)
         res.json({message: Localization.noPermissionError});
         return;
       }
-      
-      if(operator.type == "admin")
+      var newUser = req.body.user;
+      if(operator.type == "admin" && operator.name === newUser.name)
       {
-        var newUser = req.body.user;
         if(newUser._id)
         {
           newUser.workspaces = (newUser.workspaces)? newUser.workspaces : [];
