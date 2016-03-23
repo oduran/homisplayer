@@ -3,11 +3,23 @@
   var serviceUrl = serviceUrl;
   var timeouts = [];
   var intervals = []; 
-   
+  var currentWallIndex = 0; 
+  var currentPlayer = "";
   this.showWorkspace = function(player)
   { 
+    if(Util.deepEquals(currentPlayer,player))
+    {
+      return;
+    }
+    
+    for(var i = 0 ; i<timeouts.length;i++)
+    {
+      clearTimeout(timeouts[i]);
+    }
+    
+    timeouts = [];
+    currentPlayer = player;
     var workspace = player.workspace;
-
     if(workspace)
     { 
       var container = document.getElementsByClassName('bilimtekcontainer');
@@ -15,16 +27,17 @@
       playerDiv.style.width = workspace.width+"px";
       playerDiv.style.height = workspace.height+"px";
       var walls = workspace.walls;
+      currentWallIndex=0;
       var startTime = workspace.starttime;
       var endTime = workspace.endtime;
       var timeDifference = calculateTimeDifference(startTime,endTime);
       var totalSpentTime = 0;
       var wallIndex=0;
       var showTime;
-      var setScreenTimeoutWalls = function(i)
+      var setScreenTimeoutWalls = function()
       {
-        var newWall = walls[i];
-        showTime = newWall.showTime;
+        console.log(currentWallIndex);
+        var newWall = walls[currentWallIndex];
         var checkDeterminedTimeInterval = setInterval(function()
         {
           for(var i = 0; i< intervals.length; i++)
@@ -49,8 +62,13 @@
                 {
                  var counter = calculateTimeDifference(start,end); 
                  playerDiv = setPlayerWalls(workspace,walls[i],playerDiv);
-                 container[0].innerHTML = "";
-                 container[0].appendChild(playerDiv);
+               
+                 if(playerDiv.outerHTML !== container[0].innerHTML)
+                 {
+                  container[0].innerHTML = "";
+                  container[0].appendChild(playerDiv);  
+                 }
+                 
                  setTimeout(setScreenTimeoutWalls, counter[0]*1000*60);
                 }
               }
@@ -60,35 +78,31 @@
         totalSpentTime += parseInt(newWall.showTime);
         playerDiv = setPlayerWalls(workspace,newWall,playerDiv);
         container[0].innerHTML = "";
-        container[0].appendChild(playerDiv);
-        i++;
-
-        if(workspace.walls.length===i)
+        container[0].appendChild(playerDiv);  
+        currentWallIndex++;
+        if(workspace.walls.length===currentWallIndex)
         {
-          i=0;
+          currentWallIndex=0;
         }
-
+      
         if(timeDifference[0]<=totalSpentTime)
         {
           totalSpentTime=0;
         }
-
+         
         var timeoutId = setTimeout(setScreenTimeoutWalls, newWall.showTime*1000*60);
         timeouts.push(timeoutId);
       }
-      for(var i = 0 ; i<timeouts.length;i++)
-      {
-        clearTimeout(timeouts[i]);
-      }
       
-      timeouts = [];
-      var timeoutId = setTimeout(setScreenTimeoutWalls(wallIndex),2000);
+
+      var timeoutId = setTimeout(setScreenTimeoutWalls(),2000);
       timeouts.push(timeoutId);
     }
   }; 
    
   var setPlayerWalls = function (workspace,wall,playerDiv)
   {
+    playerDiv.innerHTML = ""
     for (var j = 0 ; j<wall.screens.length;j++ )
     { 
       var iframe = document.createElement("iframe");

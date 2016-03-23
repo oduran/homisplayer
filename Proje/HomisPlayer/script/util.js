@@ -54,6 +54,12 @@ var Util =
         
     return o1;
   },
+  
+  deepEquals : function(player1,player2)
+  {
+    return JSON.stringify(player1)=== JSON.stringify(player2);
+  },
+  
   loadingDialog : (function ($) {
     'use strict';
 
