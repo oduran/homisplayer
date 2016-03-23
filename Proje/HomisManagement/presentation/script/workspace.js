@@ -1522,9 +1522,8 @@ var Workspace = function () {
           var element="";
           if(mediaUrl.indexOf(".webm")>0||mediaUrl.indexOf(".mp4")>0||mediaUrl.indexOf(".ogg")>0)
           {
-            element = "<video autoplay src='"+mediaUrl+"' style='width:"+$('#pageWidth').val()+"px; height:"+$('#pageHeight').val()+"px;overflow:hidden;margin:0px;'></video>";
+            element = "<video autoplay src='"+mediaUrl+"' style='width:"+(parseInt($('#pageWidth').val())+160)+"px; height:"+$('#pageHeight').val()+"px;overflow:hidden;margin:0px;'></video>";
           }
-           
           else
           {
             element = "<img src='"+mediaUrl+"' style='width:"+$('#pageWidth').val()+"px; height:"+$('#pageHeight').val()+"px;overflow:hidden;margin:0px;'></img>";
