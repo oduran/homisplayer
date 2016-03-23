@@ -55,7 +55,7 @@
     }
     
     var previousPlayerFile = getPlayerFromFile();
-    if(!deepEquals(previousPlayerFile,player))
+    if(!Util.deepEquals(previousPlayerFile,player))
     {
       downloading = true;
       savePlayerToFile(player);
@@ -148,11 +148,6 @@
   {
     var result = fileManager.loadFileToJSON("player.txt");
     return result;
-  };
-  
-  var deepEquals = function(player1,player2)
-  {
-    return JSON.stringify(player1)=== JSON.stringify(player2);
   };
   
   var getFileUrls = function(htmlContent)
