@@ -2,7 +2,6 @@ var RegisterPlayer = function()
 {
   var playerHardwareId = "";
   var url = "http://www.bilimtek.com:8080";
-  url = "http://192.168.2.8:8080";
   /** Sayfa açıldığında eğer player kaydı olmuşşsa playerı gösterir, olmadıysa pc nin mac adresini alır ve playerı kaydeder.
   */
   this.initializeRegisterPage = function ()
