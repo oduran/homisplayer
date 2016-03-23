@@ -136,7 +136,7 @@ var HomisWebServiceManager = function(router)
         return;
       }
       var newUser = req.body.user;
-      if(operator.type == "admin" && operator.name === newUser.name)
+      if(operator.type == "admin" || operator.name === newUser.name)
       {
         if(newUser._id)
         {

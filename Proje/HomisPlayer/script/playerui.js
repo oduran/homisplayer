@@ -111,7 +111,7 @@
       
       if(htmlDoc.indexOf("http")===0)
       {
-        iframe.src = htmlDoc.replace(/\http:\/\/localhost:8080/,serviceUrl);
+        iframe.src = htmlDoc.replace(/\http:\/\/.*?:8080/,serviceUrl);
         playerDiv.appendChild(iframe);
       }
       else
