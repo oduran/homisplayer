@@ -1522,17 +1522,17 @@ var Workspace = function () {
           var element="";
           if(mediaUrl.indexOf(".webm")>0||mediaUrl.indexOf(".mp4")>0||mediaUrl.indexOf(".ogg")>0)
           {
-            element = "<video autoplay src='"+mediaUrl+"' style='width:"+$('#pageWidth').val()+"px; height:"+$('#pageHeight').val()+"px'></video>";
+            element = "<video autoplay src='"+mediaUrl+"' style='width:"+$('#pageWidth').val()+"px; height:"+$('#pageHeight').val()+"px;overflow:hidden;'></video>";
           }
           
           else
           {
-            element = "<img src='"+mediaUrl+"' style='width:"+$('#pageWidth').val()+"px; height:"+$('#pageHeight').val()+"px'></img>";
+            element = "<img src='"+mediaUrl+"' style='width:"+$('#pageWidth').val()+"px; height:"+$('#pageHeight').val()+"px;overflow:hidden;'></img>";
           }
           var mediaWallId = $("#media").val();
           $("#"+mediaWallId).empty(); 
           $("#"+mediaWallId).css('background-image','url("'+thumbnail+'")');
-          var mediaHtml = "<html>"+element+"</html>";
+          var mediaHtml = "<html style='overflow:hidden;'>"+element+"</html>";
           var wallIndex = getWallIndex(mediaWallId);
           var screen = {
             id : mediaWallId,
