@@ -85,6 +85,11 @@ var HomisMediaUploadManager = function(dbManager, rootDir)
     var mediaResource = fileManager.getFileObject(filename);
     mediaResource.url = "mediaresources/" + userId + "/" + filename;
     mediaResource.thumbnailUrl = "mediaresources/" + userId + "/thumb_" +filename;
+    if(mediaResource.fileType === "video" || mediaResource.fileType === "unknown")
+    {
+      mediaResource.thumbnailUrl = "media/videothumb.png";
+    }
+    
     mediaResource.uploadCompleted = false;
     fileManager.ensureDirectoryExists(directoryToSave,function(){});
     for(var i = 0; i< mediaUploaders.length;i++)
