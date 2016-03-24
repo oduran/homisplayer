@@ -94,8 +94,6 @@
  var showPlayerList = function(a)
  {
    var workspaceindexnum = a;
-                         debugger;
-
    BootstrapDialog.show({
             title: 'Çalışma alanını göndermek istediğiniz oynatıcıları seçiniz.',
             message: "<div id='sendWorkspaceToPlayerList'>"+$("#playerList").html()+"</div>",

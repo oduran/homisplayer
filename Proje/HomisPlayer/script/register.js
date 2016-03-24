@@ -51,7 +51,7 @@ var RegisterPlayer = function()
           
           window.location = "player.html";
         },
-        error: function(error){debugger;}
+        error: function(error){}
       });
     });
   };

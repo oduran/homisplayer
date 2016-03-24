@@ -62,7 +62,6 @@
 
                  intervals = []; 
                  var counter = calculateTimeDifference(start,end); 
-                 debugger;
                  playerDiv = setPlayerWalls(workspace,walls[i],playerDiv);
                  container[0].innerHTML = "";
                  container[0].appendChild(playerDiv);  

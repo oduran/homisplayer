@@ -827,7 +827,6 @@ var Workspace = function () {
       selectedMenu=1;
       userVideoresources=$(this).val();
       userVideoClasses=$(this).find("option").attr('class');
-      debugger;
      }); 
   $('#videoResources').on('change',function()
     { 
