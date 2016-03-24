@@ -396,6 +396,15 @@ var Workspace = function () {
       }
       
       $(this).parent().remove();
+      $(".newScreen").each(function(index)
+      {
+        var parentId = "wall"+(index+1);
+        $(this).find("ul").attr("id",parentId);
+        $(this).find("ul li").each(function(listIndex)
+        {
+          $(this).attr("id",parentId+"_screen"+listIndex);
+        })
+      });
       drawVisualization();
     });
   };
@@ -827,7 +836,7 @@ var Workspace = function () {
       selectedMenu=1;
       userVideoresources=$(this).val();
       userVideoClasses=$(this).find("option").attr('class');
-     }); 
+    }); 
   $('#videoResources').on('change',function()
     { 
       selectedMenu=2;
