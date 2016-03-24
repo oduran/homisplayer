@@ -208,16 +208,14 @@ left:110px;
 }
 .rightbottomimage
 {
-  left:55%;
-  width:44%;
-  top:56.5%;
+  width:75%;
   border:0px  !important;
 }
 #right_bottom_image {
-	width:78%;
-	position: relative !important;
-	height: 350px;
- 	background-repeat:no-repeat;
+  width: 70%;
+  position: relative !important;
+  left: 25%;
+  background-repeat: no-repeat;
 }
  
 #content-container  div {position: absolute; }

@@ -395,14 +395,30 @@ var Workspace = function () {
         }
       }
       
+      for(var i=0;i<walls.length;i++)
+      {
+        if(walls[i].id === removeItem)
+        {
+          walls.splice(i,1);
+        }
+      }
+      
       $(this).parent().remove();
       $(".newScreen").each(function(index)
       {
+        var screenName = $(this).find("h2").html().replace(/[0-9]/g,index+1);
+        $(this).find("h2").html(screenName);
+        var wall = walls[index] ;
         var parentId = "wall"+(index+1);
+        walls[index].id = parentId;
         $(this).find("ul").attr("id",parentId);
         $(this).find("ul li").each(function(listIndex)
         {
-          $(this).attr("id",parentId+"_screen"+listIndex);
+          if(wall.screens[listIndex])
+          {
+            wall.screens[listIndex].id = parentId+"_screen"+listIndex;
+            $(this).attr("id",parentId+"_screen"+listIndex);
+          }
         })
       });
       drawVisualization();

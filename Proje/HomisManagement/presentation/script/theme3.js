@@ -2,8 +2,8 @@ $( document ).ready(function() {
   animateText();
 });
 function swapImages(){
-  var $active = $('#middle .active');
-  var $next = ($('#middle .active').next().length > 0) ? $('#middle .active').next() : $('#middle img:first');
+  var $active = $('#right .active');
+  var $next = ($('#right .active').next().length > 0) ? $('#right .active').next() : $('#right img:first');
   $active.fadeOut(function(){
     $active.removeClass('active');
     $next.fadeIn().addClass('active');
