@@ -2,6 +2,8 @@ var RegisterPlayer = function()
 {
   var playerHardwareId = ""; 
   var url = "http://www.bilimtek.com:8080";
+    url = "http://192.168.2.4:8080";
+
   /** Sayfa açıldığında eğer player kaydı olmuşşsa playerı gösterir, olmadıysa pc nin mac adresini alır ve playerı kaydeder.
   */
   this.initializeRegisterPage = function ()
@@ -30,7 +32,8 @@ var RegisterPlayer = function()
     $("#savePlayer").click(function()
     {
       var playerName = $("#playerName").val();
-      var data = { playerName:playerName, playerHardwareId:playerHardwareId};
+      var playerState = "ready";
+      var data = { playerName:playerName, playerHardwareId:playerHardwareId, playerState:playerState,playerLastSeen:(new Date()).toString()};
       $.ajax({
         type: "POST",
         url: url+"/service/registerplayer",

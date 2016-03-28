@@ -17,6 +17,13 @@
   border-radius: 2px;
   overflow:auto;
 }
+
+.playerlist
+{
+  border : 1px solid;
+  text-align:left;
+}
+
 .playeroption
 {
   border: 1px solid #E5E5E5;
@@ -28,16 +35,49 @@
   height:100% !important;
 
 }
+#light
+{
+  transform: rotate(-90deg);
+  width: 50px;
+  height: 30px;
+}
+
+#light span {
+    border-radius: 50px;
+    display: block;
+    height: 30px;
+    margin: 4px auto 0;
+    opacity: .2;
+    width: 30px;
+}
+
+/*! Light colours */
+#red    { background-color: red; }
+#orange { background-color: orange; }
+#green  { background-color: green; }
+
+/*! Active states */
+#light span.active    { opacity: 1; }
+#light #red.active    { box-shadow: 0 0 10px red; }
+#light #orange.active { box-shadow: 0 0 10px orange; }
+#light #green.active  { box-shadow: 0 0 10px green; }
 .rowclass
 {
   height:85% !important;
+}
+.playerlistheader
+{
+    background: #95A8C9;
+    border: 1px solid;
+    margin-top: 0;
+    margin-left: -20px;
+    text-align: center;
 }
 #playerList {
     width: 100%;
     text-align: center;
     margin: 0;
     padding: 0;
-    height: 40vh;
     overflow: auto;
     border: 0;
 }

@@ -10,7 +10,7 @@ var InternetChecker = function(backupUrl, internetPagesArray){
 	this.onConnectSuccess = function() {
 		for(var i=0;i < self.internetPagesArray.length; i++)
 		{
-		    var url = document.getElementById(self.internetPagesArray[i].id).src;
+		  var url = document.getElementById(self.internetPagesArray[i].id).src;
 			var cleanUrl = url.split('\\')[url.split('\\').length-1].split('/')[url.split('\\')[url.split('\\').length-1].split('/').length - 1];
 			if( cleanUrl !== ""+self.internetPagesArray[i].url)
 			{

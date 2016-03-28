@@ -61,6 +61,9 @@ var HomisWebServiceManager = function(router)
     // Get players with using user authority.
     setService('post', '/getplayer', getPlayer);
     
+    //Update player with using user authority.
+    setService('post', '/updateplayer', updatePlayer);
+    
   };
   
   /* Private Methods */
@@ -674,11 +677,15 @@ var HomisWebServiceManager = function(router)
   {
     var playerName = req.body.playerName;
     var playerHardwareId = req.body.playerHardwareId;
+    var playerState = req.body.playerState;
+    var playerLastSeen = req.body.playerLastSeen;
     var playerId = dbManager.createUniqueId();
     var player = {
       playerName: playerName,
       playerHardwareId: playerHardwareId,
       playerId: playerId,
+      playerState: playerState,
+      playerLastSeen: playerLastSeen,
     }
     dbManager.getPlayerByName(playerName, function(existPlayer)
     {
@@ -693,6 +700,25 @@ var HomisWebServiceManager = function(router)
         function(){
           res.json({playerId:playerId});
         });
+    });
+  }
+  
+  var updatePlayer = function(req, res, next, Localization)
+  {
+    var playerId = req.body.playerId;
+    var playerState = req.body.playerState;
+    var playerLastSeen = req.body.playerLastSeen;
+    dbManager.getPlayerById(playerId, function(player)
+    {
+      if(player)
+      {
+        player.playerState = playerState;
+        player.playerLastSeen = playerLastSeen;
+        dbManager.savePlayer(player,
+        function(){
+          res.json({playerId:playerId});
+        });
+      }
     });
   }
 

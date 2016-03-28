@@ -25,7 +25,6 @@
     
     getUser("",function(user, message){
       currentUserToEdit = user;
-      Util.loadingDialog.hide();
       
       if(message)
       {
@@ -43,7 +42,7 @@
       {
        adminControl=true;
        $("#adminPanel").css("display","block");
-       $("#sendPlayerToUser").css("display","block");
+       $("#sendPlayerToUser").css("display","inline");
        $('#userList').empty();
        getUserList(function(userListItem){
          $('#userList').append(userListItem);
@@ -53,6 +52,7 @@
       showUserWorkspaces(user);
       showUserMediaResources(user);
       getPlayers();
+      Util.loadingDialog.hide();
     });
   };
   
@@ -85,8 +85,8 @@
     {
       var workspaceListItem = "<a class='list-group-item' href='#'>"+ 
       user.workspaces[i].name+
-      "<button class='btn btn-sm btn-info' id='"+user.workspaces[i].workspaceId+"' onclick=showWorkspaceByName('"+currentUserToEdit.workspaces[i].workspaceId+"','"+currentUserToEdit.name+"') style='float:right'><span class='glyphicon glyphicon-edit'></span></button>"+
-      "<button class='btn btn-sm btn-success' onclick=showPlayerList('"+i+"') style='float:right'><span class='glyphicon glyphicon-play'></span></button></a>";
+      "<button class='btn btn-xs btn-info' id='"+user.workspaces[i].workspaceId+"' onclick=showWorkspaceByName('"+currentUserToEdit.workspaces[i].workspaceId+"','"+currentUserToEdit.name+"') style='float:right'><span class='glyphicon glyphicon-edit'></span></button>"+
+      "<button class='btn btn-xs btn-success' onclick=showPlayerList('"+i+"') style='float:right'><span class='glyphicon glyphicon-play'></span></button></a>";
       $('#workspaceList').append(workspaceListItem);  
     }
   };
@@ -182,21 +182,28 @@
   */
   var getPlayers = function(user)
   { 
-   
+    
     if(user)
     {
       showPlayers(user.players);
       return;
     }
-    
     $.ajax({
       type: "POST",
       url: url + "service/getplayers",
       success: function(response){
-        showPlayers(response.players);
+        if(JSON.stringify(allPlayers)!==response.players)
+        {
+          showPlayers(response.players);
+        }
       },
       error: Util.handleAjaxError
     });
+  };
+  
+  var setPlayerListInterval = function()
+  {
+    setInterval(function(){getPlayers()},20000);
   };
   
   var showPlayers = function(players)
@@ -215,20 +222,85 @@
       var player = allPlayers[i];
       var workspaceName='';
       var ownerName='';
+      var workspaceEditButton = "none";
+      var workspaceId="";
+      var playerLights="";
+      var playerState="";
+
       if(allPlayers[i].workspace)
       {
         workspaceName = allPlayers[i].workspace.name;
+        workspaceId = allPlayers[i].workspace.workspaceId;
+        workspaceEditButton = "block";
       }
       if(allPlayers[i].owner)
       {
         ownerName = allPlayers[i].owner;
       }
+      if(allPlayers[i].playerState)//player state
+      {
+        var playerLastSeen = (allPlayers[i].playerLastSeen)?getTimeDifference(allPlayers[i].playerLastSeen):0;
+        if(parseInt(playerLastSeen)>1)
+        {
+          allPlayers[i].playerState="stopped";
+          updatePlayerState(allPlayers[i].playerId,allPlayers[i].playerState,allPlayers[i].playerLastSeen);
+          playerState="Çalışmıyor";
+          playerLights = '<div id="light"><span class="active" id="red"></span><span id="orange"></span><span id="green"></span></div>';
+        }
+        
+        if(allPlayers[i].playerState === "ready")
+        {
+          playerState= "Hazır";
+          playerLights = '<div id="light"><span id="red"></span><span id="orange"  class="active" ></span><span id="green"></span></div>';
+        }
+        
+        if(allPlayers[i].playerState === "running")
+        {
+          playerState= "Çalışıyor";
+          playerLights = '<div id="light"><span id="red"></span><span id="orange"></span><span id="green"  class="active"></span></div>';
+        }
+      }
 
-      playerItem += "<div class='checkbox'>"+
-      "<label><input id='"+allPlayers[i].playerId+"' type='checkbox' value='"+i+"' class='playeroption'>"+allPlayers[i].playerName+
-      "<p>W :"+workspaceName+" K:"+ownerName+"</p></label></div>";
+      playerItem +=
+      "<div class='checkbox playerlist'>"+
+      "<h2 class='playerlistheader'>"+allPlayers[i].playerName+"</h2>"+
+      "<label style='display: flex;'><input id='"+allPlayers[i].playerId+"' type='checkbox' value='"+i+"' class='playeroption'>"+
+      "<div style='width:50%;margin-left: 5px;'>"+
+      "<p><b style='color:red;'>Çalışma Alanı : </b>"+workspaceName+"</p>"+
+      "<p><b style='color:red;'>Kullanıcı : </b>"+ownerName+"</p>"+
+      "<button class='btn btn-xs btn-info' onclick=showWorkspaceByName('"+workspaceId+"','"+ownerName+"') style='display:"+workspaceEditButton+";float:left;margin-top: -5px;'>Düzenle</button><br>"+
+      "</div>"+
+      "<div style='width:50%'>"+
+      "<p><b style='color:red;'>Oynatıcı Durumu : </b> "+playerState+"</p>"+
+      ""+playerLights+
+      "</div>"+
+      "</label></div>";
     }
     $('#playerList').html(playerItem);  
+  };
+  
+  var updatePlayerState = function(playerId,playerState,playerLastSeen)
+  {
+    var data = { playerId : playerId,playerState : playerState,playerLastSeen:playerLastSeen};
+    $.ajax({
+      type: "POST",
+      url: url+"service/updateplayer",
+      data: data,
+      success:function(){},
+      error: function(error){}
+    });    
+  };
+  
+  var getTimeDifference = function(playerLastSeen)
+  {
+    var timeStart = new Date(playerLastSeen).getTime();
+    var timeEnd = new Date().getTime();
+    var hourDiff = timeEnd - timeStart; //in ms
+    var secDiff = hourDiff / 1000; //in s
+    var minDiff = hourDiff / 60 / 1000; //in minutes
+    var hDiff = hourDiff / 3600 / 1000; //in hours
+    var minutesDifference = minDiff - 60 * Math.floor(hDiff);
+    return minutesDifference;
   }
   
   /**
@@ -267,8 +339,8 @@
           {
             var user = response[i];
             userListItem += "<a class='list-group-item' href='#' id='"+user.name+
-            "ListItem'>"+ user.name+"<button class='btn btn-sm btn-danger' onclick=deleteUser('"+
-            user.name+"') style='float:right;'><span class='glyphicon glyphicon-trash'></span></button><button class='btn btn-sm btn-info accordion-toggle'  data-parent='#userList' data-toggle='collapse' href='#"+
+            "ListItem'>"+ user.name+"<button class='btn btn-xs btn-danger' onclick=deleteUser('"+
+            user.name+"') style='float:right;'><span class='glyphicon glyphicon-trash'></span></button><button class='btn btn-xs btn-info accordion-toggle'  data-parent='#userList' data-toggle='collapse' href='#"+
             user.name+"Form' onclick=getUserDetailsByUsername('"+user.name+"') style='float:right;'><span class='glyphicon glyphicon-edit'></span></button><div id='"+
             user.name+"Form' class='userForm collapse'><form class ='"+
             user.name+"'><fieldset><div class='form-group'><label>Kullanıcı Adı</label><input type='text' class='form-control formelement name' name='name' placeholder='Kullanıcı Adı' value="+
@@ -909,5 +981,6 @@
     addLogoutButtonOnClick();
     addUploadMediaResources();
     sendPlayerToSelectedUser();
+    setPlayerListInterval();
   });
  

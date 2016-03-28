@@ -4,6 +4,7 @@
   var fileManager = new FileManager();
   var playerUI = new PlayerUI(url);
   var downloading = false; 
+  var playerId="";
   var directories =
   {
     presentation : "presentation",
@@ -22,7 +23,8 @@
       return;
     }
     
-    var playerId = getPlayerId();
+    var getPlayerIdFromServer = getPlayerId();
+    playerId = getPlayerIdFromServer;
     if(!playerId)
     {
       location.href="register.html";
@@ -36,6 +38,7 @@
         getPlayer(playerId,getPlayerSuccess);  
       });  
     }
+    updatePlayerInterval();
   };
   
   var getPlayerId = function()
@@ -54,7 +57,7 @@
     }
     
     var previousPlayerFile = getPlayerFromFile();
-    if(!Util.deepEquals(previousPlayerFile,player)&&player)
+    if(!Util.deepEquals(previousPlayerFile.workspace,player.workspace)&&player)
     {
       downloading = true;
       savePlayerToFile(player);
@@ -82,8 +85,24 @@
       
       playerUI.showWorkspace(previousPlayerFile);
     }
-    
   };
+
+  var updatePlayerInterval = function()
+  { 
+    setInterval(function(){updatePlayerState("running")},20000);
+  };
+  
+  var updatePlayerState = function(playerState)
+  {
+    var data = { playerId : playerId,playerState : playerState,playerLastSeen:(new Date()).toString()};
+    $.ajax({
+      type: "POST",
+      url: url+"/service/updateplayer",
+      data: data,
+      success:function(){},
+      error: function(error){}
+    });    
+  } 
   
   var getFilesSuccess = function(files,player)
   {
@@ -134,7 +153,7 @@
       type: "POST",
       url: url+"/service/getplayer",
       data: data,
-      success: callback,
+      success:callback,
       error: function(error){}
     });
   };
