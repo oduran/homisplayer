@@ -231,7 +231,7 @@
     var regex = (/(?=([\w&./\-]+)(script|css|media)\/)/gm);
     var replaceString = '../presentation';
     debugger;
-    var htmlContent = htmlContent.replace(/("\/(script|css|media)\/)/gm,'"../presentation$1').replace(/presentation"/gm,'presentation').replace(/\/mediaresources\/.*?\//g,"../presentation/media/").replace(/http?:\/\/(.*?)\/\/?/g,"../presentation/").replace(/\/themes\//,"http://www.bilimtek.com:8080/themes/");
+    var htmlContent = htmlContent.replace(/("\/(script|css|media)\/)/gm,'"../presentation$1').replace(/presentation"/gm,'presentation').replace(/\/mediaresources\/.*?\//g,"../presentation/media/").replace(/http?:\/\/(.*?)\/\/?/g,"../presentation/").replace(/\.\.\/presentation\/themes\//,"http://www.bilimtek.com:8080/themes/");
     return htmlContent;
   };
   
