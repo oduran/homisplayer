@@ -547,6 +547,7 @@ if (typeof Object.create !== 'function') {
 							mode: 'vertical',
 							options: 'swing',
 							auto: true,
+              pager: false,
 							pause:10000
 						 });
 

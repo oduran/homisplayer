@@ -88,7 +88,7 @@
     $("#bilimtektwittertimeline").load(function()
     {
        $("#bilimtektwittertimeline").contents().find(".twitterelement p").text(twitterName);
-       $('.socialmediapicturecontainer').empty();
+      
           updatePics(twitterName,sliderMedia);
     });
 		var qrCodeUrl = 'url("https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=www.'+sliderMedia+'.com/'+twitterName+'")';

@@ -18,6 +18,7 @@
 .social-feed-element .attachment {
     vertical-align: middle;
     -ms-interpolation-mode: bicubic;
+    width:100%;
 }
 
 /* Link styles */

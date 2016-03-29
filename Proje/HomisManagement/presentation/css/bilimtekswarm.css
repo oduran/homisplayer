@@ -34,11 +34,22 @@
     margin-top: 14px;
     border-radius: 20px;
 }
+.marqueeZeroCount {
+    width: 50%;
+    height: 50%;
+    -webkit-animation-name: leftThenRight;
+    -webkit-animation-duration: 1.5s;
+    -webkit-animation-timing-function: ease;
+    margin-left: 45%;
+    margin-top: 5%;
+    border-radius: 20px;
+    font-size: 4vh;
+    color: #520000;
+    font-weight: 600;
 
+}
 #foursquare{
 	  background: url("../../media/swarm-bg2.png") no-repeat;
- 
-
 }
 p{
  font-size: 35px;
