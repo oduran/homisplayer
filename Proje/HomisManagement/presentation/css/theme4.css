@@ -79,6 +79,7 @@ height:70%
     z-index: 1;
 	width:50%;
 	height:100%;
+      overflow: hidden;
 	margin-left: 7px;
     background-size: 115%;
     
@@ -102,6 +103,7 @@ z-index: 1;
      height: 35%;
     right: 0px;
     top: 35%;
+        overflow: hidden;
      width: 100%;
     background-size: initial;
     background-position-x: 0px;

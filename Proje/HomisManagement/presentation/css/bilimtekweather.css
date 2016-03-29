@@ -256,13 +256,14 @@ body * .ws-container p,
 /* Infobox */
 
 .ws-infobox {
-	position: absolute !important;
-	float: left !important;
-	left: 50% !important;
-	padding: 20px;
-	bottom: 20px;
-	z-index: 1100 !important;
-	margin-bottom: -1000px;
+    position: absolute !important;
+    float: left !important;
+    left: 50% !important;
+    padding: 20px;
+    bottom: 20px;
+    z-index: 1100 !important;
+    width: 40%;
+    margin-bottom: -1000px;
 }
 
 .ws-infobox * {

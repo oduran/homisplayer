@@ -222,8 +222,9 @@ if (typeof Object.create !== 'function') {
                 api: 'http://api.tweecool.com/',
 
                 getData: function(account) {
-                    $("#slider1").css("display","none");
+                    $("#slider1").remove();
                     
+
                     var cb = new Codebird();
                     cb.setConsumerKey(options.twitter.consumer_key, options.twitter.consumer_secret);
                     
@@ -474,6 +475,7 @@ if (typeof Object.create !== 'function') {
 
                    /*  var url;
 
+
                     switch (account[0]) {
                         case '@':
                             var username = account.substr(1);
@@ -491,6 +493,7 @@ if (typeof Object.create !== 'function') {
                             Utility.request(url, Feed.instagram.utility.getUsers);
                         default:
                     } */
+
                 },
                 utility: {
                     getImages: function(json) {
@@ -552,6 +555,7 @@ if (typeof Object.create !== 'function') {
 						 });
 
 					}
+
             },
             vk: {
                 posts: [],
