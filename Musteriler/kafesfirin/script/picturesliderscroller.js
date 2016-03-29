@@ -8,7 +8,6 @@ var PictureSliderScroller = function (container,scrollInterval,propertyToFindWid
 	var totalTimeToShowAllPictures = childElements.length * scrollInterval;
 	var imageObjectsArray = new Array();
 	
-
     childElements.each(function(index) {
         var currentElement = childElements[index];
 		var imageObject = {element:currentElement, offsetTop: currentElement.offsetTop, height: currentElement.height};

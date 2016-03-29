@@ -1036,9 +1036,13 @@ var Workspace = function () {
   {
      BootstrapDialog.show({
             title: 'Medya Ayarları',
-            message: $('<input id="twitterIdInput" class="form-control" placeholder="TwitterId Giriniz" value=689785930517970944></input><br>'+
+            message: $('<label for="twitterIdInput">Twitter Id</label><br>'+
+                       '<input id="twitterIdInput" class="form-control" placeholder="TwitterId Giriniz" value=689785930517970944></input><br>'+
+                       '<label for="twitterNameInput">Twitter Adı</label><br>'+
                        '<input id="twitterNameInput" class="form-control" placeholder="Twitter İsmini Giriniz" value=deliganspub></input><br>'+
+                       '<label for="swarmVenueId">Swarm Venue Id</label><br>'+
                        '<input id="swarmVenueId" class="form-control" placeholder="Swarm Venue Id" value = 56a8999b498e6d9f0d8add0c></input><br>'+
+                       '<label for="swarmOauthToken">Swarm OAuthToken</label><br>'+
                        '<input id="swarmOauthToken" class="form-control" placeholder="Swarm OAuthToken" value=A5P5WIBWXDOX5PJRMWL3NDI2LVQX2HVJQBAC0CZHMS2RIM15></input><br>'+
                        '<label>Kullanılacak Sosyal Medya Kaynağı</label><select class="mediatype" name="mediaType">'+createOptionStrings("instagram")+'</select><br>'),
             buttons: [{

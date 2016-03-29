@@ -132,7 +132,7 @@ var BilimtekSwarm=function(token,venueId){
 	
 	this.getFoursquareData = function()
 	{
-		var checkinRequestInterval=setInterval(function(){self.request();},12000);
+		var checkinRequestInterval=setInterval(function(){self.request();},9000);
 	}
 	
 	this.run = function(){

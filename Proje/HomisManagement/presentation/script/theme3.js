@@ -1,20 +1,88 @@
+var intervalId = 0;
+var iframeInterval=[];
+var iframeTimeout=[];
+var pictureInterval;
+var timeout;
+
 $( document ).ready(function() {
-  animateText();
+	 animateText();
+   intervalId = setInterval('controlIframeLoad()',1000);
 });
+
+function controlIframeLoad()
+{
+  iframeInterval.push(intervalId);
+  if($(".bilimtekcontainer").find("iframe"))
+  {
+    for(var j = 0; j< iframeInterval.length; j++)
+    {
+      clearInterval(iframeInterval[j]);
+    }
+    
+    iframeInterval=[];
+    var intervalTime = parseInt($("#right").attr("data-time")*1000);
+    var swapImagesInterval = (intervalTime>0)?intervalTime:60000;
+    pictureInterval = swapImagesInterval;
+    
+    setTimeout(function()
+    {
+      intervalId = setInterval(function()
+      {
+        swapImages();
+      }, pictureInterval);
+    },2000);
+  }
+}
+
 function swapImages(){
+  iframeInterval.push(intervalId);
   var $active = $('#right .active');
   var $next = ($('#right .active').next().length > 0) ? $('#right .active').next() : $('#right img:first');
-  $active.fadeOut(function(){
+  $active.fadeOut(function()
+  {
     $active.removeClass('active');
     $next.fadeIn().addClass('active');
-	
-	var logger = new Logger();
-	logger.log("Picture at screen 3: "+$next.attr("src") , $next.attr("src"));
+    var logger = new Logger();
+    //if video is visible then start video; if not stop video.
+    if($next[0].localName==="video")
+    {
+      for(var j = 0; j< iframeInterval.length; j++)
+      {
+        clearInterval(iframeInterval[j]);
+      }
+      
+      iframeInterval=[];
+      var videoDuration = $next[0].duration * 1000;
+      console.log("videoDuration(ms) = "+videoDuration);
+      $next[0].pause();
+      $next[0].currentTime = 0;
+      $next[0].load();
+      $next[0].play();
+      logger.log("Playing video at screen 2: "+$next.attr("src"),$next.attr("src"));
+      setTimeout(function(){
+        swapImages();
+      }, videoDuration);
+    }
+    
+    else
+    {
+      for(var j = 0; j< iframeInterval.length; j++)
+      {
+        clearInterval(iframeInterval[j]);
+      }
+
+      iframeInterval=[];
+      intervalId = setInterval(function()
+      {
+        swapImages();
+      }, pictureInterval);
+    }
+    
+    logger.log("Picture at screen 2: "+$next.attr("src"),$next.attr("src"));
   });
- 	 
-animateText();
- }
+ animateText();
  
+}
 
 function animateText(){
   
@@ -71,6 +139,3 @@ function removeAllItemClass(){
 
 // Run our swapImages() function every 5secs
 // Delayed 60 seconds because this one is the second screen.
-setTimeout(function(){
-	setInterval('swapImages()', 60000);
-},40000);

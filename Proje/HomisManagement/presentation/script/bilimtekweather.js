@@ -740,6 +740,7 @@
 					 	27.11.2015
 					 	Open Weather Map API'sine gore duzenlendi
 					  */
+					
 					var data = s;
 					if( typeof data !== 'undefined' && typeof data.error !== 'undefined' && typeof data.error[0] !== 'undefined' && typeof data.error[0].msg !== 'undefined'  ){
 						if( typeof console !== 'undefined' ){
@@ -2517,8 +2518,8 @@
 		  '377'          : 'Moderate or heavy showers of ice pellets',
 		  '386'          : 'Gökgürültülü yağış',
 		  '389'          : 'Gökgürültülü sağnak yağış',
-		  '392'          : 'Karlı',
-		  '395'          : 'Karlı'
+		  '392'          : 'Patchy light snow in area with thunder',
+		  '395'          : 'Moderate or heavy snow in area with thunder'
 	};
 
 	/*
@@ -2584,10 +2585,10 @@
 		'900' : '359',
 		'901' : '359',
 		'902' : '359',
-		'903' : '143', // karsiligi bulunamadi
-		'904' : '114', // karsiligi bulunamadi
-		'905' : '143', // karsiligi bulunamadi
-		'906' : '323' // karsiligi bulunamadi
+		'903' : '-', // karsiligi bulunamadi
+		'904' : '-', // karsiligi bulunamadi
+		'905' : '-', // karsiligi bulunamadi
+		'906' : '-' // karsiligi bulunamadi
 	};
 
 	$.bilimtekWeather.options = {

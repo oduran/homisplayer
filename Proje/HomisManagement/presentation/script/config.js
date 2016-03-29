@@ -53,6 +53,8 @@
          $("#imagesConfigModal").modal("hide");
          $("#onIframeMediaResources").empty();
          $("#onUserMediaResources").empty();
+         var swapImagesInterval = $("#swapImagesInterval").val();
+         $("#templateUrl").contents().find("#right").attr("data-time",swapImagesInterval);
          $("#templateUrl").contents().find("#right").append(images);
       });
     }
@@ -123,11 +125,7 @@
           keyboard: false 
         });
         $("#imagesConfigModal").modal("show");
-            
         $("#images").empty();
-        debugger;
-        
-
         $("#templateUrl").contents().find("#right img,video").each(function(e,el)
         {
           var url = el.src;

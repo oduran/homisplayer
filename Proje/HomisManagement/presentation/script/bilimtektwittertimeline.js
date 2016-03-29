@@ -56,9 +56,6 @@
   
 	jQuery(document).ready(function ($) {
 		var twitterId = getQueryParameterByName("twitterId");
-		var twitterName = getQueryParameterByName("twitterName");
-    $("#twitterElement p").text(twitterName);
-    
 		var config8 = {
 			"id": twitterId,//'666636527968088064', -> kafesfirin
 			"dataOnly": true,
@@ -141,17 +138,17 @@
 
 			}, 15000);
 
-
 			function fillTweets() {
 				$('ul li:not(".current")').remove();
 
 				$.each(newTweets, function (key, value) {
+         
 					$('ul').append(
 							'<li>' +
 							'<div class="tweet clearfix">' +
 							' <div class="topwrap clearfix">' +
 							'<div class="imgWrap">' +
-							'<img src="' + value.UserImageUrl + '"/>' +
+							'<img  src="' + value.UserImageUrl + '"/>' +
 							' </div>' +
 							'<div class="userInfoWrap">' +
 							'<h2>' + value.RealName + '</h2>' +
@@ -163,8 +160,14 @@
 							' </div>' +
 							' </li>');
 				});
-     
+        $( "p img" ).each(function( index ) 
+      {
+        if($(this).hasClass("Emoji"))
+        {
+          $(this).css("width","6vh");			
+        }
+      });
 			}
-		}
-    
+      
+    }
 	})

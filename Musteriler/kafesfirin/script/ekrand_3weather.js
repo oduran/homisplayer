@@ -7,22 +7,22 @@
         sunset : (mockSunset.getTime()/1000)
     }
 	
-	var getQueryParameterByName = function(name) {
+	function getQueryParameterByName(name) {
 		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
 		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
 			results = regex.exec(location.search);
 		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
 	
-	var loadBilimtekWeather = function(divId, forecastHour)
+	function loadBilimtekWeather(divId, forecastHour)
 	{
 				var apiKeys = ['8e82ec315100332c9f3aa2c76045a','a272014963b21c3dc5cb5998048ba','d41ce4dfe469c427dcbf48713ea77'];
 	            $('#'+divId).bilimtekWeather({
-                forecastHour: forecastHour,
+				forecastHour: forecastHour,
                 WWOAPIKey: '6a3905b54ba672fdbfdce034dafc2ac9',
                 premiumAPIKey: true,
                 WWOAPIVersion:1, // free api key'de 2 olacak
-                imgPath: '../media/weatherimages/',
+                imgPath: '../script/bilimtekweather/bilimtekweather/img/',
                 timeFormat: 24,
                 refreshInterval: 600000,
                 alwaysShowForecast:false,
@@ -38,16 +38,11 @@
                 showWind:false,
                 lang : 'tr',
                 units : 'metric',
-                divId : divId,
-                CSSanimations		: false,
-                JSanimations		: false,
-                snow				: false,
-                rain				: false,
-                wind				: false
+				divId : divId
             });
 	}
 	
-	var checkContainer = function(divId) {
+	function checkContainer (divId) {
 		var xdivId = '#'+divId;
 		if($(xdivId).is(':visible')){ 
 			if(divId=='weather'){
@@ -65,19 +60,10 @@
 
 	jQuery(document).ready(function ($) {
 		var twitterId = getQueryParameterByName("twitterId");
-		twitterId = (twitterId==="")?"666636527968088064" : twitterId; // default kafes firin
+		twitterId = (twitterId===''?'666636527968088064':twitterId); // default kafes firin
 		var twitterName = getQueryParameterByName("twitterName");
-		twitterName = (twitterName == "")? "@kafesfirin" : "@"+twitterName;
-   
-    var swarmVenueId = getQueryParameterByName("swarmVenueId");
-		swarmVenueId = (swarmVenueId == "")? "4c61187213791b8de11851af" : swarmVenueId;
-    var swarmOauthToken = getQueryParameterByName("swarmOauthToken");
-		swarmOauthToken = (swarmOauthToken == "")? "4WSU3HOHH540AJVLQIB21IGPZXXDNCMQ0LBDEDNT4IALQJXC" : swarmOauthToken;
-    $("#bilimtektwittertimeline").load(function(){
-      $("#bilimtektwittertimeline").contents().find(".twitterelement p").text(""+twitterName);
-    });
 		var sliderMedia = getQueryParameterByName("sliderMedia");
-		sliderMedia = (sliderMedia==='')? "twitter" : sliderMedia; // default twitter
+		sliderMedia = (sliderMedia===''?'twitter':sliderMedia); // default twitter
 		function startTime(divId, forecastHour) {
 			var today = new Date();
 			var h = today.getHours();
@@ -106,11 +92,17 @@
 		
 		loadBilimtekWeather('bilimtekweather1',0);
 		startTime('bilimtekweather1',0);
+		
+		setTimeout(function(){
+			loadBilimtekWeather('bilimtekweather2',3);
+			startTime('bilimtekweather2',3);
+		},2000);
+		
+		setTimeout(function(){
+			loadBilimtekWeather('bilimtekweather3',6);
+			startTime('bilimtekweather3',6);
+		},4000);
+		
 		updatePics(twitterName,sliderMedia);
-		document.getElementById("bilimtektwittertimeline").src = "../public/bilimtektwittertimeline.html?twitterId="+twitterId;
-		var qrCodeUrl = 'url("https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=www.'+sliderMedia+'.com/'+twitterName+'")';
-		$("#qrcode").css('background-image', qrCodeUrl);
-	
-		var fs = new BilimtekSwarm(swarmOauthToken, swarmVenueId);
-		fs.run();
+		document.getElementById("bilimtektwittertimeline").src = "../script/bilimtektwittertimeline/index.html?twitterId="+twitterId;
 	});

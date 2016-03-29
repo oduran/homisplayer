@@ -1,6 +1,7 @@
  var PlayerManager = function()
  {
   var url = "http://www.bilimtek.com:8080";
+  url = "http://localhost:8080";
   var fileManager = new FileManager();
   var playerUI = new PlayerUI(url);
   var downloading = false; 
@@ -35,7 +36,7 @@
     {
       createDirectories(function()
       {
-        getPlayer(playerId,getPlayerSuccess);  
+        getPlayer(playerId,getPlayerSuccess,getPlayerError);  
       });  
     }
     updatePlayerInterval();
@@ -47,6 +48,28 @@
     fileContent = fileManager.getFile("playerId.txt");
     return fileContent;
   };
+  
+  var getPlayerError = function()
+  {
+    console.log("connection error");
+    var previousPlayerFile = getPlayerFromFile();
+    if(previousPlayerFile.toString())
+    {
+      for(var i=0;i<previousPlayerFile.workspace.walls.length;i++)
+      {
+        for(var j = 0;j<previousPlayerFile.workspace.walls[i].screens.length;j++)
+        {
+          previousPlayerFile.workspace.walls[i].screens[j].html = changeHtmlUrls(previousPlayerFile.workspace.walls[i].screens[j].html);
+        }
+      }
+      
+      playerUI.showWorkspace(previousPlayerFile);
+    }
+    else
+    {
+      return;
+    }
+  }
   
   var getPlayerSuccess = function(response)
   {
@@ -89,10 +112,10 @@
 
   var updatePlayerInterval = function()
   { 
-    setInterval(function(){updatePlayerState("running")},20000);
+    setInterval(function(){updatePlayerState("running",getPlayerError)},20000);
   };
   
-  var updatePlayerState = function(playerState)
+  var updatePlayerState = function(playerState,callbackerror)
   {
     var data = { playerId : playerId,playerState : playerState,playerLastSeen:(new Date()).toString()};
     $.ajax({
@@ -100,7 +123,7 @@
       url: url+"/service/updateplayer",
       data: data,
       success:function(){},
-      error: function(error){}
+      error: callbackerror
     });    
   } 
   
@@ -146,7 +169,7 @@
     return result;  
   };
   
-  var getPlayer = function(playerId,callback)
+  var getPlayer = function(playerId,callback,callbackerror)
   { 
     var data = { playerId:playerId };
     $.ajax({
@@ -154,7 +177,7 @@
       url: url+"/service/getplayer",
       data: data,
       success:callback,
-      error: function(error){}
+      error: callbackerror
     });
   };
   
@@ -207,7 +230,8 @@
   {
     var regex = (/(?=([\w&./\-]+)(script|css|media)\/)/gm);
     var replaceString = '../presentation';
-    var htmlContent = htmlContent.replace(regex, replaceString).replace(/\/mediaresources\/.*?\//g,"../presentation/media/").replace(/\http:\/\/.*?:8080/,"").replace(/\/themes\//,"http://www.bilimtek.com:8080/themes/");
+    debugger;
+    var htmlContent = htmlContent.replace(/("\/(script|css|media)\/)/gm,'"../presentation$1').replace(/presentation"/gm,'presentation').replace(/\/mediaresources\/.*?\//g,"../presentation/media/").replace(/http?:\/\/(.*?)\/\/?/g,"../presentation/").replace(/\/themes\//,"http://www.bilimtek.com:8080/themes/");
     return htmlContent;
   };
   

@@ -1,8 +1,22 @@
+var iframeLoadInterval;
 $( document ).ready(function() {
   var currentGuid;
 	animateText();
 	setTimeout('removeAllItemClass()',1500);
+  iframeLoadInterval = setInterval('controlIframeLoad()',1000);
+ 
 });
+
+function controlIframeLoad()
+{
+  if($(".bilimtekcontainer").find("iframe"))
+  {
+    clearInterval(iframeLoadInterval);
+    var intervalTime = parseInt($("#right").attr("data-time")*1000);
+    var swapImagesInterval = (intervalTime>0)?intervalTime:60000;
+    setInterval('swapImages()', parseInt(swapImagesInterval));
+  }
+}
 
 function swapImages(){
   var $active = $('#right .active');
@@ -51,4 +65,3 @@ function removeAllItemClass(){
 	 	$("p").attr("class","editabletext");	
 }
 // Run our swapImages() function every 5secs
-setInterval('swapImages()', 60000);
