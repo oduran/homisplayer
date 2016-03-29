@@ -1,7 +1,6 @@
  var PlayerManager = function()
  {
   var url = "http://www.bilimtek.com:8080";
-  url = "http://localhost:8080";
   var fileManager = new FileManager();
   var playerUI = new PlayerUI(url);
   var downloading = false; 
