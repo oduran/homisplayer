@@ -4,7 +4,7 @@
   "window": {
     "icon": "media/btlogotransparent.png",
     "title": "HomisPlayer",
-    "toolbar": false,
+    "toolbar": true,
     "frame": false,
     "kiosk":true
   },

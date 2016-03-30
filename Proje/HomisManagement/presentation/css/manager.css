@@ -20,8 +20,8 @@
 
 .playerlist
 {
-  border : 1px solid;
-  text-align:left;
+    border: 1px solid #97928C;
+    text-align:left;
 }
 
 .playeroption
@@ -65,13 +65,22 @@
 {
   height:85% !important;
 }
-.playerlistheader
+#adminPanelDiv
 {
+  height:100%;
+}
+#userList
+{
+  overflow:auto;
+  height:80%;
+}
+.playerlistheader {
     background: #95A8C9;
-    border: 1px solid;
+    /* border: 1px solid; */
     margin-top: 0;
     margin-left: -20px;
     text-align: center;
+    font-size: 2vh;
 }
 #playerList {
     width: 100%;

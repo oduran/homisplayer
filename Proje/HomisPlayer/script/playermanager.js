@@ -16,6 +16,9 @@
     weather : "presentation/media/weatherimages"
   };
   
+  /** Sayfa açıldığında playerId.txt dosyası varsa playerId yi alır ve o id ye sahip olan playerı getirir.
+  */
+  
   this.initializePlayer = function()
   {
     if(downloading)
@@ -40,7 +43,10 @@
     }
     updatePlayerInterval();
   };
-  
+
+  /** PlayerId'yi txt dosyasından okuyan fonksiyon.
+  *{return} {string} fileContent - playerId.
+  */
   var getPlayerId = function()
   {
     var fileContent = "";
@@ -48,6 +54,8 @@
     return fileContent;
   };
   
+  /** Serverla bağlantı kesildiğinde dizine yazdırılan player.txt dosyasından player'a ait bilgilerin en son halini çeken fonksiyon.
+  */
   var getPlayerError = function()
   {
     console.log("connection error");
@@ -70,6 +78,9 @@
     }
   }
   
+  /** Serverdan player'ı başarılı bir şekilde çekildiğinde çalışan fonksiyon.
+  *{param} {object} response - Serverdan dönen player objesi.
+  */
   var getPlayerSuccess = function(response)
   {
     var player = response.player;
@@ -109,11 +120,17 @@
     }
   };
 
+  /** Player'ın durumunu update eden fonksiyon.
+  */
   var updatePlayerInterval = function()
   { 
     setInterval(function(){updatePlayerState("running",getPlayerError)},20000);
   };
   
+  /** Player'ın durumunu update eden fonksiyon.
+  *{param} {string} playerState - Playerın durumunu.
+  *{param} {function} callbackerror - Serverla bağlantı kesildiğinde getPlayerError fonksiyonunu çağırır.
+  */
   var updatePlayerState = function(playerState,callbackerror)
   {
     var data = { playerId : playerId,playerState : playerState,playerLastSeen:(new Date()).toString()};
@@ -126,6 +143,10 @@
     });    
   } 
   
+  /** Player'ın durumunu update eden fonksiyon.
+  *{param} {array} files - İndirilecek dosyaların tutulduğu array.
+  *{param} {object} player - Ekranda oynatılacak player objesi.
+  */
   var getFilesSuccess = function(files,player)
   {
     var cssFiles = [];
@@ -157,17 +178,29 @@
     }
   };
   
+  /** Internet bağlantısı kontrol eden fonksiyon.
+  * {return} {boolean} true.
+  */
   var checkConnection = function()
   {
       return true;
   };
   
+  /** Css dosyalarının alındığı fonksiyon.
+  *{param} {string} fileUrl - Getirilecek olan css dosya url'i.
+  *{return} {string} result - Css içeriği.
+  */
   var getCssFile = function(fileUrl)
   {
     var result = fileManager.getFile("presentation"+fileUrl);
     return result;  
   };
   
+  /** PlayerId ye göre player objesinin çekildiği fonksiyon.
+  *{param} {string} playerId - Serverdan çekilecek olan playerın idsi.
+  *{param} {function} callback - İşlem başarılı olduğunda çalıştırılacak fonksiyon.
+  *{param} {function} callbackerror - İşlem başarısız olduğunda çalıştırılacak fonksiyon.
+  */
   var getPlayer = function(playerId,callback,callbackerror)
   { 
     var data = { playerId:playerId };
@@ -180,16 +213,26 @@
     });
   };
   
+  /** Playerın son halinin dosyaya yazdırıldığı fonksiyon.
+  *{param} {object} player - Ekranda oynatılacak player objesi.
+  */
   var savePlayerToFile = function(player){
     fileManager.writeToFile("player.txt",JSON.stringify(player),false,true);
   };
   
+  /** Playerın son halinin dosyadan çekildiği fonksiyon.
+  *{return} {boolean} result - True/false.
+  */
   var getPlayerFromFile = function()
   {
     var result = fileManager.loadFileToJSON("player.txt");
     return result;
   };
   
+  /** Playerda oynatılacak içeriklerin regex kullanılarak dosya url'lerinin alındığı fonksiyon.
+  *{param} {string} htmlContent - Ekranda oynatılacak içerik.
+  *{return} {array} fileUrls - İçeriklerin regex ile alınmış olduğu dosya url'leri.
+  */
   var getFileUrls = function(htmlContent)
   {
     var fileUrls=[];
@@ -209,6 +252,11 @@
     return fileUrls;
   };
   
+  /** Dosyaların url'lere göre çekildiği fonksiyon.
+  *{param} {array} fileUrls - İçeriklerden parse edilmiş dosya url'leri.
+  *{param} {object} player - Ekranda oynatılacak player objesi.
+  *{param} {function} callback - Dosya indirilmesi tamamlandığında çalışacak olan fonksiyon.
+  */
   var getFiles = function(fileUrls,player,callback)
   {
     var completedFiles = 0;
@@ -225,15 +273,23 @@
     }  
   };
   
+  /** İçeriklerin regex ile eşleştirilip, eşleşen urllerin değiştirildiği fonksiyon.
+  *{param} {string} htmlContent - Ekran içeriği.
+  *{return} {string} htmlContent - Değiştirilmiş içerik url'leri.
+  */
   var changeHtmlUrls = function(htmlContent)
   {
     var regex = (/(?=([\w&./\-]+)(script|css|media)\/)/gm);
     var replaceString = '../presentation';
     debugger;
-    var htmlContent = htmlContent.replace(/("\/(script|css|media)\/)/gm,'"../presentation$1').replace(/presentation"/gm,'presentation').replace(/\/mediaresources\/.*?\//g,"../presentation/media/").replace(/http?:\/\/(.*?)\/\/?/g,"../presentation/").replace(/\.\.\/presentation\/themes\//,"http://www.bilimtek.com:8080/themes/");
+    var htmlContent = htmlContent.replace(/("\/(script|css|media)\/)/gm,'"../presentation$1').replace(/presentation"/gm,'presentation').replace(/\/mediaresources\/.*?\//g,"../presentation/media/").replace(/http?:\/\/(.*?)\/\/?/g,"../presentation/").replace(/\.\.\/presentation\/themes\//,"http://www.bilimtek.com:8080/themes/").replace(/\.\.\/presentation\/presentation\//,"../presentation/");
     return htmlContent;
   };
   
+  /** Serverdan dosyanın indirildiği fonksiyon.
+  *{param} {string} fileUrl - Dosya url.
+  *{param} {function} callback - Dosya indirilme işlemi tamamlandığında veya aynı dosya daha önce indirildiğinde çalışan fonksiyon.
+  */
   var getFile = function(fileUrl,callback)
   {
     var fileUrl = fileUrl.replace(/'|"/g,"").replace(/\http:\/\/.*?:8080/,"").replace(/\/themes\//,"http://www.bilimtek.com:8080/themes/");
@@ -265,6 +321,10 @@
     });
   };
   
+  /** Css dosyalarının içeriğinde dosya urllerinin değiştirildiği fonksiyon.
+  *{param} {string} cssContent - Css içeriği.
+  *{return} {string} cssContent - Dosya urllerinin değiştirilmiş css içeriği.
+  */
   var changeCssUrls = function(cssContent)
   {
     var regex = /(?:([\w&./\-]+)media\/)/gm;
@@ -273,6 +333,10 @@
     return cssContent;
   };
   
+  /** Css dosyalarının içeriğinde bulunan medyaların indirildiği fonksiyon.
+  *{param} {string} cssContent - Css içeriği.
+  *{param} {function} callback - Dosya indirilme işlemi tamamlandığında çalışan fonksiyon.
+  */
   var downloadCssMedia = function (cssContent,callback)
   {
     var regex = cssContent.match(/(?:([\/\-]+)media.*")/gm);
@@ -299,11 +363,18 @@
     }
   };
   
+  /** Css dosyaları dosya dizinine yazıldığı fonksiyon.
+  *{param} {string} cssContent - Css içeriği.
+  *{param} {string} filePath - Yazdırılacak dosya dizini.
+  */
   var saveCssToFile = function(cssContent,filePath)
   {
     var result = fileManager.writeToFile("presentation"+filePath,cssContent,false,true);      
   };
   
+  /** Player'ın indirilecek dosyaların kaydedilmesi ve buna bağlı olarak oynatılması için gerekli dosya dizinlerin oluşturulduğu fonksiyon.
+  *{param} {function} callback - Dosya dizinleri oluşturulduğunda çalışacak fonksiyon.
+  */
   var createDirectories = function(callback)
   {
     var numOfCreatedDirs = 0;
@@ -324,6 +395,11 @@
     }
   };
   
+  /** Arraylerin birleştirildiği fonksiyon.
+  *{param} {array} array1 - Array.
+  *{param} {array} array2 - İlk array'e eklenecek array.
+  *{return} {array} array1 - Birleştirilmiş array.
+  */
   var mergeArrays = function(array1,array2)
   {
     for(var i = 0; i<array2.length;i++)

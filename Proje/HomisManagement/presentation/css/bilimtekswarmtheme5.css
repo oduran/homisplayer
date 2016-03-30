@@ -52,6 +52,7 @@ html,body,#content
   right: 0px;
   top: 35%;
   margin-top: 5px;
+  overflow: hidden;
   width: 100%;
   background-size: 115%;
 }

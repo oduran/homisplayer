@@ -5,6 +5,10 @@
   var intervals = []; 
   var currentWallIndex = 0; 
   var currentPlayer = "";
+  
+  /** Playerın gösterildiği fonksiyon.
+  *{param} {object} player - Ekranda oynatılacak player objesi.
+  */
   this.showWorkspace = function(player)
   {
     if(Util.deepEquals(currentPlayer,player))
@@ -28,15 +32,11 @@
       playerDiv.style.height = workspace.height+"px";
       var walls = workspace.walls;
       currentWallIndex=0;
-      var startTime = workspace.starttime;
-      var endTime = workspace.endtime;
-      var timeDifference = calculateTimeDifference(startTime,endTime);
+      var timeDifference = calculateTimeDifference(workspace.starttime,workspace.endtime);
       var totalSpentTime = 0;
-      var wallIndex=0;
       var showTime;
       var setScreenTimeoutWalls = function()
       {
-        console.log(currentWallIndex);
         var newWall = walls[currentWallIndex];
         var checkDeterminedTimeInterval = setInterval(function()
         {
@@ -90,13 +90,18 @@
         var timeoutId = setTimeout(setScreenTimeoutWalls, newWall.showTime*1000*60);
         timeouts.push(timeoutId);
       }
-      
 
       var timeoutId = setTimeout(setScreenTimeoutWalls(),2000);
       timeouts.push(timeoutId);
     }
   }; 
-   
+  
+  /** Playerın gösterilecek ekranın iframe içerisine set edildiği fonksiyon.
+  *{param} {object} workspace - Ekranın kaç duvardan oluştuğunu anlamak için kullanılan obje.
+  *{param} {object} wall - Ekranda oynatılacak duvarın bilgilerin tutulduğu obje.
+  *{param} {object} playerDiv - Div objesi.
+  *{return} {object} playerDiv - Duvarları yerleştirilmiş Div objesi.
+  */  
   var setPlayerWalls = function (workspace,wall,playerDiv)
   {
     playerDiv.innerHTML = ""
@@ -123,6 +128,10 @@
     return playerDiv;
   };
   
+  /** String i Date objesine çeviren fonksiyon.
+  *{param} {string} dateString - Date objesine cevrilmek üzere gönderilen zaman.
+  *{return} {object} time - Date objesine çevrilmiş zaman objesi.
+  */ 
   var stringToDate = function(dateString)
   {
     var splittedTime = dateString.split(":");
@@ -132,6 +141,11 @@
     return time;
   };
   
+  /** İki zaman arasındaki farkı bulan fonksiyon.
+  *{param} {string} startTime - Başlangıç zamanı.
+  *{param} {string} endTime - Bitiş zamanı.
+  *{return} {array} allTimeDifferences - Aradaki farkı toplam dakika, başlangıç saati, başlangıç dakikası, bitiş saati ve bitiş dakikası olarak döndürür.
+  */ 
   var calculateTimeDifference = function(startTime,endTime)
   {
     var time1 = startTime.split(':');
@@ -151,6 +165,7 @@
     }
     mins = mins / 60; // take percentage in 60
     hours += mins;
-    return [hours*60,startHour,startMin,endHour,endMin];
+    var allTimeDifferences = [hours*60,startHour,startMin,endHour,endMin];
+    return allTimeDifferences;
   };
  }

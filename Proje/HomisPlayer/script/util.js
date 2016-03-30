@@ -1,5 +1,7 @@
 var Util =
 {
+  /** Window'un bulunduğu origin urli getirir.
+  */ 
   getWindowUrl: function()
   {
     if (!window.location.origin) 
@@ -10,6 +12,10 @@ var Util =
     return window.location.origin+"/";
   },
   
+  /** Cookie yi isme göre çekmeye yarayan fonksiyon.
+  *{param} {string} name - Çekilecek olan cookienin ismi.
+  *{return} {string} result[1] - Cookie değeri.
+  */
   getCookieValue : function (name) 
   {
    var result = document.cookie.match(new RegExp(name + '=([^;]+)'));
@@ -21,11 +27,19 @@ var Util =
    return result[1];
   },
   
+  /** Cookie yi isme göre silmeye yarayan fonksiyon.
+  *{param} {string} name - Silinecek olan cookienin ismi.
+  */
   deleteCookie : function (name)
   {
     document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
   },
   
+  /** Urlde istenen parametre ismine göre değerini çekmeye yarayan fonksiyon.
+  *{param} {string} name - Urlden istenilen parametre ismi.
+  *{param} {string} url - Parametrenin çekilecegi url.
+  *{return} {string} parameter - İstenilen parametre.
+  */
   getParameterByName : function(name, url)
   {
     if (!url) url = window.location.href;
@@ -34,9 +48,15 @@ var Util =
         results = regex.exec(url);
     if (!results) return null;
     if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
+    var parameter =  decodeURIComponent(results[2].replace(/\+/g, " "));
+    return parameter;
   },
   
+  /** İki objeyi birleştirmeye yarayan fonksiyon.
+  *{param} {object} o1 - İlk obje.
+  *{param} {object} o2 - İlk objeye eklenecek obje.
+  *{return} {object} o1 - Birleştirilmiş obje.
+  */
   mergeObjects : function (o1, o2) 
   {
     if (o1 == null || o2 == null)
@@ -54,12 +74,19 @@ var Util =
         
     return o1;
   },
-  
+
+  /** İki objenin eşit olup olmadığına fonksiyon.
+  *{param} {object} player1 - Kontrol edilecek ilk obje.
+  *{param} {object} player2 - Kontrol edilecek ikinci obje.
+  *{return} {boolean} bool - true/false.
+  */
   deepEquals : function(player1,player2)
   {
     return JSON.stringify(player1)=== JSON.stringify(player2);
   },
   
+  /** Loading dialogun oluşturulduğu fonksiyon.
+  */
   loadingDialog : (function ($) {
     'use strict';
 
@@ -75,13 +102,7 @@ var Util =
 		'</div></div></div>');
 
 	return {
-		/**
-		 * Opens our dialog
-		 * @param message Custom message
-		 * @param options Custom options:
-		 * 				  options.dialogSize - bootstrap postfix for dialog size, e.g. "sm", "m";
-		 * 				  options.progressType - bootstrap postfix for progress bar type, e.g. "success", "warning".
-		 */
+	
 		show: function (message, options) {
 			// Assigning defaults
 			if (typeof options === 'undefined') {
@@ -119,7 +140,6 @@ var Util =
 			$dialog.hide();
 		}
 	};
-
   })(jQuery)
 } 
  
