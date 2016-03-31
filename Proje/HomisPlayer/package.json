@@ -4,7 +4,7 @@
   "window": {
     "icon": "media/btlogotransparent.png",
     "title": "HomisPlayer",
-    "toolbar": true,
+    "toolbar": false,
     "frame": false,
     "kiosk":true
   },
@@ -12,7 +12,6 @@
     "plugin": true
   },
   "dependencies": {
-    "nw" :"~0.12.3",
     "getmac":"~1.0.7"
   },
   "chromium-args": ""
