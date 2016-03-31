@@ -27,8 +27,7 @@
 	<script type="text/javascript" src="../script/html2canvas.js"></script>
 	<script type="text/javascript" src="../script/appconfig.js"></script>
   <script type="text/javascript" src="../script/util.js"></script>
-
-
+  <script src="https://rawgit.com/shvetsgroup/jquery.multisortable/master/src/jquery.multisortable.js"></script>
  </head>
 <body>
 	 <div class="container workspacecontainer">
@@ -263,30 +262,30 @@
         </div>
         <div style="width:100%;height:100%">
         <table>
-          <tr>
-            <td style="width:40%;">
+          <tr style="height:300px;">
+            <td style="width:40%;height:300px;">
             <label for ="onIframeMediaResources">Web sayfasında bulunan kaynaklar</label>
-            <select  id="onIframeMediaResources" class="list-group" multiple>
+            <ul  id="onIframeMediaResources" class="sortable">
                 
-            </select >
+            </ul >
             </td>
 
-            <td style="width:8%;">
+            <td style="width:8%;height:300px;">
             <ul class="list-group text-center" style="list-style-type: none;">
             <li class="list-item"><button type="button" id="moveLeft" class="btn btn-success custom-button-width .navbar-right"><</button></li>
             <li class="list-item"><button type="button" id="moveRight" class="btn btn-info custom-button-width .navbar-right">></button></li>
             </ul>
             </td>
             
-            <td style="width:40%;">
+            <td style="width:40%;height:300px;">
             <label for ="onUserMediaResources">Kullanıcıda bulunan kaynaklar</label>
-            <select id="onUserMediaResources" class="list-group" multiple>
+            <ul id="onUserMediaResources" class="sortable">
                  
-            </select>
+            </ul>
             </td>
           </tr>
         </table>
-        <label for = "swapImagesInterval">Saniye cinsinden süre giriniz (sn)</label>
+        <label for = "swapImagesInterval" style="margin-top: 30px;">Saniye cinsinden süre giriniz (sn)</label>
         <input id="swapImagesInterval" type="number" class="form-control"  placeholder="Saniye cinsinden süre giriniz (sn)"></input>
           
           
@@ -422,6 +421,9 @@
 
 <script type="text/javascript" src="../script/workspace.js"></script>
   <script type="text/javascript" src="../script/config.js"></script>
+  <script>
+
+  </script>
 
 
 </body>

@@ -20,6 +20,16 @@ body{
 {
   background-color:white;
 }
+#onIframeMediaResources { list-style-type: none; margin: 0; padding: 0; }
+#onIframeMediaResources li { margin: 3px; padding: 1px; float: left;  font-size: 1em; text-align: center; }
+li.selected { background: #F39814; color: white; }
+li.unselected { background: white; color: black; }
+#onUserMediaResources { list-style-type: none; margin: 0; padding: 0; }
+#onUserMediaResources li { margin: 3px; padding: 1px; float: left;  font-size: 1em; text-align: center; }
+.my-handle {
+  cursor: move;
+  cursor: -webkit-grabbing;
+}
 .wall_screen
 {
   border: 1px solid white;
@@ -145,12 +155,36 @@ body{
 #onUserMediaResources
 {
   width:100%;
-  height:100%
+  height:100%;
+  overflow: auto;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+#onUserMediaResources li 
+{
+  margin: 3px; 
+  padding: 1px; 
+  float: left;  
+  font-size: 1em; 
+  text-align: center; 
 }
 #onIframeMediaResources
 {
   width:100%;
-  height:100%
+  height:100%;
+  overflow: auto;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+#onIframeMediaResources li 
+{
+  margin: 3px; 
+  padding: 1px; 
+  float: left;  
+  font-size: 1em; 
+  text-align: center; 
 }
 #screenConfigDiv
 {

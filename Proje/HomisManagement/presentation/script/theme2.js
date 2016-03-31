@@ -39,7 +39,6 @@ function swapImages(){
   iframeInterval.push(intervalId);
   var $active = $('#right .active');
   var $next = ($('#right .active').next().length > 0) ? $('#right .active').next() : $('#right img:first');
-  debugger;
   
   $active.fadeOut(function()
   {

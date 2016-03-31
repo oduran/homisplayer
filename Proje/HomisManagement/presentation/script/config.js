@@ -6,6 +6,13 @@
     var selectedMenu=0;
     var url = Util.getWindowUrl();
     var serviceUrl = url +"service/";
+    var userselected =[];
+    var selected =[];
+    var userResources =[];
+    var sendedUserResources =[];
+    var userResourcesListItem =[];
+    
+    
     
     /**
     * Kullanıcı menuboard üzerinde dönen resim animasyonlarındaki resimleri değiştirmek için kullanılan fonksiyon.
@@ -17,9 +24,9 @@
          $("#templateUrl").contents().find("#right").empty();
          var images =[];
    
-         $("#onIframeMediaResources").find("option").each(function(e)
+         $("#onIframeMediaResources").find("li").each(function(e)
         { 
-          var mediaUrl = $("#onIframeMediaResources").find("option")[e].value;
+          var mediaUrl = this.getAttribute("value");
           
           if(e==0)
           { 
@@ -70,7 +77,7 @@
         if(matches != null)
         {
           var splitText = $("#textValue").val().slice(0, -1).split(".");
-          var splitTextHtml = ""+splitText[0]+".<span class='smalltext'>"+splitText[1]+"</span>&nbsp ₺";
+          var splitTextHtml = ""+splitText[0]+".<span class='smalltext'>"+splitText[1]+"</span>&nbsp ?";
           $("#templateUrl").contents().find("#"+currentGuid).html(splitTextHtml);
         }
         
@@ -130,7 +137,7 @@
         {
           var url = el.src;
           var resourceName = url.substr(url.lastIndexOf('/') + 1);
-          var iframeMediaResource = "<option value='"+url+"' id='"+resourceName+"_iframe'>"+resourceName+"</option>";
+          var iframeMediaResource = "<li value='"+url+"' id='"+resourceName+"_iframe'><span class='my-handle'>::</span>"+resourceName+"</li>";
           $("#onIframeMediaResources").append(iframeMediaResource);
         });
 
@@ -141,8 +148,26 @@
             });
         
       });
-    }
+    };
     
+    /** Medya kaynaklarının olduğu dialog daki listeyi draggable ve selectable yapmaya yarayan fonksiyon.
+    */
+    var addSetSelectableAndDraggableList = function()
+    {
+      $('ul.sortable').multisortable();
+      $('ul#onIframeMediaResources').sortable('option', 'connectWith', 'ul#onUserMediaResources');
+      $('ul#onUserMediaResources').sortable('option', 'connectWith', 'ul#onIframeMediaResources');
+      $(".selected").click(function()
+      {
+          $(this).removeClass("selected").addClass("unselected");
+        
+      });
+      $(".unselected").click(function()
+      {
+          $(this).removeClass("unselected").addClass("selected");
+        
+      });
+    }
     /**
     * Kullanıcı isme göre çağrıan fonksiyon.
     * @params {string} userName - Kullanıcı adı.
@@ -195,7 +220,8 @@
         {
           var mediaUrl = "/" + user.mediaResources[i].url;
           var resourceName = mediaUrl.substr(mediaUrl.lastIndexOf('/') + 1);
-          userMediaResourceName += "<option value='"+mediaUrl+"' id='"+resourceName+"_userMedia' >"+resourceName+"</option>";
+          userMediaResourceName += "<li value='"+mediaUrl+"' id='"+resourceName+"_userMedia' ><span class='my-handle'>::</span>"+resourceName+"</li>";
+          userResources.push(resourceName);
         }
        $("#onUserMediaResources").html(userMediaResourceName); 
 
@@ -227,17 +253,16 @@
     {
       $("#moveLeft").click(function()
       {
-        if(selectedMenu===1)
+        $("#onUserMediaResources li.selected").each(function()
         {
-          for(var i =0 ; i<userMediaresources.length;i++)
-          {
-            var resourceName = userMediaresources[i].substr(userMediaresources[i].lastIndexOf('/') + 1);
-            var option = "<option value='"+userMediaresources[i]+"' id='"+resourceName+"_iframe'>"+resourceName+"</option>";
-            $("#onIframeMediaResources").append(option);
-            selectedMenu=0;
-          }
-          
-         }
+          console.log(this);
+          this.removeAttribute("class");
+          var resource = this.getAttribute('value');
+          var resourceName = resource.substr(resource.lastIndexOf('/') + 1);
+          var option = "<li value='"+resource+"' id='"+resourceName+"_iframe'><span class='my-handle'>::</span>"+resourceName+"</li>";
+          $("#onIframeMediaResources").append(option);
+        });
+
       });
     }
     
@@ -248,17 +273,33 @@
     {
       $("#moveRight").click(function()
       {
-        if(selectedMenu===2)
+        var length = parseInt($("#onIframeMediaResources li.selected").length);
+        $("#onIframeMediaResources li.selected").each(function(index)
         {
-          for(var i =0 ; i<iframeMediaresources.length;i++)
-          {
-            var resourceName = iframeMediaresources[i].substr(iframeMediaresources[i].lastIndexOf('/') + 1);
-            var option = "<option value='"+iframeMediaresources[i]+"'  id='"+resourceName+"_userMedia'>"+resourceName+"</option>";
-            $("#onIframeMediaResources option[id='"+resourceName+"_iframe']").remove();
-            $("#onUserMediaResources").append(option);
-             selectedMenu=0;
+          var resource = this.getAttribute('value');
+          var resourceName = resource.substr(resource.lastIndexOf('/') + 1);
+          sendedUserResources.push(resource);
+          $("#onIframeMediaResources li[id='"+resourceName+"_iframe']").remove();
+          if( length-1 === index)
+          { userResourcesListItem = [];
+            $.each(sendedUserResources, function(i, el)
+            {
+              var resName = el.substr(el.lastIndexOf('/') + 1);
+              if($.inArray(resName, userResources) === -1)
+              {
+                var option = "<li value='"+el+"' id='"+resName+"_userMedia'><span class='my-handle'>::</span>"+resName+"</li>";
+                userResourcesListItem.push(option);
+                userResources.push(resName);
+              } 
+            });
+            
+            $("#onUserMediaResources").append(userResourcesListItem);
           }
-         }
+          
+        });
+
+        sendedUserResources=[];
+
       });
     }
     
@@ -284,8 +325,10 @@
       {
         $("#onIframeMediaResources").empty();
         $("#onUserMediaResources").empty();
-        
         $("#imagesConfigModal").modal("hide");
+        userResources=[];
+        sendedUserResources=[];
+        userResourcesListItem=[];
       });
     }
     /**
@@ -304,6 +347,8 @@
       addSaveTextValue();
       addSaveImages();
       addCloseImageModal();
+      addSetSelectableAndDraggableList();
+      
     }
   }
 $( document ).ready(function() 
