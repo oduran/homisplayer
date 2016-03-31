@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=homisstartup
+Comment=Starts the node webkit application homis at startup of computer.
+Exec=/home/homisplayer/deployment/startapp.sh
+Terminal=true
+
